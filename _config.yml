@@ -2,12 +2,12 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://vimtakublog.qolwu.com
+title: vimtaku blog
+subtitle: blogging about develop and me.
+author: vimtaku
 simple_search: http://google.com/search
-description:
+description: "This blog is written by vimtaku"
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -33,7 +33,7 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-markdown: rdiscount
+markdown: kramdown
 rdiscount:
   extensions:
     - autolink
@@ -63,13 +63,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user:
+github_user: vimtaku
 github_repo_count: 0
 github_show_profile_link: true
-github_skip_forks: true
+github_skip_forks: false
 
 # Twitter
-twitter_user:
+twitter_user: vimtaku
 twitter_tweet_button: true
 
 # Google +1
@@ -79,7 +79,7 @@ google_plus_one_size: medium
 # Google Plus Profile
 # Hidden: No visible button, just add author information to search results
 googleplus_user:
-googleplus_hidden: false
+googleplus_hidden: true
 
 # Pinboard
 pinboard_user:
@@ -94,7 +94,7 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-30103097-2
 
 # Facebook Like
 facebook_like: false
