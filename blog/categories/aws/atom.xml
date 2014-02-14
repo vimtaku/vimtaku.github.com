@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Aws | vimtaku blog]]></title>
+  <link href="http://vimtakublog.qolwu.com/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://vimtakublog.qolwu.com/"/>
+  <updated>2014-02-14T14:29:53+09:00</updated>
+  <id>http://vimtakublog.qolwu.com/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fog っていう Gem で Use_iam_profile があんまうまく行かない件]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/21/fog-iam-profile/"/>
+    <updated>2014-01-21T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/21/fog-iam-profile</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="section">現象</h2>
+<p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
+metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている(できたのは割と最近らしい)。<br />
+それなら、iam を使いたいわけなんだけど、 fog v1.18.0 と v1.19.0 で試しても use_iam_profile がうまくいかない。  </p>
+
+<p>呼び出しているクライアントライブラリは asset_sync v1.0.0 と elasticsearch v0.3.4 。<br />
+どちらも aws_credential fetcher で credential を取得してるみたいだけど、それを使ってないようにみえた。  </p>
+
+<h2 id="section-1">対処</h2>
+<p>全部読んでないからわからないけど、俺の予想が合っていれば<br />
+credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
+
+<p>lib/fog/core/service.rb
+<div>
+  <pre><code class='bash'>-options = options.merge(fetch_credentials(options))
++options = fetch_credentials(options).merge(options)</code></pre>
+</div>
+</p>
+
+<p>とりあえずもっと調べなきゃよくわからない。<br />
+これがうまくいっていそうなら pull req だしてみよう。  </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chef で Opsworks のインスタンス起動時に Cloudwatch の Alarm を作成するためにしたこと]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/20/cloud-watch-alarm/"/>
+    <updated>2014-01-20T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/20/cloud-watch-alarm</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">大まかな流れ</a></li>
+  <li><a href="#iam-">1. IAM の設定</a></li>
+  <li><a href="#sns-">2. SNS のトピックの作成</a></li>
+  <li><a href="#cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</a>    <ul>
+      <li><a href="#from-cli">メトリックの作成 from cli</a></li>
+    </ul>
+  </li>
+  <li><a href="#cloud-watch-">4. cloud watch での作成確認</a></li>
+  <li><a href="#chef-recipe-">5. chef recipe を書く</a></li>
+  <li><a href="#opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</a>    <ul>
+      <li><a href="#section-1">おまけ</a>        <ul>
+          <li><a href="#section-2">気をつけること要点</a></li>
+          <li><a href="#section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">大まかな流れ</h2>
+<ol>
+  <li>IAM の設定</li>
+  <li>SNS のトピックの作成(メール送る用)</li>
+  <li>cloud watch の API を cli から叩いてみる</li>
+  <li>cloud watch の手動確認</li>
+  <li>chef recipe を書く</li>
+  <li>opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</li>
+</ol>
+
+<p>ではさっそく。  </p>
+
+<h2 id="iam-">1. IAM の設定</h2>
+<p>opsworks ではインスタンス生成時に デフォルトで Default IAM instance profile を設定できる。<br />
+ここの IAM Role に権限がないと、 aws cli から操作ができないので注意する。
+この記事では、IAMの設定については詳細に明記しない。  </p>
+
+<h2 id="sns-">2. SNS のトピックの作成</h2>
+<p>コマンドラインか AWS Console から、メール送る用に トピックを作成する。<br />
+監視しているインスタンスの異常時にメールを受け取るため。<br />
+CLI ではこちらが参考になる。<br />
+<a href="http://exploreaws.doorblog.jp/archives/24701093.html">http://exploreaws.doorblog.jp/archives/24701093.html</a><br />
+サブスクリプションを許可しておくと後々のチェックで捗る。<br />
+ちなみにこれは、あとで alarm-actions に指定する。  </p>
+
+<p>ここではできた topic が、仮に arn:aws:sns:ap-northeast-1:99999999:mogemoga としておく。  </p>
+
+<h2 id="cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</h2>
+
+<h3 id="from-cli">メトリックの作成 from cli</h3>
+
+<p><div>
+  <pre><code class='bash'>aws cloudwatch put-metric-alarm
+–alarm-name=’disk-usage’ \
+             –alarm-description ‘Disk usage alert’ \
+             –alarm-actions=’arn:aws:sns:ap-northeast-1:99999999:mogemoga’   \
+             –namespace  ‘System/Linux’  \
+             –metric-name  ‘DiskSpaceUtilization’   \
+             –dimensions=’[{“Name”: “InstanceId”,”Value”: “i-deadbeaf”},{“Name”:”Filesystem”,”Value”: “/dev/xvda1”},{“Name”:”MountPath”,”Value”:”/”}]’ \
+             –statistic  ‘Average’ \
+             –period  ‘300’   \
+             –unit ‘Percent’
+             –threshold  ‘50’
+             –evaluation-periods  ‘1’
+             –region ‘ap-northeast-1’
+             –comparison-operator ‘GreaterThanOrEqualToThreshold’</code></pre>
+</div>
+</p>
+
+<p>ここですんなりうまくいくかどうかが別れると思う。<br />
+IAM role を使う場合は、権限が許可されていれば問題なく通ると思う。<br />
+権限がない場合は、 cli の credential 設定が必要になるかもしれない。<br />
+<a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html">http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html</a>  </p>
+
+<h2 id="cloud-watch-">4. cloud watch での作成確認</h2>
+<p>上記のコマンドで成功していれば AWS Console から cloud watch のアラームができているはずなので確認する。  </p>
+
+<h2 id="chef-recipe-">5. chef recipe を書く</h2>
+
+<p>あとは、上記 3 を実行する chef のレシピを書いて、 opsworks が取ってくる custom chef recipe のレポジトリに配置すればおｋ．<br />
+今回は load average もとりたかったので、<br />
+<a href="http://aws.amazon.com/code/8720044071969977">http://aws.amazon.com/code/8720044071969977</a><br />
+のスクリプトを改変して使用することにした。<br />
+ソースはこちら -&gt; <a href="https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git">https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git</a><br />
+disk space をとったりすることができる pl なのですごく便利。  </p>
+
+<p>下記の repository は crontab に 上記の pl (load average は別) のものを登録するものだ。<br />
+<a href="https://github.com/alexism/cloudwatch_monitoring">https://github.com/alexism/cloudwatch_monitoring</a>  </p>
+
+<p>これをフォークして、 load average とれる cron を作る機能と、 アラーム登録する奴を書いた。<br />
+<a href="https://github.com/vimtaku/cloudwatch_monitoring.git">https://github.com/vimtaku/cloudwatch_monitoring.git</a><br />
+chef 力低めで申し訳なので、アドバイス、pull req など大歓迎。  </p>
+
+<h2 id="opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</h2>
+<p>これはもう、 opsworks に慣れているひとなら問題無いと思う。<br />
+5 で作ったものがうまくいっていれば(というか試すときに deploy かどっかで試すと思うんだけど)<br />
+それを setup に移動してやるだけだ。  </p>
+
+<h3 id="section-1">おまけ</h3>
+
+<h4 id="section-2">気をつけること要点</h4>
+<ul>
+  <li>IAM Role に権限がない場合があるので気をつける
+    <ul>
+      <li>参考
+        <ul>
+          <li><a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html">http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html</a></li>
+          <li><a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html">http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>opsworks では chef の data_bags が使えないのを頭に入れておく
+    <ul>
+      <li>自分はあとから気づいたパターン
+        <ul>
+          <li>詳細は <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html">http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>mon-put-metric-alarm の代わりに aws cloudwatch put-metric-aaerm を使用する
+    <ul>
+      <li>role の設定ができていても credential エラーとかいっぱい言われるため。</li>
+    </ul>
+  </li>
+  <li>alert と alarm が似ているので alerm ってタイポに気をつける</li>
+</ul>
+
+<h4 id="section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</h4>
+<p><div>
+  <pre><code class='bash'>/dev/null &amp;lt; $(yes)
+cat - &amp;lt; $(yes)</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Elasticsearch_ebs]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/08/z_elasticsearch-ebs/"/>
+    <updated>2014-01-08T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/08/z_elasticsearch-ebs</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h1 id="opsworks--elasticsearch-">opsworks と elasticsearch についてのメモ</h1>
+
+<h2 id="elasticsearch--memo">elasticsearch についての memo</h2>
+<ul>
+  <li>クラスタリングした時に master-slave みたいになるのか？
+    <ul>
+      <li>ならない。すべてがマスタになる模様</li>
+      <li>複数台立てておいて、片方落としておいて、立っている方にデータPUT して落としておいた方を立ててGETできる</li>
+    </ul>
+  </li>
+  <li>elastic search s3 gateway はパフォーマンスの問題で deprecated になっている模様
+    <ul>
+      <li>なので EBS でやることになる。</li>
+    </ul>
+  </li>
+  <li>chef の recipe を見ると、設定しておけば ebs を自動で作ってマウントまでしてくれる感じになっている
+    <ul>
+      <li>elasticsearch::ebs, elasticsearch::data のレシピを実行すれば良い感じ。
+        <ul>
+          <li>opsworks では, layers に elasticsearch::ebs, elasticsearch::data の順で登録すればおｋ</li>
+          <li>README に書いてある通りに設定が必要。具体的には data_bags/elasticsearch/data.json と aws の認証周りの設定が必要</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>各アベイラビリティゾーンに分散しておいておいて、 internal loadbalancer に紐付ければ、片方が死んでも大丈夫</li>
+  <li>災害時の復旧については、たぶん snapshot からの復旧に加えて、 index の再作成(upsert なAPI 叩きまくる) が必要</li>
+  <li>discovery については aws-instance プラグインみたいなのがあって、api 叩いてリスト取得してきている。</li>
+</ul>
+
+<h2 id="elasticsearch--memo2">elasticsearch についての memo2</h2>
+<ul>
+  <li>elasticsearch って aws のサービス名かと思ってたけど、別にそういうわけじゃない</li>
+</ul>
+
+<h2 id="elasticsearch--memo3">elasticsearch についての memo3</h2>
+<p>opsworks のレイヤーで、internal LB をひもづけることはできると思うけど、<br />
+新しく作った elasticsearch node のインデックス作成とかしている時に紐づくとまずいので<br />
+いったん手動でやるようにする。(たぶんELBの死活監視を工夫すればうまいこと行ける)  </p>
+
+<h2 id="opsworks--chef-">opsworks の chef で役立つコマンド例</h2>
+
+<p><div>
+  <pre><code class='bash'>&lt;/p&gt;
+
+&lt;h2 id=&quot;setup--retry&quot;&gt;setup サイクルを retry&lt;/h2&gt;
+&lt;p&gt;opsworks-cli-agent run_command setup&lt;/p&gt;
+
+&lt;h2 id=&quot;customjson--dump&quot;&gt;custom.json を dump&lt;/h2&gt;
+&lt;p&gt;opsworks-cli-agent get_json &amp;gt; hoge.json&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;ログをみる&lt;/h2&gt;
+&lt;p&gt;opsworks-cli-agent show_log&lt;/p&gt;
+
+&lt;h2 id=&quot;hogejson-&quot;&gt;hoge.json を指定すれば、楽にもう一度ライフサイクルを指定できる&lt;/h2&gt;
+&lt;p&gt;“/opt/aws/opsworks/current/bin/chef-solo” -j “hoge.json” -c “/opt/aws/opsworks/current/conf/solo.rb” -L “/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log” &amp;gt; “/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log.out” 2&amp;gt;&amp;amp;1&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;役に立つディレクトリ&lt;/h3&gt;
+
+&lt;h2 id=&quot;opsworks--chef-solo--json-&quot;&gt;opsworks の chef-solo が走るときにログが出たり、走るときの json が出たりする&lt;/h2&gt;
+&lt;p&gt;/var/lib/aws/opsworks&lt;/p&gt;
+
+&lt;h2 id=&quot;opsworks--chef-solo-&quot;&gt;opsworks の chef-solo のクックブックとかがこのへんにある。&lt;/h2&gt;
+&lt;p&gt;/opt/aws/opsworks&lt;/p&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+</p>
+
+<h2 id="useiamprofile-">use_iam_profile がうまく行かない件</h2>
+<p>gem の fog を使うところで use_iam_profile =&gt; true で渡しても全然うまく動かない問題があって、<br />
+ライブラリのバグかもと思ったけどなんか違うっぽくて、時間がなかったので custom.json で大人しく accesskey とかを指定した。<br />
+おそらく _request の時に credential の作成をしているんだけど、そこでミスっているんじゃないかなぁという予想。</p>
+
+<h2 id="section-2">参考資料というか調べてく時に必要だったこと。</h2>
+<ul>
+  <li><a href="https://github.com/elasticsearch/elasticsearch/issues/2458">https://github.com/elasticsearch/elasticsearch/issues/2458</a></li>
+  <li><a href="http://www.elasticsearch.org/tutorials/elasticsearch-on-ec2/">http://www.elasticsearch.org/tutorials/elasticsearch-on-ec2/</a></li>
+  <li><a href="http://www.smokeymonkey.net/2013/10/elasticsearchcluster.html">http://www.smokeymonkey.net/2013/10/elasticsearchcluster.html</a></li>
+  <li><a href="http://docs.aws.amazon.com/opsworks/latest/userguide/troubleshoot-debug-cli.html">http://docs.aws.amazon.com/opsworks/latest/userguide/troubleshoot-debug-cli.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Opsworks and Dotenv]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2013/12/25/opsworks-and-dotenv/"/>
+    <updated>2013-12-25T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2013/12/25/opsworks-and-dotenv</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="section">もくじ</h2>
+<ul id="markdown-toc">
+  <li><a href="#section">もくじ</a></li>
+  <li><a href="#opsworks--cookbook-">opsworks の cookbook 処理順について</a></li>
+  <li><a href="#opsworks--dotenv-">opsworks と dotenv の依存関係</a></li>
+  <li><a href="#section-1">(2014/1/26追記) 解決方法</a></li>
+  <li><a href="#section-2">(2013/12/26追記) 解決方法2つ</a></li>
+  <li><a href="#section-3">参考情報とか</a>    <ul>
+      <li><a href="#section-4">シンボリックリンクを使う</a></li>
+      <li><a href="#appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="opsworks--cookbook-">opsworks の cookbook 処理順について</h2>
+<p>opsworks では built-in cookbook -&gt; custom cookbook の順に処理されて、<br />
+custom cookbook でいい感じにディレクトリを配置しても上書きはできない。<br />
+(ただし、 built-in cookbook で使用される recipe の attribute に適切な値を設定することは可能。)<br />
+<a href="http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html">http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html</a></p>
+
+<h2 id="opsworks--dotenv-">opsworks と dotenv の依存関係</h2>
+<p>opsworks の built-in レシピの deploy::rails で使用する環境変数は、当然 .env に依存するのだけど、<br />
+.env の生成は custom cookbook でやっていて、上記にも書いたとおり上書きもできないから<br />
+rails は .env.test とか読んじゃって辛い。<br />
+これ回避する方法あるのかなぁ。。  </p>
+
+<h2 id="section-1">(2014/1/26追記) 解決方法</h2>
+<p>load balancer の死活チェックを health_check.html とかを見るようにしておいて、<br />
+built in recipe の deploy 時点で一回 unicorn 立っちゃうけど
+user recipe の deploy のところで dotenv を作って、<br />
+unicorn とか再起動したのち、 health_check とかを<br />
+おけば割と問題ないんじゃないかってことになってる。  </p>
+
+<h2 id="section-2">(2013/12/26追記) 解決方法2つ</h2>
+<p>考えた方法を2つ。  </p>
+
+<h2 id="section-3">参考情報とか</h2>
+<p>このへんとか参考になりそうなんだけど、いまいち確信 answer はない。<br />
+<a href="https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0">https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0</a></p>
+
+<h3 id="section-4">シンボリックリンクを使う</h3>
+<p>apps のリポジトリに予め、 .env -&gt; /etc/.env みたいなシンボリックリンクをコミットしておいて、<br />
+deploy::rails の前に dotenv を配置する recipe で配布する。  </p>
+
+<h3 id="appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</h3>
+<p><a href="http://docs.opscode.com/resource_deploy.html">http://docs.opscode.com/resource_deploy.html</a><br />
+こいつがデプロイ時(というかマージ実行時)に呼ばれるためのフックでいい感じに recipe を呼ぶ。<br />
+これを参考にした<a href="https://github.com/drnic/mydemoapp">https://github.com/drnic/mydemoapp</a>。<br />
+とりあえず消えたらあれなのでフォークしておいた.<br />
+<a href="https://github.com/vimtaku/mydemoapp">https://github.com/vimtaku/mydemoapp</a>  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

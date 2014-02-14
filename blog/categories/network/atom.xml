@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Network | vimtaku blog]]></title>
+  <link href="http://vimtakublog.qolwu.com/blog/categories/network/atom.xml" rel="self"/>
+  <link href="http://vimtakublog.qolwu.com/"/>
+  <updated>2014-02-14T14:29:53+09:00</updated>
+  <id>http://vimtakublog.qolwu.com/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ARP について調べた]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2013/12/23/1_learning_arp/"/>
+    <updated>2013-12-23T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2013/12/23/1_learning_arp</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="section">目次</h2>
+<ul id="markdown-toc">
+  <li><a href="#section">目次</a></li>
+  <li><a href="#arp">ARPとは</a></li>
+  <li><a href="#arp-">arp コマンドについて</a></li>
+  <li><a href="#arp--mac-osx-">arp で実際に mac osx で実験</a></li>
+  <li><a href="#section-1">所感</a></li>
+  <li><a href="#section-2">参考文献</a></li>
+  <li><a href="#section-3">あわせてよみたい</a></li>
+</ul>
+
+<h2 id="arp">ARPとは</h2>
+<p>Address Resolution Protocol の略で、IP アドレスから MAC アドレスを求める時に<br />
+使用されるプロトコルです。<br />
+TCP などの通信を行うときには送信元、送信先の MAC アドレスが必要なので、<br />
+事前に ARP プロトコルを用いた MAC アドレスの解決が行われています。<br />
+ARP プロトコルをやりとりするコマンドが用意されていて, それが arp コマンドです。<br />
+しかし、毎通信ごとに ARP プロトコルを用いて MAC アドレスを求めるのは無駄です。<br />
+なので、通常、 内部的に arp テーブルを保持してそれを使用します。<br />
+ARP のやり取りには broadcast が使われます。  </p>
+
+<h2 id="arp-">arp コマンドについて</h2>
+
+<p>$ man arp</p>
+
+<p><blockquote><p>ARP(8)                    BSD System Manager’s Manual                   ARP(8)</p></p><p><p>NAME<br/>      arp – address resolution display and control</p></p><p><p>SYNOPSIS<br/>      arp [-n] [-i interface] hostname<br/>      arp [-n] [-i interface] [-l] -a<br/>      arp -d hostname [pub] [ifscope interface]<br/>      arp -d [-i interface] -a<br/>      arp -s hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br/>      arp -S hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br/>      arp -f filename</p></p><p><p>DESCRIPTION<br/>      The arp utility displays and modifies the Internet-to-Ethernet address translation tables used by the address<br/>      resolution protocol (arp(4)).  With no flags, the program displays the current ARP entry for hostname.  The<br/>      host may be specified by name or by number, using Internet dot notation.</p></blockquote></p>
+
+<h2 id="arp--mac-osx-">arp で実際に mac osx で実験</h2>
+<p>ここでは、 arp コマンドテーブルを表示したあと、<br />
+一度削除して、http通信を行った後に、テーブルを再度確認してみる。  </p>
+
+<p><blockquote><p>/net% arp -a<br/> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br/> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br/> /net% arp -d 192.168.1.1<br/> arp: writing to routing socket: Operation not permitted<br/> /net% sudo arp -d 192.168.1.1<br/> Password:<br/> 192.168.1.1 (192.168.1.1) deleted<br/> /net% arp -a<br/> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br/> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]</p></p><p><p>/net% telnet  mixi.jp 80<br/> Trying 110.44.179.199…<br/> Connected to mixi.jp.<br/> Escape character is ‘^]’.<br/> ^]<br/> telnet&gt; quit<br/> Connection closed.<br/> /net% arp -a<br/> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br/> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]</p></blockquote></p>
+
+<h2 id="section-1">所感</h2>
+<p>arp -d のあとすぐに確認しても、192.168.1.1 のキャッシュは存在した。<br />
+おそらく、他のアプリケーションによる通信があるせい。  </p>
+
+<h2 id="section-2">参考文献</h2>
+<p>マスタリングTCP/IP入門(5章)</p>
+
+<h2 id="section-3">あわせてよみたい</h2>
+<p><a href="ftp://ftp.rfc-editor.org/in-notes/rfc826.txt">RFC826</a></p>
+
+]]></content>
+  </entry>
+  
+</feed>

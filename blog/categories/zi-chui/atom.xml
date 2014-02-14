@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 自炊 | vimtaku blog]]></title>
+  <link href="http://vimtakublog.qolwu.com/blog/categories/zi-chui/atom.xml" rel="self"/>
+  <link href="http://vimtakublog.qolwu.com/"/>
+  <updated>2014-02-14T14:29:53+09:00</updated>
+  <id>http://vimtakublog.qolwu.com/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[俺なりの自炊セットをそろえた]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/19/jisui-best-practice/"/>
+    <updated>2014-01-19T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/19/jisui-best-practice</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="section">背景</h2>
+<p>覚悟を決めたので自炊セットを買うことにした。<br />
+電子書籍は最近出てくることが多くなったとはいえ、<br />
+すべてが電子書籍で販売されている訳ではないからだ。<br />
+Nexus7 を存分に生かすために買った自炊セットの<br />
+俺なりのベストプラクティスをここに記載する。  </p>
+
+<p>とはいえ、家にある本の数は100冊程度なので、<br />
+もしかしたら裁断サービスのほうが安く上がるかもしれないが<br />
+安値で自炊セットをそろえれば、家の雑多な書類とかも処理できるし<br />
+楽なのでそろえることにした。  </p>
+
+<p>とにかく安くそろえることを前提とした。</p>
+
+<h2 id="section-1">俺なりの結論</h2>
+<ul>
+  <li>スキャナ
+    <ul>
+      <li>image FORMULA DR-C125</li>
+    </ul>
+  </li>
+  <li>裁断機
+    <ul>
+      <li>カール事務器 ディスクカッターA4サイズ対応 丸刃40枚裁断(2往復) ブラック DC-210N</li>
+    </ul>
+  </li>
+</ul>
+
+<p>計、約3万円也。。</p>
+
+<h2 id="section-2">スキャナの選定</h2>
+<p>スキャナは実際すごくまよったが、とにかく安くそろえたかったので、<br />
+ScanSnap1500 の中古か image FORMULA DR-C125 にしようと思っていた。<br />
+結構比較記事があるので、ググってもらえばわかると思うけど、<br />
+SS1500は重送とかが結構おこるといわれていたのと、Amazon のレビューの評判が<br />
+そこそこよさげだったので、 image FORMULA DR-C125 にした。<br />
+安さの観点から、比較対象として SS1300 とか、ハンディスキャナとかがあったけど<br />
+SS1500 とのスキャンスピード比較動画が結構えげつない差だったので SS1300 はやめた。<br />
+ちなみに、 SS1500 よりも DR-C125 のほうが早い感じらしい。<br />
+ScanSnap1500 マジ良いみたいな話で、実際に使ったこと無いから比較できないけど、<br />
+DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万円で中古を買った。<br />
+なんていうか、Mac 用のドライバを普通にインストールして、<br />
+すぐにスキャンできた。OCR も効いている。<br />
+新品も Amazon で2.7万くらいなので、新品でも良いかもしれない。<br />
+アフィは張らない。  </p>
+
+<h2 id="section-3">裁断機の選定</h2>
+<p>ローラーカッター(1000円)とカッターマット、定規で行けるかと思っていたんだけど、<br />
+分厚い本とか、マジ無理です。絶対無理。<br />
+いや、無理ではない、正確には。<br />
+でも、自炊とか効率的なことを考える人がやることではない。<br />
+カッターでもいい人は、新書とかばかりのひと。<br />
+それなら余裕。技術書はたぶん相当に厳しい。<br />
+なので、ちょうど今さっき、評判が割と良い DC-210N の裁断機を買った。<br />
+約1万円也。<br />
+どうなるかわからないが、絶対手動よりはマシだと思う。<br />
+それくらい、非現実的だと思う。行けると思っていた俺浅はか。  </p>
+
+<h2 id="section-4">あとは読むだけ</h2>
+<p>自炊しっぱなしで読まないみたいなのがありそうだけど、必ず読むよ。<br />
+学習し続けることは、尊い。<br />
+たゆまぬ努力を続けよう。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Dev | vimtaku blog]]></title>
+  <link href="http://vimtakublog.qolwu.com/blog/categories/dev/atom.xml" rel="self"/>
+  <link href="http://vimtakublog.qolwu.com/"/>
+  <updated>2014-02-14T14:29:53+09:00</updated>
+  <id>http://vimtakublog.qolwu.com/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant に入門する]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2013/11/28/learning-vagrant/"/>
+    <updated>2013-11-28T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2013/11/28/learning-vagrant</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="vagrant">vagrant</h2>
+<p>っていうか vagrant はめちゃくちゃ簡単に導入できる。<br />
+chef-solo 入門の naoya 氏が書いたやつ買ったのと、ウェブに落ちまくってるやつを<br />
+一緒に見ながら手を動かしてみたら、結構わかってきた。  </p>
+
+<p>これは最初に覚えておいたらお釣りがくるレベルで使えそうなので<br />
+まだ知らない人は早めに勉強しといたほうがいいね。</p>
+
+<h2 id="section">読書途中経過</h2>
+<ul>
+  <li>パーフェクトルビー3章まで読んだ</li>
+  <li>chef-solo 入門 #7 まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+</ul>
+
+<p>おいおいまとめる</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Template Test]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2013/11/20/template-test/"/>
+    <updated>2013-11-20T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2013/11/20/template-test</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="code-">code ハイライトテスト</h2>
+<p>jekyll pygments.rb は python2.7 じゃないとだめらしい。</p>
+
+<p><div>
+  <pre><code class='ruby'>def foo
+  puts ‘foo’
+end</code></pre>
+</div>
+</p>
+
+<p><div>
+  <pre><code class='python'># coding: utf-8
+import sys&lt;/p&gt;
+
+&lt;p&gt;from pygments import highlight
+from pygments.lexers import guess_lexer
+from pygments.formatters import HtmlFormatter</code></pre>
+</div>
+</p>
+
+<p><div>
+  <pre><code class='bash'>$ cd UserName.github.com
+$ git init
+$ git add .
+$ git commit -m “first commit”
+$ git remote add origin https://github.com/UserName/UserName.github.git
+$ git push -u origin master</code></pre>
+</div>
+</p>
+
+<p><div>
+  <pre><code class='vim'>function! SetColumnWidthLimit()
+  setlocal textwidth=78
+  if exists(‘+colorcolumn’)
+    setlocal colorcolumn=+1
+  endif
+endfun&lt;/p&gt;
+
+&lt;p&gt;au Filetype perl,javascript,vim call SetColumnWidthLimit()</code></pre>
+</div>
+</p>
+
+<h2 id="url">参考URL</h2>
+<p>http://web.sfc.keio.ac.jp/~t10078si/wpx/?p=862</p>
+]]></content>
+  </entry>
+  
+</feed>

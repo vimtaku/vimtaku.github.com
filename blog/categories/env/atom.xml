@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Env | vimtaku blog]]></title>
+  <link href="http://vimtakublog.qolwu.com/blog/categories/env/atom.xml" rel="self"/>
+  <link href="http://vimtakublog.qolwu.com/"/>
+  <updated>2014-02-14T14:29:53+09:00</updated>
+  <id>http://vimtakublog.qolwu.com/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Installing Limechat and Znc]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2013/11/28/installing-limechat-and-znc/"/>
+    <updated>2013-11-28T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2013/11/28/installing-limechat-and-znc</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="znc-">znc のインストール</h2>
+<p>これを参考にした。
+<a href="http://shibayu36.hatenablog.com/entry/2013/09/01/142020">http://shibayu36.hatenablog.com/entry/2013/09/01/142020</a></p>
+
+<p>やっと引っ越しも一段落していろいろ体制が整ったので<br />
+少しずつ環境を整えつつ勉強していく。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

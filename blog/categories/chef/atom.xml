@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Chef | vimtaku blog]]></title>
+  <link href="http://vimtakublog.qolwu.com/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="http://vimtakublog.qolwu.com/"/>
+  <updated>2014-02-14T14:29:53+09:00</updated>
+  <id>http://vimtakublog.qolwu.com/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Chef についてのメモ2]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/27/chef-memo-2/"/>
+    <updated>2014-01-27T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/27/chef-memo-2</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="chef--libraries-">chef の libraries を使う場合の今のところの俺の結論</h2>
+
+<p>以下に述べる、 1 の方法を使う。  </p>
+
+<p>とはいえ一長一短な気がするからどっちがいいって言えない。<br />
+ちなみに libraries から node はみたいよね、っていう前提。<br />
+あと、自分の環境(chef-solo, v11.8.2)にもよるかも。まぁ参考程度に。<br />
+もっといい方法あったら教えて下さい。<br />
+(っていうか意外に chef (libraries)のドキュメントって少ない気がする..)  </p>
+
+<h2 id="libraries-">libraries を使う方法</h2>
+<ol>
+  <li>class MyClass みたいなクラスを定義して、 new するときに node 渡すようにして、あとは好きに使うパターン</li>
+  <li>module MyModule みたいなモジュールを定義して、extend してから、わかりやすいメソッドを呼び出して使うパターン</li>
+</ol>
+
+<h2 id="section">1. のメリット、デメリット</h2>
+
+<h3 id="section-1">メリット</h3>
+<ul>
+  <li>呼びたいメソッドを MyClass.method とかけるから、コードが読みやすいのではないだろうかということ。</li>
+</ul>
+
+<h3 id="section-2">デメリット</h3>
+<ul>
+  <li>他のレシピからでも MyClass が使える</li>
+</ul>
+
+<h2 id="section-3">2. のメリット、デメリット</h2>
+
+<h3 id="section-4">メリット</h3>
+<ul>
+  <li>名前空間を汚染しない</li>
+</ul>
+
+<h3 id="section-5">デメリット</h3>
+<ul>
+  <li>いちいち呼びたい recipe で extend とか書かなきゃいけない</li>
+  <li>呼び出すときに method_name だけしかないからちょっと読みにくいかも、と思った。 ruby ってそういうもん？</li>
+</ul>
+
+<h2 id="section-6">以下駄文メモ</h2>
+
+<ul>
+  <li>class をつかう場合、 名前空間を切って使用すると node が見えないので不便
+    <ul>
+      <li>class Chef::Recipe にメソッドをはやして node を使えば見れる</li>
+      <li>class Chef::Recipe::Hoge からは node はみえない
+        <ul>
+          <li>そんならChef::Recipe::Hoge みたいなインスタンスを new するときに node 渡して使えばいいんじゃね?</li>
+          <li>まぁできんことはない</li>
+        </ul>
+      </li>
+      <li>class Chef::Recipe にメソッド生やすのとかは Recipe が汚れるからやらない方がいい</li>
+      <li>単純に class MyClass みたいなやつを new してそれを使うのが吉かも</li>
+      <li>でも libraries に定義しているから他のレシピから使われる可能性があって、閉じたい人的にはアレ</li>
+    </ul>
+  </li>
+  <li>module をつかう場合
+    <ul>
+      <li>extend Module名 を使えば、 node は見えるし、使う場所が限られる
+        <ul>
+          <li>いちいち extend するのはめんどい</li>
+          <li>呼び出すとき method 名 だけになるからそれが許容できるならそれでもいいかも</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-7">関連記事</h2>
+<p><a href="http://vimtaku.github.io/chef/2014/01/24/chef-memo/">http://vimtaku.github.io/chef/2014/01/24/chef-memo/</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chef についてのメモ]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/24/chef-memo/"/>
+    <updated>2014-01-24T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/24/chef-memo</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="section">概要</h2>
+<p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
+いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  </p>
+
+<h2 id="attribute-">attribute の読み込み順について</h2>
+<ul>
+  <li>attributes/default.rb が一番最初に読み込まれる</li>
+  <li>attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる</li>
+  <li>node の値は各ファイルで上書きをすることができる  </li>
+</ul>
+
+<h2 id="libraries-">libraries について</h2>
+<ul>
+  <li>libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
+    <ul>
+      <li>Hoge.fuga_method として recipe から使用可能。</li>
+    </ul>
+  </li>
+  <li>他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。</li>
+  <li>libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
+    <ul>
+      <li>自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。</li>
+      <li>他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="chef-">chef 実行時のレシピについて</h2>
+<ul>
+  <li>各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
+    <ul>
+      <li>chef 実行時に self をみればわかる</li>
+    </ul>
+  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Asset_sync]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2014/01/14/asset-sync/"/>
+    <updated>2014-01-14T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2014/01/14/asset-sync</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
+
+<h2 id="url">参考URL</h2>
+<p>こちらを参考にした。
+<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
+
+<h4 id="gemfile">Gemfile</h4>
+<p><div>
+  <pre><code class='ruby'>gem ‘uglifier’, ‘&amp;gt;= 1.3.0’
+gem ‘asset_sync’</code></pre>
+</div>
+
+を追記。</p>
+
+<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
+
+<p><div>
+  <pre><code class='ruby'>template “#{release_path}/config/asset_sync.yml” do
+  mode “0644”
+  source “asset_sync.yml.erb”
+end&lt;/p&gt;
+
+&lt;p&gt;bash “precompile_assets” do
+  user “deploy”
+  cwd release_path
+  code ‘bundle exec rake assets:precompile RAILS_ENV=production’
+end</code></pre>
+</div>
+</p>
+
+<p>今回は、 before_migrate で呼ぶことにする。<br />
+chef-solo で呼ばれるので resource が使える模様。<br />
+カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
+template は asset_sync.yml.erb としておいておく感じ。</p>
+
+<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
+<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
+
+<p><div>
+  <pre><code class='ruby'>config.action_controller.asset_host = ‘//s3-ap-northeast-1.amazonaws.com/hoge.example.com’
+config.assets.initialize_on_precompile = true</code></pre>
+</div>
+</p>
+
+<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
+<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
+ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
+existing_remote_files: ‘delete’ として<br />
+precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
+config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
+(しかし、ゴミはのこる。対処については要検討。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chef_for_me]]></title>
+    <link href="http://vimtakublog.qolwu.com/blog/2013/12/27/z_chef-for-me/"/>
+    <updated>2013-12-27T00:00:00+09:00</updated>
+    <id>http://vimtakublog.qolwu.com/blog/2013/12/27/z_chef-for-me</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h1 id="chef-solo-vagrant-">chef-solo, vagrant に慣れるためにそれっぽいチュートリアルをやる</h1>
+
+<h2 id="tutorial-">tutorial っぽいのがあったのでやってみる</h2>
+<p><a href="http://vialstudios.com/guide-authoring-cookbooks.html">http://vialstudios.com/guide-authoring-cookbooks.html</a></p>
+
+<h2 id="chef-chef-solo-">chef, chef-solo について</h2>
+<p>ここが詳しい。
+<a href="http://knowledge.sakura.ad.jp/tech/867/">http://knowledg.sakura.ad.jp/tech/867/</a></p>
+
+<h2 id="start">start</h2>
+
+<p>基本的に自分のメモなのであんまり参考にならないと思うけど残しておく。  </p>
+
+<ul>
+  <li>git install
+    <ul>
+      <li>すでにあったので省略</li>
+    </ul>
+  </li>
+  <li>Install rbenv and ruby-build
+    <ul>
+      <li>すでにあったので省略</li>
+    </ul>
+  </li>
+  <li>Install Ruby
+    <ul>
+      <li>すでにあったので省略</li>
+    </ul>
+  </li>
+  <li>Install Berkshelf
+    <ul>
+      <li>すでにあったので省略</li>
+    </ul>
+  </li>
+  <li>foodcritic を入れる。</li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>$ gem install foodcritic</code></pre>
+</div>
+</p>
+
+<ul>
+  <li>Install VirtualBox
+    <ul>
+      <li>すでにあったので省略</li>
+    </ul>
+  </li>
+  <li>Install Vagrant
+    <ul>
+      <li>すでにあったので省略</li>
+    </ul>
+  </li>
+  <li>Creating the Cookbook</li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>/Users/vimtaku/vm/myface% berks cookbook myface –foodcritic
+      create  myface/files/default
+      create  myface/templates/default
+      create  myface/attributes
+      create  myface/definitions
+      create  myface/libraries
+      create  myface/providers
+      create  myface/recipes
+      create  myface/resources
+      create  myface/recipes/default.rb
+      create  myface/metadata.rb
+      create  myface/LICENSE
+      create  myface/README.md
+      create  myface/Berksfile
+      create  myface/Thorfile
+      create  myface/chefignore
+      create  myface/.gitignore
+         run  git init from “./myface”
+      create  myface/Gemfile
+      create  myface/Vagrantfile</code></pre>
+</div>
+</p>
+
+<p>クックブックのスケルトンテンプレートを、 myface っていう名前で作成した。</p>
+
+<ul>
+  <li>Prepare your virtual environment
+    <ul>
+      <li>vendor/bundle にインストールする設定をやってなかったらやっておいたほうが良いかも
+        <ul>
+          <li><a href="http://qiita.com/toshiwo/items/4e7c82852f3e14bf5a1d">http://qiita.com/toshiwo/items/4e7c82852f3e14bf5a1d</a></li>
+        </ul>
+      </li>
+      <li>bundle install</li>
+    </ul>
+  </li>
+  <li>Starting your virtual machine
+    <ul>
+      <li>とりあえず言われたとおりにやってみろってことなのでやってみる</li>
+    </ul>
+  </li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
+   ringing machine ‘default’ up with ‘virtualbox’ provider…
+   [default] Box ‘Berkshelf-CentOS-6.3-x86&lt;em&gt;64-minimal’ was not found. Fetching box from specified URL for
+   the provider ‘virtualbox’. Note that if the URL does not have
+   a box for this provider, you should interrupt Vagrant now and add
+   the box yourself. Otherwise Vagrant will attempt to download the
+   full box prior to discovering this error.
+   Downloading or copying the box…
+   Progress: 22% (Rate: 1045k/s, Estimated time remaining: 0:03:45)load: 1.56  cmd: curl 27613 waiting 0.84u 1.48s
+   Progress: 50% (Rate: 1068k/s, Estimated time remaining: 0:02:03)load: 1.47  cmd: curl 27613 waiting 1.76u 3.18s
+   Progress: 51% (Rate: 1147k/s, Estimated time remaining: 0:02:01)^U
+   Progress: 85% (Rate: 1061k/s, Estimated time remaining: 0:00:38)load: 1.27  cmd: curl 27613 waiting 2.72u 4.99s
+   Extracting box…te: 2251k/s, Estimated time remaining: 0:00:01)j
+   Successfully added box ‘Berkshelf-CentOS-6.3-x86&lt;/em&gt;64-minimal’ with provider ‘virtualbox’!
+   There are errors in the configuration of this machine. Please fix
+   the following errors and try again:&lt;/p&gt;
+
+&lt;p&gt;SSH:
+   * The following settings shouldn’t exist: max_tries, timeout</code></pre>
+</div>
+</p>
+
+<ul>
+  <li>エラー。 ssh
+    <ul>
+      <li>https://github.com/berkshelf/berkshelf/pull/856</li>
+      <li>vagrant バージョンの違いによるものっぽい、削除して try</li>
+    </ul>
+  </li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
+Bringing machine ‘default’ up with ‘virtualbox’ provider…
+[default] Importing base box ‘Berkshelf-CentOS-6.3-x86_64-minimal’…
+[default] Matching MAC address for NAT networking…
+[default] Setting the name of the VM…
+[default] Clearing any previously set forwarded ports…
+[Berkshelf] This version of the Berkshelf plugin has not been fully tested on this version of Vagrant.
+[Berkshelf] You should check for a newer version of vagrant-berkshelf.
+[Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
+[Berkshelf] You can also join the discussion in #berkshelf on Freenode.
+[Berkshelf] Updating Vagrant’s berkshelf: ‘/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default’
+[Berkshelf] Using myface (0.1.0) from metadata
+[default] Creating shared folders metadata…
+[default] Clearing any previously set network interfaces…
+[default] Preparing network interfaces based on configuration…
+[default] Forwarding ports…
+[default] – 22 =&amp;gt; 2222 (adapter 1)
+[default] Booting VM…
+[default] Waiting for machine to boot. This may take a few minutes…
+[default] Machine booted and ready!
+[default] Setting hostname…
+[default] Configuring and enabling network interfaces…
+[default] Mounting shared folders…
+[default] – /vagrant
+[default] – /tmp/vagrant-chef-1/chef-solo-1/cookbooks
+[default] Running provisioner: chef_solo…
+Generating chef JSON and uploading…
+Running chef-solo…
+[2013-12-27T09:05:00+00:00] INFO: &lt;em&gt;** Chef 10.14.2 **&lt;/em&gt;
+[2013-12-27T09:05:01+00:00] INFO: Setting the run_list to [“recipe[myface::default]”] from JSON
+[2013-12-27T09:05:01+00:00] INFO: Run List is [recipe[myface::default]]
+[2013-12-27T09:05:01+00:00] INFO: Run List expands to [myface::default]
+[2013-12-27T09:05:01+00:00] INFO: Starting Chef Run for myface-berkshelf
+[2013-12-27T09:05:01+00:00] INFO: Running start handlers
+[2013-12-27T09:05:01+00:00] INFO: Start handlers complete.
+[2013-12-27T09:05:01+00:00] INFO: Chef Run complete in 0.017946119 seconds
+[2013-12-27T09:05:01+00:00] INFO: Running report handlers
+[2013-12-27T09:05:01+00:00] INFO: Report handlers complete</code></pre>
+</div>
+</p>
+
+<ul>
+  <li>実行されているのは Vagrantfile の中に含まれていた run_list のところのリストだった</li>
+  <li>cent os とか書いているところは自分の好きな感じで設定できるよとのこと</li>
+  <li>
+    <p>このへんは知ってるけど不安定とかになったら vagrant destroy とかで消せるよとのこと</p>
+  </li>
+  <li>Deploying with Artifact Deploy
+    <ul>
+      <li>myface っていうスーパークールな sns アプリ作ってやろうぜとのこと
+        <ul>
+          <li>Artifact Deploy は LWRP を deploy するためのもの!
+            <ul>
+              <li>LWRP はこちらを参照 -&gt; <a href="http://sssslide.com/speakerdeck.com/kentaro/chef-lwrp">http://sssslide.com/speakerdeck.com/kentaro/chef-lwrp</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>vim で編集. 
+<div>
+  <pre><code class='bash'>/Users/vimtaku/vm/myface/myface% vim recipes/default.rb&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;artifact_deploy “myface” do
+  version “1.0.0”
+  artifact_location “http://dl.dropbox.com/u/31081437/myface-1.0.0.tar.gz”
+  deploy_to “/srv/myface”
+  owner “myface”
+  group “myface”
+  action :deploy
+end</code></pre>
+</div>
+</p>
+
+<ul>
+  <li>provision command でもう一回 chef の provision を実行する。</li>
+  <li>berkshelf vagrant plugin の 魔法によって依存関係を勝手に解決してくれる!</li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>[Berkshelf] This version of the Berkshelf plugin has not been fully tested on this version of Vagrant.
+[Berkshelf] You should check for a newer version of vagrant-berkshelf.
+[Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
+[Berkshelf] You can also join the discussion in #berkshelf on Freenode.
+[Berkshelf] Updating Vagrant’s berkshelf: ‘/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default’
+[Berkshelf] Using myface (0.1.0)
+[default] Running provisioner: chef_solo…
+Generating chef JSON and uploading…
+Running chef-solo…
+[2013-12-27T09:36:54+00:00] INFO: &lt;em&gt;** Chef 10.14.2 **&lt;/em&gt;
+[2013-12-27T09:36:54+00:00] INFO: Setting the run_list to [“recipe[myface::default]”] from JSON
+[2013-12-27T09:36:54+00:00] INFO: Run List is [recipe[myface::default]]
+[2013-12-27T09:36:54+00:00] INFO: Run List expands to [myface::default]
+[2013-12-27T09:36:54+00:00] INFO: Starting Chef Run for myface-berkshelf
+[2013-12-27T09:36:54+00:00] INFO: Running start handlers
+[2013-12-27T09:36:54+00:00] INFO: Start handlers complete.&lt;/p&gt;
+
+&lt;p&gt;================================================================================
+Recipe Compile Error in /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb
+================================================================================&lt;/p&gt;
+
+&lt;h2 id=&quot;nameerror&quot;&gt;NameError&lt;/h2&gt;
+&lt;p&gt;Cannot find a resource for artifact_deploy on centos version 6.3&lt;/p&gt;
+
+&lt;h2 id=&quot;cookbook-trace&quot;&gt;Cookbook Trace:&lt;/h2&gt;
+&lt;p&gt;/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file’&lt;/p&gt;
+
+&lt;h2 id=&quot;relevant-file-content&quot;&gt;Relevant File Content:&lt;/h2&gt;
+&lt;p&gt;/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:&lt;/p&gt;
+
+&lt;p&gt;1:  #
+  2:  # Cookbook Name:: myface
+  3:  # Recipe:: default
+  4:  #
+  5:  # Copyright (C) 2013 YOUR_NAME
+  6:  # 
+  7:  # All rights reserved - Do Not Redistribute
+  8:&lt;br /&gt;
+  9:  artifact_deploy “myface” do&lt;/p&gt;
+
+&lt;p&gt;[2013-12-27T09:36:55+00:00] ERROR: Running exception handlers
+[2013-12-27T09:36:55+00:00] ERROR: Exception handlers complete
+[2013-12-27T09:36:55+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+[2013-12-27T09:36:55+00:00] FATAL: NameError: Cannot find a resource for artifact_deploy on centos version 6.3</code></pre>
+</div>
+</p>
+
+<ul>
+  <li>期待通りにエラッた
+    <ul>
+      <li>俺らは全然 artifact_deploy はいらない</li>
+      <li>chef client が必要としているだけ</li>
+      <li>俺らは LWRP が必要だっていうのを 俺らの cookbook に教えていないから教えてやる</li>
+    </ul>
+  </li>
+  <li>Working with cookbook metadata
+    <ul>
+      <li>metadata.rb に教えてやる必要がある。
+        <ul>
+          <li>このファイルは結構初心者が見落としがちなんだけど結構大事なんだぜ</li>
+          <li>metadata.rb は Rubygems で言う gemspec みたいなやつで依存関係を記述する奴で
+            <ul>
+              <li>name attribute で名前とか</li>
+              <li>version attribute でバージョンとか</li>
+              <li>depends 定義で 依存する cookbooks の記述とか</li>
+              <li>conflict 定義で conflict する奴とか</li>
+              <li>maintainer attribute で メンテナとか</li>
+              <li>maintainer email とか</li>
+              <li>license 情報 とか</li>
+              <li>long_description を使って description とか
+をかける!</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>全部の属性は必要ない</li>
+      <li>けど attribute を空にするのはやめておけとのこと</li>
+    </ul>
+  </li>
+  <li>
+    <p>追記してbundle exec vagrant provision を実行</p>
+  </li>
+  <li>
+    <p>ユーザ追記とかして</p>
+  </li>
+  <li>Using Berkshelf to gather dependencies</li>
+  <li>どっから dependencies を解決しているのか</li>
+  <li>metadata.rb をみていろいろやる</li>
+  <li>
+    <p>capistrano っぽいディレクトリ構成で deploy</p>
+  </li>
+  <li>Refactoring into attributes
+    <ul>
+      <li>attributes/default.rb に記入
+<div>
+  <pre><code class='bash'>default[:myface][:user] = “myface”
+default[:myface][:group] = “myface”</code></pre>
+</div>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>group “#{node[‘myface’][‘group’]}”&lt;/p&gt;
+
+&lt;p&gt;user “#{node[‘myface’][‘group’]}” do
+  group “#{node[‘myface’][‘group’]}”
+  system true
+  shell “/bin/bash”
+end&lt;/p&gt;
+
+&lt;p&gt;artifact_deploy “#{node[‘myface’][‘group’]}” do
+  version “1.0.0”
+  artifact_location “/tmp/myface-1.0.0.tar.gz”
+  deploy_to “/srv/myface”
+  owner “#{node[‘myface’][‘user’]}”
+  group “#{node[‘myface’][‘group’]}”
+  action :deploy
+end</code></pre>
+</div>
+</p>
+
+<ul>
+  <li>artifact_location に /tmp 指定してるのは回線事情があって wget したやつをおいておいた.</li>
+  <li>
+    <p>うまく行った。書き方をちゃんとしないと validation で引っかかるので注意。</p>
+  </li>
+  <li>Idempotent recipes
+    <ul>
+      <li>レシピの冪とう性について書かれている</li>
+      <li>not_if とかないと</li>
+    </ul>
+  </li>
+  <li>Configuring the application server
+    <ul>
+      <li>depends “tomcat”, “~&gt; 0.11.0” を metadata.rb に追加する</li>
+      <li>include_recipe “tomcat” を recipes/default.rb に追加する</li>
+      <li>provision</li>
+    </ul>
+  </li>
+  <li>include_recipe versus a Role with a run_list
+    <ul>
+      <li>スパイダーマンより、 大いなる力には、大いなる責任が伴う</li>
+      <li>ポートフォワーディングの設定
+        <ul>
+          <li>config.vm.network :forwarded_port, guest: 8080, host: 9090</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Configuring Tomcat users
+    <ul>
+      <li>したがってやったらできた。</li>
+      <li>/myapp はなぜか動かない</li>
+      <li>まぁでもとりあえず受けれるところまで行ければおkなのでここまでとする</li>
+    </ul>
+  </li>
+  <li>その下は
+    <ul>
+      <li>もっと attribute で可変にするところとか</li>
+      <li>database の LWRP を使う例とかi
+ が書いてある</li>
+    </ul>
+  </li>
+  <li>これが便利</li>
+</ul>
+
+<p><div>
+  <pre><code class='bash'>require ‘json’&lt;/p&gt;
+
+&lt;p&gt;file “/tmp/dna.json” do
+  content JSON.pretty_generate(node)
+end</code></pre>
+</div>
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>
