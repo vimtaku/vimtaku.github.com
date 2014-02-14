@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-14T15:21:38+09:00</updated>
+  <updated>2014-02-14T16:59:15+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -50,7 +50,15 @@ mkdir $HOME/octopress/source/includes/JB
 cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
 </div>
 
-<h2 id="section-2">参考資料</h2>
+<h2 id="section-2">ちなみに</h2>
+<p>テーマはコチラを使わせてもらった。<br />
+<a href="http://zespia.tw/Octopress-Theme-Slash/">http://zespia.tw/Octopress-Theme-Slash/</a><br />
+how to install 通りにやれば適用できる。  </p>
+
+<p>Octopress テーマ集みたいなのはコチラ。<br />
+<a href="http://opthemes.com/">http://opthemes.com/</a>  </p>
+
+<h2 id="section-3">参考資料</h2>
 
 <p><a href="http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/">http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/</a></p>
 
