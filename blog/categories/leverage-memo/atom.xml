@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Leverage_memo | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/leverage-memo/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/leverage-memo/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[読む筋トレを読んだ]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/13/yomu-kintore-memo/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/13/yomu-kintore-memo/"/>
     <updated>2014-01-13T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/13/yomu-kintore-memo</id>
+    <id>http://vimtaku.github.io/blog/2014/01/13/yomu-kintore-memo</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -52,9 +52,9 @@
   
   <entry>
     <title type="html"><![CDATA[ザ・コーチって本を読んだ]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/08/memo_the_coach/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/08/memo_the_coach/"/>
     <updated>2014-01-08T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/08/memo_the_coach</id>
+    <id>http://vimtaku.github.io/blog/2014/01/08/memo_the_coach</id>
     <content type="html"><![CDATA[<p>
 </p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Docker | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/docker/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/docker/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Docker_boot2docker_port_foward]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/10/docker-boot2docker-port-foward/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward/"/>
     <updated>2014-02-10T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/10/docker-boot2docker-port-foward</id>
+    <id>http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -116,9 +116,9 @@ docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
   
   <entry>
     <title type="html"><![CDATA[Docker の概要をしらべて触ってみた]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/02/what-is-docker/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/02/what-is-docker/"/>
     <updated>2014-02-02T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/02/what-is-docker</id>
+    <id>http://vimtaku.github.io/blog/2014/02/02/what-is-docker</id>
     <content type="html"><![CDATA[<p>
 </p>
 

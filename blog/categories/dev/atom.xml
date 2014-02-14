@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Dev | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/dev/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/dev/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vagrant に入門する]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/11/28/learning-vagrant/"/>
+    <link href="http://vimtaku.github.io/blog/2013/11/28/learning-vagrant/"/>
     <updated>2013-11-28T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/11/28/learning-vagrant</id>
+    <id>http://vimtaku.github.io/blog/2013/11/28/learning-vagrant</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -43,9 +43,9 @@ chef-solo 入門の naoya 氏が書いたやつ買ったのと、ウェブに落
   
   <entry>
     <title type="html"><![CDATA[Template Test]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/11/20/template-test/"/>
+    <link href="http://vimtaku.github.io/blog/2013/11/20/template-test/"/>
     <updated>2013-11-20T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/11/20/template-test</id>
+    <id>http://vimtaku.github.io/blog/2013/11/20/template-test</id>
     <content type="html"><![CDATA[<p>
 </p>
 

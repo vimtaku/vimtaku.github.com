@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Aws | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/aws/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Fog っていう Gem で Use_iam_profile があんまうまく行かない件]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/21/fog-iam-profile/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile/"/>
     <updated>2014-01-21T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/21/fog-iam-profile</id>
+    <id>http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -47,9 +47,9 @@ credential を撮ってきたものを使用していないので ここが怪�
   
   <entry>
     <title type="html"><![CDATA[Chef で Opsworks のインスタンス起動時に Cloudwatch の Alarm を作成するためにしたこと]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/20/cloud-watch-alarm/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm/"/>
     <updated>2014-01-20T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/20/cloud-watch-alarm</id>
+    <id>http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -195,9 +195,9 @@ cat - &amp;lt; $(yes)</code></pre>
   
   <entry>
     <title type="html"><![CDATA[Elasticsearch_ebs]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/08/z_elasticsearch-ebs/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs/"/>
     <updated>2014-01-08T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/08/z_elasticsearch-ebs</id>
+    <id>http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -288,9 +288,9 @@ cat - &amp;lt; $(yes)</code></pre>
   
   <entry>
     <title type="html"><![CDATA[Opsworks and Dotenv]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/25/opsworks-and-dotenv/"/>
+    <link href="http://vimtaku.github.io/blog/2013/12/25/opsworks-and-dotenv/"/>
     <updated>2013-12-25T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/25/opsworks-and-dotenv</id>
+    <id>http://vimtaku.github.io/blog/2013/12/25/opsworks-and-dotenv</id>
     <content type="html"><![CDATA[<p>
 </p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Chef | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/chef/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Chef についてのメモ2]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/27/chef-memo-2/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/27/chef-memo-2/"/>
     <updated>2014-01-27T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/27/chef-memo-2</id>
+    <id>http://vimtaku.github.io/blog/2014/01/27/chef-memo-2</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -99,9 +99,9 @@
   
   <entry>
     <title type="html"><![CDATA[Chef についてのメモ]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/24/chef-memo/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/24/chef-memo/"/>
     <updated>2014-01-24T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/24/chef-memo</id>
+    <id>http://vimtaku.github.io/blog/2014/01/24/chef-memo</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -146,9 +146,9 @@
   
   <entry>
     <title type="html"><![CDATA[Asset_sync]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/14/asset-sync/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/14/asset-sync/"/>
     <updated>2014-01-14T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/14/asset-sync</id>
+    <id>http://vimtaku.github.io/blog/2014/01/14/asset-sync</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -209,9 +209,9 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   
   <entry>
     <title type="html"><![CDATA[Chef_for_me]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/27/z_chef-for-me/"/>
+    <link href="http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me/"/>
     <updated>2013-12-27T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/27/z_chef-for-me</id>
+    <id>http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me</id>
     <content type="html"><![CDATA[<p>
 </p>
 

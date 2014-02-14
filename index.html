@@ -9,7 +9,12 @@
   <meta name="author" content="vimtaku">
 
   
-  <meta name="description" content="TOC TOC この記事について 予備知識 Apache Solr とは Lucene とは スキーマを作ってみよう フィールドタイプについて フィールドについて テキストフィールドの定義 ダイナミックフィールド ユニークキーフィールド コピーフィールド core admin で core &hellip;">
+  <meta name="description" content="背景
+デザインが見づらいって言われたので辛くなったから、
+octopress にノリで移行してみた。
+当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので
+問題なく移行できると思ったら移行できた。 手順
+大体こんなかんじでいける。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +23,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vimtakublog.qolwu.com">
+  <link rel="canonical" href="http://vimtaku.github.io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="vimtaku blog" type="application/atom+xml">
@@ -62,7 +67,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:vimtakublog.qolwu.com" />
+    <input type="hidden" name="q" value="site:vimtaku.github.io" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -77,6 +82,77 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/14/octopress/">Jekyll から Octopress に10 分で移行する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-14T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="section">背景</h2>
+<p>デザインが見づらいって言われたので辛くなったから、<br />
+octopress にノリで移行してみた。<br />
+当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので<br />
+問題なく移行できると思ったら移行できた。  </p>
+
+<h2 id="section-1">手順</h2>
+<p>大体こんなかんじでいける。空気さえ読めれば行ける感じ。  </p>
+
+<div>
+  <pre><code class="bash">git clone git://github.com/imathis/octopress.git octopress
+cd octopress/
+bundle install
+rake install
+rake preview
+rake -T
+vim config.rb
+rake preview
+rake setup_github_pages
+
+## Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。
+vim Rakefile
+
+rake deploy
+
+cp -a $HOME/jekyll-bootstrap/_posts/* .
+
+## JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)
+mkdir $HOME/octopress/source/includes/JB
+cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
+</div>
+
+<h2 id="section-2">参考資料</h2>
+
+<p><a href="http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/">http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/</a></p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1204,62 +1280,6 @@ chef の感覚はものすごくつかめたのでよかった。<br />
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/21/fog-iam-profile/">Fog っていう Gem で Use_iam_profile があんまうまく行かない件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-21T00:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-<h2 id="section">現象</h2>
-<p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
-metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている(できたのは割と最近らしい)。<br />
-それなら、iam を使いたいわけなんだけど、 fog v1.18.0 と v1.19.0 で試しても use_iam_profile がうまくいかない。  </p>
-
-<p>呼び出しているクライアントライブラリは asset_sync v1.0.0 と elasticsearch v0.3.4 。<br />
-どちらも aws_credential fetcher で credential を取得してるみたいだけど、それを使ってないようにみえた。  </p>
-
-<h2 id="section-1">対処</h2>
-<p>全部読んでないからわからないけど、俺の予想が合っていれば<br />
-credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
-
-<p>lib/fog/core/service.rb</p>
-<div>
-  <pre><code class="bash">-options = options.merge(fetch_credentials(options))
-+options = fetch_credentials(options).merge(options)</code></pre>
-</div>
-
-<p>とりあえずもっと調べなきゃよくわからない。<br />
-これがうまくいっていそうなら pull req だしてみよう。  </p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1275,6 +1295,10 @@ credential を撮ってきたものを使用していないので ここが怪�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/14/octopress/">Jekyll から Octopress に10 分で移行する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/13/solr-sample/">今更 Solr 入門</a>
       </li>
     
@@ -1288,10 +1312,6 @@ credential を撮ってきたものを使用していないので ここが怪�
     
       <li class="post">
         <a href="/blog/2014/02/08/life-feb-8/">2月の Solr には雪も Full</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/08/ichiro/">イチロー</a>
       </li>
     
   </ul>

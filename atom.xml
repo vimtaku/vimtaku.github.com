@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -14,10 +14,54 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Jekyll から Octopress に10 分で移行する]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/02/14/octopress/"/>
+    <updated>2014-02-14T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/02/14/octopress</id>
+    <content type="html"><![CDATA[<h2 id="section">背景</h2>
+<p>デザインが見づらいって言われたので辛くなったから、<br />
+octopress にノリで移行してみた。<br />
+当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので<br />
+問題なく移行できると思ったら移行できた。  </p>
+
+<h2 id="section-1">手順</h2>
+<p>大体こんなかんじでいける。空気さえ読めれば行ける感じ。  </p>
+
+<div>
+  <pre><code class="bash">git clone git://github.com/imathis/octopress.git octopress
+cd octopress/
+bundle install
+rake install
+rake preview
+rake -T
+vim config.rb
+rake preview
+rake setup_github_pages
+
+## Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。
+vim Rakefile
+
+rake deploy
+
+cp -a $HOME/jekyll-bootstrap/_posts/* .
+
+## JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)
+mkdir $HOME/octopress/source/includes/JB
+cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
+</div>
+
+<h2 id="section-2">参考資料</h2>
+
+<p><a href="http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/">http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[今更 Solr 入門]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/13/solr-sample/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/13/solr-sample/"/>
     <updated>2014-02-13T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/13/solr-sample</id>
+    <id>http://vimtaku.github.io/blog/2014/02/13/solr-sample</id>
     <content type="html"><![CDATA[
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -355,9 +399,9 @@ deltaImportQuery=”SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.de
   
   <entry>
     <title type="html"><![CDATA[Docker_boot2docker_port_foward]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/10/docker-boot2docker-port-foward/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward/"/>
     <updated>2014-02-10T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/10/docker-boot2docker-port-foward</id>
+    <id>http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward</id>
     <content type="html"><![CDATA[
 <h2 id="os-x-108--docker">OS X 10.8 公式サポートで話題の Docker</h2>
 
@@ -451,9 +495,9 @@ docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
   
   <entry>
     <title type="html"><![CDATA[2014/2/9]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/09/life-feb-9/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/09/life-feb-9/"/>
     <updated>2014-02-09T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/09/life-feb-9</id>
+    <id>http://vimtaku.github.io/blog/2014/02/09/life-feb-9</id>
     <content type="html"><![CDATA[
 <h2 id="section">土日振り返り</h2>
 <p>雪うざい。地味に perfect ruby を進めた。<br />
@@ -499,9 +543,9 @@ ruby 力が2くらい上がった。気がする。  </p>
   
   <entry>
     <title type="html"><![CDATA[2月の Solr には雪も Full]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/08/life-feb-8/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/08/life-feb-8/"/>
     <updated>2014-02-08T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/08/life-feb-8</id>
+    <id>http://vimtaku.github.io/blog/2014/02/08/life-feb-8</id>
     <content type="html"><![CDATA[
 <h2 id="section">先週の振り返り</h2>
 <p>先週は solr 祭りだった。<br />
@@ -555,9 +599,9 @@ solr は存在くらいしか知らなかったけど、非常によく出来た
   
   <entry>
     <title type="html"><![CDATA[イチロー]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/08/ichiro/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/08/ichiro/"/>
     <updated>2014-02-08T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/08/ichiro</id>
+    <id>http://vimtaku.github.io/blog/2014/02/08/ichiro</id>
     <content type="html"><![CDATA[
 <h2 id="section">名言</h2>
 
@@ -569,9 +613,9 @@ solr は存在くらいしか知らなかったけど、非常によく出来た
   
   <entry>
     <title type="html"><![CDATA[Docker の概要をしらべて触ってみた]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/02/02/what-is-docker/"/>
+    <link href="http://vimtaku.github.io/blog/2014/02/02/what-is-docker/"/>
     <updated>2014-02-02T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/02/02/what-is-docker</id>
+    <id>http://vimtaku.github.io/blog/2014/02/02/what-is-docker</id>
     <content type="html"><![CDATA[
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -713,9 +757,9 @@ Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/reposito
   
   <entry>
     <title type="html"><![CDATA[Chef についてのメモ2]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/27/chef-memo-2/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/27/chef-memo-2/"/>
     <updated>2014-01-27T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/27/chef-memo-2</id>
+    <id>http://vimtaku.github.io/blog/2014/01/27/chef-memo-2</id>
     <content type="html"><![CDATA[
 <h2 id="chef--libraries-">chef の libraries を使う場合の今のところの俺の結論</h2>
 
@@ -795,9 +839,9 @@ Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/reposito
   
   <entry>
     <title type="html"><![CDATA[一月ももう終わりそう]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/26/life-jan-last/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/26/life-jan-last/"/>
     <updated>2014-01-26T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/26/life-jan-last</id>
+    <id>http://vimtaku.github.io/blog/2014/01/26/life-jan-last</id>
     <content type="html"><![CDATA[
 <h2 id="section">先週の振り返り</h2>
 <p>先週は chef と格闘しっぱなしだった。<br />
@@ -853,9 +897,9 @@ chef の感覚はものすごくつかめたのでよかった。<br />
   
   <entry>
     <title type="html"><![CDATA[Chef についてのメモ]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/24/chef-memo/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/24/chef-memo/"/>
     <updated>2014-01-24T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/24/chef-memo</id>
+    <id>http://vimtaku.github.io/blog/2014/01/24/chef-memo</id>
     <content type="html"><![CDATA[
 <h2 id="section">概要</h2>
 <p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
@@ -898,9 +942,9 @@ chef の感覚はものすごくつかめたのでよかった。<br />
   
   <entry>
     <title type="html"><![CDATA[Fog っていう Gem で Use_iam_profile があんまうまく行かない件]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/21/fog-iam-profile/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile/"/>
     <updated>2014-01-21T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/21/fog-iam-profile</id>
+    <id>http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile</id>
     <content type="html"><![CDATA[
 <h2 id="section">現象</h2>
 <p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
@@ -927,9 +971,9 @@ credential を撮ってきたものを使用していないので ここが怪�
   
   <entry>
     <title type="html"><![CDATA[Chef で Opsworks のインスタンス起動時に Cloudwatch の Alarm を作成するためにしたこと]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/20/cloud-watch-alarm/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm/"/>
     <updated>2014-01-20T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/20/cloud-watch-alarm</id>
+    <id>http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm</id>
     <content type="html"><![CDATA[
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -1072,9 +1116,9 @@ cat - &lt; $(yes)</code></pre>
   
   <entry>
     <title type="html"><![CDATA[俺なりの自炊セットをそろえた]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/19/jisui-best-practice/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/19/jisui-best-practice/"/>
     <updated>2014-01-19T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/19/jisui-best-practice</id>
+    <id>http://vimtaku.github.io/blog/2014/01/19/jisui-best-practice</id>
     <content type="html"><![CDATA[
 <h2 id="section">背景</h2>
 <p>覚悟を決めたので自炊セットを買うことにした。<br />
@@ -1144,9 +1188,9 @@ DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万�
   
   <entry>
     <title type="html"><![CDATA[Asset_sync]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/14/asset-sync/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/14/asset-sync/"/>
     <updated>2014-01-14T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/14/asset-sync</id>
+    <id>http://vimtaku.github.io/blog/2014/01/14/asset-sync</id>
     <content type="html"><![CDATA[
 <h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
 
@@ -1203,9 +1247,9 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   
   <entry>
     <title type="html"><![CDATA[読む筋トレを読んだ]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/13/yomu-kintore-memo/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/13/yomu-kintore-memo/"/>
     <updated>2014-01-13T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/13/yomu-kintore-memo</id>
+    <id>http://vimtaku.github.io/blog/2014/01/13/yomu-kintore-memo</id>
     <content type="html"><![CDATA[
 <h2 id="section">所感</h2>
 <p>筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。<br />
@@ -1238,9 +1282,9 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   
   <entry>
     <title type="html"><![CDATA[1月一周目]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/13/life-log/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/13/life-log/"/>
     <updated>2014-01-13T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/13/life-log</id>
+    <id>http://vimtaku.github.io/blog/2014/01/13/life-log</id>
     <content type="html"><![CDATA[
 <h2 id="section">先週の振り返り</h2>
 <p>先週は年明け一発目って感じだったが、モチベーションが自分の中で勝手に上がってきててよかった。<br />
@@ -1287,9 +1331,9 @@ rails tutorial を倒すってのはできなかったけど、現在もりも�
   
   <entry>
     <title type="html"><![CDATA[Elasticsearch_ebs]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/08/z_elasticsearch-ebs/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs/"/>
     <updated>2014-01-08T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/08/z_elasticsearch-ebs</id>
+    <id>http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs</id>
     <content type="html"><![CDATA[
 <h1 id="opsworks--elasticsearch-">opsworks と elasticsearch についてのメモ</h1>
 
@@ -1374,9 +1418,9 @@ opsworks-cli-agent show_log
   
   <entry>
     <title type="html"><![CDATA[ザ・コーチって本を読んだ]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2014/01/08/memo_the_coach/"/>
+    <link href="http://vimtaku.github.io/blog/2014/01/08/memo_the_coach/"/>
     <updated>2014-01-08T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2014/01/08/memo_the_coach</id>
+    <id>http://vimtaku.github.io/blog/2014/01/08/memo_the_coach</id>
     <content type="html"><![CDATA[
 <h2 id="section">所感</h2>
 <p>読み物形式の、ただの自己啓発本。<br />
@@ -1500,9 +1544,9 @@ opsworks-cli-agent show_log
   
   <entry>
     <title type="html"><![CDATA[Chef_for_me]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/27/z_chef-for-me/"/>
+    <link href="http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me/"/>
     <updated>2013-12-27T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/27/z_chef-for-me</id>
+    <id>http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me</id>
     <content type="html"><![CDATA[
 <h1 id="chef-solo-vagrant-">chef-solo, vagrant に慣れるためにそれっぽいチュートリアルをやる</h1>
 
@@ -1895,9 +1939,9 @@ end</code></pre>
   
   <entry>
     <title type="html"><![CDATA[Winter_vacation_todo]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/27/winter-vacation-todo/"/>
+    <link href="http://vimtaku.github.io/blog/2013/12/27/winter-vacation-todo/"/>
     <updated>2013-12-27T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/27/winter-vacation-todo</id>
+    <id>http://vimtaku.github.io/blog/2013/12/27/winter-vacation-todo</id>
     <content type="html"><![CDATA[<h2 id="section">冬休みにやること</h2>
 
 <ul>
@@ -1918,68 +1962,6 @@ end</code></pre>
     </ul>
   </li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Opsworks and Dotenv]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/25/opsworks-and-dotenv/"/>
-    <updated>2013-12-25T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/25/opsworks-and-dotenv</id>
-    <content type="html"><![CDATA[
-<h2 id="section">もくじ</h2>
-<ul id="markdown-toc">
-  <li><a href="#section">もくじ</a></li>
-  <li><a href="#opsworks--cookbook-">opsworks の cookbook 処理順について</a></li>
-  <li><a href="#opsworks--dotenv-">opsworks と dotenv の依存関係</a></li>
-  <li><a href="#section-1">(2014/1/26追記) 解決方法</a></li>
-  <li><a href="#section-2">(2013/12/26追記) 解決方法2つ</a></li>
-  <li><a href="#section-3">参考情報とか</a>    <ul>
-      <li><a href="#section-4">シンボリックリンクを使う</a></li>
-      <li><a href="#appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</a></li>
-    </ul>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h2 id="opsworks--cookbook-">opsworks の cookbook 処理順について</h2>
-<p>opsworks では built-in cookbook -&gt; custom cookbook の順に処理されて、<br />
-custom cookbook でいい感じにディレクトリを配置しても上書きはできない。<br />
-(ただし、 built-in cookbook で使用される recipe の attribute に適切な値を設定することは可能。)<br />
-<a href="http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html">http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html</a></p>
-
-<h2 id="opsworks--dotenv-">opsworks と dotenv の依存関係</h2>
-<p>opsworks の built-in レシピの deploy::rails で使用する環境変数は、当然 .env に依存するのだけど、<br />
-.env の生成は custom cookbook でやっていて、上記にも書いたとおり上書きもできないから<br />
-rails は .env.test とか読んじゃって辛い。<br />
-これ回避する方法あるのかなぁ。。  </p>
-
-<h2 id="section-1">(2014/1/26追記) 解決方法</h2>
-<p>load balancer の死活チェックを health_check.html とかを見るようにしておいて、<br />
-built in recipe の deploy 時点で一回 unicorn 立っちゃうけど
-user recipe の deploy のところで dotenv を作って、<br />
-unicorn とか再起動したのち、 health_check とかを<br />
-おけば割と問題ないんじゃないかってことになってる。  </p>
-
-<h2 id="section-2">(2013/12/26追記) 解決方法2つ</h2>
-<p>考えた方法を2つ。  </p>
-
-<h2 id="section-3">参考情報とか</h2>
-<p>このへんとか参考になりそうなんだけど、いまいち確信 answer はない。<br />
-<a href="https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0">https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0</a></p>
-
-<h3 id="section-4">シンボリックリンクを使う</h3>
-<p>apps のリポジトリに予め、 .env -&gt; /etc/.env みたいなシンボリックリンクをコミットしておいて、<br />
-deploy::rails の前に dotenv を配置する recipe で配布する。  </p>
-
-<h3 id="appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</h3>
-<p><a href="http://docs.opscode.com/resource_deploy.html">http://docs.opscode.com/resource_deploy.html</a><br />
-こいつがデプロイ時(というかマージ実行時)に呼ばれるためのフックでいい感じに recipe を呼ぶ。<br />
-これを参考にした<a href="https://github.com/drnic/mydemoapp">https://github.com/drnic/mydemoapp</a>。<br />
-とりあえず消えたらあれなのでフォークしておいた.<br />
-<a href="https://github.com/vimtaku/mydemoapp">https://github.com/vimtaku/mydemoapp</a>  </p>
 
 ]]></content>
   </entry>

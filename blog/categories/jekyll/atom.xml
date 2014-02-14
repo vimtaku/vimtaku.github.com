@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Jekyll | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/jekyll/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/jekyll/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Jekyll Plugin が使えない]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/23/jekyll-plugin-/"/>
+    <link href="http://vimtaku.github.io/blog/2013/12/23/jekyll-plugin-/"/>
     <updated>2013-12-23T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/23/jekyll-plugin-</id>
+    <id>http://vimtaku.github.io/blog/2013/12/23/jekyll-plugin-</id>
     <content type="html"><![CDATA[<p>
 </p>
 
@@ -85,9 +85,9 @@ vim Rakefile&lt;/p&gt;
   
   <entry>
     <title type="html"><![CDATA[Jekyll Blockquote 修正]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/12/23/5_jekyll-blockquote-/"/>
+    <link href="http://vimtaku.github.io/blog/2013/12/23/5_jekyll-blockquote-/"/>
     <updated>2013-12-23T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/12/23/5_jekyll-blockquote-</id>
+    <id>http://vimtaku.github.io/blog/2013/12/23/5_jekyll-blockquote-</id>
     <content type="html"><![CDATA[<p>
 </p>
 

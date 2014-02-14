@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://vimtakublog.qolwu.com/sitemap.xml 
+Sitemap: http://vimtaku.github.io/sitemap.xml 

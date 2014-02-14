@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Env | vimtaku blog]]></title>
-  <link href="http://vimtakublog.qolwu.com/blog/categories/env/atom.xml" rel="self"/>
-  <link href="http://vimtakublog.qolwu.com/"/>
-  <updated>2014-02-14T14:29:53+09:00</updated>
-  <id>http://vimtakublog.qolwu.com/</id>
+  <link href="http://vimtaku.github.io/blog/categories/env/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-14T14:49:13+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Installing Limechat and Znc]]></title>
-    <link href="http://vimtakublog.qolwu.com/blog/2013/11/28/installing-limechat-and-znc/"/>
+    <link href="http://vimtaku.github.io/blog/2013/11/28/installing-limechat-and-znc/"/>
     <updated>2013-11-28T00:00:00+09:00</updated>
-    <id>http://vimtakublog.qolwu.com/blog/2013/11/28/installing-limechat-and-znc</id>
+    <id>http://vimtaku.github.io/blog/2013/11/28/installing-limechat-and-znc</id>
     <content type="html"><![CDATA[<p>
 </p>
 
