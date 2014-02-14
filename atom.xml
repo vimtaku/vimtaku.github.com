@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-14T14:49:13+09:00</updated>
+  <updated>2014-02-14T15:21:38+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Jekyll から Octopress に10 分で移行する]]></title>
+    <title type="html"><![CDATA[jekyll から octopress に10 分で移行する]]></title>
     <link href="http://vimtaku.github.io/blog/2014/02/14/octopress/"/>
     <updated>2014-02-14T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/14/octopress</id>
@@ -398,7 +398,7 @@ deltaImportQuery=”SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.de
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Docker_boot2docker_port_foward]]></title>
+    <title type="html"><![CDATA[docker_boot2docker_port_foward]]></title>
     <link href="http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward/"/>
     <updated>2014-02-10T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward</id>
@@ -542,7 +542,7 @@ ruby 力が2くらい上がった。気がする。  </p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[2月の Solr には雪も Full]]></title>
+    <title type="html"><![CDATA[2月の solr には雪も full]]></title>
     <link href="http://vimtaku.github.io/blog/2014/02/08/life-feb-8/"/>
     <updated>2014-02-08T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/08/life-feb-8</id>
@@ -756,7 +756,7 @@ Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/reposito
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Chef についてのメモ2]]></title>
+    <title type="html"><![CDATA[chef についてのメモ2]]></title>
     <link href="http://vimtaku.github.io/blog/2014/01/27/chef-memo-2/"/>
     <updated>2014-01-27T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/27/chef-memo-2</id>
@@ -896,7 +896,7 @@ chef の感覚はものすごくつかめたのでよかった。<br />
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Chef についてのメモ]]></title>
+    <title type="html"><![CDATA[chef についてのメモ]]></title>
     <link href="http://vimtaku.github.io/blog/2014/01/24/chef-memo/"/>
     <updated>2014-01-24T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/24/chef-memo</id>
@@ -941,7 +941,7 @@ chef の感覚はものすごくつかめたのでよかった。<br />
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Fog っていう Gem で Use_iam_profile があんまうまく行かない件]]></title>
+    <title type="html"><![CDATA[fog っていう gem で use_iam_profile があんまうまく行かない件]]></title>
     <link href="http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile/"/>
     <updated>2014-01-21T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile</id>
@@ -970,7 +970,7 @@ credential を撮ってきたものを使用していないので ここが怪�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Chef で Opsworks のインスタンス起動時に Cloudwatch の Alarm を作成するためにしたこと]]></title>
+    <title type="html"><![CDATA[chef で opsworks のインスタンス起動時に cloudwatch の alarm を作成するためにしたこと]]></title>
     <link href="http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm/"/>
     <updated>2014-01-20T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm</id>
@@ -1187,7 +1187,7 @@ DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Asset_sync]]></title>
+    <title type="html"><![CDATA[asset_sync]]></title>
     <link href="http://vimtaku.github.io/blog/2014/01/14/asset-sync/"/>
     <updated>2014-01-14T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/14/asset-sync</id>
@@ -1330,7 +1330,7 @@ rails tutorial を倒すってのはできなかったけど、現在もりも�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Elasticsearch_ebs]]></title>
+    <title type="html"><![CDATA[elasticsearch_ebs]]></title>
     <link href="http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs/"/>
     <updated>2014-01-08T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs</id>
@@ -1543,7 +1543,7 @@ opsworks-cli-agent show_log
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Chef_for_me]]></title>
+    <title type="html"><![CDATA[chef_for_me]]></title>
     <link href="http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me/"/>
     <updated>2013-12-27T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me</id>
@@ -1938,7 +1938,7 @@ end</code></pre>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Winter_vacation_todo]]></title>
+    <title type="html"><![CDATA[winter_vacation_todo]]></title>
     <link href="http://vimtaku.github.io/blog/2013/12/27/winter-vacation-todo/"/>
     <updated>2013-12-27T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/27/winter-vacation-todo</id>

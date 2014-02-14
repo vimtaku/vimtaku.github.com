@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Dev | vimtaku blog]]></title>
+  <title><![CDATA[Category: dev | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/dev/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-14T14:49:13+09:00</updated>
+  <updated>2014-02-14T15:21:38+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Vagrant に入門する]]></title>
+    <title type="html"><![CDATA[vagrant に入門する]]></title>
     <link href="http://vimtaku.github.io/blog/2013/11/28/learning-vagrant/"/>
     <updated>2013-11-28T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/11/28/learning-vagrant</id>
@@ -42,7 +42,7 @@ chef-solo 入門の naoya 氏が書いたやつ買ったのと、ウェブに落
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Template Test]]></title>
+    <title type="html"><![CDATA[template test]]></title>
     <link href="http://vimtaku.github.io/blog/2013/11/20/template-test/"/>
     <updated>2013-11-20T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/11/20/template-test</id>

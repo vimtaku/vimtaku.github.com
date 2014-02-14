@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Docker | vimtaku blog]]></title>
+  <title><![CDATA[Category: docker | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/docker/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-14T14:49:13+09:00</updated>
+  <updated>2014-02-14T15:21:38+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Docker_boot2docker_port_foward]]></title>
+    <title type="html"><![CDATA[docker_boot2docker_port_foward]]></title>
     <link href="http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward/"/>
     <updated>2014-02-10T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward</id>
