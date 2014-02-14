@@ -1,0 +1,63 @@
+---
+layout: post
+title: "chef についてのメモ2"
+description: "chef についてのメモ2"
+category: "chef"
+tags: [chef, ruby]
+keywords: chef ruby
+---
+
+{% include JB/setup %}
+
+## chef の libraries を使う場合の今のところの俺の結論
+
+以下に述べる、 1 の方法を使う。  
+  
+とはいえ一長一短な気がするからどっちがいいって言えない。  
+ちなみに libraries から node はみたいよね、っていう前提。  
+あと、自分の環境(chef-solo, v11.8.2)にもよるかも。まぁ参考程度に。  
+もっといい方法あったら教えて下さい。  
+(っていうか意外に chef (libraries)のドキュメントって少ない気がする..)  
+
+## libraries を使う方法
+1. class MyClass みたいなクラスを定義して、 new するときに node 渡すようにして、あとは好きに使うパターン
+2. module MyModule みたいなモジュールを定義して、extend してから、わかりやすいメソッドを呼び出して使うパターン
+
+## 1. のメリット、デメリット
+
+### メリット
+ - 呼びたいメソッドを MyClass.method とかけるから、コードが読みやすいのではないだろうかということ。
+
+### デメリット
+ - 他のレシピからでも MyClass が使える
+
+## 2. のメリット、デメリット
+
+### メリット
+ - 名前空間を汚染しない
+
+### デメリット
+ - いちいち呼びたい recipe で extend とか書かなきゃいけない
+ - 呼び出すときに method_name だけしかないからちょっと読みにくいかも、と思った。 ruby ってそういうもん？
+
+## 以下駄文メモ
+
+- class をつかう場合、 名前空間を切って使用すると node が見えないので不便
+  - class Chef::Recipe にメソッドをはやして node を使えば見れる
+  - class Chef::Recipe::Hoge からは node はみえない
+    - そんならChef::Recipe::Hoge みたいなインスタンスを new するときに node 渡して使えばいいんじゃね?
+    - まぁできんことはない
+  - class Chef::Recipe にメソッド生やすのとかは Recipe が汚れるからやらない方がいい
+  - 単純に class MyClass みたいなやつを new してそれを使うのが吉かも
+  - でも libraries に定義しているから他のレシピから使われる可能性があって、閉じたい人的にはアレ
+
+- module をつかう場合
+  - extend Module名 を使えば、 node は見えるし、使う場所が限られる
+    - いちいち extend するのはめんどい
+    - 呼び出すとき method 名 だけになるからそれが許容できるならそれでもいいかも
+
+## 関連記事
+[http://vimtaku.github.io/chef/2014/01/24/chef-memo/](http://vimtaku.github.io/chef/2014/01/24/chef-memo/)
+
+
+

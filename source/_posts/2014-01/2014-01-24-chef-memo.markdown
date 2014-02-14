@@ -1,0 +1,33 @@
+---
+layout: post
+title: "chef についてのメモ"
+description: "chef についてのメモ"
+category: "chef"
+tags: [chef, ruby]
+keywords: chef ruby
+---
+
+{% include JB/setup %}
+
+## 概要
+chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
+いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  
+  
+
+## attribute の読み込み順について
+  - attributes/default.rb が一番最初に読み込まれる
+  - attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる
+  - node の値は各ファイルで上書きをすることができる  
+
+## libraries について
+  - libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
+    - Hoge.fuga_method として recipe から使用可能。
+  - 他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。
+  - libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
+    - 自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。
+    - 他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。
+
+## chef 実行時のレシピについて
+ - 各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
+   - chef 実行時に self をみればわかる
+
