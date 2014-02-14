@@ -38,6 +38,13 @@ mkdir $HOME/octopress/source/includes/JB
 cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB
 {% endhighlight %}
 
+## ちなみに
+テーマはコチラを使わせてもらった。  
+[http://zespia.tw/Octopress-Theme-Slash/](http://zespia.tw/Octopress-Theme-Slash/)  
+how to install 通りにやれば適用できる。  
+
+Octopress テーマ集みたいなのはコチラ。  
+[http://opthemes.com/](http://opthemes.com/)  
 
 ## 参考資料
 
