@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-16T19:32:56+09:00</updated>
+  <updated>2014-02-16T20:23:20+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[2/16]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/02/16/life-feb-16/"/>
+    <updated>2014-02-16T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/02/16/life-feb-16</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>先週も solr 力をかなり高める感じだった。<br />
+docker がリアルに流行り始めているので、本格的に勉強したいところ。<br />
+でも家のネットワークが遅くてちょっと厳しいんだよなぁ。<br />
+なんかお腹の調子がずっと悪くてしんどかった。<br />
+あと、雪の日に自宅待機したら迷惑かけてしまったので、今後は極力休まない。  </p>
+
+<p>あんまり本が読めなかったので、気合入れて読む。<br />
+あと、どうでもいいけど、 MBA の容量が 128GB で 94% とか言ってて積んでる感ある。  </p>
+
+<h2 id="section-1">土日振り返り</h2>
+<p>あんまり多く時間を取れなかったが、日経 linux 読んだのと、workbench の件をそこそこやった。  </p>
+
+<h2 id="section-2">勉強途中経過</h2>
+
+<h3 id="section-3">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 までやった</li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">進んだ</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+  <li>パーフェクトルビー15章まで読んだ
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2014/2/9]]></title>
@@ -227,35 +286,6 @@ rails tutorial を倒すってのはできなかったけど、現在もりも�
 <ul>
   <li>ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
   <li>読む筋トレ</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[winter_vacation_todo]]></title>
-    <link href="http://vimtaku.github.io/blog/2013/12/27/winter-vacation-todo/"/>
-    <updated>2013-12-27T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2013/12/27/winter-vacation-todo</id>
-    <content type="html"><![CDATA[<h2 id="section">冬休みにやること</h2>
-
-<ul>
-  <li>MUST
-    <ul>
-      <li>chef-solo, vagrant の自分用まとめ blog を書く</li>
-      <li>rails tutorial 倒す</li>
-    </ul>
-  </li>
-  <li>WANNAAAABEEEEEEEEEEE
-    <ul>
-      <li>多分今年も VAC ずっとやるんだろうから plugin 作る</li>
-      <li>例の textobj</li>
-      <li>例の operator</li>
-      <li>ぼくのかんがえたさいきょうの メモ環境 を作る</li>
-      <li>Unity ゲーム途中のやつ一区切りさす</li>
-      <li>読書</li>
-    </ul>
-  </li>
 </ul>
 
 ]]></content>

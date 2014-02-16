@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-16T20:23:20+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Workbench で Rails の migration ファイルを吐き出す]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/02/16/mysql-workbench-rails/"/>
+    <updated>2014-02-16T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/02/16/mysql-workbench-rails</id>
+    <content type="html"><![CDATA[<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">概要</a></li>
+  <li><a href="#mysql-workbench--ss">Mysql workbench の SS</a></li>
+  <li><a href="#section-1">手順</a>    <ul>
+      <li><a href="#mysql-workbench-rails-exporter-plugin-">1. mysql workbench rails exporter plugin をダウンロード</a></li>
+      <li><a href="#mysql-workbench-">2. mysql workbench のインストール</a></li>
+      <li><a href="#section-2">3. プラグインのインストールと実行</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-3">所感</a></li>
+</ul>
+
+<h2 id="section">概要</h2>
+<p>mysql workbench っていう MySQL のER図を作るみたいなツールがある。<br />
+CUI硬派のため、いままでは使ったことなかったけど、<br />
+今回はじめて使ってみると結構いい感じだった。<br />
+それを rails のマイグレーションファイルに吐き出したいなぁと思っていたら、<br />
+それっぽいプラグインを見つけたので、その方法を書いておく。  </p>
+
+<h2 id="mysql-workbench--ss">Mysql workbench の SS</h2>
+<p><img src="http://gyazo.com/f15f8824bbfdd3bb3dccd514b697f5e5.png" /></p>
+
+<h2 id="section-1">手順</h2>
+
+<h3 id="mysql-workbench-rails-exporter-plugin-">1. mysql workbench rails exporter plugin をダウンロード</h3>
+<p><a href="http://sourceforge.net/projects/railsexporter/">http://sourceforge.net/projects/railsexporter/</a>
+ここから、 rails exporter を落としてくる。  </p>
+
+<h3 id="mysql-workbench-">2. mysql workbench のインストール</h3>
+<p>新しい workbench ツールに、上記プラグインが対応していなかったので、 ちょっと古いやつで試したら動作した。<br />
+<a href="http://dev.mysql.com/downloads/tools/workbench/">http://dev.mysql.com/downloads/tools/workbench/</a> から、
+Looking for previous GA versions? をたどると、 mysql-workbench-gpl-5.2.47-osx-i686.dmg  が落とせる。<br />
+これをインストールする。  </p>
+
+<h3 id="section-2">3. プラグインのインストールと実行</h3>
+<p>mysql workbench のタブから、 “SCRIPTING &gt; INSTALL PLUGIN/MODULE …” で、展開した 1 の zip の .lua ファイルを選択する。<br />
+mysql workbench を再起動して、 “PLUGINS &gt; CATALOG &gt; Rails Exporter 1.0.1” を選択すれば、あら不思議、<br />
+$HOME に Rails_Explorer ディレクトリが。<br />
+db と model が出来上がるので、あとはそれをよしなに利用すれば良い。  </p>
+
+<h2 id="section-3">所感</h2>
+<p>実際、このあとに、 mysql に接続して、ER図を吐き出すやつやってみたけど、<br />
+まぁ当然、テーブル的にリレーションしてないわけだから、ER図もリレーションしてなくて、見づらい。<br />
+raisl には ERD 生成ツールみたいなのがあるらしいので、<br />
+最初の一回くらいしか使えないかもしれないけど、ないよりはいいかなぁ。<br />
+ちなみに出来上がるファイルは若干修正が必要だと思う。<br />
+ちゃんと mwb のほうで書いていれば大丈夫かもだけど。。<br />
+mwb の方で、カラムに複数行のコメントを入れておくと、出力された時にダメなので、<br />
+コメントを1行にするか、複数行の場合は先頭に#を入れると良いかもしれない。<br />
+あと、 unsigned int を作りたいけど、うまいことやってくれなくて、<br />
+gem “activerecord-mysql-unsigned”, “~&gt; 0.0.1”
+これを入れて、手動で integer のカラムに :unsgined =&gt; true した。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>
