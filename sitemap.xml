@@ -121,8 +121,12 @@
         <lastmod>2014-02-14T16:59:15+09:00</lastmod>
     </url>
     <url>
+        <loc>http://vimtaku.github.io/blog/2014/02/16/nikkei-linux-feb/</loc>
+        <lastmod>2014-02-16T19:32:54+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://vimtaku.github.io/blog/archives/</loc>
-        <lastmod>2014-02-14T16:59:15+09:00</lastmod>
+        <lastmod>2014-02-16T19:32:54+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/robots.txt</loc>
@@ -130,6 +134,6 @@
     </url>
     <url>
         <loc>http://vimtaku.github.io/</loc>
-        <lastmod>2014-02-14T16:59:15+09:00</lastmod>
+        <lastmod>2014-02-16T19:32:54+09:00</lastmod>
     </url>
 </urlset>

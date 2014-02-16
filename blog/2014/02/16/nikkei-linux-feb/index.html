@@ -1,0 +1,282 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>日経Linux 2月号を読んだ - vimtaku blog</title>
+	<meta name="author" content="vimtaku">
+
+	
+	<meta name="description" content="日経Linux 2月号を読んだ">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="vimtaku blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="http://vimtakublog.qolwu.com/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">vimtaku blog</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vimtaku.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/vimtaku" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/vimtaku" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vimtaku.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">日経Linux 2月号を読んだ</h2>
+	<div class="entry-content"><h2 id="section">概要</h2>
+<p><a href="http://www.amazon.co.jp/%E6%97%A5%E7%B5%8C-Linux-%E3%83%AA%E3%83%8A%E3%83%83%E3%82%AF%E3%82%B9-2014%E5%B9%B4-02%E6%9C%88%E5%8F%B7/dp/B00H8X84E6">日経Linux 2月号(2014)</a>
+に、カーネルの特集記事があったので買って読んでみた。<br />
+今まで知らなかった部分とか、便利そうなことについて、以下に記載する。  </p>
+
+<h2 id="section-1">メモリ管理</h2>
+<p>buddy システム, スラブアロケータについて書かれていた。<br />
+この本よりもっと詳しく書かれたページを発見したのでコチラを参照。<br />
+<a href="http://www.coins.tsukuba.ac.jp/~yas/coins/os2-2011/2012-01-17/">http://www.coins.tsukuba.ac.jp/~yas/coins/os2-2011/2012-01-17/</a></p>
+
+<h2 id="systemtap">systemtap</h2>
+<p>system tap とは <a href="https://access.redhat.com/site/ja/node/289453">https://access.redhat.com/site/ja/node/289453</a> にある通り  </p>
+
+<blockquote><p>実行している Linux カーネルで簡易情報を取得できるようにする革新的なツールです。</p></blockquote>
+<p>である。  </p>
+
+<h3 id="install-centos">install 方法(@CentOS)</h3>
+<p>vagrant で建てた CentOS を使ってやってみる。<br />
+Vagrantfile 的に<br />
+config.vm.box = “Berkshelf-CentOS-6.3-x86_64-minimal”<br />
+この box を使っている人は以下の通りでインストールできると思います。  </p>
+
+<div>
+  <pre><code class="bash">sudo yum -y install systemtap
+cd /tmp
+wget http://debuginfo.centos.org/6/x86_64/kernel-debuginfo-common-x86_64-2.6.32-279.el6.x86_64.rpm
+wget http://debuginfo.centos.org/6/x86_64/kernel-debug-debuginfo-2.6.32-279.el6.x86_64.rpm
+sudo yum install kernel-debuginfo-common-x86_64-2.6.32-279.el6.x86_64.rpm
+sudo yum install kernel-debug-debuginfo-2.6.32-279.el6.x86_64.rpm
+
+# これで stap がつかえる
+stap
+
+## 追記
+(これだと probe.kernel が使えないっぽい.. 要調査。)</code></pre>
+</div>
+
+<p>あとは
+<a href="http://sourceware.org/systemtap/examples/">http://sourceware.org/systemtap/examples/</a><br />
+ここから<br />
+vm.tracepoints.stp や, sched_switch.stp を落として来て実行できる。  </p>
+
+<p>(参考)<br />
+<a href="http://stts.hatenablog.com/entry/20090614/1244952417">http://stts.hatenablog.com/entry/20090614/1244952417</a>  </p>
+
+<h2 id="section-2">プロセスのメモリ割付について</h2>
+<p>/proc/[processId]/maps (これをメモリーマップと呼ぶ。)を参照すれば、どのようにメモリが割り付けられているかがわかる。  </p>
+
+<div>
+  <pre><code class="bash">vi hoge.c
+-----
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  char hoge[4096] = &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;;
+
+printf(&quot;sleep start\n&quot;);
+  sleep(500000);
+printf(&quot;sleep stop\n&quot;);
+  return 0;
+}
+
+ps aux | grep a.out
+vagrant  19157  0.0  0.0   3928   408 pts/1    S+   04:41   0:00 ./a.out
+vagrant  19164  0.0  0.0 107456   948 pts/0    S+   04:42   0:00 grep a.out
+
+
+cd /proc/
+cat /proc/19157/maps
+
+00400000-00402000 r-xp 00000000 fd:00 3590                               /tmp/a.out
+00601000-00602000 rw-p 00001000 fd:00 3590                               /tmp/a.out
+7fdf912e5000-7fdf91470000 r-xp 00000000 fd:00 3071                       /lib64/libc-2.12.so
+7fdf91470000-7fdf9166f000 ---p 0018b000 fd:00 3071                       /lib64/libc-2.12.so
+7fdf9166f000-7fdf91673000 r--p 0018a000 fd:00 3071                       /lib64/libc-2.12.so
+7fdf91673000-7fdf91674000 rw-p 0018e000 fd:00 3071                       /lib64/libc-2.12.so
+7fdf91674000-7fdf91679000 rw-p 00000000 00:00 0
+7fdf91679000-7fdf91699000 r-xp 00000000 fd:00 3437                       /lib64/ld-2.12.so
+7fdf9188e000-7fdf91891000 rw-p 00000000 00:00 0
+7fdf91896000-7fdf91898000 rw-p 00000000 00:00 0
+7fdf91898000-7fdf91899000 r--p 0001f000 fd:00 3437                       /lib64/ld-2.12.so
+7fdf91899000-7fdf9189a000 rw-p 00020000 fd:00 3437                       /lib64/ld-2.12.so
+7fdf9189a000-7fdf9189b000 rw-p 00000000 00:00 0
+7fff2a0dc000-7fff2a0f1000 rw-p 00000000 00:00 0                          [stack]
+7fff2a1b4000-7fff2a1b5000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]</code></pre>
+</div>
+
+<p>下から見ると、 systemcall が呼ばれる領域(カーネル仮想空間)があるのと、 stack が積まれる領域があるのと、<br />
+shared object がリンクされている領域と、 テキスト(プログラム)が格納されている領域があるのが見て取れる。  </p>
+
+<p>左端から、仮想アドレス、アクセス属性、データオフセット、 デバイスのメジャー番号とマイナー番号、 inode, ファイル名とのこと。  </p>
+
+<h2 id="section-3">カーネル時計</h2>
+<p>Linux カーネルは 起動時には、PC の内蔵時計を使用するが、それ移行は独自のカーネル時計を使用する。<br />
+ミリ秒からナノ秒の処理が必要であるため。  </p>
+
+<h2 id="io">I/Oスケジューラー</h2>
+<p>入出力するブロックデータを並び替えて入出力を高速化できるもの。  </p>
+
+<p><a href="http://city.hokkai.or.jp/~hachikun/IOScheduler.html">http://city.hokkai.or.jp/~hachikun/IOScheduler.html</a><br />
+<a href="[http://city.hokkai.or.jp/~hachikun/IOScheduler.html]">http://www.valinux.co.jp/technologylibrary/document/linuxkarnel/cfq0001/</a></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/kernel/'>kernel</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		
+
+		
+        <!-- +1 ボタン を表示したい位置に次のタグを貼り付けてください。 -->
+        <div class="g-plusone" data-annotation="inline" data-width="80"></div>
+
+        <!-- 最後の +1 ボタン タグの後に次のタグを貼り付けてください。 -->
+        <script type="text/javascript">
+            window.___gcfg = {lang: 'ja'};
+
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/platform.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+        </script>
+		
+		
+
+        
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2014/02/16/nikkei-linux-feb/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        
+        
+        
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        
+
+
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    vimtaku
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-30103097-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
