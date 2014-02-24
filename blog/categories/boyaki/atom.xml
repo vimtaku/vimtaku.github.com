@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ぼやき | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/boyaki/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-02-24T19:46:03+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[factory_girl_active_support_concern]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/02/24/factory-girl-active-support-concern/"/>
+    <updated>2014-02-24T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/02/24/factory-girl-active-support-concern</id>
+    <content type="html"><![CDATA[<h2 id="section">ぼやき</h2>
+<p>rspec でテストを書いていて、ある(concern)モジュールを include した active record なクラスで、<br />
+どうしても、ActiveSupport::Concern を include したところに インスタンスメソッドを定義しても<br />
+NoMethodError(undefined method) になってしまう..  </p>
+
+]]></content>
+  </entry>
+  
+</feed>
