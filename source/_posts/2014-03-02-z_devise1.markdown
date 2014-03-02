@@ -1,0 +1,123 @@
+---
+layout: post
+title: "devise に入門してみる"
+description: "devise に入門してみる"
+category: "devise"
+tags: ["ruby", "devise"]
+---
+
+## 背景
+<a href="/blog/2014/03/02/warden/">devise を知るには warden を知るべしと思ったので warden を勉強した。</a>  
+大体 warden はわかったので warden の仕組みをかぶせた認証エンジンである  
+[devise](https://github.com/plataformatec/devise) を触ってみる。  
+
+
+## では早速、以下メモ。
+
+{% highlight bash %}
+/Users/mac/try_devise/try_devise% be rails g devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root :to => "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================
+{% endhighlight %}
+
+bundle exec rails g devise User  
+予めcreate database しておく  
+bundle exec rake db:migrate  
+
+すると出来上がる。
+{% highlight sql %}
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `encrypted_password` varchar(255) NOT NULL DEFAULT '',
+  `reset_password_token` varchar(255) DEFAULT NULL,
+  `reset_password_sent_at` datetime DEFAULT NULL,
+  `remember_created_at` datetime DEFAULT NULL,
+  `sign_in_count` int(11) NOT NULL DEFAULT '0',
+  `current_sign_in_at` datetime DEFAULT NULL,
+  `last_sign_in_at` datetime DEFAULT NULL,
+  `current_sign_in_ip` varchar(255) DEFAULT NULL,
+  `last_sign_in_ip` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_users_on_email` (`email`),
+  UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
+{% endhighlight %}
+
+config/routes.rb に行が追加されている。  
+{% blockquote %}
+devise_for :users
+{% endblockquote %}
+
+
+localhost:3000 にアクセスすると  
+<img src="http://gyazo.com/ff5a659072c28ff0934f6ec51ca74dc3.png">  
+/users/にものすごくたくさんいろいろできている。  
+
+
+login した後の、 users/edit とか  
+<img src="http://gyazo.com/27ca0f5038500c7796c51c81973755a9.png">  
+  
+
+## 独自の view を使うには
+
+独自の view を使うには、  
+scope (admin モデルと user モデルがいる場合に使用)のロジックを使う方法と、  
+view を単純に上書きする方法がある。  
+当然、用途に応じて admin と user のモデルを使うんなら scope を使えば良い。  
+単純にひとつだけなら、 view を上書きする方法が良い。  
+  
+view を上書きする方法では、  
+be rails generate devise:views して、  
+devise/sessions/new.html.erb  
+を編集などすれば良い。  
+  
+scope を使う方法では、  
+config/initializers/devise.rb に  
+config.scoped_views = true  
+を追加して、  
+be rails generate devise:views users  
+すれば、  
+users/sessions/new.html.erb  
+などが使われるようになる。  
+
+## 所感
+全然入門できてない。続きはまた書く。
+
