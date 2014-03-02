@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-24T19:46:03+09:00</updated>
+  <updated>2014-03-02T13:07:09+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,383 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[devise に入門してみる]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/02/z_devise1/"/>
+    <updated>2014-03-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/02/z_devise1</id>
+    <content type="html"><![CDATA[<h2 id="section">背景</h2>
+<p><a href="http://vimtaku.github.io/blog/2014/03/02/warden/">devise を知るには warden を知るべしと思ったので warden を勉強した。</a><br />
+大体 warden はわかったので warden の仕組みをかぶせた認証エンジンである<br />
+<a href="https://github.com/plataformatec/devise">devise</a> を触ってみる。  </p>
+
+<h2 id="section-1">では早速、以下メモ。</h2>
+
+<div>
+  <pre><code class="bash">/Users/mac/try_devise/try_devise% be rails g devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { :host =&gt; 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root :to =&gt; &quot;home#index&quot;
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       &lt;p class=&quot;notice&quot;&gt;&lt;%= notice %&gt;&lt;/p&gt;
+       &lt;p class=&quot;alert&quot;&gt;&lt;%= alert %&gt;&lt;/p&gt;
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================</code></pre>
+</div>
+
+<p>bundle exec rails g devise User<br />
+予めcreate database しておく<br />
+bundle exec rake db:migrate  </p>
+
+<p>すると出来上がる。</p>
+<div>
+  <pre><code class="sql">CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `encrypted_password` varchar(255) NOT NULL DEFAULT '',
+  `reset_password_token` varchar(255) DEFAULT NULL,
+  `reset_password_sent_at` datetime DEFAULT NULL,
+  `remember_created_at` datetime DEFAULT NULL,
+  `sign_in_count` int(11) NOT NULL DEFAULT '0',
+  `current_sign_in_at` datetime DEFAULT NULL,
+  `last_sign_in_at` datetime DEFAULT NULL,
+  `current_sign_in_ip` varchar(255) DEFAULT NULL,
+  `last_sign_in_ip` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_users_on_email` (`email`),
+  UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</code></pre>
+</div>
+
+<p>config/routes.rb に行が追加されている。  </p>
+<blockquote><p>devise_for :users</p></blockquote>
+
+<p>localhost:3000 にアクセスすると<br />
+<img src="http://gyazo.com/ff5a659072c28ff0934f6ec51ca74dc3.png" /><br />
+/users/にものすごくたくさんいろいろできている。  </p>
+
+<p>login した後の、 users/edit とか<br />
+<img src="http://gyazo.com/27ca0f5038500c7796c51c81973755a9.png" />  </p>
+
+<h2 id="view-">独自の view を使うには</h2>
+
+<p>独自の view を使うには、<br />
+scope (admin モデルと user モデルがいる場合に使用)のロジックを使う方法と、<br />
+view を単純に上書きする方法がある。<br />
+当然、用途に応じて admin と user のモデルを使うんなら scope を使えば良い。<br />
+単純にひとつだけなら、 view を上書きする方法が良い。  </p>
+
+<p>view を上書きする方法では、<br />
+be rails generate devise:views して、<br />
+devise/sessions/new.html.erb<br />
+を編集などすれば良い。  </p>
+
+<p>scope を使う方法では、<br />
+config/initializers/devise.rb に<br />
+config.scoped_views = true<br />
+を追加して、<br />
+be rails generate devise:views users<br />
+すれば、<br />
+users/sessions/new.html.erb<br />
+などが使われるようになる。  </p>
+
+<h2 id="section-2">所感</h2>
+<p>全然入門できてない。続きはまた書く。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[devise を知るにはまず warden を知るが良い]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/02/warden/"/>
+    <updated>2014-03-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/02/warden</id>
+    <content type="html"><![CDATA[<h2 id="section">背景</h2>
+<p>devise という gem があるが、warden をベースにした認証の仕組みだということだった。<br />
+devise を知るには、まず warden を知らなければなるまい。<br />
+そう思った俺は warnden を rack ベースでいじってみることにした。  </p>
+
+<h2 id="warden-">warden とは</h2>
+
+<p>これのこと。<br />
+<a href="https://github.com/hassox/warden">https://github.com/hassox/warden</a><br />
+wiki が充実していたのでかなりわかりやすかった。<br />
+<a href="https://github.com/hassox/warden/wiki">https://github.com/hassox/warden/wiki</a>  </p>
+
+<h2 id="section-1">とりあえずやってみる、以下メモ書き。</h2>
+
+<p>config.rb</p>
+<div>
+  <pre><code class="ruby">require 'rack'
+require 'pp'
+require 'warden'
+
+class Application
+
+  def call(env)
+    request = Rack::Request.new(env)
+    response = if request.path_info = '/'
+                 body = &quot;#{request.request_method}: Hello! #{request.params['name']}!&quot;
+                 Rack::Response.new(body, &quot;200&quot;, {'Content-Type' =&gt; 'text/plain'})
+               else
+                 Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&gt; 'text/plain'})
+               end
+    response.finish
+  end
+
+end
+
+
+app = Rack::Builder.new do
+  use Rack::Session::Cookie, :secret =&gt; &quot;replace this with some secret key&quot;
+
+  use Warden::Manager do |manager|
+    manager.default_strategies :password, :basic
+    #manager.failure_app = BadAuthenticationEndsUpHere
+  end
+
+  run lambda { |env| Application.new().call(env) }
+end
+
+run app</code></pre>
+</div>
+
+<p>基本的に, default_strategies で定義した順に行われて、一つでも成功したら成功になる模様。  </p>
+
+<p>cookie セットされている<br />
+<img src="http://gyazo.com/be238cfa0282a588b1fad41ae91dd804.png" />
+<img src="http://gyazo.com/95a09e0d872829e8e0fef2204728cdaa.png" /></p>
+
+<p>試しに nil を返した時。<br />
+<img src="http://gyazo.com/de50e8c049809e31a41231c7b6fb1cd4.png" /></p>
+
+<p>明らかに error ハンドラがないぞッて感じのエラーが出ているので、<br />
+雰囲気でBadAuthenticationEndsUpHere クラスを足してみる。  </p>
+
+<div>
+  <pre><code class="ruby">class BadAuthenticationEndsUpHere
+  def self.call(env)
+    p env
+    p &quot;BadAuthenticationEndsUpHere&quot;
+    Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&gt; 'text/plain'})
+  end
+end</code></pre>
+</div>
+
+<p>思い通りだ。 error ハンドラとして BadAuthenticationEndsUpHere クラスが呼ばれた。<br />
+<img src="http://gyazo.com/f44ae6997b92aab707291851645c565a.png" /></p>
+
+<p>それでは、正しく期待している serialize_from_session が動くように User.get を定義する。  </p>
+
+<div>
+  <pre><code class="ruby">def get(id)
+    ## 永続化されたものから引いてうまく引けたと過程して返す
+    return User.new(id)
+  end</code></pre>
+</div>
+
+<p>1回目、とりあえずログインされるはず。<br />
+<img src="http://gyazo.com/9a31a0967443614441eeb729e34d6ba7.png" /></p>
+
+<p>サーバのデバッグログ  </p>
+<blockquote><p>&#8220;Authenticate!!!!!!!!!!!!&#8221;<br />&#8220;serialize into session!!!!!!!!!!!!&#8221;</p></blockquote>
+<p>ログから、セッションに値が仕込まれた模様。</p>
+
+<p>2回目、セッションから値を引いてみる。<br />
+<img src="http://gyazo.com/e5db07a78d1f75119ffa76740d10032b.png" />
+あれ、ミス。。あ、 serialize_from_session が読んでるのは User.get(id) だから class method だった。。<br />
+修正して再チャレンジ。  </p>
+
+<p>ちゃんときたっぽい！<br />
+<img src="http://gyazo.com/c1225bebd28bd178e9c9aaa5967d8c89.png" /></p>
+
+<p>デバッグログ</p>
+<blockquote><p>&#8220;Authenticate!!!!!!!!!!!!&#8221;<br />&#8220;serialize from session!!!!!!!!!!!!&#8221;<br />127.0.0.1 - - [01/Mar/2014 18:54:54] &#8220;GET /?password=hoge HTTP/1.1&#8221; 200 13 0.0022</p></blockquote>
+
+<p>get されている模様！  </p>
+
+<p>これで user にアクセスできる。  </p>
+<div>
+  <pre><code class="ruby">p &quot;warden user is &quot;
+p env['warden'].user</code></pre>
+</div>
+
+<p>ドキュメントを読むと、<br />
+Warden::Strategies で定義した #valid? に関しては、定義されてようがなかろうが呼ばれるらしい。  </p>
+
+<p>試しにこの時点で #valid? で nil を返すと次の strategy にチャレンジがうつった。<br />
+すべての strategy で失敗したら、 failure_app が呼ばれる。  </p>
+
+<p>特筆すべきは、ここで呼ばれるのが /unauthenticated だということだ。<br />
+この url http://localhost:9292/?password=hoge を叩くと<br />
+127.0.0.1 - - [01/Mar/2014 19:01:45] “GET /unauthenticated?password=hoge HTTP/1.1” 404 9 0.0012<br />
+がデバッグログに表示されている。  </p>
+
+<div>
+  <pre><code class="ruby">class BadAuthenticationEndsUpHere
+  def self.call(env)
+    p &quot;in BadAuthenticationEndsUpHere!!!!!!!!!!!!&quot;
+    request = Rack::Request.new(env)
+
+    p &quot;request.path_info is &quot;
+    p request.path_info
+
+    Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&gt; 'text/plain'})
+  end
+end</code></pre>
+</div>
+
+<p>をデバッグとして試しに書いてみた。<br />
+やはり、内部的に path_info を unauthenticated に書き換えているようだ。<br />
+これは lib/warden/manager.rb のあたりを見ればわかる。<br />
+def process_unauthenticated(env, options={})<br />
+や<br />
+def call_failure_app(env, options = {})<br />
+で実際にそのように書かれている。<br />
+と思ったら<br />
+<a href="https://github.com/hassox/warden/wiki/Failures">https://github.com/hassox/warden/wiki/Failures</a><br />
+ここにめっちゃそのように書いてあった。  </p>
+
+<p>halt! や success など便利なメソッドが strategy で使える模様。<br />
+<a href="https://github.com/hassox/warden/wiki/Strategies">https://github.com/hassox/warden/wiki/Strategies</a>
+詳細はコチラを参照。  </p>
+
+<p>このような認証の仕組みが rack で使えて、 認証自体が strategy パターンになっているので<br />
+いい感じに他の人が作った strategy を使えるようになっている。  </p>
+
+<p><a href="https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes">https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes</a><br />
+これを見ると、warden は、認証の scope を分けられるようになっている。<br />
+それぞれの認証で、違うロジックを定義して、認証できるようだ。<br />
+特に指定がない場合は、 env[‘warden’] は user として認証する。<br />
+しかし、これは上書きができるようだ。<br />
+default の設定上書きとは別に、明示的にスコープを指定することもできる。  </p>
+<div>
+  <pre><code class="ruby">env['warden'].authenticate! :scope =&gt; :api</code></pre>
+</div>
+
+<h3 id="callback">callback</h3>
+
+<div>
+  <pre><code class="ruby">&quot;serialize into session!!!!!!!!!!!!&quot;
+&quot;after_set_user caled!&quot;
+&quot;auth is&quot;
+Warden::Proxy:70106638122900 @config={:default_scope=&gt;:default, :scope_defaults=&gt;{}, :default_strategies=&gt;{:_all=&gt;[:password, :basic]}, :intercept_401=&gt;true, :failure_app=&gt;BadAuthenticationEndsUpHere}
+&quot;logout called!!!!!!!!!!!&quot;
+&quot;in BadAuthenticationEndsUpHere!!!!!!!!!!!!&quot;
+&quot;request.path_info is &quot;
+&quot;/unauthenticated&quot;
+127.0.0.1 - - [01/Mar/2014 19:55:10] &quot;GET /unauthenticated?password=hoge HTTP/1.1&quot; 404 9 0.0025</code></pre>
+</div>
+
+<p>これも結構参考になる。<br />
+<a href="https://gist.github.com/lukesutton/107966">https://gist.github.com/lukesutton/107966</a></p>
+
+<h2 id="section-2">所感</h2>
+<p>warden 大体わかった。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[3月が来た]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/02/life-march-2/"/>
+    <updated>2014-03-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/02/life-march-2</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>一週間開いてしまった。<br />
+やっぱ life 的なブログは毎週書かないとダメな気がしてきた。  </p>
+
+<p>先週はお腹の調子がひたすら悪くてしんどかった。<br />
+rails っていう覚えゲーをひたすらこなしているんだけど<br />
+とにかく雪崩のように覚えることがあって大変だ。  </p>
+
+<p>でも二回目以降(知識が増えたら)もっと楽になるだろうから今だけだと思って頑張ろう。  </p>
+
+<p>ついに花粉が本気出し始めた。<br />
+早めに病院に行ってこようと思う。<br />
+ちなみにロラタジンってくすりが俺にとってはすごく効いた(去年)。  </p>
+
+<h2 id="section-1">困っていること</h2>
+<p>筋トレのモチベーションがどうも上がらない。<br />
+太る一方だし。。<br />
+あと ruby に駆り立てられてすごい頭を使ってるからずいぶん疲れている。<br />
+ruby の勉強というか調査とかのせいであんまり本を最近読めてない。<br />
+これは改善すべきだ。  </p>
+
+<h2 id="section-2">勉強途中経過</h2>
+
+<h3 id="section-3">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 まで</li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>DDD ショートバージョン</li>
+  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[factory_girl_active_support_concern]]></title>
@@ -1435,149 +1812,6 @@ DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万�
 <p>自炊しっぱなしで読まないみたいなのがありそうだけど、必ず読むよ。<br />
 学習し続けることは、尊い。<br />
 たゆまぬ努力を続けよう。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[asset_sync]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/14/asset-sync/"/>
-    <updated>2014-01-14T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/14/asset-sync</id>
-    <content type="html"><![CDATA[
-<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
-
-<h2 id="url">参考URL</h2>
-<p>こちらを参考にした。
-<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
-
-<h4 id="gemfile">Gemfile</h4>
-<div>
-  <pre><code class="ruby">gem 'uglifier', '&gt;= 1.3.0'
-gem 'asset_sync'</code></pre>
-</div>
-
-<p>を追記。</p>
-
-<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
-
-<div>
-  <pre><code class="ruby">template &quot;#{release_path}/config/asset_sync.yml&quot; do
-  mode &quot;0644&quot;
-  source &quot;asset_sync.yml.erb&quot;
-end
-
-bash &quot;precompile_assets&quot; do
-  user &quot;deploy&quot;
-  cwd release_path
-  code 'bundle exec rake assets:precompile RAILS_ENV=production'
-end</code></pre>
-</div>
-
-<p>今回は、 before_migrate で呼ぶことにする。<br />
-chef-solo で呼ばれるので resource が使える模様。<br />
-カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
-template は asset_sync.yml.erb としておいておく感じ。</p>
-
-<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
-<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
-
-<div>
-  <pre><code class="ruby">config.action_controller.asset_host = '//s3-ap-northeast-1.amazonaws.com/hoge.example.com'
-config.assets.initialize_on_precompile = true</code></pre>
-</div>
-
-<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
-<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
-ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
-existing_remote_files: ‘delete’ として<br />
-precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
-config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
-(しかし、ゴミはのこる。対処については要検討。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[読む筋トレを読んだ]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/13/yomu-kintore-memo/"/>
-    <updated>2014-01-13T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/13/yomu-kintore-memo</id>
-    <content type="html"><![CDATA[
-<h2 id="section">所感</h2>
-<p>筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。<br />
-自分はダイエットで成功体験があったり、筋トレは結構日常に組み込んでやってたときがあったけど、<br />
-仕事で一気に忙しくなったときにその習慣がなくなってしまった。<br />
-それをまたやる気にしてくれそうな雰囲気である。<br />
-この本では、ボディデザインという概念を提唱している。<br />
-ダイエットという引き算の発想から、筋トレをすることで自然に脂肪を減らすというものだ。<br />
-この考えには多いに賛成だが、実際のところ好きなものを食べて筋肉バキバキとかはちょっと無理がある。<br />
-食べ過ぎた次の日にはいっぱい筋トレして解消するみたいな考え方は確かに素晴らしいけどなぁ。<br />
-あと自分を知るということについてもすごく参考にはなる。<br />
-こと自分に至っては, 本当にお酒を飲むことがマイナスでしかない。<br />
-お酒を飲むとすごく食欲が増してしまってドカ食いしてしまうし。<br />
-なので無理せず減らすとかを考えるべきだと思う。  </p>
-
-<p>五分でいいから筋トレを日常に組み込むというのはすごく励みになる。<br />
-0じゃなく、多くなくてよいから1を繰り返せば 100 になるという発想。<br />
-これはかなり良い発想かもしれない。</p>
-
-<h2 id="section-1">自分にとっての筋トレの目的</h2>
-<p>はっきり言って映画トランスポーターに出てくるジェイソンステイサムのようになりたい。<br />
-すごく憧れる。俺の中で世界一かっこいいハゲ。<br />
-自分のポリシーをはっきりともちつつ、「立っているだけで笑わせる」と言い切る笑いへの価値観。<br />
-パーフェクトだ。  </p>
-
-<p>この如何ともしがたい理想との乖離を埋めるべく、ジムで筋トレをしようと思う。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[1月一周目]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/13/life-log/"/>
-    <updated>2014-01-13T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/13/life-log</id>
-    <content type="html"><![CDATA[
-<h2 id="section">先週の振り返り</h2>
-<p>先週は年明け一発目って感じだったが、モチベーションが自分の中で勝手に上がってきててよかった。<br />
-目標に関する本を読みおえて、改めて立ててみると意外に行けそうな気がした。<br />
-引き続き aws, chef などを触っているが、理解がかなり進んだように感じる。<br />
-chef のレシピを一から20分くらいで作れるようになっていたのは成長を感じた。<br />
-引き続きがんばる。<br />
-Nexus7 はすごく良い。  </p>
-
-<h2 id="section-1">冬休み振り返り</h2>
-<p>今思い出したけど、北海道にかえった冬休み中にそこそこ vagrant を触っていたから理解が進んだんだった。<br />
-rails tutorial を倒すってのはできなかったけど、現在もりもり進行中である。  </p>
-
-<h2 id="section-2">雑言</h2>
-<p>作ろうと思ってたやつあった<br />
-<a href="https://github.com/mattn/vim-textobj-url">https://github.com/mattn/vim-textobj-url</a></p>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>マスタリングTCP/IP 入門第5版 6章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>プログラマの数学 3章まで読んだ</li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第5章まで読んだ</li>
-  <li>パーフェクトルビー5章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-  <li>読む筋トレ</li>
-</ul>
 
 ]]></content>
   </entry>

@@ -7,7 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="opsworks と elasticsearch についてのメモ elasticsearch についての memo クラスタリングした時に master-slave みたいになるのか？ ならない。すべてがマスタになる模様 複数台立てておいて、片方落としておいて、立っている方にデータPUT &hellip;">
+	<meta name="description" content="rails で asset pipeline を使って s3 に上げる手順について(opsworks使用) 参考URL
+こちらを参考にした。
+http://d.hatena.ne.jp/lettas0726/20130320/1363773153 Gemfile gem 'uglifier &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +80,245 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/14/asset-sync/">
+		
+			Asset_sync</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
+
+<h2 id="url">参考URL</h2>
+<p>こちらを参考にした。
+<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
+
+<h4 id="gemfile">Gemfile</h4>
+<div>
+  <pre><code class="ruby">gem 'uglifier', '&gt;= 1.3.0'
+gem 'asset_sync'</code></pre>
+</div>
+
+<p>を追記。</p>
+
+<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
+
+<div>
+  <pre><code class="ruby">template &quot;#{release_path}/config/asset_sync.yml&quot; do
+  mode &quot;0644&quot;
+  source &quot;asset_sync.yml.erb&quot;
+end
+
+bash &quot;precompile_assets&quot; do
+  user &quot;deploy&quot;
+  cwd release_path
+  code 'bundle exec rake assets:precompile RAILS_ENV=production'
+end</code></pre>
+</div>
+
+<p>今回は、 before_migrate で呼ぶことにする。<br />
+chef-solo で呼ばれるので resource が使える模様。<br />
+カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
+template は asset_sync.yml.erb としておいておく感じ。</p>
+
+<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
+<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
+
+<div>
+  <pre><code class="ruby">config.action_controller.asset_host = '//s3-ap-northeast-1.amazonaws.com/hoge.example.com'
+config.assets.initialize_on_precompile = true</code></pre>
+</div>
+
+<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
+<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
+ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
+existing_remote_files: ‘delete’ として<br />
+precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
+config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
+(しかし、ゴミはのこる。対処については要検討。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/chef/'>chef</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/13/yomu-kintore-memo/">
+		
+			読む筋トレを読んだ</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">所感</h2>
+<p>筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。<br />
+自分はダイエットで成功体験があったり、筋トレは結構日常に組み込んでやってたときがあったけど、<br />
+仕事で一気に忙しくなったときにその習慣がなくなってしまった。<br />
+それをまたやる気にしてくれそうな雰囲気である。<br />
+この本では、ボディデザインという概念を提唱している。<br />
+ダイエットという引き算の発想から、筋トレをすることで自然に脂肪を減らすというものだ。<br />
+この考えには多いに賛成だが、実際のところ好きなものを食べて筋肉バキバキとかはちょっと無理がある。<br />
+食べ過ぎた次の日にはいっぱい筋トレして解消するみたいな考え方は確かに素晴らしいけどなぁ。<br />
+あと自分を知るということについてもすごく参考にはなる。<br />
+こと自分に至っては, 本当にお酒を飲むことがマイナスでしかない。<br />
+お酒を飲むとすごく食欲が増してしまってドカ食いしてしまうし。<br />
+なので無理せず減らすとかを考えるべきだと思う。  </p>
+
+<p>五分でいいから筋トレを日常に組み込むというのはすごく励みになる。<br />
+0じゃなく、多くなくてよいから1を繰り返せば 100 になるという発想。<br />
+これはかなり良い発想かもしれない。</p>
+
+<h2 id="section-1">自分にとっての筋トレの目的</h2>
+<p>はっきり言って映画トランスポーターに出てくるジェイソンステイサムのようになりたい。<br />
+すごく憧れる。俺の中で世界一かっこいいハゲ。<br />
+自分のポリシーをはっきりともちつつ、「立っているだけで笑わせる」と言い切る笑いへの価値観。<br />
+パーフェクトだ。  </p>
+
+<p>この如何ともしがたい理想との乖離を埋めるべく、ジムで筋トレをしようと思う。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-13T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/leverage-memo/'>leverage_memo</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/13/life-log/">
+		
+			1月一周目</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">先週の振り返り</h2>
+<p>先週は年明け一発目って感じだったが、モチベーションが自分の中で勝手に上がってきててよかった。<br />
+目標に関する本を読みおえて、改めて立ててみると意外に行けそうな気がした。<br />
+引き続き aws, chef などを触っているが、理解がかなり進んだように感じる。<br />
+chef のレシピを一から20分くらいで作れるようになっていたのは成長を感じた。<br />
+引き続きがんばる。<br />
+Nexus7 はすごく良い。  </p>
+
+<h2 id="section-1">冬休み振り返り</h2>
+<p>今思い出したけど、北海道にかえった冬休み中にそこそこ vagrant を触っていたから理解が進んだんだった。<br />
+rails tutorial を倒すってのはできなかったけど、現在もりもり進行中である。  </p>
+
+<h2 id="section-2">雑言</h2>
+<p>作ろうと思ってたやつあった<br />
+<a href="https://github.com/mattn/vim-textobj-url">https://github.com/mattn/vim-textobj-url</a></p>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">進んだ</h3>
+<ul>
+  <li>マスタリングTCP/IP 入門第5版 6章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>プログラマの数学 3章まで読んだ</li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第5章まで読んだ</li>
+  <li>パーフェクトルビー5章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+  <li>読む筋トレ</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-13T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1161,259 +1402,6 @@ jnlp で行う通信を ssl にするのが無いんだよなぁ.<br />
 
 
 <time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/23/5_jekyll-blockquote-/">
-		
-			Jekyll Blockquote 修正</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
-<p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
-やってみたら空白とか改行がいい感じに削られてイラッとしたので<br />
-それっぽい plugin ないかと思って調べたら github にblockquote<br />
-plugin があったのでそれを使ってみたら全く同じだったので<br />
-fork して quote と 改行入れる風にした。</p>
-
-<h2 id="section">一応カスみたいな差分</h2>
-<p><a href="https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9">https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9</a>
-gsub! 使った方がいいのでもういっこ差分足した</p>
-
-<h2 id="toc-">toc について</h2>
-<p>table of contents 機能が地味にあって  </p>
-
-<blockquote><p>* <br />{:toc}</p></blockquote>
-<p>って感じで書くといいらしい。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/23/1_learning_arp/">
-		
-			ARP について調べた</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">目次</h2>
-<ul id="markdown-toc">
-  <li><a href="#section">目次</a></li>
-  <li><a href="#arp">ARPとは</a></li>
-  <li><a href="#arp-">arp コマンドについて</a></li>
-  <li><a href="#arp--mac-osx-">arp で実際に mac osx で実験</a></li>
-  <li><a href="#section-1">所感</a></li>
-  <li><a href="#section-2">参考文献</a></li>
-  <li><a href="#section-3">あわせてよみたい</a></li>
-</ul>
-
-<h2 id="arp">ARPとは</h2>
-<p>Address Resolution Protocol の略で、IP アドレスから MAC アドレスを求める時に<br />
-使用されるプロトコルです。<br />
-TCP などの通信を行うときには送信元、送信先の MAC アドレスが必要なので、<br />
-事前に ARP プロトコルを用いた MAC アドレスの解決が行われています。<br />
-ARP プロトコルをやりとりするコマンドが用意されていて, それが arp コマンドです。<br />
-しかし、毎通信ごとに ARP プロトコルを用いて MAC アドレスを求めるのは無駄です。<br />
-なので、通常、 内部的に arp テーブルを保持してそれを使用します。<br />
-ARP のやり取りには broadcast が使われます。  </p>
-
-<h2 id="arp-">arp コマンドについて</h2>
-
-<p>$ man arp</p>
-
-<blockquote><p>ARP(8)                    BSD System Manager&#8217;s Manual                   ARP(8)<br /> <br /> NAME<br />      arp &#8211; address resolution display and control<br /> <br /> SYNOPSIS<br />      arp [-n] [-i interface] hostname<br />      arp [-n] [-i interface] [-l] -a<br />      arp -d hostname [pub] [ifscope interface]<br />      arp -d [-i interface] -a<br />      arp -s hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br />      arp -S hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br />      arp -f filename<br /> <br /> DESCRIPTION<br />      The arp utility displays and modifies the Internet-to-Ethernet address translation tables used by the address<br />      resolution protocol (arp(4)).  With no flags, the program displays the current ARP entry for hostname.  The<br />      host may be specified by name or by number, using Internet dot notation.</p></blockquote>
-
-<h2 id="arp--mac-osx-">arp で実際に mac osx で実験</h2>
-<p>ここでは、 arp コマンドテーブルを表示したあと、<br />
-一度削除して、http通信を行った後に、テーブルを再度確認してみる。  </p>
-
-<blockquote><p>/net% arp -a<br /> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br /> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br /> /net% arp -d 192.168.1.1<br /> arp: writing to routing socket: Operation not permitted<br /> /net% sudo arp -d 192.168.1.1<br /> Password:<br /> 192.168.1.1 (192.168.1.1) deleted<br /> /net% arp -a<br /> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br /> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br /> <br /> /net% telnet  mixi.jp 80<br /> Trying 110.44.179.199&#8230;<br /> Connected to mixi.jp.<br /> Escape character is &#8216;^]&#8217;.<br /> ^]<br /> telnet&gt; quit<br /> Connection closed.<br /> /net% arp -a<br /> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br /> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]</p></blockquote>
-
-<h2 id="section-1">所感</h2>
-<p>arp -d のあとすぐに確認しても、192.168.1.1 のキャッシュは存在した。<br />
-おそらく、他のアプリケーションによる通信があるせい。  </p>
-
-<h2 id="section-2">参考文献</h2>
-<p>マスタリングTCP/IP入門(5章)</p>
-
-<h2 id="section-3">あわせてよみたい</h2>
-<p><a href="ftp://ftp.rfc-editor.org/in-notes/rfc826.txt">RFC826</a></p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/network/'>network</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/14/nexus7-/">
-		
-			Nexus7</a>
-	</h2>
-	<div class="entry-content">
-		
-<ul id="markdown-toc">
-  <li><a href="#nexus7-">Nexus7 を買った</a></li>
-  <li><a href="#section">とりあえず入れたアプリ</a></li>
-  <li><a href="#section-1">最近について</a></li>
-  <li><a href="#section-2">今週のサマリー</a></li>
-  <li><a href="#section-3">読書途中経過</a>    <ul>
-      <li><a href="#section-4">進んだ</a></li>
-      <li><a href="#section-5">積んでる</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="nexus7-">Nexus7 を買った</h2>
-<p>すごく…便利です…
-基本的に電子書籍リーダーとして使おうと思って買った。</p>
-
-<p>amazon.com で輸入して、23850 円だった。
-jpで買うより全然安い。保証とかは知らん。</p>
-
-<h2 id="section">とりあえず入れたアプリ</h2>
-
-<ul>
-  <li>ESファイルエクスプローラー
-    <ul>
-      <li>ファイラ</li>
-    </ul>
-  </li>
-  <li>Simeji
-    <ul>
-      <li>日本語入力</li>
-    </ul>
-  </li>
-  <li>EbookDroid
-    <ul>
-      <li>電子書籍リーダーいろいろ試したけどこれが一番よさげ</li>
-      <li>理由はページ遷移時の文字の読み込みが一番早く感じたから。</li>
-      <li><a href="http://blog.kokuko.jp/post/99">参考サイト</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="section-1">最近について</h2>
-<p>すごく勉強意欲が高まったので、いろいろ楽しもうと思う。</p>
-
-<h2 id="section-2">今週のサマリー</h2>
-<ul>
-  <li>アウトプットも大事だけどインプットも相当大事だよね</li>
-  <li>アラケスに倒された時の気持ち</li>
-  <li>jenkins さん大活躍</li>
-  <li>スケボー買った(未到着)</li>
-  <li>Nexus7 めっちゃいい</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第3章まで読んだ</li>
-  <li>パーフェクトルビー5章まで読んだ</li>
-  <li>chef-solo 入門 #21 まで読んだ</li>
-  <li>オペレーティングシステム 5章まで読んだ</li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>マスタリングTCP/IP 入門第5版</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
 	<div class="tags">
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-02-24T19:46:03+09:00</updated>
+  <updated>2014-03-02T13:07:09+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[3月が来た]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/02/life-march-2/"/>
+    <updated>2014-03-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/02/life-march-2</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>一週間開いてしまった。<br />
+やっぱ life 的なブログは毎週書かないとダメな気がしてきた。  </p>
+
+<p>先週はお腹の調子がひたすら悪くてしんどかった。<br />
+rails っていう覚えゲーをひたすらこなしているんだけど<br />
+とにかく雪崩のように覚えることがあって大変だ。  </p>
+
+<p>でも二回目以降(知識が増えたら)もっと楽になるだろうから今だけだと思って頑張ろう。  </p>
+
+<p>ついに花粉が本気出し始めた。<br />
+早めに病院に行ってこようと思う。<br />
+ちなみにロラタジンってくすりが俺にとってはすごく効いた(去年)。  </p>
+
+<h2 id="section-1">困っていること</h2>
+<p>筋トレのモチベーションがどうも上がらない。<br />
+太る一方だし。。<br />
+あと ruby に駆り立てられてすごい頭を使ってるからずいぶん疲れている。<br />
+ruby の勉強というか調査とかのせいであんまり本を最近読めてない。<br />
+これは改善すべきだ。  </p>
+
+<h2 id="section-2">勉強途中経過</h2>
+
+<h3 id="section-3">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 まで</li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>DDD ショートバージョン</li>
+  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2/16]]></title>
@@ -235,57 +304,6 @@ chef の感覚はものすごくつかめたのでよかった。<br />
   <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
   <li>(2014/1/13)読む筋トレ</li>
   <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[1月一周目]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/13/life-log/"/>
-    <updated>2014-01-13T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/13/life-log</id>
-    <content type="html"><![CDATA[<p>
-</p>
-
-<h2 id="section">先週の振り返り</h2>
-<p>先週は年明け一発目って感じだったが、モチベーションが自分の中で勝手に上がってきててよかった。<br />
-目標に関する本を読みおえて、改めて立ててみると意外に行けそうな気がした。<br />
-引き続き aws, chef などを触っているが、理解がかなり進んだように感じる。<br />
-chef のレシピを一から20分くらいで作れるようになっていたのは成長を感じた。<br />
-引き続きがんばる。<br />
-Nexus7 はすごく良い。  </p>
-
-<h2 id="section-1">冬休み振り返り</h2>
-<p>今思い出したけど、北海道にかえった冬休み中にそこそこ vagrant を触っていたから理解が進んだんだった。<br />
-rails tutorial を倒すってのはできなかったけど、現在もりもり進行中である。  </p>
-
-<h2 id="section-2">雑言</h2>
-<p>作ろうと思ってたやつあった<br />
-<a href="https://github.com/mattn/vim-textobj-url">https://github.com/mattn/vim-textobj-url</a></p>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>マスタリングTCP/IP 入門第5版 6章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>プログラマの数学 3章まで読んだ</li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第5章まで読んだ</li>
-  <li>パーフェクトルビー5章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-  <li>読む筋トレ</li>
 </ul>
 
 ]]></content>
