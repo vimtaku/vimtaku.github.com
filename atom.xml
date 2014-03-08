@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-02T13:07:09+09:00</updated>
+  <updated>2014-03-08T16:46:46+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[vim-operator-mdurl という vim plugin 書いた]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/08/vim-operator-mdurl/"/>
+    <updated>2014-03-08T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/08/vim-operator-mdurl</id>
+    <content type="html"><![CDATA[<h2 id="section">はじめに</h2>
+<p>この記事は <a href="http://atnd.org/events/45072">Vim Advent Calender 2013</a> の 98 日目 の記事になります。</p>
+
+<h2 id="section-1">背景</h2>
+<p>Vimmer のみなさんが blog を書くなら普通に vim で markdown を書いていることと思います。<br />
+例に違わず僕も markdown で blog を書いているんですが、非常に不満に思っていたことがありました。<br />
+それは url を書くときそれを[]() で囲わなきゃならなかったことです。<br />
+まぁ書き慣れりゃ楽なんですけど最初は()[] なのか []() なのかわからなくて逆になって辛いみたいな<br />
+ことが起こっていました。<br />
+http://example.com みたいな url があった時に,<br />
+簡単に <a href="http://example.com">http://example.com</a> とできるような plugin が欲しかったのです。<br />
+正直言うと幾つか方法があって, 保存時に変換とかもやりようによっちゃあるんですが<br />
+僕はおせっかいが嫌なので自分で変換できる operator が欲しかったのです。  </p>
+
+<h2 id="section-2">概要</h2>
+<p>http://example.com という文字列を  </p>
+<div>
+  <pre><code class="vim">[http://example.com](http://example.com)</code></pre>
+</div>
+
+<p>と簡単に変換できる operator plugin を書きました。<br />
+また, blog を書くときに参考資料とかに url を memo で書いていて,<br />
+それを</p>
+<div>
+  <pre><code class="vim">[ここのリンク](http://example.com)</code></pre>
+</div>
+
+<p>みたいなふうに<br />
+作りたいというのがよくあったので, yank している url を 文字列にリンク展開できるようにもしました。  </p>
+
+<h2 id="section-3">成果物</h2>
+<p><a href="https://github.com/vimtaku/vim-operator-mdurl">https://github.com/vimtaku/vim-operator-mdurl</a>  </p>
+
+<h3 id="section-4">使用方法</h3>
+
+<h4 id="option-vim-textobj-url-">0. (option) vim-textobj-url をインストール</h4>
+<p>なくてもいいんだけど、あったら多分便利だと思います。</p>
+<div>
+  <pre><code class="vim">NeoBundle 'mattn/vim-textobj-url'</code></pre>
+</div>
+
+<h4 id="vim-operator-mdurl--">1. vim-operator-mdurl を インストール</h4>
+<p>.vimrc に  </p>
+<div>
+  <pre><code class="vim">NeoBundle 'vimtaku/vim-operator-mdurl'</code></pre>
+</div>
+
+<h4 id="vimrc--map-">2. .vimrc に map を書く</h4>
+<p>設定例)  </p>
+<div>
+  <pre><code class="vim">map L &lt;Plug&gt;(operator-mdurl)
+map M &lt;Plug&gt;(operator-mdurlp)</code></pre>
+</div>
+
+<h4 id="section-5">3. 使う</h4>
+<p>http://example.com とかの文字列の何処かで LiW とかするとできます。<br />
+http://example.com を yank しておいて hoge とかの文字列上で Miw とかすると、<br />
+<a href="http://example.com">hoge</a> になります。  </p>
+
+<p>0 の手順で url のテキストオブジェクトプラグインを入れておいたら LiW とかの W の部分が<br />
+デフォルトでは u で統一できて楽。  </p>
+
+<h3 id="text-obj-user--vimrc-">直接関係ないけど、text-obj-user の .vimrc の設定について</h3>
+
+<p>vim-textobj-user では map を変えられます。<br />
+textobj-wiw ですでに u は使っていたので<br />
+text-obj-url のデフォルトの u(i|a) とかぶると嫌なので以下の様に書きました。  </p>
+
+<div>
+  <pre><code class="vim">xmap ah  &lt;Plug&gt;(textobj-url-a)
+omap ah  &lt;Plug&gt;(textobj-url-a)
+xmap ih  &lt;Plug&gt;(textobj-url-i)
+omap ih  &lt;Plug&gt;(textobj-url-i)
+
+xmap au  &lt;Plug&gt;(textobj-wiw-a)
+omap au  &lt;Plug&gt;(textobj-wiw-a)
+xmap iu  &lt;Plug&gt;(textobj-wiw-i)
+omap iu  &lt;Plug&gt;(textobj-wiw-i)</code></pre>
+</div>
+
+<h2 id="section-6">所感</h2>
+<p>最近は vim に注力出来ていなかったけど、ずっと書きたかった plugin がかけて良かったです。<br />
+もし良かったら使ってみてください。<br />
+<a href="http://atnd.org/events/45072">VAC 2013</a> にも参加できてとりあえず良かったです。<br />
+バグはちょろちょろ直していきます。  </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[devise に入門してみる]]></title>
@@ -1740,78 +1833,6 @@ chef 力低めで申し訳なので、アドバイス、pull req など大歓迎
   <pre><code class="bash">/dev/null &lt; $(yes)
 cat - &lt; $(yes)</code></pre>
 </div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[俺なりの自炊セットをそろえた]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/19/jisui-best-practice/"/>
-    <updated>2014-01-19T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/19/jisui-best-practice</id>
-    <content type="html"><![CDATA[
-<h2 id="section">背景</h2>
-<p>覚悟を決めたので自炊セットを買うことにした。<br />
-電子書籍は最近出てくることが多くなったとはいえ、<br />
-すべてが電子書籍で販売されている訳ではないからだ。<br />
-Nexus7 を存分に生かすために買った自炊セットの<br />
-俺なりのベストプラクティスをここに記載する。  </p>
-
-<p>とはいえ、家にある本の数は100冊程度なので、<br />
-もしかしたら裁断サービスのほうが安く上がるかもしれないが<br />
-安値で自炊セットをそろえれば、家の雑多な書類とかも処理できるし<br />
-楽なのでそろえることにした。  </p>
-
-<p>とにかく安くそろえることを前提とした。</p>
-
-<h2 id="section-1">俺なりの結論</h2>
-<ul>
-  <li>スキャナ
-    <ul>
-      <li>image FORMULA DR-C125</li>
-    </ul>
-  </li>
-  <li>裁断機
-    <ul>
-      <li>カール事務器 ディスクカッターA4サイズ対応 丸刃40枚裁断(2往復) ブラック DC-210N</li>
-    </ul>
-  </li>
-</ul>
-
-<p>計、約3万円也。。</p>
-
-<h2 id="section-2">スキャナの選定</h2>
-<p>スキャナは実際すごくまよったが、とにかく安くそろえたかったので、<br />
-ScanSnap1500 の中古か image FORMULA DR-C125 にしようと思っていた。<br />
-結構比較記事があるので、ググってもらえばわかると思うけど、<br />
-SS1500は重送とかが結構おこるといわれていたのと、Amazon のレビューの評判が<br />
-そこそこよさげだったので、 image FORMULA DR-C125 にした。<br />
-安さの観点から、比較対象として SS1300 とか、ハンディスキャナとかがあったけど<br />
-SS1500 とのスキャンスピード比較動画が結構えげつない差だったので SS1300 はやめた。<br />
-ちなみに、 SS1500 よりも DR-C125 のほうが早い感じらしい。<br />
-ScanSnap1500 マジ良いみたいな話で、実際に使ったこと無いから比較できないけど、<br />
-DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万円で中古を買った。<br />
-なんていうか、Mac 用のドライバを普通にインストールして、<br />
-すぐにスキャンできた。OCR も効いている。<br />
-新品も Amazon で2.7万くらいなので、新品でも良いかもしれない。<br />
-アフィは張らない。  </p>
-
-<h2 id="section-3">裁断機の選定</h2>
-<p>ローラーカッター(1000円)とカッターマット、定規で行けるかと思っていたんだけど、<br />
-分厚い本とか、マジ無理です。絶対無理。<br />
-いや、無理ではない、正確には。<br />
-でも、自炊とか効率的なことを考える人がやることではない。<br />
-カッターでもいい人は、新書とかばかりのひと。<br />
-それなら余裕。技術書はたぶん相当に厳しい。<br />
-なので、ちょうど今さっき、評判が割と良い DC-210N の裁断機を買った。<br />
-約1万円也。<br />
-どうなるかわからないが、絶対手動よりはマシだと思う。<br />
-それくらい、非現実的だと思う。行けると思っていた俺浅はか。  </p>
-
-<h2 id="section-4">あとは読むだけ</h2>
-<p>自炊しっぱなしで読まないみたいなのがありそうだけど、必ず読むよ。<br />
-学習し続けることは、尊い。<br />
-たゆまぬ努力を続けよう。</p>
 
 ]]></content>
   </entry>
