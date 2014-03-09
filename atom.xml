@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-08T16:46:46+09:00</updated>
+  <updated>2014-03-10T01:50:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner/"/>
+    <updated>2014-03-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner</id>
+    <content type="html"><![CDATA[<h2 id="section">ワンライナー</h2>
+<div>
+  <pre><code class="ruby">ruby -e &quot;require 'webrick'; server = WEBrick::HTTPServer.new( {:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80}); trap(:INT){server.shutdown}; server.start;&quot;</code></pre>
+</div>
+
+<h2 id="section-1">普通の方</h2>
+<div>
+  <pre><code class="ruby">require 'webrick'
+server = WEBrick::HTTPServer.new({:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80})
+trap(:INT){server.shutdown}
+server.start</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[3月2週目]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/10/life-march-9/"/>
+    <updated>2014-03-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/10/life-march-9</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>ものすごく仕事が忙しくてやばかった。<br />
+rails に慣れてきた感は出てきたが、まだまだ大変だ。  </p>
+
+<p>病院行きたいけど忙しいからなかなか行けないんだよなぁ。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>vimplugin 書いたし、ちょっと今後やりそうなことの技術調査ができたし、<br />
+気になっていたこともわかってよかった。  </p>
+
+<h2 id="section-2">困っていること</h2>
+<p>くっそ忙しくてちょっと余裕がない。<br />
+まぁでもいまはちょっとやるしかないのでがんばる。  </p>
+
+<h2 id="gem">最近の gem</h2>
+<p>gem ‘default_value_for’
+これデフォルト値いい感じに埋めれてなんか便利だった</p>
+
+<h2 id="section-3">勉強途中経過</h2>
+
+<h3 id="section-4">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 まで</li>
+</ul>
+
+<h2 id="section-5">読書途中経過</h2>
+
+<h3 id="section-6">進んだ</h3>
+<ul>
+  <li>ネットワークはなぜつながるのか?(1章)</li>
+</ul>
+
+<h3 id="section-7">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>DDD ショートバージョン</li>
+  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-8">まだ積んでないけど読む</h3>
+<ul>
+  <li>nginxの本</li>
+</ul>
+
+<h3 id="section-9">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Amazon Linux に phpmyadmin を入れてクライアント認証する]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/10/amazon-linux-phpmysqladmin-clientauth/"/>
+    <updated>2014-03-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/10/amazon-linux-phpmysqladmin-clientauth</id>
+    <content type="html"><![CDATA[<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">概要</a></li>
+  <li><a href="#section-1">下準備</a></li>
+  <li><a href="#db-">DB の設定をあれこれする</a></li>
+  <li><a href="#phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</a></li>
+  <li><a href="#section-2">クライアント認証</a>    <ul>
+      <li><a href="#p12-">p12 のインストールについて</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-3">参考文献</a></li>
+</ul>
+
+<h2 id="section">概要</h2>
+<p>amazon linux で phpmyadmin(httpd) を入れてクライアント認証するパターンになったのでやってみた。  </p>
+
+<h2 id="section-1">下準備</h2>
+
+<div>
+  <pre><code class="bash">## apache と phpmyadmin が入る
+sudo yum --enablerepo=epel install phpmyadmin
+## mod_ssl
+sudo yum install mod24_ssl
+sudo yum install openssl-devel</code></pre>
+</div>
+
+<h2 id="db-">DB の設定をあれこれする</h2>
+<div>
+  <pre><code class="bash">sudo vim /etc/phpMyAdmin/config.inc.php</code></pre>
+</div>
+
+<h2 id="phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</h2>
+<div>
+  <pre><code class="bash">sudo vim /etc/httpd/conf.d/phpMyAdmin.conf</code></pre>
+</div>
+
+<p>とりあえず全開放</p>
+<div>
+  <pre><code class="bash">## L16 あたりに
+Require all granted
+## L26 あたりに
+Allow from 0.0.0.0</code></pre>
+</div>
+
+<div>
+  <pre><code class="bash">/etc/httpd/conf.d/virtualhost.conf</code></pre>
+</div>
+
+<div>
+  <pre><code class="apache">&lt;Directory &quot;/phpmyadmin&quot;&gt;
+    Options ExecCGI
+    AllowOverride all
+    Order Allow,Deny
+    Allow from all
+    RewriteEngine On
+    RewriteCond %{SERVER_PORT} 80
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/%{REQUEST_URI} [R,L]
+    LogLevel alert rewrite:trace3
+&lt;/Directory&gt;</code></pre>
+</div>
+
+<h2 id="section-2">クライアント認証</h2>
+<p>については
+<a href="https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">この資料</a>
+がものっすごい参考になる。<br />
+というかこのままやれば良い。  </p>
+
+<h3 id="p12-">p12 のインストールについて</h3>
+<p>Google Chrome  はキーチェーンに入れたら行けた。<br />
+Vimperator(Firefox) についてはブラウザに pom.p12 を入れたら行けた。  </p>
+
+<h2 id="section-3">参考文献</h2>
+<p>phpmyadmin についてはこれが非常に役に立つ。<br />
+<a href="http://sanketdangi.com/post/56623052533/phpmyadmin-on-amazon-ec2-manage-amazon-rds">http://sanketdangi.com/post/56623052533/phpmyadmin-on-amazon-ec2-manage-amazon-rds</a><br />
+クライアント認証に関しては<br />
+<a href="https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B</a>  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[vim-operator-mdurl という vim plugin 書いた]]></title>
@@ -1614,225 +1797,6 @@ chef の感覚はものすごくつかめたのでよかった。<br />
   <li>(2014/1/13)読む筋トレ</li>
   <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[chef についてのメモ]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/24/chef-memo/"/>
-    <updated>2014-01-24T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/24/chef-memo</id>
-    <content type="html"><![CDATA[
-<h2 id="section">概要</h2>
-<p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
-いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  </p>
-
-<h2 id="attribute-">attribute の読み込み順について</h2>
-<ul>
-  <li>attributes/default.rb が一番最初に読み込まれる</li>
-  <li>attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる</li>
-  <li>node の値は各ファイルで上書きをすることができる  </li>
-</ul>
-
-<h2 id="libraries-">libraries について</h2>
-<ul>
-  <li>libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
-    <ul>
-      <li>Hoge.fuga_method として recipe から使用可能。</li>
-    </ul>
-  </li>
-  <li>他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。</li>
-  <li>libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
-    <ul>
-      <li>自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。</li>
-      <li>他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="chef-">chef 実行時のレシピについて</h2>
-<ul>
-  <li>各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
-    <ul>
-      <li>chef 実行時に self をみればわかる</li>
-    </ul>
-  </li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[fog っていう gem で use_iam_profile があんまうまく行かない件]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile/"/>
-    <updated>2014-01-21T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile</id>
-    <content type="html"><![CDATA[
-<h2 id="section">現象</h2>
-<p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
-metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている(できたのは割と最近らしい)。<br />
-それなら、iam を使いたいわけなんだけど、 fog v1.18.0 と v1.19.0 で試しても use_iam_profile がうまくいかない。  </p>
-
-<p>呼び出しているクライアントライブラリは asset_sync v1.0.0 と elasticsearch v0.3.4 。<br />
-どちらも aws_credential fetcher で credential を取得してるみたいだけど、それを使ってないようにみえた。  </p>
-
-<h2 id="section-1">対処</h2>
-<p>全部読んでないからわからないけど、俺の予想が合っていれば<br />
-credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
-
-<p>lib/fog/core/service.rb</p>
-<div>
-  <pre><code class="bash">-options = options.merge(fetch_credentials(options))
-+options = fetch_credentials(options).merge(options)</code></pre>
-</div>
-
-<p>とりあえずもっと調べなきゃよくわからない。<br />
-これがうまくいっていそうなら pull req だしてみよう。  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[chef で opsworks のインスタンス起動時に cloudwatch の alarm を作成するためにしたこと]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm/"/>
-    <updated>2014-01-20T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm</id>
-    <content type="html"><![CDATA[
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">大まかな流れ</a></li>
-  <li><a href="#iam-">1. IAM の設定</a></li>
-  <li><a href="#sns-">2. SNS のトピックの作成</a></li>
-  <li><a href="#cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</a>    <ul>
-      <li><a href="#from-cli">メトリックの作成 from cli</a></li>
-    </ul>
-  </li>
-  <li><a href="#cloud-watch-">4. cloud watch での作成確認</a></li>
-  <li><a href="#chef-recipe-">5. chef recipe を書く</a></li>
-  <li><a href="#opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</a>    <ul>
-      <li><a href="#section-1">おまけ</a>        <ul>
-          <li><a href="#section-2">気をつけること要点</a></li>
-          <li><a href="#section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="section">大まかな流れ</h2>
-<ol>
-  <li>IAM の設定</li>
-  <li>SNS のトピックの作成(メール送る用)</li>
-  <li>cloud watch の API を cli から叩いてみる</li>
-  <li>cloud watch の手動確認</li>
-  <li>chef recipe を書く</li>
-  <li>opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</li>
-</ol>
-
-<p>ではさっそく。  </p>
-
-<h2 id="iam-">1. IAM の設定</h2>
-<p>opsworks ではインスタンス生成時に デフォルトで Default IAM instance profile を設定できる。<br />
-ここの IAM Role に権限がないと、 aws cli から操作ができないので注意する。
-この記事では、IAMの設定については詳細に明記しない。  </p>
-
-<h2 id="sns-">2. SNS のトピックの作成</h2>
-<p>コマンドラインか AWS Console から、メール送る用に トピックを作成する。<br />
-監視しているインスタンスの異常時にメールを受け取るため。<br />
-CLI ではこちらが参考になる。<br />
-<a href="http://exploreaws.doorblog.jp/archives/24701093.html">http://exploreaws.doorblog.jp/archives/24701093.html</a><br />
-サブスクリプションを許可しておくと後々のチェックで捗る。<br />
-ちなみにこれは、あとで alarm-actions に指定する。  </p>
-
-<p>ここではできた topic が、仮に arn:aws:sns:ap-northeast-1:99999999:mogemoga としておく。  </p>
-
-<h2 id="cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</h2>
-
-<h3 id="from-cli">メトリックの作成 from cli</h3>
-
-<div>
-  <pre><code class="bash">aws cloudwatch put-metric-alarm
---alarm-name='disk-usage' \
-             --alarm-description 'Disk usage alert' \
-             --alarm-actions='arn:aws:sns:ap-northeast-1:99999999:mogemoga'   \
-             --namespace  'System/Linux'  \
-             --metric-name  'DiskSpaceUtilization'   \
-             --dimensions='[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]' \
-             --statistic  'Average' \
-             --period  '300'   \
-             --unit 'Percent'
-             --threshold  '50'
-             --evaluation-periods  '1'
-             --region 'ap-northeast-1'
-             --comparison-operator 'GreaterThanOrEqualToThreshold'</code></pre>
-</div>
-
-<p>ここですんなりうまくいくかどうかが別れると思う。<br />
-IAM role を使う場合は、権限が許可されていれば問題なく通ると思う。<br />
-権限がない場合は、 cli の credential 設定が必要になるかもしれない。<br />
-<a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html">http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html</a>  </p>
-
-<h2 id="cloud-watch-">4. cloud watch での作成確認</h2>
-<p>上記のコマンドで成功していれば AWS Console から cloud watch のアラームができているはずなので確認する。  </p>
-
-<h2 id="chef-recipe-">5. chef recipe を書く</h2>
-
-<p>あとは、上記 3 を実行する chef のレシピを書いて、 opsworks が取ってくる custom chef recipe のレポジトリに配置すればおｋ．<br />
-今回は load average もとりたかったので、<br />
-<a href="http://aws.amazon.com/code/8720044071969977">http://aws.amazon.com/code/8720044071969977</a><br />
-のスクリプトを改変して使用することにした。<br />
-ソースはこちら -&gt; <a href="https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git">https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git</a><br />
-disk space をとったりすることができる pl なのですごく便利。  </p>
-
-<p>下記の repository は crontab に 上記の pl (load average は別) のものを登録するものだ。<br />
-<a href="https://github.com/alexism/cloudwatch_monitoring">https://github.com/alexism/cloudwatch_monitoring</a>  </p>
-
-<p>これをフォークして、 load average とれる cron を作る機能と、 アラーム登録する奴を書いた。<br />
-<a href="https://github.com/vimtaku/cloudwatch_monitoring.git">https://github.com/vimtaku/cloudwatch_monitoring.git</a><br />
-chef 力低めで申し訳なので、アドバイス、pull req など大歓迎。  </p>
-
-<h2 id="opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</h2>
-<p>これはもう、 opsworks に慣れているひとなら問題無いと思う。<br />
-5 で作ったものがうまくいっていれば(というか試すときに deploy かどっかで試すと思うんだけど)<br />
-それを setup に移動してやるだけだ。  </p>
-
-<h3 id="section-1">おまけ</h3>
-
-<h4 id="section-2">気をつけること要点</h4>
-<ul>
-  <li>IAM Role に権限がない場合があるので気をつける
-    <ul>
-      <li>参考
-        <ul>
-          <li><a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html">http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html</a></li>
-          <li><a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html">http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>opsworks では chef の data_bags が使えないのを頭に入れておく
-    <ul>
-      <li>自分はあとから気づいたパターン
-        <ul>
-          <li>詳細は <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html">http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>mon-put-metric-alarm の代わりに aws cloudwatch put-metric-aaerm を使用する
-    <ul>
-      <li>role の設定ができていても credential エラーとかいっぱい言われるため。</li>
-    </ul>
-  </li>
-  <li>alert と alarm が似ているので alerm ってタイポに気をつける</li>
-</ul>
-
-<h4 id="section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</h4>
-<div>
-  <pre><code class="bash">/dev/null &lt; $(yes)
-cat - &lt; $(yes)</code></pre>
-</div>
 
 ]]></content>
   </entry>

@@ -7,10 +7,7 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="はじめに
-この記事は Vim Advent Calender 2013 の 98 日目 の記事になります。 背景
-Vimmer のみなさんが blog を書くなら普通に vim で markdown を書いていることと思います。
-例に違わず僕も markdown で blog &hellip;">
+	<meta name="description" content="ワンライナー ruby -e &quot;require 'webrick'; server = WEBrick::HTTPServer.new( {:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80}); trap(:INT){server. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +78,285 @@ Vimmer のみなさんが blog を書くなら普通に vim で markdown を書�
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/10/ruby-webrick-onewriner/">
+		
+			Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">ワンライナー</h2>
+<div>
+  <pre><code class="ruby">ruby -e &quot;require 'webrick'; server = WEBrick::HTTPServer.new( {:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80}); trap(:INT){server.shutdown}; server.start;&quot;</code></pre>
+</div>
+
+<h2 id="section-1">普通の方</h2>
+<div>
+  <pre><code class="ruby">require 'webrick'
+server = WEBrick::HTTPServer.new({:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80})
+trap(:INT){server.shutdown}
+server.start</code></pre>
+</div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/10/life-march-9/">
+		
+			3月2週目</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">先週振り返り</h2>
+<p>ものすごく仕事が忙しくてやばかった。<br />
+rails に慣れてきた感は出てきたが、まだまだ大変だ。  </p>
+
+<p>病院行きたいけど忙しいからなかなか行けないんだよなぁ。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>vimplugin 書いたし、ちょっと今後やりそうなことの技術調査ができたし、<br />
+気になっていたこともわかってよかった。  </p>
+
+<h2 id="section-2">困っていること</h2>
+<p>くっそ忙しくてちょっと余裕がない。<br />
+まぁでもいまはちょっとやるしかないのでがんばる。  </p>
+
+<h2 id="gem">最近の gem</h2>
+<p>gem ‘default_value_for’
+これデフォルト値いい感じに埋めれてなんか便利だった</p>
+
+<h2 id="section-3">勉強途中経過</h2>
+
+<h3 id="section-4">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 まで</li>
+</ul>
+
+<h2 id="section-5">読書途中経過</h2>
+
+<h3 id="section-6">進んだ</h3>
+<ul>
+  <li>ネットワークはなぜつながるのか?(1章)</li>
+</ul>
+
+<h3 id="section-7">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>DDD ショートバージョン</li>
+  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-8">まだ積んでないけど読む</h3>
+<ul>
+  <li>nginxの本</li>
+</ul>
+
+<h3 id="section-9">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/10/amazon-linux-phpmysqladmin-clientauth/">
+		
+			Amazon Linux に Phpmyadmin を入れてクライアント認証する</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">概要</a></li>
+  <li><a href="#section-1">下準備</a></li>
+  <li><a href="#db-">DB の設定をあれこれする</a></li>
+  <li><a href="#phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</a></li>
+  <li><a href="#section-2">クライアント認証</a>    <ul>
+      <li><a href="#p12-">p12 のインストールについて</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-3">参考文献</a></li>
+</ul>
+
+<h2 id="section">概要</h2>
+<p>amazon linux で phpmyadmin(httpd) を入れてクライアント認証するパターンになったのでやってみた。  </p>
+
+<h2 id="section-1">下準備</h2>
+
+<div>
+  <pre><code class="bash">## apache と phpmyadmin が入る
+sudo yum --enablerepo=epel install phpmyadmin
+## mod_ssl
+sudo yum install mod24_ssl
+sudo yum install openssl-devel</code></pre>
+</div>
+
+<h2 id="db-">DB の設定をあれこれする</h2>
+<div>
+  <pre><code class="bash">sudo vim /etc/phpMyAdmin/config.inc.php</code></pre>
+</div>
+
+<h2 id="phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</h2>
+<div>
+  <pre><code class="bash">sudo vim /etc/httpd/conf.d/phpMyAdmin.conf</code></pre>
+</div>
+
+<p>とりあえず全開放</p>
+<div>
+  <pre><code class="bash">## L16 あたりに
+Require all granted
+## L26 あたりに
+Allow from 0.0.0.0</code></pre>
+</div>
+
+<div>
+  <pre><code class="bash">/etc/httpd/conf.d/virtualhost.conf</code></pre>
+</div>
+
+<div>
+  <pre><code class="apache">&lt;Directory &quot;/phpmyadmin&quot;&gt;
+    Options ExecCGI
+    AllowOverride all
+    Order Allow,Deny
+    Allow from all
+    RewriteEngine On
+    RewriteCond %{SERVER_PORT} 80
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/%{REQUEST_URI} [R,L]
+    LogLevel alert rewrite:trace3
+&lt;/Directory&gt;</code></pre>
+</div>
+
+<h2 id="section-2">クライアント認証</h2>
+<p>については
+<a href="https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">この資料</a>
+がものっすごい参考になる。<br />
+というかこのままやれば良い。  </p>
+
+<h3 id="p12-">p12 のインストールについて</h3>
+<p>Google Chrome  はキーチェーンに入れたら行けた。<br />
+Vimperator(Firefox) についてはブラウザに pom.p12 を入れたら行けた。  </p>
+
+<h2 id="section-3">参考文献</h2>
+<p>phpmyadmin についてはこれが非常に役に立つ。<br />
+<a href="http://sanketdangi.com/post/56623052533/phpmyadmin-on-amazon-ec2-manage-amazon-rds">http://sanketdangi.com/post/56623052533/phpmyadmin-on-amazon-ec2-manage-amazon-rds</a><br />
+クライアント認証に関しては<br />
+<a href="https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B</a>  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/dev/'>dev</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -955,553 +1231,6 @@ gem “activerecord-mysql-unsigned”, “~&gt; 0.0.1”
 
 
 	<a class='category' href='/blog/categories/rails/'>rails</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/16/life-feb-16/">
-		
-			2/16</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">先週振り返り</h2>
-<p>先週も solr 力をかなり高める感じだった。<br />
-docker がリアルに流行り始めているので、本格的に勉強したいところ。<br />
-でも家のネットワークが遅くてちょっと厳しいんだよなぁ。<br />
-なんかお腹の調子がずっと悪くてしんどかった。<br />
-あと、雪の日に自宅待機したら迷惑かけてしまったので、今後は極力休まない。  </p>
-
-<p>あんまり本が読めなかったので、気合入れて読む。<br />
-あと、どうでもいいけど、 MBA の容量が 128GB で 94% とか言ってて積んでる感ある。  </p>
-
-<h2 id="section-1">土日振り返り</h2>
-<p>あんまり多く時間を取れなかったが、日経 linux 読んだのと、workbench の件をそこそこやった。  </p>
-
-<h2 id="section-2">勉強途中経過</h2>
-
-<h3 id="section-3">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第8章まで読んだ</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-  <li>パーフェクトルビー15章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/14/octopress/">
-		
-			Jekyll から Octopress に10 分で移行する</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">背景</h2>
-<p>デザインが見づらいって言われたので辛くなったから、<br />
-octopress にノリで移行してみた。<br />
-当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので<br />
-問題なく移行できると思ったら移行できた。  </p>
-
-<h2 id="section-1">手順</h2>
-<p>大体こんなかんじでいける。空気さえ読めれば行ける感じ。  </p>
-
-<div>
-  <pre><code class="bash">git clone git://github.com/imathis/octopress.git octopress
-cd octopress/
-bundle install
-rake install
-rake preview
-rake -T
-vim config.rb
-rake preview
-rake setup_github_pages
-
-## Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。
-vim Rakefile
-
-rake deploy
-
-cp -a $HOME/jekyll-bootstrap/_posts/* .
-
-## JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)
-mkdir $HOME/octopress/source/includes/JB
-cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
-</div>
-
-<h2 id="section-2">ちなみに</h2>
-<p>テーマはコチラを使わせてもらった。<br />
-<a href="http://zespia.tw/Octopress-Theme-Slash/">http://zespia.tw/Octopress-Theme-Slash/</a><br />
-how to install 通りにやれば適用できる。  </p>
-
-<p>Octopress テーマ集みたいなのはコチラ。<br />
-<a href="http://opthemes.com/">http://opthemes.com/</a>  </p>
-
-<h2 id="section-3">参考資料</h2>
-
-<p><a href="http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/">http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/</a></p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/octopress/'>octopress</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/13/solr-sample/">
-		
-			今更 Solr 入門</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">この記事について</a></li>
-  <li><a href="#section-1">予備知識</a>    <ul>
-      <li><a href="#apache-solr-">Apache Solr とは</a></li>
-      <li><a href="#lucene-">Lucene とは</a></li>
-    </ul>
-  </li>
-  <li><a href="#section-2">スキーマを作ってみよう</a>    <ul>
-      <li><a href="#section-3">フィールドタイプについて</a></li>
-      <li><a href="#section-4">フィールドについて</a>        <ul>
-          <li><a href="#section-5">テキストフィールドの定義</a></li>
-          <li><a href="#section-6">ダイナミックフィールド</a></li>
-          <li><a href="#section-7">ユニークキーフィールド</a></li>
-          <li><a href="#section-8">コピーフィールド</a></li>
-        </ul>
-      </li>
-      <li><a href="#core-admin--core-">core admin で core を作成</a></li>
-    </ul>
-  </li>
-  <li><a href="#section-9">サンプルデータを入れてみよう</a></li>
-  <li><a href="#dihdataimporthandler-">DIH(DataImportHandler) について</a>    <ul>
-      <li><a href="#solr-config-">solr config に記述する</a></li>
-      <li><a href="#mysql--connector-">mysql の connector をダウンロードして設置</a></li>
-      <li><a href="#mysql--db-data-configxml-">mysql の設定, db-data-config.xml の設定など</a></li>
-    </ul>
-  </li>
-  <li><a href="#deltaquery-">deltaQuery について</a>    <ul>
-      <li><a href="#deltaquery--parentdeltaquery-">deltaQuery と parentDeltaQuery の関係</a></li>
-    </ul>
-  </li>
-  <li><a href="#dih--javascript-">DIH の直前で Javascript でデータを加工する</a>    <ul>
-      <li><a href="#updatehandler--updatechain">UpdateHandler と UpdateChain</a></li>
-      <li><a href="#section-10">なんかうまくいかない場合</a></li>
-    </ul>
-  </li>
-  <li><a href="#url">参考URL</a></li>
-</ul>
-
-<h2 id="section">この記事について</h2>
-<p>今更ながら Solr に興味が出てきたので、自分用にまとめてみる。<br />
-あくまで自分用なので、ある程度わかっている人じゃないと本記事は無意味です。恐縮ながら。<br />
-前提として、 この記事は <a href="http://www.amazon.co.jp/Apache-Solr%E5%85%A5%E9%96%80-~%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%82%BD%E3%83%BC%E3%82%B9%E5%85%A8%E6%96%87%E6%A4%9C%E7%B4%A2%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3-Software-Design/dp/4774161632">改訂新版 Apache Solr入門 ~オープンソース全文検索エンジン</a> を読みながら進めた。   </p>
-
-<p>まずは、予備知識として Apache Solr とはなにか、 Lucene とはなにかについて書く。<br />
-次に、スキーマを作って、サンプルデータ を 手動でのデータインポートで index に登録する手順について書く。<br />
-手動でのデータインポートは大変なので、mysql からデータをインポートするクローラ(DIH)について書く。
-最後に、 MySQL にある json を保存するカラムのデータを、 Javascript を使って整形し、 index に保存することについて書く。  </p>
-
-<h2 id="section-1">予備知識</h2>
-
-<h3 id="apache-solr-">Apache Solr とは</h3>
-<p>全文検索システムである。<br />
-全文検索エンジン Lucene をベースに、管理画面やキャッシュ、クラスタリングなどの機能がある。<br />
-ちなみに Java で書かれている。<br />
-<a href="http://ja.wikipedia.org/wiki/Apache_Solr">http://ja.wikipedia.org/wiki/Apache_Solr</a></p>
-
-<h3 id="lucene-">Lucene とは</h3>
-<blockquote><p>Lucene（ルシーン）は、Javaで記述された全文検索ソフトウェアである。<br />あらかじめ蓄積した大量のデータから、指定したキーワードを探し出す機能を持つ。Javaのクラスライブラリとして提供される。</p></blockquote>
-<p><a href="http://ja.wikipedia.org/wiki/Lucene">http://ja.wikipedia.org/wiki/Lucene</a>
-なるほど。</p>
-
-<h2 id="section-2">スキーマを作ってみよう</h2>
-<p>スキーマを作って、サンプルデータを入れてみる。<br />
-ここでは、 料理人が複数いて、自分の料理をうるみたいなものを想定する。<br />
-Solr の schema.xml で、スキーマを定義することができる。  </p>
-
-<p>以下に、 schema.xml の fileds の設定例を載せる。  </p>
-<div>
-  <pre><code class="xml">&lt;fields&gt;
-    &lt;field name=&quot;recipe_id&quot;   type=&quot;int&quot;     indexed=&quot;true&quot; stored=&quot;true&quot; required=&quot;true&quot;/&gt;
-    &lt;field name=&quot;chef&quot;        type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
-    &lt;field name=&quot;recipe_name&quot; type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
-    &lt;field name=&quot;genre&quot;       type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot; multiValued=&quot;true&quot;/&gt;
-    &lt;field name=&quot;price&quot;       type=&quot;int&quot;     indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
-    &lt;field name=&quot;_version_&quot;   type=&quot;long&quot;    indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
-  &lt;/fields&gt;</code></pre>
-</div>
-
-<h3 id="section-3">フィールドタイプについて</h3>
-<ul>
-  <li>fieldType は自分で xml を用いて定義することができる</li>
-  <li>それらの名前付けとかには習慣がある</li>
-  <li>基本的な型については定義されているので、それを利用する</li>
-</ul>
-
-<h3 id="section-4">フィールドについて</h3>
-
-<h4 id="section-5">テキストフィールドの定義</h4>
-<ul>
-  <li>name は filed 名</li>
-  <li>type は filedType</li>
-  <li>indexed は、 このフィールドを検索対象、ソート対象、 ファセット対象にするか(true:する)</li>
-  <li>stored は、 このフィールドの値をそのまま index するか(true:する)</li>
-  <li>required は、 必須かどうか</li>
-  <li>multivalued は、 複数値を持てるかどうか</li>
-  <li>omitNorms は、 検索したドキュメントの長さによる重み付け
-    <ul>
-      <li>(短ければ当然、見つけるものに近いのでポイントが高く、逆に長ければ、それにヒットする確率が高いので値は低い。)</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="section-6">ダイナミックフィールド</h4>
-<ul>
-  <li>動的にフィールド名が決定するもの</li>
-  <li>schema.xml を変更しなくても、そのフィールド名を登録したり検索したりすることができるようになる</li>
-</ul>
-
-<h4 id="section-7">ユニークキーフィールド</h4>
-<ul>
-  <li>文書内で unique に特定できるようにするフィールド</li>
-  <li>差分更新したい場合には必須</li>
-  <li>指定はオプション</li>
-  <li>
-    <uniquekey>url</uniquekey>
-  </li>
-</ul>
-
-<h4 id="section-8">コピーフィールド</h4>
-<ul>
-  <li>ドキュメントへのインデックス登録時に copyField の source から dest へコピーする</li>
-  <li>dest に同じものを複数指定する場合は multiValued が true である必要がある</li>
-</ul>
-
-<h3 id="core-admin--core-">core admin で core を作成</h3>
-<p>collection1 をコピーして, schema.xml を編集。<br />
-elevate が評価されてダメっぽかったのでコメントアウト。<br />
-すると、うまく load できた。</p>
-
-<h2 id="section-9">サンプルデータを入れてみよう</h2>
-<p>だいたいこんなかんじの data.json を用意して</p>
-<div>
-  <pre><code class="json">[                                                                              
-{                                                                              
-    &quot;recipe_id&quot;:&quot;1&quot;,                                                           
-    &quot;chef&quot;:&quot;vimtaku&quot;,                                                          
-    &quot;recipe_name&quot;:&quot;vim の炒めもの&quot;,                                            
-    &quot;genre&quot;:[&quot;和食&quot;, &quot;洋食&quot;],                                                  
-    &quot;price&quot;:980                                                                
-},                                                                             
-{                                                                              
-    &quot;recipe_id&quot;:&quot;2&quot;,                                                           
-    &quot;chef&quot;:&quot;noro&quot;,                                                             
-    &quot;recipe_name&quot;:&quot;emacs 焼き&quot;,                                                
-    &quot;genre&quot;:[&quot;和食&quot;, &quot;中華&quot;],                                                  
-    &quot;price&quot;:500                                                                
-},                                                                             
-{                                                                              
-    &quot;recipe_id&quot;:&quot;3&quot;,                                                           
-    &quot;chef&quot;:&quot;sublime&quot;,                                                          
-    &quot;recipe_name&quot;:&quot;sublime 揚げ&quot;,                                              
-    &quot;genre&quot;:[&quot;洋食&quot;],                                                          
-    &quot;price&quot;:250                                                                
-}                                                                              
-]</code></pre>
-</div>
-
-<div>
-  <pre><code class="bash">curl 'http://localhost:8983/solr/vimtaku/update/json?commit=true' --data-binary @data.json -H 'Content-type:application/json;charset:utf-8'</code></pre>
-</div>
-
-<p>これで データ登録が完了する。  </p>
-
-<h2 id="dihdataimporthandler-">DIH(DataImportHandler) について</h2>
-<p>DIH は DataSource, EntityProccssor, そして設定ファイル(data‐config.xml) から成る。<br />
-DIH を使うための設定は、 solrconfig.xml と DIHの設定ファイル data―config にある。  </p>
-
-<h3 id="solr-config-">solr config に記述する</h3>
-<div>
-  <pre><code class="xml">&lt;requestHandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DatalmportHandler&quot;&gt;
-&lt;lst name=&quot;defaults&quot;&gt;
-  &lt;str name=&quot;config&quot;&gt;db-data-config.xml&lt;/str&gt;
-&lt;/lst&gt;
-&lt;/requestHandler&gt;</code></pre>
-</div>
-
-<h3 id="mysql--connector-">mysql の connector をダウンロードして設置</h3>
-<p>mysql-connector-java-5.1.29-bin.jar を <a href="http://dev.mysql.com/downloads/connector/j/">http://dev.mysql.com/downloads/connector/j/</a>から落としてきて
-dist 以下に設置する。</p>
-
-<h3 id="mysql--db-data-configxml-">mysql の設定, db-data-config.xml の設定など</h3>
-<p>そしてだいたいこんなかんじに設置する。 mysql は localhost の 3306 番で動いているものとし、<br />
-solrsample っていう database があるものとする。 password は hogehoge。  </p>
-
-<div>
-  <pre><code class="bash">diff --git a/conf/db-data-config.xml b/conf/db-data-config.xml
-new file mode 100644
-index 0000000..c758319
---- /dev/null
-+++ b/conf/db-data-config.xml
-@@ -0,0 +1,24 @@
-+&lt;dataConfig&gt;
-+    &lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;
-+        url=&quot;jdbc:mysql://localhost:3306/solrsample&quot;
-+        user=&quot;vimtaku&quot; password=&quot;hogehoge&quot;/&gt;
-+    &lt;document&gt;
-+        &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
-+            query=&quot;select * from recipe_mst&quot;
-+            deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
-+            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= '${dataimporter.last_index_time}'&quot;&gt;
-+            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
-+            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
-+            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
-+            &lt;entity name=&quot;recipe_genre_rel&quot;
-+                query=&quot;select * from recipe_genre_rel where recipe_id = '${recipe_mst.recipe_id}'&quot;&gt;
-+                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = '${recipe_genre_rel.genre_id}'&quot;&gt;
-+                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
-+                &lt;/entity&gt;
-+            &lt;/entity&gt;
-+            &lt;entity name=&quot;chef_mst&quot; query=&quot;select * from chef_mst where chef_id = '${recipe_mst.chef_id}'&quot;&gt;
-+                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
-+            &lt;/entity&gt;
-+        &lt;/entity&gt;
-+    &lt;/document&gt;
-+&lt;/dataConfig&gt;
-diff --git a/conf/solrconfig.xml b/conf/solrconfig.xml
-index 00b7555..2d19133 100644
---- a/conf/solrconfig.xml
-+++ b/conf/solrconfig.xml
-@@ -84,6 +84,9 @@
-   &lt;lib dir=&quot;../../../contrib/velocity/lib&quot; regex=&quot;.*\.jar&quot; /&gt;
-   &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-velocity-\d.*\.jar&quot; /&gt;
-
-+  &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-dataimporthandler-.*\.jar&quot; /&gt;
-+  &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;mysql.*\.jar&quot; /&gt;
-+
-   &lt;!-- an exact 'path' can be used instead of a 'dir' to specify a
-        specific jar file.  This will cause a serious error to be logged
-        if it can't be loaded.
-@@ -1513,6 +1516,15 @@
-   &lt;/requestHandler&gt;
-
-
-+  &lt;requestHandler name=&quot;/dataimport&quot;
-+      class=&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;&gt;
-+      &lt;lst name=&quot;defaults&quot;&gt;
-+          &lt;str name=&quot;config&quot;&gt;db-data-config.xml&lt;/str&gt;</code></pre>
-</div>
-
-<p>だいたいこんなかんじで、管理画面から /dataimport で full-import するといける。</p>
-
-<h2 id="deltaquery-">deltaQuery について</h2>
-<p>差分 update(delta-import) のとき、deltaQuery がまず、実行される。
-deltaQuery は どんなに nest が深くても実行される(たぶん)。</p>
-
-<h3 id="deltaquery--parentdeltaquery-">deltaQuery と parentDeltaQuery の関係</h3>
-<ul>
-  <li>deltaQuery で mysql のレコードがヒットした場合に、 parentDeltaQuery が呼び出される</li>
-  <li>parentDeltaQuery では ${chef_mst.chef_id} のように、 deltaQuery でヒットしたものが使える</li>
-  <li>parentDeltaQuery で、 pk の 値を select するようにしておく。</li>
-  <li>pk のある entity に、
-    <ul>
-      <li>deltaImportQuery 属性がなくて query 属性がある場合には where pk = ‘’ としてクエリが実行され再登録される模様</li>
-      <li>deltaImportQuery 属性がある場合にはそのクエリが実行される。</li>
-    </ul>
-  </li>
-</ul>
-
-<p>例えば</p>
-
-<div>
-  <pre><code class="xml">&lt;dataConfig&gt;
-    &lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;
-        url=&quot;jdbc:mysql://localhost:3306/solrsample&quot;
-        user=&quot;vimtaku&quot; password=&quot;hogehoge&quot;/&gt;
-    &lt;document&gt;
-        &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
-            query=&quot;select * from recipe_mst&quot;
-            deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
-            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= '${dataimporter.last_index_time}'&quot;
-            &gt;
-            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
-            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
-            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
-            &lt;entity name=&quot;recipe_genre_rel&quot;
-                query=&quot;select * from recipe_genre_rel where recipe_id = '${recipe_mst.recipe_id}'&quot;&gt;
-                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = '${recipe_genre_rel.genre_id}'&quot;&gt;
-                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
-                &lt;/entity&gt;
-            &lt;/entity&gt;
-            &lt;entity name=&quot;chef_mst&quot; pk=&quot;chef_id&quot;
-                query=&quot;select * from chef_mst where chef_id = '${recipe_mst.chef_id}'&quot;
-                deltaQuery=&quot;select chef_id from chef_mst where chef_id = 1&quot;
-                parentDeltaQuery=&quot;select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1&quot;
-                &gt;
-                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
-            &lt;/entity&gt;
-        &lt;/entity&gt;
-    &lt;/document&gt;
-&lt;/dataConfig&gt;</code></pre>
-</div>
-
-<p>こうなっていた場合、<br />
-deltaQuery=”select chef_id from chef_mst where chef_id = 1”<br />
-これでヒットした chef_id を元に<br />
-parentDeltaQuery=”select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1”<br />
-が実行されて、<br />
-deltaImportQuery=”SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}”<br />
-これが実行される。  </p>
-
-<h2 id="dih--javascript-">DIH の直前で Javascript でデータを加工する</h2>
-
-<h3 id="updatehandler--updatechain">UpdateHandler と UpdateChain</h3>
-<p>UpdateHandler と DIH の仕組みはこの図のようになっている。  </p>
-
-<p><img src="http://gyazo.com/47cc999c6d1a7a31ed9c2bdd0080ce59.png" />
-(改訂版 Apache Solr 入門より引用。)</p>
-
-<p>DIH とは疎になっていて、 UpdateHandler はどの requestHandler でも使えるように見える。  </p>
-
-<p>設定には<a href="https://github.com/vimtaku/solr_sample/commit/85c7439d239d55e3344cc20a32461536c3201eb8">この差分</a>
-を参照。  </p>
-
-<p>これを使えば、json のカラムからとった json を parse して multiValue なカラムに登録などができる。  </p>
-
-<h3 id="section-10">なんかうまくいかない場合</h3>
-<p>キャッシュされたデータを更新するとたまに更新されない。<br />
-自分は一回 core を削除、 $SOLR_HOME の data ディレクトリを rm -rf している。<br />
-もっといい、データ削除(もしくはいれかえ)の方法知っている人は教えて下さい。。  </p>
-
-<h2 id="url">参考URL</h2>
-<p><a href="http://ja.wikipedia.org/wiki/Lucene">http://ja.wikipedia.org/wiki/Lucene</a><br />
-<a href="http://wiki.apache.org/solr/DataImportHandler">http://wiki.apache.org/solr/DataImportHandler</a><br />
-<a href="http://ochien.seesaa.net/article/153191074.html">http://ochien.seesaa.net/article/153191074.html</a><br />
-<a href="http://d.hatena.ne.jp/kudzu/20110513/1305313247">http://d.hatena.ne.jp/kudzu/20110513/1305313247</a><br />
-<a href="http://d.hatena.ne.jp/bowez/20100405#p2">http://d.hatena.ne.jp/bowez/20100405#p2</a>  </p>
-
-<p>_</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-13T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/solr/'>solr</a>
 
 
 </div>

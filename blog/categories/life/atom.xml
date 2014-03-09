@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-08T16:46:46+09:00</updated>
+  <updated>2014-03-10T01:50:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[3月2週目]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/10/life-march-9/"/>
+    <updated>2014-03-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/10/life-march-9</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>ものすごく仕事が忙しくてやばかった。<br />
+rails に慣れてきた感は出てきたが、まだまだ大変だ。  </p>
+
+<p>病院行きたいけど忙しいからなかなか行けないんだよなぁ。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>vimplugin 書いたし、ちょっと今後やりそうなことの技術調査ができたし、<br />
+気になっていたこともわかってよかった。  </p>
+
+<h2 id="section-2">困っていること</h2>
+<p>くっそ忙しくてちょっと余裕がない。<br />
+まぁでもいまはちょっとやるしかないのでがんばる。  </p>
+
+<h2 id="gem">最近の gem</h2>
+<p>gem ‘default_value_for’
+これデフォルト値いい感じに埋めれてなんか便利だった</p>
+
+<h2 id="section-3">勉強途中経過</h2>
+
+<h3 id="section-4">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 まで</li>
+</ul>
+
+<h2 id="section-5">読書途中経過</h2>
+
+<h3 id="section-6">進んだ</h3>
+<ul>
+  <li>ネットワークはなぜつながるのか?(1章)</li>
+</ul>
+
+<h3 id="section-7">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>DDD ショートバージョン</li>
+  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-8">まだ積んでないけど読む</h3>
+<ul>
+  <li>nginxの本</li>
+</ul>
+
+<h3 id="section-9">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[3月が来た]]></title>
@@ -246,66 +322,6 @@ solr は存在くらいしか知らなかったけど、非常によく出来た
   <li>(2014/1/13)読む筋トレ</li>
   <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一月ももう終わりそう]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/01/26/life-jan-last/"/>
-    <updated>2014-01-26T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/01/26/life-jan-last</id>
-    <content type="html"><![CDATA[<p>
-</p>
-
-<h2 id="section">先週の振り返り</h2>
-<p>先週は chef と格闘しっぱなしだった。<br />
-まぁでも opsworks についての理解もかなり深まったし、<br />
-chef の感覚はものすごくつかめたのでよかった。<br />
-自分でも新しい recipe 複数かいたし。<br />
-でもなんだか仕事が忙しかった気がする。<br />
-あと、ブログのアウトプットも増えてきた。<br />
-だれに読まれようが関係ない気持ちで書くと案外かけるもんだ。<br />
-まぁ, Jekyll で書けるってのがかなり大きいんだけれども。  </p>
-
-<p>あ、あと ruby 書くために整理したかったので .vimrc を一新した。<br />
-そして今流行の homesick を使うようにした。<br />
-各環境で .zshrc とか違っている感があるので、徐々に改善していく。  </p>
-
-<h2 id="section-1">勉強途中経過</h2>
-
-<h3 id="section-2">進んだ</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第6章まで読んだ</li>
-  <li>プログラマの数学 4章まで読んだ</li>
-  <li>パーフェクトルビー5章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
 ]]></content>
   </entry>
   

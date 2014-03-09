@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-08T16:46:46+09:00</updated>
+  <updated>2014-03-10T01:50:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner/"/>
+    <updated>2014-03-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner</id>
+    <content type="html"><![CDATA[<h2 id="section">ワンライナー</h2>
+<p><div>
+  <pre><code class='ruby'>ruby -e “require ‘webrick’; server = WEBrick::HTTPServer.new( {:BindAddress =&amp;gt; ‘0.0.0.0’, :Port =&amp;gt; 80}); trap(:INT){server.shutdown}; server.start;”</code></pre>
+</div>
+</p>
+
+<h2 id="section-1">普通の方</h2>
+<p><div>
+  <pre><code class='ruby'>require ‘webrick’
+server = WEBrick::HTTPServer.new({:BindAddress =&amp;gt; ‘0.0.0.0’, :Port =&amp;gt; 80})
+trap(:INT){server.shutdown}
+server.start</code></pre>
+</div>
+</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[devise を知るにはまず warden を知るが良い]]></title>
