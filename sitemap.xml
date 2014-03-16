@@ -165,8 +165,16 @@
         <lastmod>2014-03-10T00:56:05+09:00</lastmod>
     </url>
     <url>
+        <loc>http://vimtaku.github.io/blog/2014/03/16/apache-nginx-client-certificate/</loc>
+        <lastmod>2014-03-16T19:58:17+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://vimtaku.github.io/blog/2014/03/16/life-march-16/</loc>
+        <lastmod>2014-03-16T19:23:20+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://vimtaku.github.io/blog/archives/</loc>
-        <lastmod>2014-03-10T01:50:42+09:00</lastmod>
+        <lastmod>2014-03-16T19:58:17+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/robots.txt</loc>
@@ -174,6 +182,6 @@
     </url>
     <url>
         <loc>http://vimtaku.github.io/</loc>
-        <lastmod>2014-03-10T01:50:42+09:00</lastmod>
+        <lastmod>2014-03-16T19:58:17+09:00</lastmod>
     </url>
 </urlset>
