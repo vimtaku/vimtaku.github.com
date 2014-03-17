@@ -173,8 +173,12 @@
         <lastmod>2014-03-16T19:23:20+09:00</lastmod>
     </url>
     <url>
+        <loc>http://vimtaku.github.io/blog/2014/03/17/memo-before-migrate/</loc>
+        <lastmod>2014-03-17T17:12:02+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://vimtaku.github.io/blog/archives/</loc>
-        <lastmod>2014-03-16T19:58:17+09:00</lastmod>
+        <lastmod>2014-03-17T17:12:02+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/robots.txt</loc>
@@ -182,6 +186,6 @@
     </url>
     <url>
         <loc>http://vimtaku.github.io/</loc>
-        <lastmod>2014-03-16T19:58:17+09:00</lastmod>
+        <lastmod>2014-03-17T17:12:02+09:00</lastmod>
     </url>
 </urlset>

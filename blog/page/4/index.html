@@ -7,14 +7,7 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="所感
-読み物形式の、ただの自己啓発本。
-自己啓発本の部類は7つの習慣とか読んどけば多分良くて
-ナポレオンヒルのやつとかも読んでたので
-内容はあんまり大差ない気がする。
-一応まとめたので書いておく。
-内容がものすごく自己啓発本だから実際に自分で文字を打つと
-すごい感じする。 &hellip;">
+	<meta name="description" content="opsworks と elasticsearch についてのメモ elasticsearch についての memo クラスタリングした時に master-slave みたいになるのか？ ならない。すべてがマスタになる模様 複数台立てておいて、片方落としておいて、立っている方にデータPUT &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -85,6 +78,125 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/08/z_elasticsearch-ebs/">
+		
+			Elasticsearch_ebs</a>
+	</h2>
+	<div class="entry-content">
+		
+<h1 id="opsworks--elasticsearch-">opsworks と elasticsearch についてのメモ</h1>
+
+<h2 id="elasticsearch--memo">elasticsearch についての memo</h2>
+<ul>
+  <li>クラスタリングした時に master-slave みたいになるのか？
+    <ul>
+      <li>ならない。すべてがマスタになる模様</li>
+      <li>複数台立てておいて、片方落としておいて、立っている方にデータPUT して落としておいた方を立ててGETできる</li>
+    </ul>
+  </li>
+  <li>elastic search s3 gateway はパフォーマンスの問題で deprecated になっている模様
+    <ul>
+      <li>なので EBS でやることになる。</li>
+    </ul>
+  </li>
+  <li>chef の recipe を見ると、設定しておけば ebs を自動で作ってマウントまでしてくれる感じになっている
+    <ul>
+      <li>elasticsearch::ebs, elasticsearch::data のレシピを実行すれば良い感じ。
+        <ul>
+          <li>opsworks では, layers に elasticsearch::ebs, elasticsearch::data の順で登録すればおｋ</li>
+          <li>README に書いてある通りに設定が必要。具体的には data_bags/elasticsearch/data.json と aws の認証周りの設定が必要</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>各アベイラビリティゾーンに分散しておいておいて、 internal loadbalancer に紐付ければ、片方が死んでも大丈夫</li>
+  <li>災害時の復旧については、たぶん snapshot からの復旧に加えて、 index の再作成(upsert なAPI 叩きまくる) が必要</li>
+  <li>discovery については aws-instance プラグインみたいなのがあって、api 叩いてリスト取得してきている。</li>
+</ul>
+
+<h2 id="elasticsearch--memo2">elasticsearch についての memo2</h2>
+<ul>
+  <li>elasticsearch って aws のサービス名かと思ってたけど、別にそういうわけじゃない</li>
+</ul>
+
+<h2 id="elasticsearch--memo3">elasticsearch についての memo3</h2>
+<p>opsworks のレイヤーで、internal LB をひもづけることはできると思うけど、<br />
+新しく作った elasticsearch node のインデックス作成とかしている時に紐づくとまずいので<br />
+いったん手動でやるようにする。(たぶんELBの死活監視を工夫すればうまいこと行ける)  </p>
+
+<h2 id="opsworks--chef-">opsworks の chef で役立つコマンド例</h2>
+
+<div>
+  <pre><code class="bash">## setup サイクルを retry
+opsworks-cli-agent run_command setup
+
+## custom.json を dump
+opsworks-cli-agent get_json &gt; hoge.json
+
+## ログをみる
+opsworks-cli-agent show_log
+
+## hoge.json を指定すれば、楽にもう一度ライフサイクルを指定できる
+&quot;/opt/aws/opsworks/current/bin/chef-solo&quot; -j &quot;hoge.json&quot; -c &quot;/opt/aws/opsworks/current/conf/solo.rb&quot; -L &quot;/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log&quot; &gt; &quot;/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log.out&quot; 2&gt;&amp;1
+
+
+### 役に立つディレクトリ
+
+## opsworks の chef-solo が走るときにログが出たり、走るときの json が出たりする
+/var/lib/aws/opsworks
+
+## opsworks の chef-solo のクックブックとかがこのへんにある。
+/opt/aws/opsworks</code></pre>
+</div>
+
+<h2 id="useiamprofile-">use_iam_profile がうまく行かない件</h2>
+<p>gem の fog を使うところで use_iam_profile =&gt; true で渡しても全然うまく動かない問題があって、<br />
+ライブラリのバグかもと思ったけどなんか違うっぽくて、時間がなかったので custom.json で大人しく accesskey とかを指定した。<br />
+おそらく _request の時に credential の作成をしているんだけど、そこでミスっているんじゃないかなぁという予想。</p>
+
+<h2 id="section">参考資料というか調べてく時に必要だったこと。</h2>
+<ul>
+  <li><a href="https://github.com/elasticsearch/elasticsearch/issues/2458">https://github.com/elasticsearch/elasticsearch/issues/2458</a></li>
+  <li><a href="http://www.elasticsearch.org/tutorials/elasticsearch-on-ec2/">http://www.elasticsearch.org/tutorials/elasticsearch-on-ec2/</a></li>
+  <li><a href="http://www.smokeymonkey.net/2013/10/elasticsearchcluster.html">http://www.smokeymonkey.net/2013/10/elasticsearchcluster.html</a></li>
+  <li><a href="http://docs.aws.amazon.com/opsworks/latest/userguide/troubleshoot-debug-cli.html">http://docs.aws.amazon.com/opsworks/latest/userguide/troubleshoot-debug-cli.html</a></li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-08T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/aws/'>aws</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1306,64 +1418,6 @@ jpで買うより全然安い。保証とかは知らん。</p>
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/11/28/learning-vagrant/">
-		
-			Vagrant に入門する</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="vagrant">vagrant</h2>
-<p>っていうか vagrant はめちゃくちゃ簡単に導入できる。<br />
-chef-solo 入門の naoya 氏が書いたやつ買ったのと、ウェブに落ちまくってるやつを<br />
-一緒に見ながら手を動かしてみたら、結構わかってきた。  </p>
-
-<p>これは最初に覚えておいたらお釣りがくるレベルで使えそうなので<br />
-まだ知らない人は早めに勉強しといたほうがいいね。</p>
-
-<h2 id="section">読書途中経過</h2>
-<ul>
-  <li>パーフェクトルビー3章まで読んだ</li>
-  <li>chef-solo 入門 #7 まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-</ul>
-
-<p>おいおいまとめる</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-28T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/dev/'>dev</a>
 
 
 </div>

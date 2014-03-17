@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-16T19:58:18+09:00</updated>
+  <updated>2014-03-17T17:12:05+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[memo_before_migrate]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/17/memo-before-migrate/"/>
+    <updated>2014-03-17T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/17/memo-before-migrate</id>
+    <content type="html"><![CDATA[<h2 id="memo">memo</h2>
+<p>before_migrate は、migrate しようがしまいが呼ばれる。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL Workbench で Rails の migration ファイルを吐き出す]]></title>
