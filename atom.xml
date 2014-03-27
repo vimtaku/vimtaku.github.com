@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-23T22:26:18+09:00</updated>
+  <updated>2014-03-28T00:42:50+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Jbuilder で 共通パラメータを付与したい時は layout を使うといいかも]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/28/jbuilder-layout/"/>
+    <updated>2014-03-28T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/28/jbuilder-layout</id>
+    <content type="html"><![CDATA[<h2 id="section">前提</h2>
+<ul>
+  <li>rails4</li>
+  <li>jbuilder(1.5.3)</li>
+</ul>
+
+<h2 id="section-1">背景</h2>
+<p>jbuilder を使うと、 api のレスポンスをシンプルに定義できる。<br />
+例えば、hoge_controller.rb#new の場合に<br />
+app/views/hoge/new.jbuilder とかを用意しておいて、<br />
+そこに template で返したい値などを書いて定義できる。<br />
+しかし、共通で値を返したい場合どうするんだってことになって<br />
+いろいろ考えた結果以下に落ち着いた。  </p>
+
+<h2 id="section-2">解法</h2>
+<p>layout を使う。  </p>
+
+<p>controller にたとえば<br />
+layout ‘api/application.jbuilder’ 
+などと定義しておく。  </p>
+
+<p>それで上記の例で言うと、 hoge_controller.rb#new では<br />
+app/views/hoge/new.jbuilder が呼ばれるので、  </p>
+
+<p>app/views/hoge/new.jbuilder</p>
+<div>
+  <pre><code class="ruby">json.from_hoge &quot;from_hoge_param&quot;</code></pre>
+</div>
+
+<p>layouts/api/application.jbuilder  </p>
+<div>
+  <pre><code class="ruby"># common に値を付与
+json.common &quot;common_param_is_here&quot;
+# controller の @hoge を参照できる
+json.hoge @hoge
+# template の値を付与
+JSON.parse(yield).each do |k,v|
+  json.set! k, v
+end</code></pre>
+</div>
+
+<p>とかしておくと良いのかもしれない。<br />
+結果は
+{common:”common_param_is_here”, fromHoge:”from_hoge_param”, hoge:”hoge_from_controller”}
+てな感じになる。  </p>
+
+<p>ちなみに camelCase には公式の通り、 Jbuilder.key_format camelize: :lower でできる。</p>
+
+<p>上記は、まだ実践してないけど手元で試してみた見たかんじこれで行けそう。  </p>
+
+<h2 id="section-3">所感</h2>
+<p>もっといい方法あれば教えて下さい。  </p>
+
+<h2 id="section-4">蛇足</h2>
+<p>stack over flow とかで書いてある render! を定義する方法や<br />
+json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_march_23]]></title>
@@ -1766,62 +1831,6 @@ ruby 力が2くらい上がった。気がする。  </p>
 <h3 id="section-5">積んでる</h3>
 <ul>
   <li>詳解UNIXプログラミング第7章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2月の solr には雪も full]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/02/08/life-feb-8/"/>
-    <updated>2014-02-08T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/02/08/life-feb-8</id>
-    <content type="html"><![CDATA[
-<h2 id="section">先週の振り返り</h2>
-<p>先週は solr 祭りだった。<br />
-solr は存在くらいしか知らなかったけど、非常によく出来たソフトウェアで<br />
-これを使いこなせれば(使い方を知っていれば)非常によい価値を<br />
-提供できる気がした。  </p>
-
-<p>先々週はあんまり何やったか覚えていない。<br />
-そういや 先週は docker とかめっちゃいいなと思ってたところだった。<br />
-あとで触ってみよう。  </p>
-
-<p>ところで東京のくせに雪とか降るのは生意気だと思う(北から目線。  </p>
-
-<h2 id="section-1">勉強途中経過</h2>
-
-<h3 id="section-2">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第7章まで読んだ</li>
-  <li>パーフェクトルビー10章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
   <li>オペレーティングシステム 6章まで読んだ</li>
   <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
   <li>ネットワークはなぜつながるのか?</li>

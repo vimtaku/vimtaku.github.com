@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-23T22:26:18+09:00</updated>
+  <updated>2014-03-28T00:42:50+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Jbuilder で 共通パラメータを付与したい時は layout を使うといいかも]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/28/jbuilder-layout/"/>
+    <updated>2014-03-28T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/28/jbuilder-layout</id>
+    <content type="html"><![CDATA[<h2 id="section">前提</h2>
+<ul>
+  <li>rails4</li>
+  <li>jbuilder(1.5.3)</li>
+</ul>
+
+<h2 id="section-1">背景</h2>
+<p>jbuilder を使うと、 api のレスポンスをシンプルに定義できる。<br />
+例えば、hoge_controller.rb#new の場合に<br />
+app/views/hoge/new.jbuilder とかを用意しておいて、<br />
+そこに template で返したい値などを書いて定義できる。<br />
+しかし、共通で値を返したい場合どうするんだってことになって<br />
+いろいろ考えた結果以下に落ち着いた。  </p>
+
+<h2 id="section-2">解法</h2>
+<p>layout を使う。  </p>
+
+<p>controller にたとえば<br />
+layout ‘api/application.jbuilder’ 
+などと定義しておく。  </p>
+
+<p>それで上記の例で言うと、 hoge_controller.rb#new では<br />
+app/views/hoge/new.jbuilder が呼ばれるので、  </p>
+
+<p>app/views/hoge/new.jbuilder
+<div>
+  <pre><code class='ruby'>json.from_hoge “from_hoge_param”</code></pre>
+</div>
+</p>
+
+<p>layouts/api/application.jbuilder<br />
+<div>
+  <pre><code class='ruby'># common に値を付与
+json.common “common_param_is_here”
+# controller の @hoge を参照できる
+json.hoge @hoge
+# template の値を付与
+JSON.parse(yield).each do |k,v|
+  json.set! k, v
+end</code></pre>
+</div>
+
+とかしておくと良いのかもしれない。<br />
+結果は
+{common:”common_param_is_here”, fromHoge:”from_hoge_param”, hoge:”hoge_from_controller”}
+てな感じになる。  </p>
+
+<p>ちなみに camelCase には公式の通り、 Jbuilder.key_format camelize: :lower でできる。</p>
+
+<p>上記は、まだ実践してないけど手元で試してみた見たかんじこれで行けそう。  </p>
+
+<h2 id="section-3">所感</h2>
+<p>もっといい方法あれば教えて下さい。  </p>
+
+<h2 id="section-4">蛇足</h2>
+<p>stack over flow とかで書いてある render! を定義する方法や<br />
+json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[memo_before_migrate]]></title>
