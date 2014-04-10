@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-28T00:42:50+09:00</updated>
+  <updated>2014-04-10T17:45:31+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips/"/>
+    <updated>2014-04-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips</id>
+    <content type="html"><![CDATA[<h2 id="section">結論</h2>
+<p>views/book/_book.jbuilder  </p>
+<div>
+  <pre><code class="ruby">json.cache! book do
+  _j = book.to_builder.target!
+    JSON.parse(_j).each do |k,v|
+        json.set! k, v
+    end
+end</code></pre>
+</div>
+
+<p>controller で @tmpl[:book] が set されていると仮定<br />
+views/book/show.jbuilder  </p>
+<div>
+  <pre><code class="ruby">json.book do
+  json.partial! 'book/book', book: @tmpl[:book]
+end</code></pre>
+</div>
+
+<p>controller で @tmpl[:books] が set されていると仮定<br />
+views/book/list.jbuilder  </p>
+<div>
+  <pre><code class="ruby">json.books @tmpl[:books], partial:'book/book', as: :book</code></pre>
+</div>
+
+<h2 id="section-1">背景</h2>
+<p>単体表示に  </p>
+<div>
+  <pre><code class="ruby">{
+    book: {
+        bookId: &quot;moge&quot;
+    }
+}</code></pre>
+</div>
+
+<p>複数表示に  </p>
+<div>
+  <pre><code class="ruby">{
+    books:[
+    {
+      bookId: &quot;moge&quot;
+    },
+    {
+      bookId: &quot;moge2&quot;
+    }
+    ]
+}</code></pre>
+</div>
+
+<p>としたいみたいなやつがググっても全然出てこなかったので。</p>
+
+<h2 id="section-2">所感</h2>
+<p>まぁこうは普通しないわなぁ。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Jbuilder で 共通パラメータを付与したい時は layout を使うといいかも]]></title>
@@ -1797,54 +1859,6 @@ docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
 
 <p>これで mac から telnet localhost 11211 で行けた。たぶん。</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2014/2/9]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/02/09/life-feb-9/"/>
-    <updated>2014-02-09T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/02/09/life-feb-9</id>
-    <content type="html"><![CDATA[
-<h2 id="section">土日振り返り</h2>
-<p>雪うざい。地味に perfect ruby を進めた。<br />
-ruby 力が2くらい上がった。気がする。  </p>
-
-<h2 id="section-1">勉強途中経過</h2>
-
-<h3 id="section-2">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>パーフェクトルビー15章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第7章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
 ]]></content>
   </entry>
   

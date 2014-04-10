@@ -7,10 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="所感
-筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。
-自分はダイエットで成功体験があったり、筋トレは結構日常に組み込んでやってたときがあったけど、
-仕事で一気に忙しくなったときにその習慣がなくなってしまった。 &hellip;">
+	<meta name="description" content="rails で asset pipeline を使って s3 に上げる手順について(opsworks使用) 参考URL
+こちらを参考にした。
+http://d.hatena.ne.jp/lettas0726/20130320/1363773153 Gemfile gem 'uglifier &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +80,97 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/14/asset-sync/">
+		
+			Asset_sync</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
+
+<h2 id="url">参考URL</h2>
+<p>こちらを参考にした。
+<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
+
+<h4 id="gemfile">Gemfile</h4>
+<div>
+  <pre><code class="ruby">gem 'uglifier', '&gt;= 1.3.0'
+gem 'asset_sync'</code></pre>
+</div>
+
+<p>を追記。</p>
+
+<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
+
+<div>
+  <pre><code class="ruby">template &quot;#{release_path}/config/asset_sync.yml&quot; do
+  mode &quot;0644&quot;
+  source &quot;asset_sync.yml.erb&quot;
+end
+
+bash &quot;precompile_assets&quot; do
+  user &quot;deploy&quot;
+  cwd release_path
+  code 'bundle exec rake assets:precompile RAILS_ENV=production'
+end</code></pre>
+</div>
+
+<p>今回は、 before_migrate で呼ぶことにする。<br />
+chef-solo で呼ばれるので resource が使える模様。<br />
+カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
+template は asset_sync.yml.erb としておいておく感じ。</p>
+
+<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
+<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
+
+<div>
+  <pre><code class="ruby">config.action_controller.asset_host = '//s3-ap-northeast-1.amazonaws.com/hoge.example.com'
+config.assets.initialize_on_precompile = true</code></pre>
+</div>
+
+<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
+<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
+ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
+existing_remote_files: ‘delete’ として<br />
+precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
+config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
+(しかし、ゴミはのこる。対処については要検討。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/chef/'>chef</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1316,64 +1406,6 @@ jnlp で行う通信を ssl にするのが無いんだよなぁ.<br />
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/23/5_jekyll-blockquote-/">
-		
-			Jekyll Blockquote 修正</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
-<p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
-やってみたら空白とか改行がいい感じに削られてイラッとしたので<br />
-それっぽい plugin ないかと思って調べたら github にblockquote<br />
-plugin があったのでそれを使ってみたら全く同じだったので<br />
-fork して quote と 改行入れる風にした。</p>
-
-<h2 id="section">一応カスみたいな差分</h2>
-<p><a href="https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9">https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9</a>
-gsub! 使った方がいいのでもういっこ差分足した</p>
-
-<h2 id="toc-">toc について</h2>
-<p>table of contents 機能が地味にあって  </p>
-
-<blockquote><p>* <br />{:toc}</p></blockquote>
-<p>って感じで書くといいらしい。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
 
 
 </div>

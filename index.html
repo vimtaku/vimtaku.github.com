@@ -7,11 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="前提 rails4 jbuilder(1.5.3) 背景
-jbuilder を使うと、 api のレスポンスをシンプルに定義できる。
-例えば、hoge_controller.rb#new の場合に
-app/views/hoge/new.jbuilder とかを用意しておいて、
-そこに &hellip;">
+	<meta name="description" content="結論
+views/book/_book.jbuilder json.cache! book do _j = book.to_builder.target! JSON.parse(_j).each do |k,v| json.set! k, v end
+end controller で @tmpl &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +80,100 @@ app/views/hoge/new.jbuilder とかを用意しておいて、
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/04/10/jbuilder-tips/">
+		
+			Jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">結論</h2>
+<p>views/book/_book.jbuilder  </p>
+<div>
+  <pre><code class="ruby">json.cache! book do
+  _j = book.to_builder.target!
+    JSON.parse(_j).each do |k,v|
+        json.set! k, v
+    end
+end</code></pre>
+</div>
+
+<p>controller で @tmpl[:book] が set されていると仮定<br />
+views/book/show.jbuilder  </p>
+<div>
+  <pre><code class="ruby">json.book do
+  json.partial! 'book/book', book: @tmpl[:book]
+end</code></pre>
+</div>
+
+<p>controller で @tmpl[:books] が set されていると仮定<br />
+views/book/list.jbuilder  </p>
+<div>
+  <pre><code class="ruby">json.books @tmpl[:books], partial:'book/book', as: :book</code></pre>
+</div>
+
+<h2 id="section-1">背景</h2>
+<p>単体表示に  </p>
+<div>
+  <pre><code class="ruby">{
+    book: {
+        bookId: &quot;moge&quot;
+    }
+}</code></pre>
+</div>
+
+<p>複数表示に  </p>
+<div>
+  <pre><code class="ruby">{
+    books:[
+    {
+      bookId: &quot;moge&quot;
+    },
+    {
+      bookId: &quot;moge2&quot;
+    }
+    ]
+}</code></pre>
+</div>
+
+<p>としたいみたいなやつがググっても全然出てこなかったので。</p>
+
+<h2 id="section-2">所感</h2>
+<p>まぁこうは普通しないわなぁ。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1041,155 +1133,6 @@ omap iu  &lt;Plug&gt;(textobj-wiw-i)</code></pre>
 
 
 	<a class='category' href='/blog/categories/vim/'>vim</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/02/z_devise1/">
-		
-			Devise に入門してみる</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">背景</h2>
-<p><a href="/blog/2014/03/02/warden/">devise を知るには warden を知るべしと思ったので warden を勉強した。</a><br />
-大体 warden はわかったので warden の仕組みをかぶせた認証エンジンである<br />
-<a href="https://github.com/plataformatec/devise">devise</a> を触ってみる。  </p>
-
-<h2 id="section-1">では早速、以下メモ。</h2>
-
-<div>
-  <pre><code class="bash">/Users/mac/try_devise/try_devise% be rails g devise:install
-      create  config/initializers/devise.rb
-      create  config/locales/devise.en.yml
-===============================================================================
-
-Some setup you must do manually if you haven't yet:
-
-  1. Ensure you have defined default url options in your environments files. Here
-     is an example of default_url_options appropriate for a development environment
-     in config/environments/development.rb:
-
-       config.action_mailer.default_url_options = { :host =&gt; 'localhost:3000' }
-
-     In production, :host should be set to the actual host of your application.
-
-  2. Ensure you have defined root_url to *something* in your config/routes.rb.
-     For example:
-
-       root :to =&gt; &quot;home#index&quot;
-
-  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
-     For example:
-
-       &lt;p class=&quot;notice&quot;&gt;&lt;%= notice %&gt;&lt;/p&gt;
-       &lt;p class=&quot;alert&quot;&gt;&lt;%= alert %&gt;&lt;/p&gt;
-
-  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
-
-       config.assets.initialize_on_precompile = false
-
-     On config/application.rb forcing your application to not access the DB
-     or load models when precompiling your assets.
-
-  5. You can copy Devise views (for customization) to your app by running:
-
-       rails g devise:views
-
-===============================================================================</code></pre>
-</div>
-
-<p>bundle exec rails g devise User<br />
-予めcreate database しておく<br />
-bundle exec rake db:migrate  </p>
-
-<p>すると出来上がる。</p>
-<div>
-  <pre><code class="sql">CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL DEFAULT '',
-  `encrypted_password` varchar(255) NOT NULL DEFAULT '',
-  `reset_password_token` varchar(255) DEFAULT NULL,
-  `reset_password_sent_at` datetime DEFAULT NULL,
-  `remember_created_at` datetime DEFAULT NULL,
-  `sign_in_count` int(11) NOT NULL DEFAULT '0',
-  `current_sign_in_at` datetime DEFAULT NULL,
-  `last_sign_in_at` datetime DEFAULT NULL,
-  `current_sign_in_ip` varchar(255) DEFAULT NULL,
-  `last_sign_in_ip` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `index_users_on_email` (`email`),
-  UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</code></pre>
-</div>
-
-<p>config/routes.rb に行が追加されている。  </p>
-<blockquote><p>devise_for :users</p></blockquote>
-
-<p>localhost:3000 にアクセスすると<br />
-<img src="http://gyazo.com/ff5a659072c28ff0934f6ec51ca74dc3.png" /><br />
-/users/にものすごくたくさんいろいろできている。  </p>
-
-<p>login した後の、 users/edit とか<br />
-<img src="http://gyazo.com/27ca0f5038500c7796c51c81973755a9.png" />  </p>
-
-<h2 id="view-">独自の view を使うには</h2>
-
-<p>独自の view を使うには、<br />
-scope (admin モデルと user モデルがいる場合に使用)のロジックを使う方法と、<br />
-view を単純に上書きする方法がある。<br />
-当然、用途に応じて admin と user のモデルを使うんなら scope を使えば良い。<br />
-単純にひとつだけなら、 view を上書きする方法が良い。  </p>
-
-<p>view を上書きする方法では、<br />
-be rails generate devise:views して、<br />
-devise/sessions/new.html.erb<br />
-を編集などすれば良い。  </p>
-
-<p>scope を使う方法では、<br />
-config/initializers/devise.rb に<br />
-config.scoped_views = true<br />
-を追加して、<br />
-be rails generate devise:views users<br />
-すれば、<br />
-users/sessions/new.html.erb<br />
-などが使われるようになる。  </p>
-
-<h2 id="section-2">所感</h2>
-<p>全然入門できてない。続きはまた書く。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/devise/'>devise</a>
 
 
 </div>

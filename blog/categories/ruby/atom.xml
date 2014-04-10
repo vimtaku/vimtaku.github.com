@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-03-28T00:42:50+09:00</updated>
+  <updated>2014-04-10T17:45:31+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips/"/>
+    <updated>2014-04-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips</id>
+    <content type="html"><![CDATA[<h2 id="section">結論</h2>
+<p>views/book/_book.jbuilder<br />
+<div>
+  <pre><code class='ruby'>json.cache! book do
+  _j = book.to_builder.target!
+    JSON.parse(_j).each do |k,v|
+        json.set! k, v
+    end
+end</code></pre>
+</div>
+</p>
+
+<p>controller で @tmpl[:book] が set されていると仮定<br />
+views/book/show.jbuilder<br />
+<div>
+  <pre><code class='ruby'>json.book do
+  json.partial! ‘book/book’, book: @tmpl[:book]
+end</code></pre>
+</div>
+</p>
+
+<p>controller で @tmpl[:books] が set されていると仮定<br />
+views/book/list.jbuilder<br />
+<div>
+  <pre><code class='ruby'>json.books @tmpl[:books], partial:’book/book’, as: :book</code></pre>
+</div>
+</p>
+
+<h2 id="section-1">背景</h2>
+<p>単体表示に<br />
+<div>
+  <pre><code class='ruby'>{
+    book: {
+        bookId: “moge”
+    }
+}</code></pre>
+</div>
+
+複数表示に<br />
+<div>
+  <pre><code class='ruby'>{
+    books:[
+    {
+      bookId: “moge”
+    },
+    {
+      bookId: “moge2”
+    }
+    ]
+}</code></pre>
+</div>
+
+としたいみたいなやつがググっても全然出てこなかったので。</p>
+
+<h2 id="section-2">所感</h2>
+<p>まぁこうは普通しないわなぁ。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する]]></title>
