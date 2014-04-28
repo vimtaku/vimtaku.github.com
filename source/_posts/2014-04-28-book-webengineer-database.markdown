@@ -18,8 +18,9 @@ MySQLではマスタはマルチスレッドで動作するが、
 さらに raid のせいで I/O での差が発生する。  
 なので、スレーブだけ SSD とか、SSD のなかでもさらに高性能な PCI-express SSD を使うと余裕になるっていう話。  
 
-### MySQL の Hash JOIN について
+### Hash JOIN について
 MySQL では join とかするときは、残念なことに MySQL5.6 でも Nested Loop に変換されてしまう。  
+MariaDB とか PostgreSQL とかでは Hash Join が実装されているようだ。  
 Hash JOIN のほうがすごく早い場合がある、が、単純に Hash Join のほうが早いというわけではない。  
  [mysql performance blog](http://www.mysqlperformanceblog.com/2012/05/31/a-case-for-mariadbs-hash-joins/)の結論部をたいして無い英語力で翻訳してみると、  
 
