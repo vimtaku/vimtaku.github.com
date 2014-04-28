@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mysql | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-04-28T15:54:10+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[web エンジニアのためのデータベース技術入門をざっくり読んだ]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/28/book-webengineer-database/"/>
+    <updated>2014-04-28T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/28/book-webengineer-database</id>
+    <content type="html"><![CDATA[<h2 id="web-">web エンジニアのためのデータベース技術入門をざっくり読んだ</h2>
+
+<p><a href="http://hamasyou.com/blog/2012/05/09/4774150207/">この人の感想ブログがいい感じ</a>。<br />
+なので、自分で気になったあたりを調べたところとかを、以下にメモしていく。  </p>
+
+<h3 id="sharding-">Sharding と更新性能</h3>
+<p>RAID を組んだ マスタの場合、冗長性だけでなく並列性においても有利である。<br />
+MySQLではマスタはマルチスレッドで動作するが、<br />
+スレーブはシングルスレッドで動いているから、スレーブのほうが負荷がかかりやすく、<br />
+さらに raid のせいで I/O での差が発生する。<br />
+なので、スレーブだけ SSD とか、SSD のなかでもさらに高性能な PCI-express SSD を使うと余裕になるっていう話。  </p>
+
+<h3 id="hash-join-">Hash JOIN について</h3>
+<p>MySQL では join とかするときは、残念なことに MySQL5.6 でも Nested Loop に変換されてしまう。<br />
+MariaDB とか PostgreSQL とかでは Hash Join が実装されているようだ。<br />
+Hash JOIN のほうがすごく早い場合がある、が、単純に Hash Join のほうが早いというわけではない。<br />
+ <a href="http://www.mysqlperformanceblog.com/2012/05/31/a-case-for-mariadbs-hash-joins/">mysql performance blog</a>の結論部をたいして無い英語力で翻訳してみると、  </p>
+
+<p><blockquote><p>Based on the above information and the benchmark results for different test cases, we can see where Hash Joins work best and where they don’t. First of all Hash joins only work for equijoins. Hash join work best when you are joining very big tables with no WHERE clause, or a WHERE clause on a non-indexed column. They also provide big improvement in query response time when you are joining tables with no indexes on the join condition (Full Join). The best performance with Hash Join can be achieved when the left table can fit completely in the join buffer, or when the least amount of buffer refills are needed, as each buffer refill means a scan of the right-side table. However, Hash joins do not outperform BNL or BKA when you are joining a really small subset of rows, as then scanning the right-side table becomes costly in comparison. Block Nested Loop Join would perform better than Hash Join when you are joining two tables on a PK column such that both tables are read in PK order. One use case that I can think of for hash joins is data warehouse applications that need to run reporting queries that need to join on lookup tables which tend to be small mostly. What use cases can you think of</p></blockquote></p>
+
+<p><blockquote><p>まず Hash join は inner join じゃなきゃそもそもうごかない。<br /><br/>Hash join は where 句なしの大きいテーブルか、<br /><br/>where 使っているけど インデックスはられていないカラムの条件指定の時に効果を発揮するよ。<br /><br/>もしくは、index がはられていない列同士の結合とかにもだいぶ効果発揮するよ。<br /><br/>ベストパフォーマンス発揮するタイミングは、左のテーブルがジョインバッファに全部収まる<br /><br/>(最低限再度バッファに入れる時に入るサイズ)ときだ。<br /><br/>それは右のテーブルを読みきった時にまたジョインバッファ更新するから。<br /><br/>すげぇ小さいテーブルとか、右のテーブルに const 検索条件が使われている時とかは BNL とか BKA とかのほうがいい感じだぜ。<br /><br/>BNL は PK での 検索条件とか、 PK での sort order 使ってるときに Hash join よりいいぜ。<br /><br/>まぁ、一つ思いつくのは data ware hause Application とかでレポートする処理とか書く時にかなり早くなりそうだよね。<br /><br/>あとなんかある？<br /></p></blockquote></p>
+
+<p>って感じだ。<br />
+なるほど、そう考えると格段と良くなるとは言えないが、場合によっては相当効力がありそうだ。<br />
+しかもグラフを見ると、なるほど、たしかに、そうとうパフォーマンスが上がっている場所がある。<br />
+というか mysql 5.5 と 5.6 の差が違いすぎてウケる。  </p>
+
+<h4 id="section">参考:</h4>
+<p><a href="http://d.hatena.ne.jp/interdb/20131020/1382280437">http://d.hatena.ne.jp/interdb/20131020/1382280437</a><br />
+<a href="http://www.mysqlperformanceblog.com/2012/05/31/a-case-for-mariadbs-hash-joins/">http://www.mysqlperformanceblog.com/2012/05/31/a-case-for-mariadbs-hash-joins/</a>  </p>
+
+<h3 id="section-1">スレッドプールについて</h3>
+<p>MariaDB だとスレッドプールが使用できるが、MySQL 5.6 ではその機能はない。<br />
+エンタープライズ版とかだと用意されているらしい。 ちなみに MySQL6 とかで実装されるらしい。  </p>
+
+<h3 id="mysql-">MySQL チューニングについて</h3>
+<p>これらの記事がおそらくとても参考になるので、本番運用前にチェックしてみるとよいかも。<br />
+<a href="http://yakst.com/ja/posts/200">http://yakst.com/ja/posts/200</a><br />
+<a href="http://nippondanji.blogspot.jp/2009/03/mysql7.html">http://nippondanji.blogspot.jp/2009/03/mysql7.html</a><br />
+<a href="http://dsas.blog.klab.org/archives/50860867.html">http://dsas.blog.klab.org/archives/50860867.html</a><br />
+<a href="http://www.slideshare.net/kenmasu/ss-12604339">http://www.slideshare.net/kenmasu/ss-12604339</a>  </p>
+
+<p>以下メモ<br />
+show engine innodb status;<br />
+で ロックが発生していないか見る。  </p>
+
+<p>これで遅いトランザクションの洗い出しが可能。<br />
+https://github.com/yoshinorim/MySlowTranCapture  </p>
+
+<p>この辺は見直すとよいかも。
+<div>
+  <pre><code class='sql'>mysql&amp;gt; show global variables like ‘%innodb_lock_wait_timeout%’;</code></pre>
+</div>
+</p>
+
+<h3 id="rds-">RDS におけるリストアについて</h3>
+<p>オンプレミスな DB のリストアなら、<br />
+ある地点のスナップショットのリストア + バイナリログをロールフォワードだと思うけど<br />
+RDS ならどうするんだろうと思ってちょっと調べたけど、最初から MultiAZ にしておけば<br />
+自動フェイルオーバーしてくれる模様。<br />
+しかし3-5分くらいかかる模様なので、その間システムが落ちるのかと思うと結構しんどい。<br />
+<a href="http://ijin.github.io/blog/2013/05/21/custom-non-rds-multi-az-mysql-replication/">手動でフェイルオーバー</a>
+とかもあってこっちは復旧はすごく早いけどこれも結構デメリットはあるみたい。<br />
+何を取るかだとは思うけど(おそらく組織レベルでサービスの停止が許せるかどうか)、<br />
+メンテの楽さを考えると RDS 任せのほうが楽な気はする。  </p>
+
+<h3 id="section-2">所感</h3>
+<p>この本に関しては、業務でやっている、やっていたことが結構書かれていた。<br />
+無意識レベルでやっていたことが結構書かれていたのでそういうところは飛ばして読んだ。<br />
+でも、mysql のチューニングのあたりなどはあまりやったことがない経験だった。
+前職では運用チームの人たちがいたのでその人達で閉じていた知識だと思うので、<br />
+今の職場で活かせるようにチューニングしたいと思った。  </p>
+
+<p>Wikipedia や Google は MariaDB を採用しているらしい。<br />
+まだ枯れているという印象は全然ないけど、実際に使われていることや、ほぼ MySQL だったりするところ、<br />
+スレッドプールが使えるあたりはかなり変わってきそう。<br />
+hash join も使えるので、オプティマイザが賢ければかなりその恩恵受けられそう。<br />
+<a href="http://d.hatena.ne.jp/interdb/20131020/1382280437">オプティマイザ比較しているブログ</a>
+見る限り、実は postgresql が頑張っている。<br />
+postgresql は前前職で使っていたが vacuum の印象が強くてあんまりいいイメージはない。<br />
+今度自分のプロダクトを作るときには MariaDB を使ってみようと思う。  </p>
+
+<h3 id="section-3">参考</h3>
+<ul>
+  <li><a href="http://dba.stackexchange.com/questions/43439/is-there-any-way-to-force-mysql-use-hash-join-instead-of-nested-loop-join">http://dba.stackexchange.com/questions/43439/is-there-any-way-to-force-mysql-use-hash-join-instead-of-nested-loop-join</a></li>
+  <li><a href="http://nippondanji.blogspot.jp/2009/03/mysql7.html">http://nippondanji.blogspot.jp/2009/03/mysql7.html</a>  </li>
+  <li>[http://www.atmarkit.co.jp/ait/articles/0503/24/news107<em>2.html](http://www.atmarkit.co.jp/ait/articles/0503/24/news107</em>2.html)</li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

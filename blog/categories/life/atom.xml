@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-04-10T17:45:31+09:00</updated>
+  <updated>2014-04-28T15:54:10+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[life_april_28]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/28/life-april-28/"/>
+    <updated>2014-04-28T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/28/life-april-28</id>
+    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
+<p>すごく仕事が忙しかったのと、とある試験を受けるためにずっと勉強してて<br />
+全然ブログを更新出来ていなかったが、両方そこそこに落ち着いてきたのでそろそろ<br />
+また新しく書き始めることにする。  </p>
+
+<h2 id="section-1">今日の目標</h2>
+<ul>
+  <li>
+    <p>rails tutorial 終わらせる
+ – これもうかけるし全然大丈夫じゃないかとは思っている
+ – なのでさらっと読み飛ばす</p>
+  </li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章を読み干す</li>
+  <li>オペレーティングシステムを読み干す</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない..</p>
+
+<h2 id="section-4">勉強途中経過</h2>
+
+<h3 id="section-5">進んでない</h3>
+
+<h2 id="section-6">読書途中経過</h2>
+
+<h3 id="section-7">進んだ</h3>
+<ul>
+  <li>ネットワークはなぜつながるのか?(3章)</li>
+  <li>とある本4章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで終了</li>
+</ul>
+
+<h3 id="section-8">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>DDD ショートバージョン</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-9">諦めそう</h3>
+<ul>
+  <li>詳解UNIXプログラミング
+ – 新盤が出たのでそちらを読み直していく</li>
+</ul>
+
+<h3 id="section-10">まだ積んでないけど読む</h3>
+<ul>
+  <li>nginxの本</li>
+</ul>
+
+<h3 id="section-11">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_march_23]]></title>
@@ -310,65 +392,6 @@ ruby の勉強というか調査とかのせいであんまり本を最近読め
       <li>手を動かしながら ver</li>
     </ul>
   </li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2/16]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/02/16/life-feb-16/"/>
-    <updated>2014-02-16T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/02/16/life-feb-16</id>
-    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
-<p>先週も solr 力をかなり高める感じだった。<br />
-docker がリアルに流行り始めているので、本格的に勉強したいところ。<br />
-でも家のネットワークが遅くてちょっと厳しいんだよなぁ。<br />
-なんかお腹の調子がずっと悪くてしんどかった。<br />
-あと、雪の日に自宅待機したら迷惑かけてしまったので、今後は極力休まない。  </p>
-
-<p>あんまり本が読めなかったので、気合入れて読む。<br />
-あと、どうでもいいけど、 MBA の容量が 128GB で 94% とか言ってて積んでる感ある。  </p>
-
-<h2 id="section-1">土日振り返り</h2>
-<p>あんまり多く時間を取れなかったが、日経 linux 読んだのと、workbench の件をそこそこやった。  </p>
-
-<h2 id="section-2">勉強途中経過</h2>
-
-<h3 id="section-3">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第8章まで読んだ</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-  <li>パーフェクトルビー15章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
   <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
   <li>(2014/2/8)プログラマの数学</li>
   <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
