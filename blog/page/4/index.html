@@ -7,7 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TOC TOC 大まかな流れ 1. IAM の設定 2. SNS のトピックの作成 3. cloud watch の API を cli から叩いてみる メトリックの作成 from cli 4. cloud watch での作成確認 5. chef recipe を書く 6. opsworks &hellip;">
+	<meta name="description" content="現象
+iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、
+metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている( &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +80,67 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/21/fog-iam-profile/">
+		
+			Fog っていう Gem で Use_iam_profile があんまうまく行かない件</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">現象</h2>
+<p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
+metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている(できたのは割と最近らしい)。<br />
+それなら、iam を使いたいわけなんだけど、 fog v1.18.0 と v1.19.0 で試しても use_iam_profile がうまくいかない。  </p>
+
+<p>呼び出しているクライアントライブラリは asset_sync v1.0.0 と elasticsearch v0.3.4 。<br />
+どちらも aws_credential fetcher で credential を取得してるみたいだけど、それを使ってないようにみえた。  </p>
+
+<h2 id="section-1">対処</h2>
+<p>全部読んでないからわからないけど、俺の予想が合っていれば<br />
+credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
+
+<p>lib/fog/core/service.rb</p>
+<div>
+  <pre><code class="bash">-options = options.merge(fetch_credentials(options))
++options = fetch_credentials(options).merge(options)</code></pre>
+</div>
+
+<p>とりあえずもっと調べなきゃよくわからない。<br />
+これがうまくいっていそうなら pull req だしてみよう。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/aws/'>aws</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1357,100 +1420,6 @@ end</code></pre>
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/25/opsworks-and-dotenv/">
-		
-			Opsworks and Dotenv</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">もくじ</h2>
-<ul id="markdown-toc">
-  <li><a href="#section">もくじ</a></li>
-  <li><a href="#opsworks--cookbook-">opsworks の cookbook 処理順について</a></li>
-  <li><a href="#opsworks--dotenv-">opsworks と dotenv の依存関係</a></li>
-  <li><a href="#section-1">(2014/1/26追記) 解決方法</a></li>
-  <li><a href="#section-2">(2013/12/26追記) 解決方法2つ</a></li>
-  <li><a href="#section-3">参考情報とか</a>    <ul>
-      <li><a href="#section-4">シンボリックリンクを使う</a></li>
-      <li><a href="#appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</a></li>
-    </ul>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h2 id="opsworks--cookbook-">opsworks の cookbook 処理順について</h2>
-<p>opsworks では built-in cookbook -&gt; custom cookbook の順に処理されて、<br />
-custom cookbook でいい感じにディレクトリを配置しても上書きはできない。<br />
-(ただし、 built-in cookbook で使用される recipe の attribute に適切な値を設定することは可能。)<br />
-<a href="http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html">http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html</a></p>
-
-<h2 id="opsworks--dotenv-">opsworks と dotenv の依存関係</h2>
-<p>opsworks の built-in レシピの deploy::rails で使用する環境変数は、当然 .env に依存するのだけど、<br />
-.env の生成は custom cookbook でやっていて、上記にも書いたとおり上書きもできないから<br />
-rails は .env.test とか読んじゃって辛い。<br />
-これ回避する方法あるのかなぁ。。  </p>
-
-<h2 id="section-1">(2014/1/26追記) 解決方法</h2>
-<p>load balancer の死活チェックを health_check.html とかを見るようにしておいて、<br />
-built in recipe の deploy 時点で一回 unicorn 立っちゃうけど
-user recipe の deploy のところで dotenv を作って、<br />
-unicorn とか再起動したのち、 health_check とかを<br />
-おけば割と問題ないんじゃないかってことになってる。  </p>
-
-<h2 id="section-2">(2013/12/26追記) 解決方法2つ</h2>
-<p>考えた方法を2つ。  </p>
-
-<h2 id="section-3">参考情報とか</h2>
-<p>このへんとか参考になりそうなんだけど、いまいち確信 answer はない。<br />
-<a href="https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0">https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0</a></p>
-
-<h3 id="section-4">シンボリックリンクを使う</h3>
-<p>apps のリポジトリに予め、 .env -&gt; /etc/.env みたいなシンボリックリンクをコミットしておいて、<br />
-deploy::rails の前に dotenv を配置する recipe で配布する。  </p>
-
-<h3 id="appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</h3>
-<p><a href="http://docs.opscode.com/resource_deploy.html">http://docs.opscode.com/resource_deploy.html</a><br />
-こいつがデプロイ時(というかマージ実行時)に呼ばれるためのフックでいい感じに recipe を呼ぶ。<br />
-これを参考にした<a href="https://github.com/drnic/mydemoapp">https://github.com/drnic/mydemoapp</a>。<br />
-とりあえず消えたらあれなのでフォークしておいた.<br />
-<a href="https://github.com/vimtaku/mydemoapp">https://github.com/vimtaku/mydemoapp</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-25T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/aws/'>aws</a>
 
 
 </div>
