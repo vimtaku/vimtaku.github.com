@@ -7,12 +7,12 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="背景
-デザインが見づらいって言われたので辛くなったから、
-octopress にノリで移行してみた。
-当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので
-問題なく移行できると思ったら移行できた。 手順
-大体こんなかんじでいける。 &hellip;">
+	<meta name="description" content="先週振り返り
+先週も solr 力をかなり高める感じだった。
+docker がリアルに流行り始めているので、本格的に勉強したいところ。
+でも家のネットワークが遅くてちょっと厳しいんだよなぁ。
+なんかお腹の調子がずっと悪くてしんどかった。
+あと、雪の日に自宅待機したら迷惑かけてしまったので、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +83,97 @@ octopress にノリで移行してみた。
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/16/life-feb-16/">
+		
+			2/16</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">先週振り返り</h2>
+<p>先週も solr 力をかなり高める感じだった。<br />
+docker がリアルに流行り始めているので、本格的に勉強したいところ。<br />
+でも家のネットワークが遅くてちょっと厳しいんだよなぁ。<br />
+なんかお腹の調子がずっと悪くてしんどかった。<br />
+あと、雪の日に自宅待機したら迷惑かけてしまったので、今後は極力休まない。  </p>
+
+<p>あんまり本が読めなかったので、気合入れて読む。<br />
+あと、どうでもいいけど、 MBA の容量が 128GB で 94% とか言ってて積んでる感ある。  </p>
+
+<h2 id="section-1">土日振り返り</h2>
+<p>あんまり多く時間を取れなかったが、日経 linux 読んだのと、workbench の件をそこそこやった。  </p>
+
+<h2 id="section-2">勉強途中経過</h2>
+
+<h3 id="section-3">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 までやった</li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">進んだ</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+  <li>パーフェクトルビー15章まで読んだ
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1255,83 +1346,6 @@ chef の感覚はものすごくつかめたのでよかった。<br />
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/24/chef-memo/">
-		
-			Chef についてのメモ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">概要</h2>
-<p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
-いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  </p>
-
-<h2 id="attribute-">attribute の読み込み順について</h2>
-<ul>
-  <li>attributes/default.rb が一番最初に読み込まれる</li>
-  <li>attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる</li>
-  <li>node の値は各ファイルで上書きをすることができる  </li>
-</ul>
-
-<h2 id="libraries-">libraries について</h2>
-<ul>
-  <li>libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
-    <ul>
-      <li>Hoge.fuga_method として recipe から使用可能。</li>
-    </ul>
-  </li>
-  <li>他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。</li>
-  <li>libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
-    <ul>
-      <li>自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。</li>
-      <li>他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="chef-">chef 実行時のレシピについて</h2>
-<ul>
-  <li>各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
-    <ul>
-      <li>chef 実行時に self をみればわかる</li>
-    </ul>
-  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/chef/'>chef</a>
 
 
 </div>
