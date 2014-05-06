@@ -7,13 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="先週の振り返り
-先週は chef と格闘しっぱなしだった。
-まぁでも opsworks についての理解もかなり深まったし、
-chef の感覚はものすごくつかめたのでよかった。
-自分でも新しい recipe 複数かいたし。
-でもなんだか仕事が忙しかった気がする。
-あと、 &hellip;">
+	<meta name="description" content="chef の libraries を使う場合の今のところの俺の結論 以下に述べる、 1 の方法を使う。 とはいえ一長一短な気がするからどっちがいいって言えない。
+ちなみに libraries から node はみたいよね、っていう前提。
+あと、自分の環境(chef-solo, v11.8.2) &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -84,6 +80,120 @@ chef の感覚はものすごくつかめたのでよかった。
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/27/chef-memo-2/">
+		
+			Chef についてのメモ2</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="chef--libraries-">chef の libraries を使う場合の今のところの俺の結論</h2>
+
+<p>以下に述べる、 1 の方法を使う。  </p>
+
+<p>とはいえ一長一短な気がするからどっちがいいって言えない。<br />
+ちなみに libraries から node はみたいよね、っていう前提。<br />
+あと、自分の環境(chef-solo, v11.8.2)にもよるかも。まぁ参考程度に。<br />
+もっといい方法あったら教えて下さい。<br />
+(っていうか意外に chef (libraries)のドキュメントって少ない気がする..)  </p>
+
+<h2 id="libraries-">libraries を使う方法</h2>
+<ol>
+  <li>class MyClass みたいなクラスを定義して、 new するときに node 渡すようにして、あとは好きに使うパターン</li>
+  <li>module MyModule みたいなモジュールを定義して、extend してから、わかりやすいメソッドを呼び出して使うパターン</li>
+</ol>
+
+<h2 id="section">1. のメリット、デメリット</h2>
+
+<h3 id="section-1">メリット</h3>
+<ul>
+  <li>呼びたいメソッドを MyClass.method とかけるから、コードが読みやすいのではないだろうかということ。</li>
+</ul>
+
+<h3 id="section-2">デメリット</h3>
+<ul>
+  <li>他のレシピからでも MyClass が使える</li>
+</ul>
+
+<h2 id="section-3">2. のメリット、デメリット</h2>
+
+<h3 id="section-4">メリット</h3>
+<ul>
+  <li>名前空間を汚染しない</li>
+</ul>
+
+<h3 id="section-5">デメリット</h3>
+<ul>
+  <li>いちいち呼びたい recipe で extend とか書かなきゃいけない</li>
+  <li>呼び出すときに method_name だけしかないからちょっと読みにくいかも、と思った。 ruby ってそういうもん？</li>
+</ul>
+
+<h2 id="section-6">以下駄文メモ</h2>
+
+<ul>
+  <li>class をつかう場合、 名前空間を切って使用すると node が見えないので不便
+    <ul>
+      <li>class Chef::Recipe にメソッドをはやして node を使えば見れる</li>
+      <li>class Chef::Recipe::Hoge からは node はみえない
+        <ul>
+          <li>そんならChef::Recipe::Hoge みたいなインスタンスを new するときに node 渡して使えばいいんじゃね?</li>
+          <li>まぁできんことはない</li>
+        </ul>
+      </li>
+      <li>class Chef::Recipe にメソッド生やすのとかは Recipe が汚れるからやらない方がいい</li>
+      <li>単純に class MyClass みたいなやつを new してそれを使うのが吉かも</li>
+      <li>でも libraries に定義しているから他のレシピから使われる可能性があって、閉じたい人的にはアレ</li>
+    </ul>
+  </li>
+  <li>module をつかう場合
+    <ul>
+      <li>extend Module名 を使えば、 node は見えるし、使う場所が限られる
+        <ul>
+          <li>いちいち extend するのはめんどい</li>
+          <li>呼び出すとき method 名 だけになるからそれが許容できるならそれでもいいかも</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-7">関連記事</h2>
+<p><a href="http://vimtaku.github.io/chef/2014/01/24/chef-memo/">http://vimtaku.github.io/chef/2014/01/24/chef-memo/</a></p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/chef/'>chef</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -945,164 +1055,6 @@ opsworks-cli-agent show_log
 
 
 	<a class='category' href='/blog/categories/aws/'>aws</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/08/memo_the_coach/">
-		
-			ザ・コーチって本を読んだ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">所感</h2>
-<p>読み物形式の、ただの自己啓発本。<br />
-自己啓発本の部類は7つの習慣とか読んどけば多分良くて<br />
-ナポレオンヒルのやつとかも読んでたので<br />
-内容はあんまり大差ない気がする。<br />
-一応まとめたので書いておく。<br />
-内容がものすごく自己啓発本だから実際に自分で文字を打つと<br />
-すごい感じする。<br />
-こういうのは読むとすごく大事だと思うんだけど、<br />
-いざ毎日見る、みたいな仕組みづくりに挫折する場合がおおい。<br />
-どこか生活の一部に組み込めばいいかもしれない。<br />
-たとえばアラームとか。</p>
-
-<h3 id="section-1">達人になるための3つの輪</h3>
-<ul>
-  <li>知識</li>
-  <li>道具</li>
-  <li>能力</li>
-</ul>
-
-<h3 id="section-2">ことばについて</h3>
-<ul>
-  <li>目標
-    <ul>
-      <li>目的を達成するためにもうけた目当て</li>
-    </ul>
-  </li>
-  <li>目的
-    <ul>
-      <li>成し遂げようと目指す事柄</li>
-    </ul>
-  </li>
-  <li>ゴール
-    <ul>
-      <li>目的のための最終的な目印</li>
-    </ul>
-  </li>
-  <li>夢
-    <ul>
-      <li>将来自分が実現させたいと心の中に思い描いている願い</li>
-    </ul>
-  </li>
-  <li>ビジョン
-    <ul>
-      <li>将来あるべき姿を描いたもの</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-3">ドリームツリー</h3>
-
-<blockquote><p>目    的<br />   |        |        |<br />  ゴール   ゴール    ゴール<br />|    |      |   |     |    |<br />目標 目標  目標 目標  目標  目標&#8230;</p></blockquote>
-
-<h3 id="section-4">上記の5つの項目を設定することで良いこと</h3>
-<ul>
-  <li>共感者や協力者が現れる</li>
-  <li>
-    <p>同じ価値観を持った仲間が増える</p>
-  </li>
-  <li>目標に向かって努力することで人は成長する</li>
-  <li>目標に向かって努力すれば、たとえそれがかなえられなかったとしても、人は精神的に強くなる</li>
-  <li>誰かと同じ目標に向かってがんばることで、その後の人生の宝になる絆が生まれる</li>
-  <li>目標を達成することで、達成感を味わえる</li>
-  <li>ゴールを目指すことで、どんな人間に成長したかが重要</li>
-</ul>
-
-<h3 id="section-5">ベネフィットとは</h3>
-<ul>
-  <li>その道のりで、多くの共感者や協力者と出会い、さらに大きなことを成せる</li>
-  <li>精神的に強くなり、更なる大きな決断の時に必要な勇気を手にする</li>
-  <li>人間的に成長する</li>
-  <li>人と人との絆が生まれ、人生の宝を得る</li>
-  <li>人生が、ワクワク感やドキドキ感にあふれた、感情豊かで感動的なものになる</li>
-  <li>知識, 選択力, 決断力, 集中力が増える</li>
-  <li>知識・能力・道具が増えて価値ある人になる</li>
-  <li>次の成功のための糧を手にする</li>
-  <li>どん底にいるとき、詩人になり、魅力的な人物になる</li>
-  <li>可能性の扉が開き、想像もしなかった未来の自分に会える</li>
-  <li>精神的な視点が高くなり、人生で見る景色が変わる</li>
-  <li>人生を存分に堪能できる</li>
-</ul>
-
-<h3 id="section-6">夢やゴールや目標の作成を妨げるブレーキとは</h3>
-<ul>
-  <li>方向を誤った目的</li>
-  <li>他者からの批判や避難、成長期に味わった他者との比較等による学習性無力感</li>
-  <li>夢やゴールや目標に対する無知</li>
-  <li>結果による人格否定</li>
-  <li>弱みを克服することばかり強いられる経験</li>
-  <li>変化に対する恐れ</li>
-  <li>選択と決断に対する恐れ</li>
-</ul>
-
-<h3 id="section-7">その他</h3>
-<ul>
-  <li>目的はゆるぎなく、ゴールを手にする方法は無限にあると尻、目標は柔軟に対応する</li>
-  <li>ゴール達成を構成している要素を分解して、そこに期日と量と基準を盛り込んで旗(</li>
-  <li>ゴールのための行動計画を目標とすると、ノルマかして意欲が下がる</li>
-  <li>ゴールを設定したら、ゴールツリーを書いて、そのゴール達成を構成する知識と能力とツールに分解する</li>
-  <li>行動を設計する</li>
-  <li>目標には通過する状態を書く</li>
-  <li>ゴールは目指すが、それだけにとらわれて自分を見失わない</li>
-  <li>目標の主語を私にして、いつ、何が、どうなるという表現にする
-    <ul>
-      <li>何々するために、何何の状態になっている</li>
-    </ul>
-  </li>
-  <li>目標はやるべきことではなく、ゴールまでの通過点や指標とする</li>
-  <li>目標を設定したら、そのプロセスで「開かれた質問」を自分自身に問いかけて、思考力や解決力を鍛える
-    <ul>
-      <li>どうしたらうまくできるだろうか?</li>
-      <li>効率的にするにはどうすればいいだろうか？</li>
-      <li>今日この目標にたいして何をしただろうか?など。</li>
-    </ul>
-  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-08T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/leverage-memo/'>leverage_memo</a>
 
 
 </div>
