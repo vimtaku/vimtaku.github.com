@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-05-12T20:13:09+09:00</updated>
+  <updated>2014-05-12T20:16:36+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -28,15 +28,15 @@
 <h3 id="section-1">2章までのキーワード</h3>
 <ul>
   <li>メモリアドレス空間<br />
- – 64 ビットアーキテクチャとかは64ビットのアドレス空間に対応するために必要</li>
+ – 64 ビットアーキテクチャとかは64ビットのアドレス空間に対応するために必要  </li>
   <li>RISC と CISC<br />
- – RISC(Reduced Instruction Set Computer) は固定長命令で、パイプライン制御をしやすくするために作られた
- – CISC(Complex Instruction Set Computer) は可変長命令なので、パイプライン制御しにくかった</li>
+ – RISC(Reduced Instruction Set Computer) は固定長命令で、パイプライン制御をしやすくするために作られた<br />
+ – CISC(Complex Instruction Set Computer) は可変長命令なので、パイプライン制御しにくかった  </li>
   <li>Out of Order と 分岐予測、投機実行<br />
- – プログラムの実行時に次の演算結果が依存しない時にその次の命令を先読み実行できる、これを Out of Order という。
- – 分岐があるせいで演算の先読みが難しい
- — 処理が多い方の条件分岐を先に実行しておく(分岐予測)
- — Out of Order と 分岐予測を合わせた実行が投機実行</li>
+ – プログラムの実行時に次の演算結果が依存しない時にその次の命令を先読み実行できる、これを Out of Order という。<br />
+ – 分岐があるせいで演算の先読みが難しい<br />
+ — 処理が多い方の条件分岐を先に実行しておく(分岐予測)<br />
+ — Out of Order と 分岐予測を合わせた実行が投機実行  </li>
 </ul>
 
 <h2 id="section-2">偉大な目標</h2>
