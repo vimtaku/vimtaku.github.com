@@ -144,7 +144,7 @@ dist 以下に設置する。
 
 ### mysql の設定, db-data-config.xml の設定など
 そしてだいたいこんなかんじに設置する。 mysql は localhost の 3306 番で動いているものとし、  
-solrsample っていう database があるものとする。 password は hogehoge。  
+solrsample っていう database があるものとする。 password は hogehoge とする。  
 
 {% highlight bash %}
 
@@ -260,6 +260,17 @@ parentDeltaQuery="select recipe_id from chef_mst where chef_id = ${chef_mst.chef
 deltaImportQuery="SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}"  
 これが実行される。  
 
+## (2014/5/12追記) deletedPkQuery について
+deltaImportQuery では、インデックスにのったデータの削除はされない。  
+なので、データを削除する場合は deletedPkQuery を使用する。  
+deletedPkQuery="SELECT * FROM chef_mst WHERE status = 0"  
+のようにしておけば status = 0 の chef が削除できる。  
+
+## (2014/5/12追記) Timezone の扱い
+Solr のクラスタを動かすマシンによると思うが、マシンの timezone が JST, mysql の timezone が UTC などの場合も  
+普通にあると思う。なので  
+CONVERT_TZ('${dataimporter.last_index_time}', 'Asia/Tokyo', 'GMT')  
+などとして変換してあげるといろいろ捗るかもしれない。  
 
 ## DIH の直前で Javascript でデータを加工する
 
