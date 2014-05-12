@@ -581,6 +581,8 @@ how to install 通りにやれば適用できる。  </p>
       <li><a href="#deltaquery--parentdeltaquery-">deltaQuery と parentDeltaQuery の関係</a></li>
     </ul>
   </li>
+  <li><a href="#deletedpkquery-">(2014/5/12追記) deletedPkQuery について</a></li>
+  <li><a href="#timezone-">(2014/5/12追記) Timezone の扱い</a></li>
   <li><a href="#dih--javascript-">DIH の直前で Javascript でデータを加工する</a>    <ul>
       <li><a href="#updatehandler--updatechain">UpdateHandler と UpdateChain</a></li>
       <li><a href="#section-10">なんかうまくいかない場合</a></li>
@@ -733,7 +735,7 @@ dist 以下に設置する。</p>
 
 <h3 id="mysql--db-data-configxml-">mysql の設定, db-data-config.xml の設定など</h3>
 <p>そしてだいたいこんなかんじに設置する。 mysql は localhost の 3306 番で動いているものとし、<br />
-solrsample っていう database があるものとする。 password は hogehoge。  </p>
+solrsample っていう database があるものとする。 password は hogehoge とする。  </p>
 
 <div>
   <pre><code class="bash">diff --git a/conf/db-data-config.xml b/conf/db-data-config.xml
@@ -850,6 +852,18 @@ parentDeltaQuery=”select recipe_id from chef_mst where chef_id = ${chef_mst.ch
 が実行されて、<br />
 deltaImportQuery=”SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}”<br />
 これが実行される。  </p>
+
+<h2 id="deletedpkquery-">(2014/5/12追記) deletedPkQuery について</h2>
+<p>deltaImportQuery では、インデックスにのったデータの削除はされない。<br />
+なので、データを削除する場合は deletedPkQuery を使用する。<br />
+deletedPkQuery=”SELECT * FROM chef_mst WHERE status = 0”<br />
+のようにしておけば status = 0 の chef が削除できる。  </p>
+
+<h2 id="timezone-">(2014/5/12追記) Timezone の扱い</h2>
+<p>Solr のクラスタを動かすマシンによると思うが、マシンの timezone が JST, mysql の timezone が UTC などの場合も<br />
+普通にあると思う。なので<br />
+CONVERT_TZ(‘${dataimporter.last_index_time}’, ‘Asia/Tokyo’, ‘GMT’)<br />
+などとして変換してあげるといろいろ捗るかもしれない。  </p>
 
 <h2 id="dih--javascript-">DIH の直前で Javascript でデータを加工する</h2>
 
