@@ -69,7 +69,7 @@ config ではなく、 revoke で、たとえば hogetaku が会社辞めたと�
 cd /etc/pki/CA
 cp serial crlnumber
 openssl ca -gencrl -revoke  /etc/pki/CA/certs/hogetaku.ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt -config /etc/pki/tls/openssl-client.cnf
-cd /etc/pki/CA/crt/
+cd /etc/pki/CA/crl/
 openssl ca -gencrl -out crl.pem
 {% endhighlight %}
 として、
