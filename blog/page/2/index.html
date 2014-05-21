@@ -447,7 +447,7 @@ SSLRequire (    %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
   <pre><code class="bash">cd /etc/pki/CA
 cp serial crlnumber
 openssl ca -gencrl -revoke  /etc/pki/CA/certs/hogetaku.ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt -config /etc/pki/tls/openssl-client.cnf
-cd /etc/pki/CA/crt/
+cd /etc/pki/CA/crl/
 openssl ca -gencrl -out crl.pem</code></pre>
 </div>
 

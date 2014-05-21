@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-05-18T19:26:37+09:00</updated>
+  <updated>2014-05-21T18:24:58+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -943,7 +943,7 @@ SSLRequire (    %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
   <pre><code class="bash">cd /etc/pki/CA
 cp serial crlnumber
 openssl ca -gencrl -revoke  /etc/pki/CA/certs/hogetaku.ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt -config /etc/pki/tls/openssl-client.cnf
-cd /etc/pki/CA/crt/
+cd /etc/pki/CA/crl/
 openssl ca -gencrl -out crl.pem</code></pre>
 </div>
 
