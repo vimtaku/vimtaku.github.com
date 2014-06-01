@@ -7,12 +7,8 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="先週の振り返り
-先週は solr 祭りだった。
-solr は存在くらいしか知らなかったけど、非常によく出来たソフトウェアで
-これを使いこなせれば(使い方を知っていれば)非常によい価値を
-提供できる気がした。 先々週はあんまり何やったか覚えていない。
-そういや 先週は docker &hellip;">
+	<meta name="description" content="OS X 10.8 公式サポートで話題の Docker これをもとにとりあえず docker client を準備,
+docker server を建てた。 mac の localhost に telnet 11211 したら memcached につながるようにしたい https://www. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +79,214 @@ solr は存在くらいしか知らなかったけど、非常によく出来た
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/10/docker-boot2docker-port-foward/">
+		
+			Docker_boot2docker_port_foward</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="os-x-108--docker">OS X 10.8 公式サポートで話題の Docker</h2>
+
+<p><a href="http://qiita.com/kanekoa/items/cf3cabb23da69c609002">これ</a>をもとにとりあえず docker client を準備,<br />
+docker server を建てた。  </p>
+
+<h2 id="mac--localhost--telnet-11211--memcached-">mac の localhost に telnet 11211 したら memcached につながるようにしたい</h2>
+
+<p><a href="https://www.docker.io/learn/dockerfile/level2/">https://www.docker.io/learn/dockerfile/level2/</a>
+これをもとに Dockerfile を作った。 ここでは ubuntu を元にした vimtaku/memcached_1 とした。  </p>
+
+<p>Dockefile</p>
+<div>
+  <pre><code class="bash"># Memcached
+#
+# VERSION       2.2
+
+# use the ubuntu base image provided by dotCloud
+FROM ubuntu
+
+MAINTAINER Victor Coisne victor.coisne@dotcloud.com
+
+# make sure the package repository is up to date
+RUN echo &quot;deb http://archive.ubuntu.com/ubuntu precise main universe&quot; &gt; /etc/apt/sources.list
+RUN apt-get update
+
+# install memcached
+RUN apt-get install -y memcached
+
+# Launch memcached when launching the container
+ENTRYPOINT [&quot;memcached&quot;]
+
+# run memcached as the daemon user
+USER daemon
+
+# expose memcached port
+EXPOSE 11211</code></pre>
+</div>
+
+<div>
+  <pre><code class="bash">docker build -t vimtaku/memcached_1 - &lt; Dockerfile</code></pre>
+</div>
+
+<p>これでとりあえず memcached な image を作れる。  </p>
+
+<div>
+  <pre><code class="bash">docker run -p 11211:11211 vimtaku/memcached_1</code></pre>
+</div>
+
+<p>これで boot2docker -&gt; ubuntu が立つ。  </p>
+
+<h2 id="section">追記(2014/02/13)</h2>
+<p>成功法っぽいのを発見した。<br />
+恥ずかしながら ssh port fowarding が -L オプションで できるっていうのを
+<a href="http://motemen.hatenablog.com/entry/2014/02/11/Dockerfile_%E3%82%92%E5%85%83%E3%81%AB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%82%92%E8%B5%B0%E3%82%89%E3%81%9B%E3%81%A6%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%81%AB%E3%83%9D%E3%83%BC%E3%83%88%E3%82%92">このブログ記事</a>
+で初めて知った。  </p>
+
+<p>まだ、やってないけど  </p>
+<div>
+  <pre><code class="bash">ssh -L 11211:localhost:11211 -p 2022 root@localhost</code></pre>
+</div>
+
+<p>とかすれば、 ssh port fowarding できるので、以下の手順は不要。</p>
+
+<p>追記終わり。</p>
+
+<h2 id="section-1">とりあえず確認するには</h2>
+
+<p>とりあえず確認するには<br />
+boot2docker ssh して ifconfig | grep -A4 docker0 すると<br />
+172…. のような IP が見える。<br />
+そこに対して telnet すると ちゃんと疎通できてる。<br />
+ちなみに telnet localhost 11211 しても同様。  </p>
+
+<p>あとは mac -&gt; boot2docker に 11211 疎通できればよい。<br />
+ぐぐったら
+<a href="http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/">http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/</a> の記事が見つかったのでほぼこれの通りに、</p>
+
+<div>
+  <pre><code class="bash">boot2docker down
+したあと
+VBoxManage modifyvm &quot;boot2docker-vm&quot; --natpf1 &quot;guestmemcached,tcp,,11211,,11211&quot;
+boot2docker up
+docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
+</div>
+
+<p>これで mac から telnet localhost 11211 で行けた。たぶん。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/docker/'>docker</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/09/life-feb-9/">
+		
+			2014/2/9</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">土日振り返り</h2>
+<p>雪うざい。地味に perfect ruby を進めた。<br />
+ruby 力が2くらい上がった。気がする。  </p>
+
+<h2 id="section-1">勉強途中経過</h2>
+
+<h3 id="section-2">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 までやった</li>
+</ul>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">進んだ</h3>
+<ul>
+  <li>パーフェクトルビー15章まで読んだ
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第7章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -906,201 +1110,6 @@ cat - &lt; $(yes)</code></pre>
 
 
 	<a class='category' href='/blog/categories/aws/'>aws</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/19/jisui-best-practice/">
-		
-			俺なりの自炊セットをそろえた</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">背景</h2>
-<p>覚悟を決めたので自炊セットを買うことにした。<br />
-電子書籍は最近出てくることが多くなったとはいえ、<br />
-すべてが電子書籍で販売されている訳ではないからだ。<br />
-Nexus7 を存分に生かすために買った自炊セットの<br />
-俺なりのベストプラクティスをここに記載する。  </p>
-
-<p>とはいえ、家にある本の数は100冊程度なので、<br />
-もしかしたら裁断サービスのほうが安く上がるかもしれないが<br />
-安値で自炊セットをそろえれば、家の雑多な書類とかも処理できるし<br />
-楽なのでそろえることにした。  </p>
-
-<p>とにかく安くそろえることを前提とした。</p>
-
-<h2 id="section-1">俺なりの結論</h2>
-<ul>
-  <li>スキャナ
-    <ul>
-      <li>image FORMULA DR-C125</li>
-    </ul>
-  </li>
-  <li>裁断機
-    <ul>
-      <li>カール事務器 ディスクカッターA4サイズ対応 丸刃40枚裁断(2往復) ブラック DC-210N</li>
-    </ul>
-  </li>
-</ul>
-
-<p>計、約3万円也。。</p>
-
-<h2 id="section-2">スキャナの選定</h2>
-<p>スキャナは実際すごくまよったが、とにかく安くそろえたかったので、<br />
-ScanSnap1500 の中古か image FORMULA DR-C125 にしようと思っていた。<br />
-結構比較記事があるので、ググってもらえばわかると思うけど、<br />
-SS1500は重送とかが結構おこるといわれていたのと、Amazon のレビューの評判が<br />
-そこそこよさげだったので、 image FORMULA DR-C125 にした。<br />
-安さの観点から、比較対象として SS1300 とか、ハンディスキャナとかがあったけど<br />
-SS1500 とのスキャンスピード比較動画が結構えげつない差だったので SS1300 はやめた。<br />
-ちなみに、 SS1500 よりも DR-C125 のほうが早い感じらしい。<br />
-ScanSnap1500 マジ良いみたいな話で、実際に使ったこと無いから比較できないけど、<br />
-DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万円で中古を買った。<br />
-なんていうか、Mac 用のドライバを普通にインストールして、<br />
-すぐにスキャンできた。OCR も効いている。<br />
-新品も Amazon で2.7万くらいなので、新品でも良いかもしれない。<br />
-アフィは張らない。  </p>
-
-<h2 id="section-3">裁断機の選定</h2>
-<p>ローラーカッター(1000円)とカッターマット、定規で行けるかと思っていたんだけど、<br />
-分厚い本とか、マジ無理です。絶対無理。<br />
-いや、無理ではない、正確には。<br />
-でも、自炊とか効率的なことを考える人がやることではない。<br />
-カッターでもいい人は、新書とかばかりのひと。<br />
-それなら余裕。技術書はたぶん相当に厳しい。<br />
-なので、ちょうど今さっき、評判が割と良い DC-210N の裁断機を買った。<br />
-約1万円也。<br />
-どうなるかわからないが、絶対手動よりはマシだと思う。<br />
-それくらい、非現実的だと思う。行けると思っていた俺浅はか。  </p>
-
-<h2 id="section-4">あとは読むだけ</h2>
-<p>自炊しっぱなしで読まないみたいなのがありそうだけど、必ず読むよ。<br />
-学習し続けることは、尊い。<br />
-たゆまぬ努力を続けよう。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-19T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/zi-chui/'>自炊</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/14/asset-sync/">
-		
-			Asset_sync</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
-
-<h2 id="url">参考URL</h2>
-<p>こちらを参考にした。
-<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
-
-<h4 id="gemfile">Gemfile</h4>
-<div>
-  <pre><code class="ruby">gem 'uglifier', '&gt;= 1.3.0'
-gem 'asset_sync'</code></pre>
-</div>
-
-<p>を追記。</p>
-
-<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
-
-<div>
-  <pre><code class="ruby">template &quot;#{release_path}/config/asset_sync.yml&quot; do
-  mode &quot;0644&quot;
-  source &quot;asset_sync.yml.erb&quot;
-end
-
-bash &quot;precompile_assets&quot; do
-  user &quot;deploy&quot;
-  cwd release_path
-  code 'bundle exec rake assets:precompile RAILS_ENV=production'
-end</code></pre>
-</div>
-
-<p>今回は、 before_migrate で呼ぶことにする。<br />
-chef-solo で呼ばれるので resource が使える模様。<br />
-カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
-template は asset_sync.yml.erb としておいておく感じ。</p>
-
-<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
-<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
-
-<div>
-  <pre><code class="ruby">config.action_controller.asset_host = '//s3-ap-northeast-1.amazonaws.com/hoge.example.com'
-config.assets.initialize_on_precompile = true</code></pre>
-</div>
-
-<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
-<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
-ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
-existing_remote_files: ‘delete’ として<br />
-precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
-config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
-(しかし、ゴミはのこる。対処については要検討。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/chef/'>chef</a>
 
 
 </div>

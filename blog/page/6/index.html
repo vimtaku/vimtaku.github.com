@@ -7,10 +7,12 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="目次 目次 ARPとは arp コマンドについて arp で実際に mac osx で実験 所感 参考文献 あわせてよみたい ARPとは
-Address Resolution Protocol の略で、IP アドレスから MAC アドレスを求める時に
-使用されるプロトコルです。
-TCP &hellip;">
+	<meta name="description" content="年の瀬感
+年の瀬っぽい雰囲気になってきた。
+今年はクリスマスが平日のせいで、なんか違和感がある。
+たいてい、クリスマスが絡むのは休みの日のイメージがあるんだけどなぁ。
+まぁあんまり興味ないけど。俺キリスト教じゃないし。 最近のお仕事
+jenkins さんと testflight &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +83,205 @@ TCP &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/23/9_shokan/">
+		
+			年の瀬感(ただしクリスマス前)</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">年の瀬感</h2>
+<p>年の瀬っぽい雰囲気になってきた。<br />
+今年はクリスマスが平日のせいで、なんか違和感がある。<br />
+たいてい、クリスマスが絡むのは休みの日のイメージがあるんだけどなぁ。<br />
+まぁあんまり興味ないけど。俺キリスト教じゃないし。  </p>
+
+<h2 id="section-1">最近のお仕事</h2>
+<p>jenkins さんと testflight でやりとりしてくれてうれしいみたいな環境作った。<br />
+基本的な部分は結構ググったら何でも出てくるんだけど、<br />
+ec2 上に立っているjenkins を master, ビルドする mac を slave として<br />
+環境を作る場合に、 今のところ master -&gt; slave に ssh できない環境で<br />
+その場合に jnlp っていう java の http post を使った protocol を使うんだけど<br />
+その中で使用する http の通信を https にする方法がどうしても見つからなくて、<br />
+最終的にはやり取りする情報に大事なものを含まない見たいなあんまり美しくない方法になった。<br />
+事実上、通信経路で傍受されるっていうのはあんまり考えられないんだけど微妙。。<br />
+jenkins さんの 80番を 443 にするとかはいっぱい資料があるんだけど、<br />
+jnlp で行う通信を ssl にするのが無いんだよなぁ.<br />
+知っている方いたらぜひ教えてください。  </p>
+
+<h2 id="section-2">劣等感、または覚悟について</h2>
+<p>なんかたいてい物事を知らないなぁみたいな劣等感を感じてたりするのって、<br />
+それを知る覚悟がないからなんじゃないかなぁと最近気づいた。<br />
+世の人間には等しく時間は流れるけど、人それぞれ時間の使い方はかわる。<br />
+だから、たとえば、土日に常に勉強する人もいるだろうし、<br />
+土日に常に趣味に勤しむ人もいるだろうし、<br />
+土日にテレビを見まくる人もいると思う。  </p>
+
+<p>そういう自分は、バラエティのテレビやドラマを見るのが大好きで、<br />
+たいていそういう時間の使い方をしてきたんだけど、残るものはあまり無くて<br />
+楽しいは楽しいけどまぁそんな感じ、みたいなことばかりであった。<br />
+というよりたぶん自分自身が人と比べて結構変わってて、たいていの物事にたいして<br />
+「楽しいは楽しいけど、まぁそんな感じ」感がすごいある。<br />
+これは完全に余談だけど、俺が出会ったすごく意識の高い学生とかは、世界を変える！<br />
+って感じだったりして大きいこと考えてんなって感じで尊敬する。  </p>
+
+<p>まぁ自分も曲がりなりにもエンジニアやってきて、この身につけた技術で<br />
+世界に貢献したいなとも思うようになってきた。<br />
+でも、身の回りにいるめちゃすごい人たちに出会って、まずはちゃんと勉強かなと<br />
+考えるようになった。  </p>
+
+<p>文脈が変だけど、このまえ、サントリー美術館に行ったときに興味本位で仏像展みたいなやつをみたんだけど<br />
+そういうものは当然、歴史的バックグラウンドなんかをしらないと<br />
+本当の意味で楽しめないんじゃないかと痛感した。  </p>
+
+<p>だから、俺は、これからは何でも勉強だと思って、学ぶことをやめない。<br />
+バラエティやドラマもたぶん見ると思う、好きだし。でも学ぶことへの姿勢は変わった。<br />
+いままで自分は、自分に関係ないことは基本的に知らなくていい、と考えていた。<br />
+でも、身の回りの、自分が尊敬する人に共通するのは、すべてを知ろうという姿勢だった。<br />
+あと、もう一つ重要なのは、すべての物事に主体的に取り組んでいるということだった。<br />
+これから人生まだ長いし、学ぶことによって見えるものは多分これからどんどん広がると思う。<br />
+だから、絶えず学ぶ姿勢で生きていこうと思う。  </p>
+
+<p>駑馬十駕である。  </p>
+
+<h2 id="section-3">今週のサマリー</h2>
+<ul>
+  <li>先週のこれ(アウトプットも大事だけどインプットも相当大事だよね)にたいして
+    <ul>
+      <li>アウトプットもやっぱり大事だよ！！！！！！！！！！！！</li>
+    </ul>
+  </li>
+  <li>アラケスに倒された時の気持ち
+    <ul>
+      <li>引き続きわすれない用にね。</li>
+    </ul>
+  </li>
+  <li>スケボー買った
+    <ul>
+      <li>乗ったけどめっちゃムズイのでちゃんと練習する</li>
+    </ul>
+  </li>
+  <li>ボルダリングについて
+    <ul>
+      <li>なんか何度も通ってたらかなりよく上れるようになった。うれしい。  </li>
+    </ul>
+  </li>
+  <li>Nexus7 めっちゃいい
+    <ul>
+      <li>今週はあまりこれで読まなかったけど、引き続き勉強していく</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">進んだ</h3>
+<ul>
+  <li>マスタリングTCP/IP 入門第5版 4章まで読んだ</li>
+  <li>詳解UNIXプログラミング第5章まで読んだ</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>パーフェクトルビー5章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/23/5_jekyll-blockquote-/">
+		
+			Jekyll Blockquote 修正</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
+<p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
+やってみたら空白とか改行がいい感じに削られてイラッとしたので<br />
+それっぽい plugin ないかと思って調べたら github にblockquote<br />
+plugin があったのでそれを使ってみたら全く同じだったので<br />
+fork して quote と 改行入れる風にした。</p>
+
+<h2 id="section">一応カスみたいな差分</h2>
+<p><a href="https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9">https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9</a>
+gsub! 使った方がいいのでもういっこ差分足した</p>
+
+<h2 id="toc-">toc について</h2>
+<p>table of contents 機能が地味にあって  </p>
+
+<blockquote><p>* <br />{:toc}</p></blockquote>
+<p>って感じで書くといいらしい。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">

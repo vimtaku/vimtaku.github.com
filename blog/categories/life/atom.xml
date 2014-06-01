@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-05-25T18:36:49+09:00</updated>
+  <updated>2014-06-01T22:42:19+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[life_jun_1]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/01/life-jun-1/"/>
+    <updated>2014-06-01T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/01/life-jun-1</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>なんか調査とかしてたら終わったぐらいのかんじ。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>ランニングした。<br />
+4km くらい走れたけどすげぇしんどかった。  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>SICP-問題1.10 まで</li>
+  <li>1冊でわかる数学(2章、証明)</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_may_25]]></title>
@@ -272,62 +330,6 @@ Input Method Kit 及びそれを書く cocoa アプリ作成では見つけら�
   <li>アルゴリズムクイックリファレンス</li>
   <li>プロセッサを支える技術- 果てしなくスピードを追求する世界</li>
   <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_may_5]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/05/04/life-may-5/"/>
-    <updated>2014-05-04T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/05/04/life-may-5</id>
-    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
-<p>仕事は相変わらず忙しいが一区切りつきそうである。  </p>
-
-<h2 id="section-1">今日振り返り</h2>
-<ul>
-  <li>とある本8章まで読んだ</li>
-  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-</ul>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>とある本8章まで読んだ</li>
-  <li>SICP-問題1.1.5 まで</li>
-  <li>詳解UNIXプログラミング(第3版) 1章</li>
-  <li>DDD ショートバージョン(P40まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
 </ul>
 
 <h3 id="section-7">読み終えた</h3>
