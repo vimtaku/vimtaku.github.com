@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-06-01T22:42:19+09:00</updated>
+  <updated>2014-06-15T19:05:06+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,131 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[life_jun_15]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/15/life-jun-15/"/>
+    <updated>2014-06-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/15/life-jun-15</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>イマイチ加速しない。<br />
+地味な仕事が多かった。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>ランニングした。<br />
+angularJS についてかなり調べて概念はほぼ把握した。<br />
+試しに実装してみたらわりと簡単に導入出来たが、<br />
+rails との共存は一長一短な気がした。  </p>
+
+<p>サンプルで作ってみた実装はこれ。<br />
+基本はほとんど抑えたつもり。<br />
+<a href="https://github.com/vimtaku/angular_study">https://github.com/vimtaku/angular_study</a><br />
+<a href="http://vimtaku.github.io/angular_study/index.html">サンプルページ</a>  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>SICP-問題1.17 まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/6/12)1冊でわかる数学</li>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS を触ってみた感想]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/15/angular-js-1/"/>
+    <updated>2014-06-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/15/angular-js-1</id>
+    <content type="html"><![CDATA[<h2 id="angularjs-">angularjs とは</h2>
+<p>javascript の MVC フレームワークだ。<br />
+評判が妙に良いとは思っていたが、噂通りにとても良く出来ている。  </p>
+
+<h2 id="section">学習のためにやったこと</h2>
+<ul>
+  <li>angularjs のチュートリアルひと通りやった
+– <a href="https://docs.angularjs.org/tutorial">https://docs.angularjs.org/tutorial</a></li>
+  <li>angularjs を60分で知るビデオを見た
+– <a href="https://www.youtube.com/watch?v=i9MHigUZKEM">https://www.youtube.com/watch?v=i9MHigUZKEM</a></li>
+</ul>
+
+<h2 id="section-1">感想</h2>
+
+<h3 id="section-2">全体的な所感</h3>
+<p>テンプレートエンジンのように view でループしたりゴニョゴニョしたりっていうのが<br />
+めっちゃ簡単にできてすごく便利な時代になったなぁと思った。<br />
+DI がすごく良く出来ていて、このコントローラでは、これらを使用するみたいなのが非常に簡単にかけてよかった。<br />
+以前仕事でつかっていたオレオレ系フレームワークを、さらにもう一歩進化させているように思った。  </p>
+
+<h3 id="section-3">疎結合なところ</h3>
+<p>なにより、本当の意味での MVC というか、 model を操作すると view が即時に反映されるところが、とてもイケているなぁと思った。<br />
+module 化の仕組みもとても綺麗で、あるドメインに関するモジュールはそれでまとめておいて、<br />
+もう一つ上のレイヤーではそれに依存するような形でかけるのがかっこいい。<br />
+var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<br />
+このモジュールの仕組で提供される ngResource だったり ngRoute だったり、<br />
+モジュールとして使用できる仕組みが予め提供されている事による恩恵がすごく大きく、<br />
+いろいろな部分で疎になるように設計されているのがかっこいい。  </p>
+
+<h3 id="rails-">rails との共存</h3>
+<p>rails と使うときに、どのように使うかは結構悩ましいところがあるように感じた。<br />
+というのは、 rails をただの API server として使うのか、昔ながらてきにサーバサイドで view を描画して出すのかとか<br />
+その辺の住み分けが微妙に大変そうだった。  </p>
+
+<h3 id="seo-">SEO に関して</h3>
+<p>とくに SEO との相性は気になった。<br />
+参考 &gt; <a href="https://note.mu/wadako/n/n01733b19bc9c">https://note.mu/wadako/n/n01733b19bc9c</a><br />
+これを見る限りちょっと大変じゃね？って感じだったけど、<br />
+実際検索結果に載ってるあたり考えると不安はあるもののできそうなきもする。<br />
+が、信頼度が求められる production 環境でいきなり使えるかと言われるとちょっと不安がある。  </p>
+
+<h3 id="section-4">最後に</h3>
+<p>とは言え、 angularjs は非常に強力な選択肢だなぁと感じた。<br />
+学習コスト高いって書いてあったけど、はっきり言って chef とかと比べ物にならないくらい安いと思う。<br />
+ちょっとした web の何かを作るときには angularjs を使うのは相当いい手段なんじゃないかな。  </p>
+
+<h2 id="section-5">参考文献</h2>
+<p><a href="https://angularjs.org/">https://angularjs.org/</a><br />
+<a href="http://js.studio-kingdom.com/angularjs/guide/di">http://js.studio-kingdom.com/angularjs/guide/di</a><br />
+<a href="http://js.studio-kingdom.com/angularjs/guide/providers">http://js.studio-kingdom.com/angularjs/guide/providers</a>  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_jun_1]]></title>
@@ -1201,168 +1326,6 @@ server = WEBrick::HTTPServer.new({:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80})
 trap(:INT){server.shutdown}
 server.start</code></pre>
 </div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[3月2週目]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/03/10/life-march-9/"/>
-    <updated>2014-03-10T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/03/10/life-march-9</id>
-    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
-<p>ものすごく仕事が忙しくてやばかった。<br />
-rails に慣れてきた感は出てきたが、まだまだ大変だ。  </p>
-
-<p>病院行きたいけど忙しいからなかなか行けないんだよなぁ。  </p>
-
-<h2 id="section-1">週末振り返り</h2>
-<p>vimplugin 書いたし、ちょっと今後やりそうなことの技術調査ができたし、<br />
-気になっていたこともわかってよかった。  </p>
-
-<h2 id="section-2">困っていること</h2>
-<p>くっそ忙しくてちょっと余裕がない。<br />
-まぁでもいまはちょっとやるしかないのでがんばる。  </p>
-
-<h2 id="gem">最近の gem</h2>
-<p>gem ‘default_value_for’
-これデフォルト値いい感じに埋めれてなんか便利だった</p>
-
-<h2 id="section-3">勉強途中経過</h2>
-
-<h3 id="section-4">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 まで</li>
-</ul>
-
-<h2 id="section-5">読書途中経過</h2>
-
-<h3 id="section-6">進んだ</h3>
-<ul>
-  <li>ネットワークはなぜつながるのか?(1章)</li>
-</ul>
-
-<h3 id="section-7">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第8章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>DDD ショートバージョン</li>
-  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-8">まだ積んでないけど読む</h3>
-<ul>
-  <li>nginxの本</li>
-</ul>
-
-<h3 id="section-9">読み終えた</h3>
-<ul>
-  <li>(2014/3/1)chef-solo 入門
-    <ul>
-      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
-    </ul>
-  </li>
-  <li>(2014/3/1)パーフェクトルビー
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Amazon Linux に phpmyadmin を入れてクライアント認証する]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/03/10/amazon-linux-phpmysqladmin-clientauth/"/>
-    <updated>2014-03-10T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/03/10/amazon-linux-phpmysqladmin-clientauth</id>
-    <content type="html"><![CDATA[<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">概要</a></li>
-  <li><a href="#section-1">下準備</a></li>
-  <li><a href="#db-">DB の設定をあれこれする</a></li>
-  <li><a href="#phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</a></li>
-  <li><a href="#section-2">クライアント認証</a>    <ul>
-      <li><a href="#p12-">p12 のインストールについて</a></li>
-    </ul>
-  </li>
-  <li><a href="#section-3">参考文献</a></li>
-</ul>
-
-<h2 id="section">概要</h2>
-<p>amazon linux で phpmyadmin(httpd) を入れてクライアント認証するパターンになったのでやってみた。  </p>
-
-<h2 id="section-1">下準備</h2>
-
-<div>
-  <pre><code class="bash">## apache と phpmyadmin が入る
-sudo yum --enablerepo=epel install phpmyadmin
-## mod_ssl
-sudo yum install mod24_ssl
-sudo yum install openssl-devel</code></pre>
-</div>
-
-<h2 id="db-">DB の設定をあれこれする</h2>
-<div>
-  <pre><code class="bash">sudo vim /etc/phpMyAdmin/config.inc.php</code></pre>
-</div>
-
-<h2 id="phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</h2>
-<div>
-  <pre><code class="bash">sudo vim /etc/httpd/conf.d/phpMyAdmin.conf</code></pre>
-</div>
-
-<p>とりあえず全開放</p>
-<div>
-  <pre><code class="bash">## L16 あたりに
-Require all granted
-## L26 あたりに
-Allow from 0.0.0.0</code></pre>
-</div>
-
-<div>
-  <pre><code class="bash">/etc/httpd/conf.d/virtualhost.conf</code></pre>
-</div>
-
-<div>
-  <pre><code class="apache">&lt;Directory &quot;/phpmyadmin&quot;&gt;
-    Options ExecCGI
-    AllowOverride all
-    Order Allow,Deny
-    Allow from all
-    RewriteEngine On
-    RewriteCond %{SERVER_PORT} 80
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}/%{REQUEST_URI} [R,L]
-    LogLevel alert rewrite:trace3
-&lt;/Directory&gt;</code></pre>
-</div>
-
-<h2 id="section-2">クライアント認証</h2>
-<p>については
-<a href="https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">この資料</a>
-がものっすごい参考になる。<br />
-というかこのままやれば良い。  </p>
-
-<h3 id="p12-">p12 のインストールについて</h3>
-<p>Google Chrome  はキーチェーンに入れたら行けた。<br />
-Vimperator(Firefox) についてはブラウザに pom.p12 を入れたら行けた。  </p>
-
-<h2 id="section-3">参考文献</h2>
-<p>phpmyadmin についてはこれが非常に役に立つ。<br />
-<a href="http://sanketdangi.com/post/56623052533/phpmyadmin-on-amazon-ec2-manage-amazon-rds">http://sanketdangi.com/post/56623052533/phpmyadmin-on-amazon-ec2-manage-amazon-rds</a><br />
-クライアント認証に関しては<br />
-<a href="https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">https://github.com/mechamogera/MyTips/wiki/Apache%E3%81%A7%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E8%AA%8D%E8%A8%BC%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B</a>  </p>
 
 ]]></content>
   </entry>

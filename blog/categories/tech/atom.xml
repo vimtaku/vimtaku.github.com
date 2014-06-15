@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tech | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/tech/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-06-15T19:05:06+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS を触ってみた感想]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/15/angular-js-1/"/>
+    <updated>2014-06-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/15/angular-js-1</id>
+    <content type="html"><![CDATA[<h2 id="angularjs-">angularjs とは</h2>
+<p>javascript の MVC フレームワークだ。<br />
+評判が妙に良いとは思っていたが、噂通りにとても良く出来ている。  </p>
+
+<h2 id="section">学習のためにやったこと</h2>
+<ul>
+  <li>angularjs のチュートリアルひと通りやった
+– <a href="https://docs.angularjs.org/tutorial">https://docs.angularjs.org/tutorial</a></li>
+  <li>angularjs を60分で知るビデオを見た
+– <a href="https://www.youtube.com/watch?v=i9MHigUZKEM">https://www.youtube.com/watch?v=i9MHigUZKEM</a></li>
+</ul>
+
+<h2 id="section-1">感想</h2>
+
+<h3 id="section-2">全体的な所感</h3>
+<p>テンプレートエンジンのように view でループしたりゴニョゴニョしたりっていうのが<br />
+めっちゃ簡単にできてすごく便利な時代になったなぁと思った。<br />
+DI がすごく良く出来ていて、このコントローラでは、これらを使用するみたいなのが非常に簡単にかけてよかった。<br />
+以前仕事でつかっていたオレオレ系フレームワークを、さらにもう一歩進化させているように思った。  </p>
+
+<h3 id="section-3">疎結合なところ</h3>
+<p>なにより、本当の意味での MVC というか、 model を操作すると view が即時に反映されるところが、とてもイケているなぁと思った。<br />
+module 化の仕組みもとても綺麗で、あるドメインに関するモジュールはそれでまとめておいて、<br />
+もう一つ上のレイヤーではそれに依存するような形でかけるのがかっこいい。<br />
+var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<br />
+このモジュールの仕組で提供される ngResource だったり ngRoute だったり、<br />
+モジュールとして使用できる仕組みが予め提供されている事による恩恵がすごく大きく、<br />
+いろいろな部分で疎になるように設計されているのがかっこいい。  </p>
+
+<h3 id="rails-">rails との共存</h3>
+<p>rails と使うときに、どのように使うかは結構悩ましいところがあるように感じた。<br />
+というのは、 rails をただの API server として使うのか、昔ながらてきにサーバサイドで view を描画して出すのかとか<br />
+その辺の住み分けが微妙に大変そうだった。  </p>
+
+<h3 id="seo-">SEO に関して</h3>
+<p>とくに SEO との相性は気になった。<br />
+参考 &gt; <a href="https://note.mu/wadako/n/n01733b19bc9c">https://note.mu/wadako/n/n01733b19bc9c</a><br />
+これを見る限りちょっと大変じゃね？って感じだったけど、<br />
+実際検索結果に載ってるあたり考えると不安はあるもののできそうなきもする。<br />
+が、信頼度が求められる production 環境でいきなり使えるかと言われるとちょっと不安がある。  </p>
+
+<h3 id="section-4">最後に</h3>
+<p>とは言え、 angularjs は非常に強力な選択肢だなぁと感じた。<br />
+学習コスト高いって書いてあったけど、はっきり言って chef とかと比べ物にならないくらい安いと思う。<br />
+ちょっとした web の何かを作るときには angularjs を使うのは相当いい手段なんじゃないかな。  </p>
+
+<h2 id="section-5">参考文献</h2>
+<p><a href="https://angularjs.org/">https://angularjs.org/</a><br />
+<a href="http://js.studio-kingdom.com/angularjs/guide/di">http://js.studio-kingdom.com/angularjs/guide/di</a><br />
+<a href="http://js.studio-kingdom.com/angularjs/guide/providers">http://js.studio-kingdom.com/angularjs/guide/providers</a>  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

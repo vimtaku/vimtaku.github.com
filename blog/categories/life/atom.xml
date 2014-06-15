@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-06-01T22:42:19+09:00</updated>
+  <updated>2014-06-15T19:05:06+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[life_jun_15]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/15/life-jun-15/"/>
+    <updated>2014-06-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/15/life-jun-15</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>イマイチ加速しない。<br />
+地味な仕事が多かった。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>ランニングした。<br />
+angularJS についてかなり調べて概念はほぼ把握した。<br />
+試しに実装してみたらわりと簡単に導入出来たが、<br />
+rails との共存は一長一短な気がした。  </p>
+
+<p>サンプルで作ってみた実装はこれ。<br />
+基本はほとんど抑えたつもり。<br />
+<a href="https://github.com/vimtaku/angular_study">https://github.com/vimtaku/angular_study</a><br />
+<a href="http://vimtaku.github.io/angular_study/index.html">サンプルページ</a>  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>SICP-問題1.17 まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/6/12)1冊でわかる数学</li>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_jun_1]]></title>
@@ -241,99 +307,6 @@
 <h3 id="section-7">読み終えた</h3>
 <ul>
   <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_may_6]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/05/06/life-may-6/"/>
-    <updated>2014-05-06T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/05/06/life-may-6</id>
-    <content type="html"><![CDATA[<h2 id="gw-">GW 後半振り返り</h2>
-
-<h3 id="macmlh-">macmlh について</h3>
-<p>というか昨日だけど、 ずっとやってみたかった vim-mlh の mac IME 移植を試みた。<br />
-が、結論から言うとそう簡単ではないことがわかった。  </p>
-
-<p>基本的に、 mlh で必要なもの、 と言うか必要なパーツってのは、<br />
- - カーソルの移動<br />
- - 文字列の削除<br />
- - 選択候補の表示<br />
- などである。<br />
-mac の Input Method Kit という cocoa アプリを作成するときに<br />
-非常に便利なライブラリがあったが、 それがサポートしているのは<br />
-クライアントとサーバ形式での変換のやり取りなので基本的には<br />
-文字列の削除、 カーソルの移動などはできなかった。<br />
-割とこれが致命傷で、 mlh の場合は, というよりも俺が考える mlh では、<br />
-入力中に候補が出るたぐいのものではない。<br />
-入力中に候補が出るようにするのは全然造作なく作れるんだけど、<br />
-俺が考える、半角英数入力が終わったあとに / + <space> が入力されて初めて  
-変換されるようなものにするにはできなかった。  </space></p>
-
-<p>NSString に ^H(Ctrl+V,Ctrl+H) を送っても、 iTerm2 ではうまく動くけど、<br />
-xcode とか firefox ではうまく動かなかったり..<br />
-とにかく、 vimscript でかく上では上記に上げた必要なパーツは全て揃っていたが、<br />
-Input Method Kit 及びそれを書く cocoa アプリ作成では見つけられなかった。  </p>
-
-<p>ゴールデンウィークらしいモラトリアム期間の中でやってみたチャレンジだったが<br />
-非常に残念な結果になったので、 また平常運転で本を消化していこうと思う。  </p>
-
-<p>Input Method Kit に詳しい人いたら教えてほしいです。<br />
-@vimtaku までぜひご一報ください。  </p>
-
-<h3 id="section">本を買った</h3>
-<ul>
-  <li>アルゴリズムクイックリファレンス  </li>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界  </li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-</ul>
-
-<h2 id="section-1">今日の目標</h2>
-<ul>
-  <li>詳解UNIXプログラミング(第3版) 4章 まで読む</li>
-</ul>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>とある本8章まで読んだ</li>
-  <li>SICP-問題1.1.5 まで</li>
-  <li>DDD ショートバージョン(P40まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-  <li>アルゴリズムクイックリファレンス</li>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
   <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
   <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
   <li>(2014/4/29)オペレーティングシステム</li>

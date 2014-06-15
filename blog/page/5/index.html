@@ -7,12 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="背景
-覚悟を決めたので自炊セットを買うことにした。
-電子書籍は最近出てくることが多くなったとはいえ、
-すべてが電子書籍で販売されている訳ではないからだ。
-Nexus7 を存分に生かすために買った自炊セットの
-俺なりのベストプラクティスをここに記載する。 とはいえ、 &hellip;">
+	<meta name="description" content="現象
+iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、
+metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている( &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +80,244 @@ Nexus7 を存分に生かすために買った自炊セットの
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/21/fog-iam-profile/">
+		
+			Fog っていう Gem で Use_iam_profile があんまうまく行かない件</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">現象</h2>
+<p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
+metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている(できたのは割と最近らしい)。<br />
+それなら、iam を使いたいわけなんだけど、 fog v1.18.0 と v1.19.0 で試しても use_iam_profile がうまくいかない。  </p>
+
+<p>呼び出しているクライアントライブラリは asset_sync v1.0.0 と elasticsearch v0.3.4 。<br />
+どちらも aws_credential fetcher で credential を取得してるみたいだけど、それを使ってないようにみえた。  </p>
+
+<h2 id="section-1">対処</h2>
+<p>全部読んでないからわからないけど、俺の予想が合っていれば<br />
+credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
+
+<p>lib/fog/core/service.rb</p>
+<div>
+  <pre><code class="bash">-options = options.merge(fetch_credentials(options))
++options = fetch_credentials(options).merge(options)</code></pre>
+</div>
+
+<p>とりあえずもっと調べなきゃよくわからない。<br />
+これがうまくいっていそうなら pull req だしてみよう。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/aws/'>aws</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/20/cloud-watch-alarm/">
+		
+			Chef で Opsworks のインスタンス起動時に Cloudwatch の Alarm を作成するためにしたこと</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">大まかな流れ</a></li>
+  <li><a href="#iam-">1. IAM の設定</a></li>
+  <li><a href="#sns-">2. SNS のトピックの作成</a></li>
+  <li><a href="#cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</a>    <ul>
+      <li><a href="#from-cli">メトリックの作成 from cli</a></li>
+    </ul>
+  </li>
+  <li><a href="#cloud-watch-">4. cloud watch での作成確認</a></li>
+  <li><a href="#chef-recipe-">5. chef recipe を書く</a></li>
+  <li><a href="#opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</a>    <ul>
+      <li><a href="#section-1">おまけ</a>        <ul>
+          <li><a href="#section-2">気をつけること要点</a></li>
+          <li><a href="#section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">大まかな流れ</h2>
+<ol>
+  <li>IAM の設定</li>
+  <li>SNS のトピックの作成(メール送る用)</li>
+  <li>cloud watch の API を cli から叩いてみる</li>
+  <li>cloud watch の手動確認</li>
+  <li>chef recipe を書く</li>
+  <li>opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</li>
+</ol>
+
+<p>ではさっそく。  </p>
+
+<h2 id="iam-">1. IAM の設定</h2>
+<p>opsworks ではインスタンス生成時に デフォルトで Default IAM instance profile を設定できる。<br />
+ここの IAM Role に権限がないと、 aws cli から操作ができないので注意する。
+この記事では、IAMの設定については詳細に明記しない。  </p>
+
+<h2 id="sns-">2. SNS のトピックの作成</h2>
+<p>コマンドラインか AWS Console から、メール送る用に トピックを作成する。<br />
+監視しているインスタンスの異常時にメールを受け取るため。<br />
+CLI ではこちらが参考になる。<br />
+<a href="http://exploreaws.doorblog.jp/archives/24701093.html">http://exploreaws.doorblog.jp/archives/24701093.html</a><br />
+サブスクリプションを許可しておくと後々のチェックで捗る。<br />
+ちなみにこれは、あとで alarm-actions に指定する。  </p>
+
+<p>ここではできた topic が、仮に arn:aws:sns:ap-northeast-1:99999999:mogemoga としておく。  </p>
+
+<h2 id="cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</h2>
+
+<h3 id="from-cli">メトリックの作成 from cli</h3>
+
+<div>
+  <pre><code class="bash">aws cloudwatch put-metric-alarm
+--alarm-name='disk-usage' \
+             --alarm-description 'Disk usage alert' \
+             --alarm-actions='arn:aws:sns:ap-northeast-1:99999999:mogemoga'   \
+             --namespace  'System/Linux'  \
+             --metric-name  'DiskSpaceUtilization'   \
+             --dimensions='[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]' \
+             --statistic  'Average' \
+             --period  '300'   \
+             --unit 'Percent'
+             --threshold  '50'
+             --evaluation-periods  '1'
+             --region 'ap-northeast-1'
+             --comparison-operator 'GreaterThanOrEqualToThreshold'</code></pre>
+</div>
+
+<p>ここですんなりうまくいくかどうかが別れると思う。<br />
+IAM role を使う場合は、権限が許可されていれば問題なく通ると思う。<br />
+権限がない場合は、 cli の credential 設定が必要になるかもしれない。<br />
+<a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html">http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html</a>  </p>
+
+<h2 id="cloud-watch-">4. cloud watch での作成確認</h2>
+<p>上記のコマンドで成功していれば AWS Console から cloud watch のアラームができているはずなので確認する。  </p>
+
+<h2 id="chef-recipe-">5. chef recipe を書く</h2>
+
+<p>あとは、上記 3 を実行する chef のレシピを書いて、 opsworks が取ってくる custom chef recipe のレポジトリに配置すればおｋ．<br />
+今回は load average もとりたかったので、<br />
+<a href="http://aws.amazon.com/code/8720044071969977">http://aws.amazon.com/code/8720044071969977</a><br />
+のスクリプトを改変して使用することにした。<br />
+ソースはこちら -&gt; <a href="https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git">https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git</a><br />
+disk space をとったりすることができる pl なのですごく便利。  </p>
+
+<p>下記の repository は crontab に 上記の pl (load average は別) のものを登録するものだ。<br />
+<a href="https://github.com/alexism/cloudwatch_monitoring">https://github.com/alexism/cloudwatch_monitoring</a>  </p>
+
+<p>これをフォークして、 load average とれる cron を作る機能と、 アラーム登録する奴を書いた。<br />
+<a href="https://github.com/vimtaku/cloudwatch_monitoring.git">https://github.com/vimtaku/cloudwatch_monitoring.git</a><br />
+chef 力低めで申し訳なので、アドバイス、pull req など大歓迎。  </p>
+
+<h2 id="opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</h2>
+<p>これはもう、 opsworks に慣れているひとなら問題無いと思う。<br />
+5 で作ったものがうまくいっていれば(というか試すときに deploy かどっかで試すと思うんだけど)<br />
+それを setup に移動してやるだけだ。  </p>
+
+<h3 id="section-1">おまけ</h3>
+
+<h4 id="section-2">気をつけること要点</h4>
+<ul>
+  <li>IAM Role に権限がない場合があるので気をつける
+    <ul>
+      <li>参考
+        <ul>
+          <li><a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html">http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html</a></li>
+          <li><a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html">http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>opsworks では chef の data_bags が使えないのを頭に入れておく
+    <ul>
+      <li>自分はあとから気づいたパターン
+        <ul>
+          <li>詳細は <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html">http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>mon-put-metric-alarm の代わりに aws cloudwatch put-metric-aaerm を使用する
+    <ul>
+      <li>role の設定ができていても credential エラーとかいっぱい言われるため。</li>
+    </ul>
+  </li>
+  <li>alert と alarm が似ているので alerm ってタイポに気をつける</li>
+</ul>
+
+<h4 id="section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</h4>
+<div>
+  <pre><code class="bash">/dev/null &lt; $(yes)
+cat - &lt; $(yes)</code></pre>
+</div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-20T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/aws/'>aws</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1185,193 +1420,6 @@ end</code></pre>
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/25/opsworks-and-dotenv/">
-		
-			Opsworks and Dotenv</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">もくじ</h2>
-<ul id="markdown-toc">
-  <li><a href="#section">もくじ</a></li>
-  <li><a href="#opsworks--cookbook-">opsworks の cookbook 処理順について</a></li>
-  <li><a href="#opsworks--dotenv-">opsworks と dotenv の依存関係</a></li>
-  <li><a href="#section-1">(2014/1/26追記) 解決方法</a></li>
-  <li><a href="#section-2">(2013/12/26追記) 解決方法2つ</a></li>
-  <li><a href="#section-3">参考情報とか</a>    <ul>
-      <li><a href="#section-4">シンボリックリンクを使う</a></li>
-      <li><a href="#appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</a></li>
-    </ul>
-  </li>
-</ul>
-
-<p><br /></p>
-
-<h2 id="opsworks--cookbook-">opsworks の cookbook 処理順について</h2>
-<p>opsworks では built-in cookbook -&gt; custom cookbook の順に処理されて、<br />
-custom cookbook でいい感じにディレクトリを配置しても上書きはできない。<br />
-(ただし、 built-in cookbook で使用される recipe の attribute に適切な値を設定することは可能。)<br />
-<a href="http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html">http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html</a></p>
-
-<h2 id="opsworks--dotenv-">opsworks と dotenv の依存関係</h2>
-<p>opsworks の built-in レシピの deploy::rails で使用する環境変数は、当然 .env に依存するのだけど、<br />
-.env の生成は custom cookbook でやっていて、上記にも書いたとおり上書きもできないから<br />
-rails は .env.test とか読んじゃって辛い。<br />
-これ回避する方法あるのかなぁ。。  </p>
-
-<h2 id="section-1">(2014/1/26追記) 解決方法</h2>
-<p>load balancer の死活チェックを health_check.html とかを見るようにしておいて、<br />
-built in recipe の deploy 時点で一回 unicorn 立っちゃうけど
-user recipe の deploy のところで dotenv を作って、<br />
-unicorn とか再起動したのち、 health_check とかを<br />
-おけば割と問題ないんじゃないかってことになってる。  </p>
-
-<h2 id="section-2">(2013/12/26追記) 解決方法2つ</h2>
-<p>考えた方法を2つ。  </p>
-
-<h2 id="section-3">参考情報とか</h2>
-<p>このへんとか参考になりそうなんだけど、いまいち確信 answer はない。<br />
-<a href="https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0">https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0</a></p>
-
-<h3 id="section-4">シンボリックリンクを使う</h3>
-<p>apps のリポジトリに予め、 .env -&gt; /etc/.env みたいなシンボリックリンクをコミットしておいて、<br />
-deploy::rails の前に dotenv を配置する recipe で配布する。  </p>
-
-<h3 id="appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</h3>
-<p><a href="http://docs.opscode.com/resource_deploy.html">http://docs.opscode.com/resource_deploy.html</a><br />
-こいつがデプロイ時(というかマージ実行時)に呼ばれるためのフックでいい感じに recipe を呼ぶ。<br />
-これを参考にした<a href="https://github.com/drnic/mydemoapp">https://github.com/drnic/mydemoapp</a>。<br />
-とりあえず消えたらあれなのでフォークしておいた.<br />
-<a href="https://github.com/vimtaku/mydemoapp">https://github.com/vimtaku/mydemoapp</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-25T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/aws/'>aws</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/23/jekyll-plugin-/">
-		
-			Jekyll Plugin が使えない</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">もくじ</h2>
-<ul id="markdown-toc">
-  <li><a href="#section">もくじ</a></li>
-  <li><a href="#jekyll--github-pages-">jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処</a></li>
-  <li><a href="#master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</a></li>
-  <li><a href="#section-1">ちなみに</a></li>
-</ul>
-
-<h2 id="jekyll--github-pages-">jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処</h2>
-
-<p><a href="http://gosyujin.github.io/2013/05/21/jekyll-plugin-githubpages/">こちらのブログ</a>
-や
-<a href="https://help.github.com/articles/pages-don-t-build-unable-to-run-jekyll">github公式</a>
-を見てもらえればわかるけど、unsafe な plugin を入れられない模様。</p>
-
-<p>だから、結論としては静的 html を吐き出す感じにした。</p>
-
-<h2 id="master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</h2>
-<p>約1分でできるからご安心を。</p>
-
-<div>
-  <pre><code class="bash">##  ソースブランチをコミット。以降はソースブランチで記事を書く
-git checkout -b source
-git push origin source:source
-
-## _deploy を作ってそれを master として push する
-mkdir _deploy
-cd _deploy
-
-## 適当に最初のコミットを作る、この辺はもっとかっこいい方法あると思うけど気にしない
-git init
-touch hoge
-## 自分のいままでの master を remote add
-git remote add origin git@github.com:vimtaku/vimtaku.github.com.git
-git add .
-git ci . -m 'Initial commit'
-git push -f origin master:master
-
-## _site を生成
-cd ..
-jekyll serve  --watch -P 4000 -H 127.0.0.1 --trace
-
-## vim で Rakefile を修正
-## これ(ひとのやつ)を参考に. https://github.com/gosyujin/gosyujin.github.com/commit/2943985064ced913767157eb0fdae431b68ac491
-vim Rakefile
-
-rake deploy</code></pre>
-</div>
-
-<h2 id="section-1">ちなみに</h2>
-<p>ソース見た感じ一日で複数ポストした場合には、ポストの並び順は辞書順っぽい。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
 
 
 </div>
