@@ -1,0 +1,58 @@
+---
+layout: post
+title: "AngularJS を触ってみた感想"
+description: "AngularJS を触ってみた感想"
+category: "tech"
+tags: ["javascript", "AngularJS"]
+---
+
+## angularjs とは
+javascript の MVC フレームワークだ。  
+評判が妙に良いとは思っていたが、噂通りにとても良く出来ている。  
+
+## 学習のためにやったこと
+- angularjs のチュートリアルひと通りやった
+-- [https://docs.angularjs.org/tutorial](https://docs.angularjs.org/tutorial)
+- angularjs を60分で知るビデオを見た
+-- [https://www.youtube.com/watch?v=i9MHigUZKEM](https://www.youtube.com/watch?v=i9MHigUZKEM)
+
+## 感想
+
+### 全体的な所感
+テンプレートエンジンのように view でループしたりゴニョゴニョしたりっていうのが  
+めっちゃ簡単にできてすごく便利な時代になったなぁと思った。  
+DI がすごく良く出来ていて、このコントローラでは、これらを使用するみたいなのが非常に簡単にかけてよかった。  
+以前仕事でつかっていたオレオレ系フレームワークを、さらにもう一歩進化させているように思った。  
+  
+### 疎結合なところ
+なにより、本当の意味での MVC というか、 model を操作すると view が即時に反映されるところが、とてもイケているなぁと思った。  
+module 化の仕組みもとても綺麗で、あるドメインに関するモジュールはそれでまとめておいて、  
+もう一つ上のレイヤーではそれに依存するような形でかけるのがかっこいい。  
+var app = angular.module("MyApp", ["SomeDomain"]) と言った感じ。  
+このモジュールの仕組で提供される ngResource だったり ngRoute だったり、  
+モジュールとして使用できる仕組みが予め提供されている事による恩恵がすごく大きく、  
+いろいろな部分で疎になるように設計されているのがかっこいい。  
+  
+
+### rails との共存
+rails と使うときに、どのように使うかは結構悩ましいところがあるように感じた。  
+というのは、 rails をただの API server として使うのか、昔ながらてきにサーバサイドで view を描画して出すのかとか  
+その辺の住み分けが微妙に大変そうだった。  
+
+### SEO に関して
+とくに SEO との相性は気になった。  
+参考 > [https://note.mu/wadako/n/n01733b19bc9c](https://note.mu/wadako/n/n01733b19bc9c)  
+これを見る限りちょっと大変じゃね？って感じだったけど、  
+実際検索結果に載ってるあたり考えると不安はあるもののできそうなきもする。  
+が、信頼度が求められる production 環境でいきなり使えるかと言われるとちょっと不安がある。  
+
+### 最後に
+とは言え、 angularjs は非常に強力な選択肢だなぁと感じた。  
+学習コスト高いって書いてあったけど、はっきり言って chef とかと比べ物にならないくらい安いと思う。  
+ちょっとした web の何かを作るときには angularjs を使うのは相当いい手段なんじゃないかな。  
+
+## 参考文献
+[https://angularjs.org/](https://angularjs.org/)  
+[http://js.studio-kingdom.com/angularjs/guide/di](http://js.studio-kingdom.com/angularjs/guide/di)  
+[http://js.studio-kingdom.com/angularjs/guide/providers](http://js.studio-kingdom.com/angularjs/guide/providers)  
+
