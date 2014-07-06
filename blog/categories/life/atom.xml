@@ -4,7 +4,7 @@
   <title><![CDATA[Category: life | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-06-15T19:05:06+09:00</updated>
+  <updated>2014-07-07T00:23:42+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[life_july_7]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/07/07/life-july-7/"/>
+    <updated>2014-07-07T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/07/07/life-july-7</id>
+    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
+<p>しばらく期間が開いてしまった。<br />
+仕事がかなり忙しかったり、精神的にバタバタしてしまっていた。<br />
+先日受けた某試験に合格出来ていた。<br />
+嬉しかったのでこの調子で勉強し続けたい。  </p>
+
+<h2 id="section-1">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-2">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">読んでる</h3>
+<ul>
+  <li>SICP-問題1.33 まで</li>
+  <li>数学ガール(乱択アルゴリズム)5章まで</li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/6/12)1冊でわかる数学</li>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_jun_15]]></title>
@@ -203,7 +261,7 @@ rails との共存は一長一短な気がした。  </p>
     <updated>2014-05-18T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/05/18/life-may-18</id>
     <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
-<p><a href="http://ryorisapuri.jp/">プロダクト</a>をリリースできてよかった。<br />
+<p>プロダクトをリリースできてよかった。<br />
 これからの成長が重要だ。  </p>
 
 <h2 id="section-1">週末振り返り</h2>
@@ -232,75 +290,6 @@ rails との共存は一長一短な気がした。  </p>
 <ul>
   <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
   <li>論語入門</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_may_11]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/05/11/life-may-11/"/>
-    <updated>2014-05-11T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/05/11/life-may-11</id>
-    <content type="html"><![CDATA[<h2 id="section">週末振り返り</h2>
-<p>築地の豊ちゃんっていう洋食屋でかつ丼を食べてきた。<br />
-かなりうまかった。<br />
-銀座の船見坂っていうラーメン屋のラーメンはかなりうまかった。  </p>
-
-<p>プロセッサを支える技術の第2章まで読んだ。  </p>
-
-<h3 id="section-1">2章までのキーワード</h3>
-<ul>
-  <li>メモリアドレス空間<br />
- – 64 ビットアーキテクチャとかは64ビットのアドレス空間に対応するために必要  </li>
-  <li>RISC と CISC<br />
- – RISC(Reduced Instruction Set Computer) は固定長命令で、パイプライン制御をしやすくするために作られた<br />
- – CISC(Complex Instruction Set Computer) は可変長命令なので、パイプライン制御しにくかった  </li>
-  <li>Out of Order と 分岐予測、投機実行<br />
- – プログラムの実行時に次の演算結果が依存しない時にその次の命令を先読み実行できる、これを Out of Order という。<br />
- – 分岐があるせいで演算の先読みが難しい<br />
- — 処理が多い方の条件分岐を先に実行しておく(分岐予測)<br />
- — Out of Order と 分岐予測を合わせた実行が投機実行  </li>
-</ul>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界(2章まで)</li>
-  <li>SICP-問題1.1.5 まで</li>
-  <li>DDD ショートバージョン(P40まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-  <li>アルゴリズムクイックリファレンス</li>
   <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
 </ul>
 

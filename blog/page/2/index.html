@@ -7,7 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="週末振り返り 本を読みまくれたのでよかった。 - rails tutorial 流し読み – なんていうかやっぱりだいたいわかってた。 – ホントは Rspec の本とか読むともっと良いテストかけるようになっていいと思っている - Webエンジニアのためのデータベース技術［実践］入門 &hellip;">
+	<meta name="description" content="先週振り返り
+仕事は相変わらず忙しいが一区切りつきそうである。 今日振り返り とある本8章まで読んだ 作って学ぶプログラミング言語(Ruby による Scheme の実装)読破 偉大な目標
+全く進んでない 完成してないゲーム
+全く進んでない 読書途中経過 読んでる とある本8章まで読んだ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +81,94 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/04/life-may-5/">
+		
+			Life_may_5</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">先週振り返り</h2>
+<p>仕事は相変わらず忙しいが一区切りつきそうである。  </p>
+
+<h2 id="section-1">今日振り返り</h2>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>詳解UNIXプログラミング(第3版) 1章</li>
+  <li>DDD ショートバージョン(P40まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-04T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1066,59 +1157,6 @@ openssl ca -gencrl -out crl.pem<br />
 
 
 	<a class='category' href='/blog/categories/dev/'>dev</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/10/ruby-webrick-onewriner/">
-		
-			Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">ワンライナー</h2>
-<div>
-  <pre><code class="ruby">ruby -e &quot;require 'webrick'; server = WEBrick::HTTPServer.new( {:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80}); trap(:INT){server.shutdown}; server.start;&quot;</code></pre>
-</div>
-
-<h2 id="section-1">普通の方</h2>
-<div>
-  <pre><code class="ruby">require 'webrick'
-server = WEBrick::HTTPServer.new({:BindAddress =&gt; '0.0.0.0', :Port =&gt; 80})
-trap(:INT){server.shutdown}
-server.start</code></pre>
-</div>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
 
 
 </div>
