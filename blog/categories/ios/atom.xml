@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ios | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-08-24T01:09:25+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/08/24/uilayout-sizetofit/"/>
+    <updated>2014-08-24T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/08/24/uilayout-sizetofit</id>
+    <content type="html"><![CDATA[<h2 id="uitableviewcell--uilabel--cell-not-autolayout">UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)</h2>
+<ol>
+  <li>基本的には<a href="http://qiita.com/kotaroito/items/8bd2f10833e07f7a5809">こちらの記事にそっておこなった</a> が、自分のやり方がわるいのか、 selected 時しかうまくいかなかった。  </li>
+  <li><a href="http://stackoverflow.com/questions/17823581/custom-cell-not-resizing-uilabels">このstackoverflow によると</a> sizeToFit は layoutSubviews に入れよ。とのこと。  </li>
+</ol>
+
+<p><blockquote><p>override func layoutSubviews() {<br/>    super.layoutSubviews()<br/>        self.body.sizeToFit()<br/>}</p></blockquote></p>
+
+<h2 id="section">その他の参考</h2>
+<p><a href="http://qiita.com/yuch_i/items/b4612fae110254c816f4">http://qiita.com/yuch_i/items/b4612fae110254c816f4</a></p>
+]]></content>
+  </entry>
+  
+</feed>

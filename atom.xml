@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-08-18T00:01:57+09:00</updated>
+  <updated>2014-08-24T01:09:25+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/08/24/uilayout-sizetofit/"/>
+    <updated>2014-08-24T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/08/24/uilayout-sizetofit</id>
+    <content type="html"><![CDATA[<h2 id="uitableviewcell--uilabel--cell-not-autolayout">UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)</h2>
+<ol>
+  <li>基本的には<a href="http://qiita.com/kotaroito/items/8bd2f10833e07f7a5809">こちらの記事にそっておこなった</a> が、自分のやり方がわるいのか、 selected 時しかうまくいかなかった。  </li>
+  <li><a href="http://stackoverflow.com/questions/17823581/custom-cell-not-resizing-uilabels">このstackoverflow によると</a> sizeToFit は layoutSubviews に入れよ。とのこと。  </li>
+</ol>
+
+<blockquote><p>override func layoutSubviews() {<br />    super.layoutSubviews()<br />        self.body.sizeToFit()<br />}</p></blockquote>
+
+<h2 id="section">その他の参考</h2>
+<p><a href="http://qiita.com/yuch_i/items/b4612fae110254c816f4">http://qiita.com/yuch_i/items/b4612fae110254c816f4</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[life_august_17]]></title>
@@ -1218,83 +1236,6 @@ end</code></pre>
 <h2 id="section-4">蛇足</h2>
 <p>stack over flow とかで書いてある render! を定義する方法や<br />
 json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_march_23]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/03/23/life-march-23/"/>
-    <updated>2014-03-23T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/03/23/life-march-23</id>
-    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
-<p>引き続き、ものすごく仕事が忙しくてやばかった。<br />
-でも進んできた感があるので、この調子でがんばろう。<br />
-(先週と同じ</p>
-
-<h2 id="section-1">週末振り返り</h2>
-<p>3連休だった。<br />
-その割に大したことはしなかった。<br />
-自由が丘でうさぎカフェに行って初めてうさぎとすごく触れ合った。<br />
-うさぎはすごく現金なやつで、餌をあげるときしかきてくれなかった。 
-いつか猫カフェに行きたい。  </p>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない..</p>
-
-<h2 id="section-4">勉強途中経過</h2>
-
-<h3 id="section-5">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 まで</li>
-</ul>
-
-<h2 id="section-6">読書途中経過</h2>
-
-<h3 id="section-7">進んだ</h3>
-<ul>
-  <li>ネットワークはなぜつながるのか?(2章)</li>
-  <li>とある本2章まで読んだ</li>
-</ul>
-
-<h3 id="section-8">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第8章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>DDD ショートバージョン</li>
-  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-9">まだ積んでないけど読む</h3>
-<ul>
-  <li>nginxの本</li>
-</ul>
-
-<h3 id="section-10">読み終えた</h3>
-<ul>
-  <li>(2014/3/1)chef-solo 入門
-    <ul>
-      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
-    </ul>
-  </li>
-  <li>(2014/3/1)パーフェクトルビー
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
 
 ]]></content>
   </entry>
