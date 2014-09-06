@@ -8,11 +8,12 @@
 
 	
 	<meta name="description" content="先週振り返り
-なんか色々バタバタしてたら一週間終わった。
-また来週から忙しくなるので頑張ろうと思う。 週末振り返り
-ランニングした。
-4km くらいしか走ってないがそれくらいはまぁ今でもちゃんと走れてよかった。 アルゴリズムクイックリファレンス第4章まで読んだ。
-末尾再帰についていろいろ調べてた &hellip;">
+プロダクトをリリースできてよかった。
+これからの成長が重要だ。 週末振り返り
+実際に料理を作ってみた。
+色々見つかったのでフィードバックしてみる。 プロセッサを支える技術の第3章まで読んだ。
+アルゴリズムクイックリファレンス第3章まで読んだ。 偉大な目標
+全く進んでない &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,98 +84,6 @@
 		
 	
 	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/05/25/life-may-25/">
-		
-			Life_may_25</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">先週振り返り</h2>
-<p>なんか色々バタバタしてたら一週間終わった。<br />
-また来週から忙しくなるので頑張ろうと思う。  </p>
-
-<h2 id="section-1">週末振り返り</h2>
-<p>ランニングした。<br />
-4km くらいしか走ってないがそれくらいはまぁ今でもちゃんと走れてよかった。  </p>
-
-<p>アルゴリズムクイックリファレンス第4章まで読んだ。<br />
-末尾再帰についていろいろ調べてた。  </p>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 3章まで</li>
-  <li>アルゴリズムクイックリファレンス 4章まで</li>
-  <li>SICP-問題1.10 まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>詳解UNIX プログラミング第3版</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-  <li>ハイパフォーマンス ブラウザネットワーキング</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-25T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
 
 
     <article class="post">
@@ -1061,6 +970,103 @@ views/book/list.jbuilder  </p>
 
 
 	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/28/jbuilder-layout/">
+		
+			Jbuilder で 共通パラメータを付与したい時は Layout を使うといいかも</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">前提</h2>
+<ul>
+  <li>rails4</li>
+  <li>jbuilder(1.5.3)</li>
+</ul>
+
+<h2 id="section-1">背景</h2>
+<p>jbuilder を使うと、 api のレスポンスをシンプルに定義できる。<br />
+例えば、hoge_controller.rb#new の場合に<br />
+app/views/hoge/new.jbuilder とかを用意しておいて、<br />
+そこに template で返したい値などを書いて定義できる。<br />
+しかし、共通で値を返したい場合どうするんだってことになって<br />
+いろいろ考えた結果以下に落ち着いた。  </p>
+
+<h2 id="section-2">解法</h2>
+<p>layout を使う。  </p>
+
+<p>controller にたとえば<br />
+layout ‘api/application.jbuilder’ 
+などと定義しておく。  </p>
+
+<p>それで上記の例で言うと、 hoge_controller.rb#new では<br />
+app/views/hoge/new.jbuilder が呼ばれるので、  </p>
+
+<p>app/views/hoge/new.jbuilder</p>
+<div>
+  <pre><code class="ruby">json.from_hoge &quot;from_hoge_param&quot;</code></pre>
+</div>
+
+<p>layouts/api/application.jbuilder  </p>
+<div>
+  <pre><code class="ruby"># common に値を付与
+json.common &quot;common_param_is_here&quot;
+# controller の @hoge を参照できる
+json.hoge @hoge
+# template の値を付与
+JSON.parse(yield).each do |k,v|
+  json.set! k, v
+end</code></pre>
+</div>
+
+<p>とかしておくと良いのかもしれない。<br />
+結果は
+{common:”common_param_is_here”, fromHoge:”from_hoge_param”, hoge:”hoge_from_controller”}
+てな感じになる。  </p>
+
+<p>ちなみに camelCase には公式の通り、 Jbuilder.key_format camelize: :lower でできる。</p>
+
+<p>上記は、まだ実践してないけど手元で試してみた見たかんじこれで行けそう。  </p>
+
+<h2 id="section-3">所感</h2>
+<p>もっといい方法あれば教えて下さい。  </p>
+
+<h2 id="section-4">蛇足</h2>
+<p>stack over flow とかで書いてある render! を定義する方法や<br />
+json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-28T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
 
 
 </div>

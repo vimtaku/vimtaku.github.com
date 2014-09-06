@@ -7,10 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="所感
-筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。
-自分はダイエットで成功体験があったり、筋トレは結構日常に組み込んでやってたときがあったけど、
-仕事で一気に忙しくなったときにその習慣がなくなってしまった。 &hellip;">
+	<meta name="description" content="先週の振り返り
+先週は年明け一発目って感じだったが、モチベーションが自分の中で勝手に上がってきててよかった。
+目標に関する本を読みおえて、改めて立ててみると意外に行けそうな気がした。
+引き続き aws, chef などを触っているが、理解がかなり進んだように感じる。
+chef &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,73 +82,6 @@
 		
 	
 	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/13/yomu-kintore-memo/">
-		
-			読む筋トレを読んだ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">所感</h2>
-<p>筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。<br />
-自分はダイエットで成功体験があったり、筋トレは結構日常に組み込んでやってたときがあったけど、<br />
-仕事で一気に忙しくなったときにその習慣がなくなってしまった。<br />
-それをまたやる気にしてくれそうな雰囲気である。<br />
-この本では、ボディデザインという概念を提唱している。<br />
-ダイエットという引き算の発想から、筋トレをすることで自然に脂肪を減らすというものだ。<br />
-この考えには多いに賛成だが、実際のところ好きなものを食べて筋肉バキバキとかはちょっと無理がある。<br />
-食べ過ぎた次の日にはいっぱい筋トレして解消するみたいな考え方は確かに素晴らしいけどなぁ。<br />
-あと自分を知るということについてもすごく参考にはなる。<br />
-こと自分に至っては, 本当にお酒を飲むことがマイナスでしかない。<br />
-お酒を飲むとすごく食欲が増してしまってドカ食いしてしまうし。<br />
-なので無理せず減らすとかを考えるべきだと思う。  </p>
-
-<p>五分でいいから筋トレを日常に組み込むというのはすごく励みになる。<br />
-0じゃなく、多くなくてよいから1を繰り返せば 100 になるという発想。<br />
-これはかなり良い発想かもしれない。</p>
-
-<h2 id="section-1">自分にとっての筋トレの目的</h2>
-<p>はっきり言って映画トランスポーターに出てくるジェイソンステイサムのようになりたい。<br />
-すごく憧れる。俺の中で世界一かっこいいハゲ。<br />
-自分のポリシーをはっきりともちつつ、「立っているだけで笑わせる」と言い切る笑いへの価値観。<br />
-パーフェクトだ。  </p>
-
-<p>この如何ともしがたい理想との乖離を埋めるべく、ジムで筋トレをしようと思う。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-13T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/leverage-memo/'>leverage_memo</a>
-
-
-</div>
-	
-</div>
-</article>
 
 
     <article class="post">
@@ -1374,6 +1308,90 @@ gsub! 使った方がいいのでもういっこ差分足した</p>
 
 
 	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/23/1_learning_arp/">
+		
+			ARP について調べた</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">目次</h2>
+<ul id="markdown-toc">
+  <li><a href="#section">目次</a></li>
+  <li><a href="#arp">ARPとは</a></li>
+  <li><a href="#arp-">arp コマンドについて</a></li>
+  <li><a href="#arp--mac-osx-">arp で実際に mac osx で実験</a></li>
+  <li><a href="#section-1">所感</a></li>
+  <li><a href="#section-2">参考文献</a></li>
+  <li><a href="#section-3">あわせてよみたい</a></li>
+</ul>
+
+<h2 id="arp">ARPとは</h2>
+<p>Address Resolution Protocol の略で、IP アドレスから MAC アドレスを求める時に<br />
+使用されるプロトコルです。<br />
+TCP などの通信を行うときには送信元、送信先の MAC アドレスが必要なので、<br />
+事前に ARP プロトコルを用いた MAC アドレスの解決が行われています。<br />
+ARP プロトコルをやりとりするコマンドが用意されていて, それが arp コマンドです。<br />
+しかし、毎通信ごとに ARP プロトコルを用いて MAC アドレスを求めるのは無駄です。<br />
+なので、通常、 内部的に arp テーブルを保持してそれを使用します。<br />
+ARP のやり取りには broadcast が使われます。  </p>
+
+<h2 id="arp-">arp コマンドについて</h2>
+
+<p>$ man arp</p>
+
+<blockquote><p>ARP(8)                    BSD System Manager&#8217;s Manual                   ARP(8)<br /> <br /> NAME<br />      arp &#8211; address resolution display and control<br /> <br /> SYNOPSIS<br />      arp [-n] [-i interface] hostname<br />      arp [-n] [-i interface] [-l] -a<br />      arp -d hostname [pub] [ifscope interface]<br />      arp -d [-i interface] -a<br />      arp -s hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br />      arp -S hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br />      arp -f filename<br /> <br /> DESCRIPTION<br />      The arp utility displays and modifies the Internet-to-Ethernet address translation tables used by the address<br />      resolution protocol (arp(4)).  With no flags, the program displays the current ARP entry for hostname.  The<br />      host may be specified by name or by number, using Internet dot notation.</p></blockquote>
+
+<h2 id="arp--mac-osx-">arp で実際に mac osx で実験</h2>
+<p>ここでは、 arp コマンドテーブルを表示したあと、<br />
+一度削除して、http通信を行った後に、テーブルを再度確認してみる。  </p>
+
+<blockquote><p>/net% arp -a<br /> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br /> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br /> /net% arp -d 192.168.1.1<br /> arp: writing to routing socket: Operation not permitted<br /> /net% sudo arp -d 192.168.1.1<br /> Password:<br /> 192.168.1.1 (192.168.1.1) deleted<br /> /net% arp -a<br /> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br /> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br /> <br /> /net% telnet  mixi.jp 80<br /> Trying 110.44.179.199&#8230;<br /> Connected to mixi.jp.<br /> Escape character is &#8216;^]&#8217;.<br /> ^]<br /> telnet&gt; quit<br /> Connection closed.<br /> /net% arp -a<br /> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br /> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]</p></blockquote>
+
+<h2 id="section-1">所感</h2>
+<p>arp -d のあとすぐに確認しても、192.168.1.1 のキャッシュは存在した。<br />
+おそらく、他のアプリケーションによる通信があるせい。  </p>
+
+<h2 id="section-2">参考文献</h2>
+<p>マスタリングTCP/IP入門(5章)</p>
+
+<h2 id="section-3">あわせてよみたい</h2>
+<p><a href="ftp://ftp.rfc-editor.org/in-notes/rfc826.txt">RFC826</a></p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/network/'>network</a>
 
 
 </div>
