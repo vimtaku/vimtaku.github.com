@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-08-24T01:09:25+09:00</updated>
+  <updated>2014-09-06T22:56:53+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[clojure の arrow マクロの実行順と逆順に実行されてハマった件]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/09/06/clojure-arrow-order/"/>
+    <updated>2014-09-06T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/09/06/clojure-arrow-order</id>
+    <content type="html"><![CDATA[<p>わかっているひとは全然わかっていると思うんだけど初学者的にハマったので書きます。  </p>
+
+<h2 id="section">状況</h2>
+<p>compojure とかを使って</p>
+
+<div>
+  <pre><code class="lisp">このへんはしょうりゃく
+
+(defroutes app-routes
+  (GET &quot;/&quot; [] &quot;Hello World&quot;)
+  (route/resources &quot;/&quot;)
+  (route/not-found &quot;Not Found&quot;))
+
+
+(defn wrap-json-request-params
+   [handler]
+     (print &quot;wrap-json-request-params 11111111111&quot;)
+       (fn [req]
+            (print &quot;inner wrap-json-request-params 111111111&quot;)
+                (handler (assoc req :form-params (req :body)))
+                  )
+       )
+
+(defn wrap-print-request
+   [handler message]
+     (print &quot;wrap-print-request 222222222&quot;)
+
+       (fn [req]
+              (print &quot;inner wrap-print-request 222222222&quot;)
+                    (handler req)
+                      )
+       )
+
+(def app
+   (-&gt; app-routes
+     (wrap-json-request-params)
+     (wrap-print-request &quot;2222222&quot;)
+   )
+)</code></pre>
+</div>
+
+<p>みたいに書いていた時、なんとなく、実行のイメージは</p>
+<blockquote><p>(読み込み時)<br />&#8220;wrap-json-request-params 11111111111&#8221;<br />&#8220;wrap-print-request 222222222&#8221;</p><p>(実際にルーティングされた時)<br />&#8220;inner wrap-json-request-params 111111111&#8221;<br />&#8220;inner wrap-print-request 222222222&#8221;</p></blockquote>
+
+<p>だけど、実はこうならない。<br />
+それは -&gt; で渡しているから、<br />
+wrap-json-request-params に第一引数で渡した結果<br />
+つまり(print “inner wrap-json-request-params 111111111” を評価してから (handler req)する)closureがかえる。<br />
+これを closure1とする。<br />
+次の関数で、<br />
+(wrap-print-request clojure1 “2222222”) となって<br />
+(print “inner wrap-print-request 222222222”してから (closure1 req) する closureがかえる。<br />
+これを closure2とする。<br />
+おそらく (closure2 req) のように request が渡ってくるので<br />
+print “inner wrap print-request 222222222” してから、<br />
+(closure1 req) が評価され<br />
+print “inner wrap-json-request-params 111111111” が出力される。  </p>
+
+<p>これだと、直感的に上から順に実行しているように思えなくなって辛いので、対処法として、<br />
+内部の無名関数で最後に実行している (handler req) してるところを<br />
+(let [moge (handler req)]<br />
+ (println “inner wrap-json-request-params 111111111”)<br />
+ moge<br />
+)<br />
+などと書き換えて、最初に評価(let は宣言時に評価されるのを利用)してやれば、直感的にかける。<br />
+ちなみに、複数こういうのをかますなら全部書き換えなきゃダメだと思う。<br />
+逆に言うとこの辺で前後意識してかけるのは魅力かも。  </p>
+
+<p>以上。  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)]]></title>
@@ -1171,71 +1249,6 @@ views/book/list.jbuilder  </p>
 
 <h2 id="section-2">所感</h2>
 <p>まぁこうは普通しないわなぁ。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Jbuilder で 共通パラメータを付与したい時は layout を使うといいかも]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/03/28/jbuilder-layout/"/>
-    <updated>2014-03-28T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/03/28/jbuilder-layout</id>
-    <content type="html"><![CDATA[<h2 id="section">前提</h2>
-<ul>
-  <li>rails4</li>
-  <li>jbuilder(1.5.3)</li>
-</ul>
-
-<h2 id="section-1">背景</h2>
-<p>jbuilder を使うと、 api のレスポンスをシンプルに定義できる。<br />
-例えば、hoge_controller.rb#new の場合に<br />
-app/views/hoge/new.jbuilder とかを用意しておいて、<br />
-そこに template で返したい値などを書いて定義できる。<br />
-しかし、共通で値を返したい場合どうするんだってことになって<br />
-いろいろ考えた結果以下に落ち着いた。  </p>
-
-<h2 id="section-2">解法</h2>
-<p>layout を使う。  </p>
-
-<p>controller にたとえば<br />
-layout ‘api/application.jbuilder’ 
-などと定義しておく。  </p>
-
-<p>それで上記の例で言うと、 hoge_controller.rb#new では<br />
-app/views/hoge/new.jbuilder が呼ばれるので、  </p>
-
-<p>app/views/hoge/new.jbuilder</p>
-<div>
-  <pre><code class="ruby">json.from_hoge &quot;from_hoge_param&quot;</code></pre>
-</div>
-
-<p>layouts/api/application.jbuilder  </p>
-<div>
-  <pre><code class="ruby"># common に値を付与
-json.common &quot;common_param_is_here&quot;
-# controller の @hoge を参照できる
-json.hoge @hoge
-# template の値を付与
-JSON.parse(yield).each do |k,v|
-  json.set! k, v
-end</code></pre>
-</div>
-
-<p>とかしておくと良いのかもしれない。<br />
-結果は
-{common:”common_param_is_here”, fromHoge:”from_hoge_param”, hoge:”hoge_from_controller”}
-てな感じになる。  </p>
-
-<p>ちなみに camelCase には公式の通り、 Jbuilder.key_format camelize: :lower でできる。</p>
-
-<p>上記は、まだ実践してないけど手元で試してみた見たかんじこれで行けそう。  </p>
-
-<h2 id="section-3">所感</h2>
-<p>もっといい方法あれば教えて下さい。  </p>
-
-<h2 id="section-4">蛇足</h2>
-<p>stack over flow とかで書いてある render! を定義する方法や<br />
-json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
 
 ]]></content>
   </entry>

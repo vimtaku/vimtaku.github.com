@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: clojure | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/clojure/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-09-06T22:56:53+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[clojure の arrow マクロの実行順と逆順に実行されてハマった件]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/09/06/clojure-arrow-order/"/>
+    <updated>2014-09-06T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/09/06/clojure-arrow-order</id>
+    <content type="html"><![CDATA[<p>わかっているひとは全然わかっていると思うんだけど初学者的にハマったので書きます。  </p>
+
+<h2 id="section">状況</h2>
+<p>compojure とかを使って</p>
+
+<p><div>
+  <pre><code class='lisp'>&lt;/p&gt;
+
+&lt;p&gt;このへんはしょうりゃく&lt;/p&gt;
+
+&lt;p&gt;(defroutes app-routes
+  (GET “/” [] “Hello World”)
+  (route/resources “/”)
+  (route/not-found “Not Found”))&lt;/p&gt;
+
+&lt;p&gt;(defn wrap-json-request-params
+   [handler]
+     (print “wrap-json-request-params 11111111111”)
+       (fn [req]
+            (print “inner wrap-json-request-params 111111111”)
+                (handler (assoc req :form-params (req :body)))
+                  )
+       )&lt;/p&gt;
+
+&lt;p&gt;(defn wrap-print-request
+   [handler message]
+     (print “wrap-print-request 222222222”)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   (fn [req]
+          (print &quot;inner wrap-print-request 222222222&quot;)
+                (handler req)
+                  )
+   )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(def app
+   (-&amp;gt; app-routes
+     (wrap-json-request-params)
+     (wrap-print-request “2222222”)
+   )
+)&lt;/p&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+</p>
+
+<p>みたいに書いていた時、なんとなく、実行のイメージは
+<blockquote><p>(読み込み時)<br/>“wrap-json-request-params 11111111111”<br/>“wrap-print-request 222222222”</p></p><p><p>(実際にルーティングされた時)<br/>“inner wrap-json-request-params 111111111”<br/>“inner wrap-print-request 222222222”</p></blockquote></p>
+
+<p>だけど、実はこうならない。<br />
+それは -&gt; で渡しているから、<br />
+wrap-json-request-params に第一引数で渡した結果<br />
+つまり(print “inner wrap-json-request-params 111111111” を評価してから (handler req)する)closureがかえる。<br />
+これを closure1とする。<br />
+次の関数で、<br />
+(wrap-print-request clojure1 “2222222”) となって<br />
+(print “inner wrap-print-request 222222222”してから (closure1 req) する closureがかえる。<br />
+これを closure2とする。<br />
+おそらく (closure2 req) のように request が渡ってくるので<br />
+print “inner wrap print-request 222222222” してから、<br />
+(closure1 req) が評価され<br />
+print “inner wrap-json-request-params 111111111” が出力される。  </p>
+
+<p>これだと、直感的に上から順に実行しているように思えなくなって辛いので、対処法として、<br />
+内部の無名関数で最後に実行している (handler req) してるところを<br />
+(let [moge (handler req)]<br />
+ (println “inner wrap-json-request-params 111111111”)<br />
+ moge<br />
+)<br />
+などと書き換えて、最初に評価(let は宣言時に評価されるのを利用)してやれば、直感的にかける。<br />
+ちなみに、複数こういうのをかますなら全部書き換えなきゃダメだと思う。<br />
+逆に言うとこの辺で前後意識してかけるのは魅力かも。  </p>
+
+<p>以上。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>
