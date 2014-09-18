@@ -1,24 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: ruby | vimtaku blog]]></title>
-  <link href="http://vimtaku.github.io/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://vimtaku.github.io/"/>
-  <updated>2014-09-18T23:15:27+09:00</updated>
-  <id>http://vimtaku.github.io/</id>
-  <author>
-    <name><![CDATA[vimtaku]]></name>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>rubykaigi 2014/ 1日目 - vimtaku blog</title>
+	<meta name="author" content="vimtaku">
+
+	
+	<meta name="description" content="rubykaigi 2014/ 1日目">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="vimtaku blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="http://vimtakublog.qolwu.com/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">vimtaku blog</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vimtaku.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/vimtaku" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/vimtaku" title="GitHub">GitHub</a>
+		
     
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vimtaku.github.io">
+	</form>
+</nav>
 
-  
-  <entry>
-    <title type="html"><![CDATA[rubykaigi 2014/ 1日目]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday/"/>
-    <updated>2014-09-18T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday</id>
-    <content type="html"><![CDATA[<h1 id="rubykaigi-first-day">RubyKaigi first day</h1>
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Rubykaigi 2014/ 1日目</h2>
+	<div class="entry-content"><h1 id="rubykaigi-first-day">RubyKaigi first day</h1>
 
 <p>とりあえずまとめてみた。  </p>
 
@@ -130,14 +191,14 @@ Ruby Under a microscope<br />
 <h3 id="section-16">メモ</h3>
 
 <h4 id="feature-flags">feature flags</h4>
-<p>ある機能を入れるときには、<br />
+<p>ある機能を入れるときには、  </p>
 <div>
-  <pre><code class='ruby'>def some_new_feature_enable?
+  <pre><code class="ruby">def some_new_feature_enable?
   something and user.is_stuff?
 end</code></pre>
 </div>
 
-的なものを書いて、それが良さそうなら true に書き換えるなどして切り替えできるようにしていた。<br />
+<p>的なものを書いて、それが良さそうなら true に書き換えるなどして切り替えできるようにしていた。<br />
 (そういえば前職でもそういう仕組みがあった。)  </p>
 
 <h4 id="section-17">ブランチコントロールの話</h4>
@@ -248,280 +309,86 @@ gem 作って共有する文化づくりのための工夫のお話。<br />
 <h2 id="section-26">最後に</h2>
 <p>すごくいろいろいい話をきいた。<br />
 どうでもいいけど、たったこれだけまとめるのに 2時間くらいかかってる。  </p>
-]]></content>
-  </entry>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips/"/>
-    <updated>2014-04-10T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips</id>
-    <content type="html"><![CDATA[<h2 id="section">結論</h2>
-<p>views/book/_book.jbuilder<br />
-<div>
-  <pre><code class='ruby'>json.cache! book do
-  _j = book.to_builder.target!
-    JSON.parse(_j).each do |k,v|
-        json.set! k, v
-    end
-end</code></pre>
-</div>
-</p>
 
-<p>controller で @tmpl[:book] が set されていると仮定<br />
-views/book/show.jbuilder<br />
-<div>
-  <pre><code class='ruby'>json.book do
-  json.partial! ‘book/book’, book: @tmpl[:book]
-end</code></pre>
-</div>
-</p>
 
-<p>controller で @tmpl[:books] が set されていると仮定<br />
-views/book/list.jbuilder<br />
-<div>
-  <pre><code class='ruby'>json.books @tmpl[:books], partial:’book/book’, as: :book</code></pre>
-</div>
-</p>
+<time datetime="2014-09-18T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
 
-<h2 id="section-1">背景</h2>
-<p>単体表示に<br />
-<div>
-  <pre><code class='ruby'>{
-    book: {
-        bookId: “moge”
-    }
-}</code></pre>
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+
+		
+		
+
+        
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        
+        
+        
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        
+
+
+	</div>
+	
 </div>
 
-複数表示に<br />
-<div>
-  <pre><code class='ruby'>{
-    books:[
-    {
-      bookId: “moge”
-    },
-    {
-      bookId: “moge2”
-    }
-    ]
-}</code></pre>
+
 </div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
 
-としたいみたいなやつがググっても全然出てこなかったので。</p>
+    vimtaku
 
-<h2 id="section-2">所感</h2>
-<p>まぁこうは普通しないわなぁ。</p>
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner/"/>
-    <updated>2014-03-10T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner</id>
-    <content type="html"><![CDATA[<h2 id="section">ワンライナー</h2>
-<p><div>
-  <pre><code class='ruby'>ruby -e “require ‘webrick’; server = WEBrick::HTTPServer.new( {:BindAddress =&amp;gt; ‘0.0.0.0’, :Port =&amp;gt; 80}); trap(:INT){server.shutdown}; server.start;”</code></pre>
-</div>
-</p>
 
-<h2 id="section-1">普通の方</h2>
-<p><div>
-  <pre><code class='ruby'>require ‘webrick’
-server = WEBrick::HTTPServer.new({:BindAddress =&amp;gt; ‘0.0.0.0’, :Port =&amp;gt; 80})
-trap(:INT){server.shutdown}
-server.start</code></pre>
-</div>
-</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[devise を知るにはまず warden を知るが良い]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/03/02/warden/"/>
-    <updated>2014-03-02T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/03/02/warden</id>
-    <content type="html"><![CDATA[<h2 id="section">背景</h2>
-<p>devise という gem があるが、warden をベースにした認証の仕組みだということだった。<br />
-devise を知るには、まず warden を知らなければなるまい。<br />
-そう思った俺は warnden を rack ベースでいじってみることにした。  </p>
 
-<h2 id="warden-">warden とは</h2>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-30103097-2']);
+		_gaq.push(['_trackPageview']);
 
-<p>これのこと。<br />
-<a href="https://github.com/hassox/warden">https://github.com/hassox/warden</a><br />
-wiki が充実していたのでかなりわかりやすかった。<br />
-<a href="https://github.com/hassox/warden/wiki">https://github.com/hassox/warden/wiki</a>  </p>
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
-<h2 id="section-1">とりあえずやってみる、以下メモ書き。</h2>
 
-<p>config.rb
-<div>
-  <pre><code class='ruby'>require ‘rack’
-require ‘pp’
-require ‘warden’&lt;/p&gt;
 
-&lt;p&gt;class Application&lt;/p&gt;
-
-&lt;p&gt;def call(env)
-    request = Rack::Request.new(env)
-    response = if request.path_info = ‘/’
-                 body = “#{request.request_method}: Hello! #{request.params[‘name’]}!”
-                 Rack::Response.new(body, “200”, {‘Content-Type’ =&amp;gt; ‘text/plain’})
-               else
-                 Rack::Response.new(‘Not Found’, “404”, {‘Content-Type’ =&amp;gt; ‘text/plain’})
-               end
-    response.finish
-  end&lt;/p&gt;
-
-&lt;p&gt;end&lt;/p&gt;
-
-&lt;p&gt;app = Rack::Builder.new do
-  use Rack::Session::Cookie, :secret =&amp;gt; “replace this with some secret key”&lt;/p&gt;
-
-&lt;p&gt;use Warden::Manager do |manager|
-    manager.default_strategies :password, :basic
-    #manager.failure_app = BadAuthenticationEndsUpHere
-  end&lt;/p&gt;
-
-&lt;p&gt;run lambda { |env| Application.new().call(env) }
-end&lt;/p&gt;
-
-&lt;p&gt;run app</code></pre>
-</div>
-</p>
-
-<p>基本的に, default_strategies で定義した順に行われて、一つでも成功したら成功になる模様。  </p>
-
-<p>cookie セットされている<br />
-<img src="http://gyazo.com/be238cfa0282a588b1fad41ae91dd804.png" />
-<img src="http://gyazo.com/95a09e0d872829e8e0fef2204728cdaa.png" /></p>
-
-<p>試しに nil を返した時。<br />
-<img src="http://gyazo.com/de50e8c049809e31a41231c7b6fb1cd4.png" /></p>
-
-<p>明らかに error ハンドラがないぞッて感じのエラーが出ているので、<br />
-雰囲気でBadAuthenticationEndsUpHere クラスを足してみる。  </p>
-
-<p><div>
-  <pre><code class='ruby'>class BadAuthenticationEndsUpHere
-  def self.call(env)
-    p env
-    p “BadAuthenticationEndsUpHere”
-    Rack::Response.new(‘Not Found’, “404”, {‘Content-Type’ =&amp;gt; ‘text/plain’})
-  end
-end</code></pre>
-</div>
-</p>
-
-<p>思い通りだ。 error ハンドラとして BadAuthenticationEndsUpHere クラスが呼ばれた。<br />
-<img src="http://gyazo.com/f44ae6997b92aab707291851645c565a.png" /></p>
-
-<p>それでは、正しく期待している serialize_from_session が動くように User.get を定義する。  </p>
-
-<p><div>
-  <pre><code class='ruby'>def get(id)
-    ## 永続化されたものから引いてうまく引けたと過程して返す
-    return User.new(id)
-  end</code></pre>
-</div>
-</p>
-
-<p>1回目、とりあえずログインされるはず。<br />
-<img src="http://gyazo.com/9a31a0967443614441eeb729e34d6ba7.png" /></p>
-
-<p>サーバのデバッグログ<br />
-<blockquote><p>“Authenticate!!!!!!!!!!!!”<br/>“serialize into session!!!!!!!!!!!!”</p></blockquote>
-ログから、セッションに値が仕込まれた模様。</p>
-
-<p>2回目、セッションから値を引いてみる。<br />
-<img src="http://gyazo.com/e5db07a78d1f75119ffa76740d10032b.png" />
-あれ、ミス。。あ、 serialize_from_session が読んでるのは User.get(id) だから class method だった。。<br />
-修正して再チャレンジ。  </p>
-
-<p>ちゃんときたっぽい！<br />
-<img src="http://gyazo.com/c1225bebd28bd178e9c9aaa5967d8c89.png" /></p>
-
-<p>デバッグログ
-<blockquote><p>“Authenticate!!!!!!!!!!!!”<br/>“serialize from session!!!!!!!!!!!!”<br/>127.0.0.1 - - [01/Mar/2014 18:54:54] “GET /?password=hoge HTTP/1.1” 200 13 0.0022</p></blockquote></p>
-
-<p>get されている模様！  </p>
-
-<p>これで user にアクセスできる。<br />
-<div>
-  <pre><code class='ruby'>p “warden user is “
-p env[‘warden’].user</code></pre>
-</div>
-</p>
-
-<p>ドキュメントを読むと、<br />
-Warden::Strategies で定義した #valid? に関しては、定義されてようがなかろうが呼ばれるらしい。  </p>
-
-<p>試しにこの時点で #valid? で nil を返すと次の strategy にチャレンジがうつった。<br />
-すべての strategy で失敗したら、 failure_app が呼ばれる。  </p>
-
-<p>特筆すべきは、ここで呼ばれるのが /unauthenticated だということだ。<br />
-この url http://localhost:9292/?password=hoge を叩くと<br />
-127.0.0.1 - - [01/Mar/2014 19:01:45] “GET /unauthenticated?password=hoge HTTP/1.1” 404 9 0.0012<br />
-がデバッグログに表示されている。  </p>
-
-<p><div>
-  <pre><code class='ruby'>class BadAuthenticationEndsUpHere
-  def self.call(env)
-    p “in BadAuthenticationEndsUpHere!!!!!!!!!!!!”
-    request = Rack::Request.new(env)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;p &quot;request.path_info is &quot;
-p request.path_info
-
-Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&amp;gt; 'text/plain'})   end end</code></pre>
-</div>
- をデバッグとして試しに書いてみた。   やはり、内部的に path_info を unauthenticated に書き換えているようだ。   これは lib/warden/manager.rb のあたりを見ればわかる。   def process_unauthenticated(env, options={})   や   def call_failure_app(env, options = {})   で実際にそのように書かれている。   と思ったら   [https://github.com/hassox/warden/wiki/Failures](https://github.com/hassox/warden/wiki/Failures)   ここにめっちゃそのように書いてあった。  
-</code></pre>
-
-<p>halt! や success など便利なメソッドが strategy で使える模様。<br />
-<a href="https://github.com/hassox/warden/wiki/Strategies">https://github.com/hassox/warden/wiki/Strategies</a>
-詳細はコチラを参照。  </p>
-
-<p>このような認証の仕組みが rack で使えて、 認証自体が strategy パターンになっているので<br />
-いい感じに他の人が作った strategy を使えるようになっている。  </p>
-
-<p><a href="https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes">https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes</a><br />
-これを見ると、warden は、認証の scope を分けられるようになっている。<br />
-それぞれの認証で、違うロジックを定義して、認証できるようだ。<br />
-特に指定がない場合は、 env[‘warden’] は user として認証する。<br />
-しかし、これは上書きができるようだ。<br />
-default の設定上書きとは別に、明示的にスコープを指定することもできる。<br />
-<div>
-  <pre><code class='ruby'>env[‘warden’].authenticate! :scope =&amp;gt; :api</code></pre>
-</div>
-</p>
-
-<h3 id="callback">callback</h3>
-
-<p><div>
-  <pre><code class='ruby'>“serialize into session!!!!!!!!!!!!”
-“after_set_user caled!”
-“auth is”
-Warden::Proxy:70106638122900 @config={:default_scope=&amp;gt;:default, :scope_defaults=&amp;gt;{}, :default_strategies=&amp;gt;{:&lt;em&gt;all=&amp;gt;[:password, :basic]}, :intercept&lt;/em&gt;401=&amp;gt;true, :failure_app=&amp;gt;BadAuthenticationEndsUpHere}
-“logout called!!!!!!!!!!!”
-“in BadAuthenticationEndsUpHere!!!!!!!!!!!!”
-“request.path_info is “
-“/unauthenticated”
-127.0.0.1 - - [01/Mar/2014 19:55:10] “GET /unauthenticated?password=hoge HTTP/1.1” 404 9 0.0025</code></pre>
-</div>
-</p>
-
-<p>これも結構参考になる。<br />
-<a href="https://gist.github.com/lukesutton/107966">https://gist.github.com/lukesutton/107966</a></p>
-
-<h2 id="section-2">所感</h2>
-<p>warden 大体わかった。  </p>
-
-]]></content>
-  </entry>
-  
-</feed>
+</body>
+</html>
