@@ -88,8 +88,8 @@
 
 <h4 id="gemfile">Gemfile</h4>
 <div>
-  <pre><code class="ruby">gem 'uglifier', '&gt;= 1.3.0'
-gem 'asset_sync'</code></pre>
+  <pre><code class="ruby">gem &#39;uglifier&#39;, &#39;&gt;= 1.3.0&#39;
+gem &#39;asset_sync&#39;</code></pre>
 </div>
 
 <p>を追記。</p>
@@ -105,7 +105,7 @@ end
 bash &quot;precompile_assets&quot; do
   user &quot;deploy&quot;
   cwd release_path
-  code 'bundle exec rake assets:precompile RAILS_ENV=production'
+  code &#39;bundle exec rake assets:precompile RAILS_ENV=production&#39;
 end</code></pre>
 </div>
 
@@ -118,7 +118,7 @@ template は asset_sync.yml.erb としておいておく感じ。</p>
 <p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
 
 <div>
-  <pre><code class="ruby">config.action_controller.asset_host = '//s3-ap-northeast-1.amazonaws.com/hoge.example.com'
+  <pre><code class="ruby">config.action_controller.asset_host = &#39;//s3-ap-northeast-1.amazonaws.com/hoge.example.com&#39;
 config.assets.initialize_on_precompile = true</code></pre>
 </div>
 

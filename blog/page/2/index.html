@@ -7,12 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="先週振り返り
-なんか色々バタバタしてたら一週間終わった。
-また来週から忙しくなるので頑張ろうと思う。 週末振り返り
-ランニングした。
-4km くらいしか走ってないがそれくらいはまぁ今でもちゃんと走れてよかった。 アルゴリズムクイックリファレンス第4章まで読んだ。
-末尾再帰についていろいろ調べてた &hellip;">
+	<meta name="description" content="いかにして問題をとくか
+この本は、数学を教える教師と、教わる生徒を主なターゲットとして、
+いかにして問題をとくかということを真剣に考えている本である。
+心に残った部分を以下に書いていく。 決定問題と証明問題
+何かを求めよ. という、問題の中の未知のものを見つけるものが決定問題で、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +82,86 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/06/01/">
+		
+			【書評】いかにして問題を解くか</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">いかにして問題をとくか</h2>
+<p>この本は、数学を教える教師と、教わる生徒を主なターゲットとして、<br />
+いかにして問題をとくかということを真剣に考えている本である。<br />
+心に残った部分を以下に書いていく。  </p>
+
+<h2 id="section-1">決定問題と証明問題</h2>
+<p>何かを求めよ. という、問題の中の未知のものを見つけるものが決定問題で、<br />
+証明問題はある命題が正しいか正しくないかを示すものである。  </p>
+
+<p>本書では, 決定問題を解くことに重きをおいている。  </p>
+
+<h2 id="section-2">フレームワーク(チートシート)</h2>
+<ul>
+  <li>未知のものは何か, 条件は何か, データはなにか?  </li>
+  <li>条件をいくつかの部分に分けよ  </li>
+  <li>データと未知のものとの関連を求めよ  </li>
+  <li>未知のものをよく見よ! そして未知のものが同じかまたはよく似た問題は思い起こせ  </li>
+  <li>条件の一部を残して他を捨てよ. それでどこまで未知の部分が定まるか?<br />
+ – どの範囲で変化しうるか. データから何か役に立つ物を引き出しうるか.<br />
+ – その未知のものを決めるのに 適当な他のデータを思いつくか.<br />
+ – 未知のもの, データもしくはその両方を変えて新しい未知のものと, 新しいデータとが互いに近いものになるように出来るか?  </li>
+  <li>すべてのデータを使ったか, すべての条件を使ったか。  </li>
+</ul>
+
+<h2 id="section-3">逆向きに考える</h2>
+<p>4リットルと9リットルの桶しかないとき、ちょうど6リットルの水を汲むにはどうすればよいか？<br />
+この問に関して、逆向きに考えることが非常に重要だと示された。<br />
+答えとしては、9リットルの桶に、6リットルが入っている状態を考えればよい。<br />
+9:1から6:4にすればよい。  </p>
+
+<h2 id="section-4">トリアタマ</h2>
+<p>食物があり、それとは逆コの字でサクがあったとした時、<br />
+犬はそれを錯誤しに取ろうとするがしばらくしてサクを回りこんで<br />
+食物を取りに行くことができるが、 鳥はひたすら食物を手前にバタバタしてしまうらしい。<br />
+やはりしばらくの試行錯誤が必要ではあるが、あるタイミングで一旦物事を俯瞰してみる必要があるということだ。  </p>
+
+<h2 id="section-5">所感</h2>
+<p>とても難しい本ではあった。<br />
+また数学レベルが上がった時に読みたい。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-01T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/book/'>book</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -907,7 +986,7 @@ https://github.com/yoshinorim/MySlowTranCapture  </p>
 
 <p>この辺は見直すとよいかも。</p>
 <div>
-  <pre><code class="sql">mysql&gt; show global variables like '%innodb_lock_wait_timeout%';</code></pre>
+  <pre><code class="sql">mysql&gt; show global variables like &#39;%innodb_lock_wait_timeout%&#39;;</code></pre>
 </div>
 
 <h3 id="rds-">RDS におけるリストアについて</h3>
@@ -967,100 +1046,6 @@ postgresql は前前職で使っていたが vacuum の印象が強くてあん�
 
 
 	<a class='category' href='/blog/categories/mysql/'>mysql</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/04/10/jbuilder-tips/">
-		
-			Jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">結論</h2>
-<p>views/book/_book.jbuilder  </p>
-<div>
-  <pre><code class="ruby">json.cache! book do
-  _j = book.to_builder.target!
-    JSON.parse(_j).each do |k,v|
-        json.set! k, v
-    end
-end</code></pre>
-</div>
-
-<p>controller で @tmpl[:book] が set されていると仮定<br />
-views/book/show.jbuilder  </p>
-<div>
-  <pre><code class="ruby">json.book do
-  json.partial! 'book/book', book: @tmpl[:book]
-end</code></pre>
-</div>
-
-<p>controller で @tmpl[:books] が set されていると仮定<br />
-views/book/list.jbuilder  </p>
-<div>
-  <pre><code class="ruby">json.books @tmpl[:books], partial:'book/book', as: :book</code></pre>
-</div>
-
-<h2 id="section-1">背景</h2>
-<p>単体表示に  </p>
-<div>
-  <pre><code class="ruby">{
-    book: {
-        bookId: &quot;moge&quot;
-    }
-}</code></pre>
-</div>
-
-<p>複数表示に  </p>
-<div>
-  <pre><code class="ruby">{
-    books:[
-    {
-      bookId: &quot;moge&quot;
-    },
-    {
-      bookId: &quot;moge2&quot;
-    }
-    ]
-}</code></pre>
-</div>
-
-<p>としたいみたいなやつがググっても全然出てこなかったので。</p>
-
-<h2 id="section-2">所感</h2>
-<p>まぁこうは普通しないわなぁ。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
 
 
 </div>

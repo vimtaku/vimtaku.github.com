@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-09-18T23:15:27+09:00</updated>
+  <updated>2014-12-09T18:32:51+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac で wirelss な lenovo の keyboard を使う]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/09/mac-wiress-keyboard-scroll/"/>
+    <updated>2014-12-09T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/09/mac-wiress-keyboard-scroll</id>
+    <content type="html"><![CDATA[<h2 id="section">無線キーボードを買った</h2>
+<p><a href="http://www.amazon.co.jp/%E3%83%AC%E3%83%8E%E3%83%9C%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%91%E3%83%B3-ThinkPad-Bluetooth-%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89-0B47181/dp/B00DLK4GQA/ref=sr_1_1?ie=UTF8&amp;qid=1418113086&amp;sr=8-1&amp;keywords=thinkpad+%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89">thinkpad の無線キーボードを買った</a> のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。<br />
+具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。  </p>
+
+<h2 id="section-1">解決</h2>
+<ul>
+  <li>karabiner である程度設定は基本  </li>
+  <li>seil で変換、無変換を使用できるようにする  </li>
+  <li>firefox 中クリック問題、および iTerm2 で中クリックコピペされちゃう問題は<a href="http://www.marcmoini.com/sx_en.html">Smart Scroll を使う</a> とすべてが解決した。  </li>
+</ul>
+
+<h2 id="section-2">所感</h2>
+<p>結構はまったけど解法が見つかって嬉しい。<br />
+危うく1万ドブに捨てるとこだった。<br />
+有料アプリになるかもだけど、評価が終わった場合これは買ってしまっていいだろう。</p>
+
+<h2 id="section-3">参考資料</h2>
+<ul>
+  <li><a href="http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x">http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rubykaigi 2014/ 1日目]]></title>
@@ -1312,7 +1341,7 @@ https://github.com/yoshinorim/MySlowTranCapture  </p>
 
 <p>この辺は見直すとよいかも。</p>
 <div>
-  <pre><code class="sql">mysql&gt; show global variables like '%innodb_lock_wait_timeout%';</code></pre>
+  <pre><code class="sql">mysql&gt; show global variables like &#39;%innodb_lock_wait_timeout%&#39;;</code></pre>
 </div>
 
 <h3 id="rds-">RDS におけるリストアについて</h3>
@@ -1348,68 +1377,6 @@ postgresql は前前職で使っていたが vacuum の印象が強くてあん�
   <li><a href="http://nippondanji.blogspot.jp/2009/03/mysql7.html">http://nippondanji.blogspot.jp/2009/03/mysql7.html</a>  </li>
   <li>[http://www.atmarkit.co.jp/ait/articles/0503/24/news107<em>2.html](http://www.atmarkit.co.jp/ait/articles/0503/24/news107</em>2.html)</li>
 </ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips/"/>
-    <updated>2014-04-10T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips</id>
-    <content type="html"><![CDATA[<h2 id="section">結論</h2>
-<p>views/book/_book.jbuilder  </p>
-<div>
-  <pre><code class="ruby">json.cache! book do
-  _j = book.to_builder.target!
-    JSON.parse(_j).each do |k,v|
-        json.set! k, v
-    end
-end</code></pre>
-</div>
-
-<p>controller で @tmpl[:book] が set されていると仮定<br />
-views/book/show.jbuilder  </p>
-<div>
-  <pre><code class="ruby">json.book do
-  json.partial! 'book/book', book: @tmpl[:book]
-end</code></pre>
-</div>
-
-<p>controller で @tmpl[:books] が set されていると仮定<br />
-views/book/list.jbuilder  </p>
-<div>
-  <pre><code class="ruby">json.books @tmpl[:books], partial:'book/book', as: :book</code></pre>
-</div>
-
-<h2 id="section-1">背景</h2>
-<p>単体表示に  </p>
-<div>
-  <pre><code class="ruby">{
-    book: {
-        bookId: &quot;moge&quot;
-    }
-}</code></pre>
-</div>
-
-<p>複数表示に  </p>
-<div>
-  <pre><code class="ruby">{
-    books:[
-    {
-      bookId: &quot;moge&quot;
-    },
-    {
-      bookId: &quot;moge2&quot;
-    }
-    ]
-}</code></pre>
-</div>
-
-<p>としたいみたいなやつがググっても全然出てこなかったので。</p>
-
-<h2 id="section-2">所感</h2>
-<p>まぁこうは普通しないわなぁ。</p>
-
 ]]></content>
   </entry>
   

@@ -7,10 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="目次 目次 ARPとは arp コマンドについて arp で実際に mac osx で実験 所感 参考文献 あわせてよみたい ARPとは
-Address Resolution Protocol の略で、IP アドレスから MAC アドレスを求める時に
-使用されるプロトコルです。
-TCP &hellip;">
+	<meta name="description" content="jekyll で blockquote で改行とかいい感じにならない問題
+なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて
+やってみたら空白とか改行がいい感じに削られてイラッとしたので
+それっぽい plugin ないかと思って調べたら github &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +81,64 @@ TCP &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/23/5_jekyll-blockquote-/">
+		
+			Jekyll Blockquote 修正</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
+<p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
+やってみたら空白とか改行がいい感じに削られてイラッとしたので<br />
+それっぽい plugin ないかと思って調べたら github にblockquote<br />
+plugin があったのでそれを使ってみたら全く同じだったので<br />
+fork して quote と 改行入れる風にした。</p>
+
+<h2 id="section">一応カスみたいな差分</h2>
+<p><a href="https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9">https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9</a>
+gsub! 使った方がいいのでもういっこ差分足した</p>
+
+<h2 id="toc-">toc について</h2>
+<p>table of contents 機能が地味にあって  </p>
+
+<blockquote><p>* <br />{:toc}</p></blockquote>
+<p>って感じで書くといいらしい。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -398,7 +456,7 @@ chef-solo 入門の naoya 氏が書いたやつ買ったのと、ウェブに落
 
 <div>
   <pre><code class="ruby">def foo
-  puts 'foo'
+  puts &#39;foo&#39;
 end</code></pre>
 </div>
 
@@ -423,7 +481,7 @@ $ git push -u origin master</code></pre>
 <div>
   <pre><code class="vim">function! SetColumnWidthLimit()
   setlocal textwidth=78
-  if exists('+colorcolumn')
+  if exists(&#39;+colorcolumn&#39;)
     setlocal colorcolumn=+1
   endif
 endfun

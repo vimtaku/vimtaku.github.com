@@ -92,13 +92,13 @@
       create  config/locales/devise.en.yml
 ===============================================================================
 
-Some setup you must do manually if you haven't yet:
+Some setup you must do manually if you haven&#39;t yet:
 
   1. Ensure you have defined default url options in your environments files. Here
      is an example of default_url_options appropriate for a development environment
      in config/environments/development.rb:
 
-       config.action_mailer.default_url_options = { :host =&gt; 'localhost:3000' }
+       config.action_mailer.default_url_options = { :host =&gt; &#39;localhost:3000&#39; }
 
      In production, :host should be set to the actual host of your application.
 
@@ -135,12 +135,12 @@ bundle exec rake db:migrate  </p>
 <div>
   <pre><code class="sql">CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL DEFAULT '',
-  `encrypted_password` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `encrypted_password` varchar(255) NOT NULL DEFAULT &#39;&#39;,
   `reset_password_token` varchar(255) DEFAULT NULL,
   `reset_password_sent_at` datetime DEFAULT NULL,
   `remember_created_at` datetime DEFAULT NULL,
-  `sign_in_count` int(11) NOT NULL DEFAULT '0',
+  `sign_in_count` int(11) NOT NULL DEFAULT &#39;0&#39;,
   `current_sign_in_at` datetime DEFAULT NULL,
   `last_sign_in_at` datetime DEFAULT NULL,
   `current_sign_in_ip` varchar(255) DEFAULT NULL,

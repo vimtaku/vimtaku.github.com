@@ -95,19 +95,19 @@ wiki が充実していたのでかなりわかりやすかった。<br />
 
 <p>config.rb</p>
 <div>
-  <pre><code class="ruby">require 'rack'
-require 'pp'
-require 'warden'
+  <pre><code class="ruby">require &#39;rack&#39;
+require &#39;pp&#39;
+require &#39;warden&#39;
 
 class Application
 
   def call(env)
     request = Rack::Request.new(env)
-    response = if request.path_info = '/'
-                 body = &quot;#{request.request_method}: Hello! #{request.params['name']}!&quot;
-                 Rack::Response.new(body, &quot;200&quot;, {'Content-Type' =&gt; 'text/plain'})
+    response = if request.path_info = &#39;/&#39;
+                 body = &quot;#{request.request_method}: Hello! #{request.params[&#39;name&#39;]}!&quot;
+                 Rack::Response.new(body, &quot;200&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
                else
-                 Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&gt; 'text/plain'})
+                 Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
                end
     response.finish
   end
@@ -146,7 +146,7 @@ run app</code></pre>
   def self.call(env)
     p env
     p &quot;BadAuthenticationEndsUpHere&quot;
-    Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&gt; 'text/plain'})
+    Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
   end
 end</code></pre>
 </div>
@@ -186,7 +186,7 @@ end</code></pre>
 <p>これで user にアクセスできる。  </p>
 <div>
   <pre><code class="ruby">p &quot;warden user is &quot;
-p env['warden'].user</code></pre>
+p env[&#39;warden&#39;].user</code></pre>
 </div>
 
 <p>ドキュメントを読むと、<br />
@@ -209,7 +209,7 @@ Warden::Strategies で定義した #valid? に関しては、定義されてよ�
     p &quot;request.path_info is &quot;
     p request.path_info
 
-    Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&gt; 'text/plain'})
+    Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
   end
 end</code></pre>
 </div>
@@ -239,7 +239,7 @@ def call_failure_app(env, options = {})<br />
 しかし、これは上書きができるようだ。<br />
 default の設定上書きとは別に、明示的にスコープを指定することもできる。  </p>
 <div>
-  <pre><code class="ruby">env['warden'].authenticate! :scope =&gt; :api</code></pre>
+  <pre><code class="ruby">env[&#39;warden&#39;].authenticate! :scope =&gt; :api</code></pre>
 </div>
 
 <h3 id="callback">callback</h3>

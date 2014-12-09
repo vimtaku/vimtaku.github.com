@@ -7,12 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="先週の振り返り
-先週は solr 祭りだった。
-solr は存在くらいしか知らなかったけど、非常によく出来たソフトウェアで
-これを使いこなせれば(使い方を知っていれば)非常によい価値を
-提供できる気がした。 先々週はあんまり何やったか覚えていない。
-そういや 先週は docker &hellip;">
+	<meta name="description" content="土日振り返り
+雪うざい。地味に perfect ruby を進めた。
+ruby 力が2くらい上がった。気がする。 勉強途中経過 進んでない rails tutorial 6 までやった 読書途中経過 進んだ パーフェクトルビー15章まで読んだ 手を動かしながら ver 積んでる &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +80,86 @@ solr は存在くらいしか知らなかったけど、非常によく出来た
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/09/life-feb-9/">
+		
+			2014/2/9</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">土日振り返り</h2>
+<p>雪うざい。地味に perfect ruby を進めた。<br />
+ruby 力が2くらい上がった。気がする。  </p>
+
+<h2 id="section-1">勉強途中経過</h2>
+
+<h3 id="section-2">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 までやった</li>
+</ul>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">進んだ</h3>
+<ul>
+  <li>パーフェクトルビー15章まで読んだ
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第7章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -801,19 +878,19 @@ CLI ではこちらが参考になる。<br />
 
 <div>
   <pre><code class="bash">aws cloudwatch put-metric-alarm
---alarm-name='disk-usage' \
-             --alarm-description 'Disk usage alert' \
-             --alarm-actions='arn:aws:sns:ap-northeast-1:99999999:mogemoga'   \
-             --namespace  'System/Linux'  \
-             --metric-name  'DiskSpaceUtilization'   \
-             --dimensions='[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]' \
-             --statistic  'Average' \
-             --period  '300'   \
-             --unit 'Percent'
-             --threshold  '50'
-             --evaluation-periods  '1'
-             --region 'ap-northeast-1'
-             --comparison-operator 'GreaterThanOrEqualToThreshold'</code></pre>
+--alarm-name=&#39;disk-usage&#39; \
+             --alarm-description &#39;Disk usage alert&#39; \
+             --alarm-actions=&#39;arn:aws:sns:ap-northeast-1:99999999:mogemoga&#39;   \
+             --namespace  &#39;System/Linux&#39;  \
+             --metric-name  &#39;DiskSpaceUtilization&#39;   \
+             --dimensions=&#39;[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]&#39; \
+             --statistic  &#39;Average&#39; \
+             --period  &#39;300&#39;   \
+             --unit &#39;Percent&#39;
+             --threshold  &#39;50&#39;
+             --evaluation-periods  &#39;1&#39;
+             --region &#39;ap-northeast-1&#39;
+             --comparison-operator &#39;GreaterThanOrEqualToThreshold&#39;</code></pre>
 </div>
 
 <p>ここですんなりうまくいくかどうかが別れると思う。<br />
@@ -1010,97 +1087,6 @@ DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万�
 
 
 	<a class='category' href='/blog/categories/zi-chui/'>自炊</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/14/asset-sync/">
-		
-			Asset_sync</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
-
-<h2 id="url">参考URL</h2>
-<p>こちらを参考にした。
-<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
-
-<h4 id="gemfile">Gemfile</h4>
-<div>
-  <pre><code class="ruby">gem 'uglifier', '&gt;= 1.3.0'
-gem 'asset_sync'</code></pre>
-</div>
-
-<p>を追記。</p>
-
-<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
-
-<div>
-  <pre><code class="ruby">template &quot;#{release_path}/config/asset_sync.yml&quot; do
-  mode &quot;0644&quot;
-  source &quot;asset_sync.yml.erb&quot;
-end
-
-bash &quot;precompile_assets&quot; do
-  user &quot;deploy&quot;
-  cwd release_path
-  code 'bundle exec rake assets:precompile RAILS_ENV=production'
-end</code></pre>
-</div>
-
-<p>今回は、 before_migrate で呼ぶことにする。<br />
-chef-solo で呼ばれるので resource が使える模様。<br />
-カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
-template は asset_sync.yml.erb としておいておく感じ。</p>
-
-<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
-<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
-
-<div>
-  <pre><code class="ruby">config.action_controller.asset_host = '//s3-ap-northeast-1.amazonaws.com/hoge.example.com'
-config.assets.initialize_on_precompile = true</code></pre>
-</div>
-
-<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
-<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
-ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
-existing_remote_files: ‘delete’ として<br />
-precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
-config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
-(しかし、ゴミはのこる。対処については要検討。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/chef/'>chef</a>
 
 
 </div>

@@ -180,9 +180,9 @@
 
 <div>
   <pre><code class="bash">/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
-   ringing machine 'default' up with 'virtualbox' provider...
-   [default] Box 'Berkshelf-CentOS-6.3-x86_64-minimal' was not found. Fetching box from specified URL for
-   the provider 'virtualbox'. Note that if the URL does not have
+   ringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
+   [default] Box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39; was not found. Fetching box from specified URL for
+   the provider &#39;virtualbox&#39;. Note that if the URL does not have
    a box for this provider, you should interrupt Vagrant now and add
    the box yourself. Otherwise Vagrant will attempt to download the
    full box prior to discovering this error.
@@ -192,12 +192,12 @@
    Progress: 51% (Rate: 1147k/s, Estimated time remaining: 0:02:01)^U
    Progress: 85% (Rate: 1061k/s, Estimated time remaining: 0:00:38)load: 1.27  cmd: curl 27613 waiting 2.72u 4.99s
    Extracting box...te: 2251k/s, Estimated time remaining: 0:00:01)j
-   Successfully added box 'Berkshelf-CentOS-6.3-x86_64-minimal' with provider 'virtualbox'!
+   Successfully added box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39; with provider &#39;virtualbox&#39;!
    There are errors in the configuration of this machine. Please fix
    the following errors and try again:
    
    SSH:
-   * The following settings shouldn't exist: max_tries, timeout</code></pre>
+   * The following settings shouldn&#39;t exist: max_tries, timeout</code></pre>
 </div>
 
 <ul>
@@ -211,8 +211,8 @@
 
 <div>
   <pre><code class="bash">/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
-Bringing machine 'default' up with 'virtualbox' provider...
-[default] Importing base box 'Berkshelf-CentOS-6.3-x86_64-minimal'...
+Bringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
+[default] Importing base box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39;...
 [default] Matching MAC address for NAT networking...
 [default] Setting the name of the VM...
 [default] Clearing any previously set forwarded ports...
@@ -220,7 +220,7 @@ Bringing machine 'default' up with 'virtualbox' provider...
 [Berkshelf] You should check for a newer version of vagrant-berkshelf.
 [Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
 [Berkshelf] You can also join the discussion in #berkshelf on Freenode.
-[Berkshelf] Updating Vagrant's berkshelf: '/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default'
+[Berkshelf] Updating Vagrant&#39;s berkshelf: &#39;/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default&#39;
 [Berkshelf] Using myface (0.1.0) from metadata
 [default] Creating shared folders metadata...
 [default] Clearing any previously set network interfaces...
@@ -294,7 +294,7 @@ end</code></pre>
 [Berkshelf] You should check for a newer version of vagrant-berkshelf.
 [Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
 [Berkshelf] You can also join the discussion in #berkshelf on Freenode.
-[Berkshelf] Updating Vagrant's berkshelf: '/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default'
+[Berkshelf] Updating Vagrant&#39;s berkshelf: &#39;/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default&#39;
 [Berkshelf] Using myface (0.1.0)
 [default] Running provisioner: chef_solo...
 Generating chef JSON and uploading...
@@ -317,7 +317,7 @@ Cannot find a resource for artifact_deploy on centos version 6.3
 
 Cookbook Trace:
 ---------------
-  /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file'
+  /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file&#39;
 
 Relevant File Content:
 ----------------------
@@ -395,20 +395,20 @@ default[:myface][:group] = &quot;myface&quot;</code></pre>
 </div>
 
 <div>
-  <pre><code class="bash">group &quot;#{node['myface']['group']}&quot;
+  <pre><code class="bash">group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
 
-user &quot;#{node['myface']['group']}&quot; do
-  group &quot;#{node['myface']['group']}&quot;
+user &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot; do
+  group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
   system true
   shell &quot;/bin/bash&quot;
 end
 
-artifact_deploy &quot;#{node['myface']['group']}&quot; do
+artifact_deploy &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot; do
   version &quot;1.0.0&quot;
   artifact_location &quot;/tmp/myface-1.0.0.tar.gz&quot;
   deploy_to &quot;/srv/myface&quot;
-  owner &quot;#{node['myface']['user']}&quot;
-  group &quot;#{node['myface']['group']}&quot;
+  owner &quot;#{node[&#39;myface&#39;][&#39;user&#39;]}&quot;
+  group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
   action :deploy
 end</code></pre>
 </div>
@@ -459,7 +459,7 @@ end</code></pre>
 </ul>
 
 <div>
-  <pre><code class="bash">require 'json'
+  <pre><code class="bash">require &#39;json&#39;
 
 file &quot;/tmp/dna.json&quot; do
   content JSON.pretty_generate(node)

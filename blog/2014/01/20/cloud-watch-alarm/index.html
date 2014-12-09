@@ -135,19 +135,19 @@ CLI ではこちらが参考になる。<br />
 
 <div>
   <pre><code class="bash">aws cloudwatch put-metric-alarm
---alarm-name='disk-usage' \
-             --alarm-description 'Disk usage alert' \
-             --alarm-actions='arn:aws:sns:ap-northeast-1:99999999:mogemoga'   \
-             --namespace  'System/Linux'  \
-             --metric-name  'DiskSpaceUtilization'   \
-             --dimensions='[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]' \
-             --statistic  'Average' \
-             --period  '300'   \
-             --unit 'Percent'
-             --threshold  '50'
-             --evaluation-periods  '1'
-             --region 'ap-northeast-1'
-             --comparison-operator 'GreaterThanOrEqualToThreshold'</code></pre>
+--alarm-name=&#39;disk-usage&#39; \
+             --alarm-description &#39;Disk usage alert&#39; \
+             --alarm-actions=&#39;arn:aws:sns:ap-northeast-1:99999999:mogemoga&#39;   \
+             --namespace  &#39;System/Linux&#39;  \
+             --metric-name  &#39;DiskSpaceUtilization&#39;   \
+             --dimensions=&#39;[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]&#39; \
+             --statistic  &#39;Average&#39; \
+             --period  &#39;300&#39;   \
+             --unit &#39;Percent&#39;
+             --threshold  &#39;50&#39;
+             --evaluation-periods  &#39;1&#39;
+             --region &#39;ap-northeast-1&#39;
+             --comparison-operator &#39;GreaterThanOrEqualToThreshold&#39;</code></pre>
 </div>
 
 <p>ここですんなりうまくいくかどうかが別れると思う。<br />

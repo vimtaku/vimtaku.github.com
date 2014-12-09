@@ -7,10 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="所感
-筋トレのモチベーションが上がったというよりは、なぜ筋トレをするのか考えることにつながった。
-自分はダイエットで成功体験があったり、筋トレは結構日常に組み込んでやってたときがあったけど、
-仕事で一気に忙しくなったときにその習慣がなくなってしまった。 &hellip;">
+	<meta name="description" content="rails で asset pipeline を使って s3 に上げる手順について(opsworks使用) 参考URL
+こちらを参考にした。
+http://d.hatena.ne.jp/lettas0726/20130320/1363773153 Gemfile gem &#39; &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +80,97 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/14/asset-sync/">
+		
+			Asset_sync</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
+
+<h2 id="url">参考URL</h2>
+<p>こちらを参考にした。
+<a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
+
+<h4 id="gemfile">Gemfile</h4>
+<div>
+  <pre><code class="ruby">gem &#39;uglifier&#39;, &#39;&gt;= 1.3.0&#39;
+gem &#39;asset_sync&#39;</code></pre>
+</div>
+
+<p>を追記。</p>
+
+<h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
+
+<div>
+  <pre><code class="ruby">template &quot;#{release_path}/config/asset_sync.yml&quot; do
+  mode &quot;0644&quot;
+  source &quot;asset_sync.yml.erb&quot;
+end
+
+bash &quot;precompile_assets&quot; do
+  user &quot;deploy&quot;
+  cwd release_path
+  code &#39;bundle exec rake assets:precompile RAILS_ENV=production&#39;
+end</code></pre>
+</div>
+
+<p>今回は、 before_migrate で呼ぶことにする。<br />
+chef-solo で呼ばれるので resource が使える模様。<br />
+カスタム chef リポジトリに asset_sync.yml の template を用意しておく。<br />
+template は asset_sync.yml.erb としておいておく感じ。</p>
+
+<h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
+<p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
+
+<div>
+  <pre><code class="ruby">config.action_controller.asset_host = &#39;//s3-ap-northeast-1.amazonaws.com/hoge.example.com&#39;
+config.assets.initialize_on_precompile = true</code></pre>
+</div>
+
+<h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
+<p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
+ここで複数の rails インスタンスが非同期(もしくは片方のみ)なので<br />
+existing_remote_files: ‘delete’ として<br />
+precompile を実行するともともと参照していたファイルが消えてしまうので、<br />
+config/asset_sync.yml の中の existing_remote_files を keep にする。<br />
+(しかし、ゴミはのこる。対処については要検討。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/chef/'>chef</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -617,9 +707,9 @@ opsworks-cli-agent show_log
 
 <div>
   <pre><code class="bash">/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
-   ringing machine 'default' up with 'virtualbox' provider...
-   [default] Box 'Berkshelf-CentOS-6.3-x86_64-minimal' was not found. Fetching box from specified URL for
-   the provider 'virtualbox'. Note that if the URL does not have
+   ringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
+   [default] Box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39; was not found. Fetching box from specified URL for
+   the provider &#39;virtualbox&#39;. Note that if the URL does not have
    a box for this provider, you should interrupt Vagrant now and add
    the box yourself. Otherwise Vagrant will attempt to download the
    full box prior to discovering this error.
@@ -629,12 +719,12 @@ opsworks-cli-agent show_log
    Progress: 51% (Rate: 1147k/s, Estimated time remaining: 0:02:01)^U
    Progress: 85% (Rate: 1061k/s, Estimated time remaining: 0:00:38)load: 1.27  cmd: curl 27613 waiting 2.72u 4.99s
    Extracting box...te: 2251k/s, Estimated time remaining: 0:00:01)j
-   Successfully added box 'Berkshelf-CentOS-6.3-x86_64-minimal' with provider 'virtualbox'!
+   Successfully added box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39; with provider &#39;virtualbox&#39;!
    There are errors in the configuration of this machine. Please fix
    the following errors and try again:
    
    SSH:
-   * The following settings shouldn't exist: max_tries, timeout</code></pre>
+   * The following settings shouldn&#39;t exist: max_tries, timeout</code></pre>
 </div>
 
 <ul>
@@ -648,8 +738,8 @@ opsworks-cli-agent show_log
 
 <div>
   <pre><code class="bash">/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
-Bringing machine 'default' up with 'virtualbox' provider...
-[default] Importing base box 'Berkshelf-CentOS-6.3-x86_64-minimal'...
+Bringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
+[default] Importing base box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39;...
 [default] Matching MAC address for NAT networking...
 [default] Setting the name of the VM...
 [default] Clearing any previously set forwarded ports...
@@ -657,7 +747,7 @@ Bringing machine 'default' up with 'virtualbox' provider...
 [Berkshelf] You should check for a newer version of vagrant-berkshelf.
 [Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
 [Berkshelf] You can also join the discussion in #berkshelf on Freenode.
-[Berkshelf] Updating Vagrant's berkshelf: '/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default'
+[Berkshelf] Updating Vagrant&#39;s berkshelf: &#39;/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default&#39;
 [Berkshelf] Using myface (0.1.0) from metadata
 [default] Creating shared folders metadata...
 [default] Clearing any previously set network interfaces...
@@ -731,7 +821,7 @@ end</code></pre>
 [Berkshelf] You should check for a newer version of vagrant-berkshelf.
 [Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
 [Berkshelf] You can also join the discussion in #berkshelf on Freenode.
-[Berkshelf] Updating Vagrant's berkshelf: '/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default'
+[Berkshelf] Updating Vagrant&#39;s berkshelf: &#39;/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default&#39;
 [Berkshelf] Using myface (0.1.0)
 [default] Running provisioner: chef_solo...
 Generating chef JSON and uploading...
@@ -754,7 +844,7 @@ Cannot find a resource for artifact_deploy on centos version 6.3
 
 Cookbook Trace:
 ---------------
-  /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file'
+  /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file&#39;
 
 Relevant File Content:
 ----------------------
@@ -832,20 +922,20 @@ default[:myface][:group] = &quot;myface&quot;</code></pre>
 </div>
 
 <div>
-  <pre><code class="bash">group &quot;#{node['myface']['group']}&quot;
+  <pre><code class="bash">group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
 
-user &quot;#{node['myface']['group']}&quot; do
-  group &quot;#{node['myface']['group']}&quot;
+user &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot; do
+  group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
   system true
   shell &quot;/bin/bash&quot;
 end
 
-artifact_deploy &quot;#{node['myface']['group']}&quot; do
+artifact_deploy &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot; do
   version &quot;1.0.0&quot;
   artifact_location &quot;/tmp/myface-1.0.0.tar.gz&quot;
   deploy_to &quot;/srv/myface&quot;
-  owner &quot;#{node['myface']['user']}&quot;
-  group &quot;#{node['myface']['group']}&quot;
+  owner &quot;#{node[&#39;myface&#39;][&#39;user&#39;]}&quot;
+  group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
   action :deploy
 end</code></pre>
 </div>
@@ -896,7 +986,7 @@ end</code></pre>
 </ul>
 
 <div>
-  <pre><code class="bash">require 'json'
+  <pre><code class="bash">require &#39;json&#39;
 
 file &quot;/tmp/dna.json&quot; do
   content JSON.pretty_generate(node)
@@ -1134,7 +1224,7 @@ touch hoge
 ## 自分のいままでの master を remote add
 git remote add origin git@github.com:vimtaku/vimtaku.github.com.git
 git add .
-git ci . -m 'Initial commit'
+git ci . -m &#39;Initial commit&#39;
 git push -f origin master:master
 
 ## _site を生成
@@ -1316,64 +1406,6 @@ jnlp で行う通信を ssl にするのが無いんだよなぁ.<br />
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/23/5_jekyll-blockquote-/">
-		
-			Jekyll Blockquote 修正</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
-<p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
-やってみたら空白とか改行がいい感じに削られてイラッとしたので<br />
-それっぽい plugin ないかと思って調べたら github にblockquote<br />
-plugin があったのでそれを使ってみたら全く同じだったので<br />
-fork して quote と 改行入れる風にした。</p>
-
-<h2 id="section">一応カスみたいな差分</h2>
-<p><a href="https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9">https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9</a>
-gsub! 使った方がいいのでもういっこ差分足した</p>
-
-<h2 id="toc-">toc について</h2>
-<p>table of contents 機能が地味にあって  </p>
-
-<blockquote><p>* <br />{:toc}</p></blockquote>
-<p>って感じで書くといいらしい。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
 
 
 </div>

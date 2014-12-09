@@ -242,7 +242,7 @@ elevate が評価されてダメっぽかったのでコメントアウト。<br
 </div>
 
 <div>
-  <pre><code class="bash">curl 'http://localhost:8983/solr/vimtaku/update/json?commit=true' --data-binary @data.json -H 'Content-type:application/json;charset:utf-8'</code></pre>
+  <pre><code class="bash">curl &#39;http://localhost:8983/solr/vimtaku/update/json?commit=true&#39; --data-binary @data.json -H &#39;Content-type:application/json;charset:utf-8&#39;</code></pre>
 </div>
 
 <p>これで データ登録が完了する。  </p>
@@ -283,17 +283,17 @@ index 0000000..c758319
 +        &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
 +            query=&quot;select * from recipe_mst&quot;
 +            deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
-+            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= '${dataimporter.last_index_time}'&quot;&gt;
++            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= &#39;${dataimporter.last_index_time}&#39;&quot;&gt;
 +            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
 +            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
 +            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
 +            &lt;entity name=&quot;recipe_genre_rel&quot;
-+                query=&quot;select * from recipe_genre_rel where recipe_id = '${recipe_mst.recipe_id}'&quot;&gt;
-+                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = '${recipe_genre_rel.genre_id}'&quot;&gt;
++                query=&quot;select * from recipe_genre_rel where recipe_id = &#39;${recipe_mst.recipe_id}&#39;&quot;&gt;
++                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = &#39;${recipe_genre_rel.genre_id}&#39;&quot;&gt;
 +                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
 +                &lt;/entity&gt;
 +            &lt;/entity&gt;
-+            &lt;entity name=&quot;chef_mst&quot; query=&quot;select * from chef_mst where chef_id = '${recipe_mst.chef_id}'&quot;&gt;
++            &lt;entity name=&quot;chef_mst&quot; query=&quot;select * from chef_mst where chef_id = &#39;${recipe_mst.chef_id}&#39;&quot;&gt;
 +                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
 +            &lt;/entity&gt;
 +        &lt;/entity&gt;
@@ -310,9 +310,9 @@ index 00b7555..2d19133 100644
 +  &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-dataimporthandler-.*\.jar&quot; /&gt;
 +  &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;mysql.*\.jar&quot; /&gt;
 +
-   &lt;!-- an exact 'path' can be used instead of a 'dir' to specify a
+   &lt;!-- an exact &#39;path&#39; can be used instead of a &#39;dir&#39; to specify a
         specific jar file.  This will cause a serious error to be logged
-        if it can't be loaded.
+        if it can&#39;t be loaded.
 @@ -1513,6 +1516,15 @@
    &lt;/requestHandler&gt;
 
@@ -353,19 +353,19 @@ deltaQuery は どんなに nest が深くても実行される(たぶん)。</p
         &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
             query=&quot;select * from recipe_mst&quot;
             deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
-            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= '${dataimporter.last_index_time}'&quot;
+            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= &#39;${dataimporter.last_index_time}&#39;&quot;
             &gt;
             &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
             &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
             &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
             &lt;entity name=&quot;recipe_genre_rel&quot;
-                query=&quot;select * from recipe_genre_rel where recipe_id = '${recipe_mst.recipe_id}'&quot;&gt;
-                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = '${recipe_genre_rel.genre_id}'&quot;&gt;
+                query=&quot;select * from recipe_genre_rel where recipe_id = &#39;${recipe_mst.recipe_id}&#39;&quot;&gt;
+                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = &#39;${recipe_genre_rel.genre_id}&#39;&quot;&gt;
                     &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
                 &lt;/entity&gt;
             &lt;/entity&gt;
             &lt;entity name=&quot;chef_mst&quot; pk=&quot;chef_id&quot;
-                query=&quot;select * from chef_mst where chef_id = '${recipe_mst.chef_id}'&quot;
+                query=&quot;select * from chef_mst where chef_id = &#39;${recipe_mst.chef_id}&#39;&quot;
                 deltaQuery=&quot;select chef_id from chef_mst where chef_id = 1&quot;
                 parentDeltaQuery=&quot;select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1&quot;
                 &gt;

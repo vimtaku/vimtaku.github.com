@@ -94,14 +94,14 @@ end</code></pre>
 views/book/show.jbuilder  </p>
 <div>
   <pre><code class="ruby">json.book do
-  json.partial! 'book/book', book: @tmpl[:book]
+  json.partial! &#39;book/book&#39;, book: @tmpl[:book]
 end</code></pre>
 </div>
 
 <p>controller で @tmpl[:books] が set されていると仮定<br />
 views/book/list.jbuilder  </p>
 <div>
-  <pre><code class="ruby">json.books @tmpl[:books], partial:'book/book', as: :book</code></pre>
+  <pre><code class="ruby">json.books @tmpl[:books], partial:&#39;book/book&#39;, as: :book</code></pre>
 </div>
 
 <h2 id="section-1">背景</h2>

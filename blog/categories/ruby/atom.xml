@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-09-18T23:15:27+09:00</updated>
+  <updated>2014-12-09T18:32:51+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -477,7 +477,7 @@ Warden::Strategies で定義した #valid? に関しては、定義されてよ�
 &lt;pre&gt;&lt;code&gt;p &quot;request.path_info is &quot;
 p request.path_info
 
-Rack::Response.new('Not Found', &quot;404&quot;, {'Content-Type' =&amp;gt; 'text/plain'})   end end</code></pre>
+Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&amp;gt; &#39;text/plain&#39;})   end end</code></pre>
 </div>
  をデバッグとして試しに書いてみた。   やはり、内部的に path_info を unauthenticated に書き換えているようだ。   これは lib/warden/manager.rb のあたりを見ればわかる。   def process_unauthenticated(env, options={})   や   def call_failure_app(env, options = {})   で実際にそのように書かれている。   と思ったら   [https://github.com/hassox/warden/wiki/Failures](https://github.com/hassox/warden/wiki/Failures)   ここにめっちゃそのように書いてあった。  
 </code></pre>

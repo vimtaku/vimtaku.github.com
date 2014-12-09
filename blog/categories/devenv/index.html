@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する - vimtaku blog</title>
+	<title>Category: devenv - vimtaku blog</title>
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する">
+	<meta name="description" content="Category: devenv">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,70 +77,31 @@
 	
 		
 	
-	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する</h2>
-	<div class="entry-content"><h2 id="section">ワンライナー</h2>
-<div>
-  <pre><code class="ruby">ruby -e &quot;require &#39;webrick&#39;; server = WEBrick::HTTPServer.new( {:BindAddress =&gt; &#39;0.0.0.0&#39;, :Port =&gt; 80}); trap(:INT){server.shutdown}; server.start;&quot;</code></pre>
-</div>
-
-<h2 id="section-1">普通の方</h2>
-<div>
-  <pre><code class="ruby">require &#39;webrick&#39;
-server = WEBrick::HTTPServer.new({:BindAddress =&gt; &#39;0.0.0.0&#39;, :Port =&gt; 80})
-trap(:INT){server.shutdown}
-server.start</code></pre>
-</div>
-
-</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
+	<div id="content" class="inner">
 	
+
+
+	
+	
+	<section class="archives"><h1 class="year">2014</h1>
+
+<article>
+	<h2 class="title"><a href="/blog/2014/12/09/mac-wiress-keyboard-scroll/">Mac で wirelss な lenovo の keyboard を使う</a></h2>
+	<div class="meta">
+		<div class="date">Dec  9</div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/devenv/'>devenv</a>
+
+
 </div>
-</article>
-
-	<div class="share">
-	<div class="addthis_toolbox addthis_default_style ">
-		
-
-		
-		
-
-        
-        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-        
-        
-        
-            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        
-
-
+	    
 	</div>
+</article>
 	
-</div>
-
+	</section>
+	
 
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2014
