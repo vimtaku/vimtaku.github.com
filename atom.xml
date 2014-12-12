@@ -1,0 +1,1381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Datomic まとめ]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/12/datomic-matome/"/>
+    <updated>2014-12-12T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/12/datomic-matome</id>
+    <content type="html"><![CDATA[
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#datomic-">datomic まとめ(追記していく)</a>    <ul>
+      <li><a href="#datomic--1">datomic 自体の説明</a></li>
+    </ul>
+  </li>
+  <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
+      <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
+      <li><a href="#section">参考資料(便利)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="datomic-">datomic まとめ(追記していく)</h1>
+
+<h2 id="datomic--1">datomic 自体の説明</h2>
+<p>省略。<br />
+いつか書くかも。
+他に良い記事がたくさんあるので。  </p>
+
+<h1 id="datomic--2">datomic 本当のところ(使いながら追記していく)</h1>
+
+<h2 id="createdat-updatedat-">created_at, updated_at は持つ必要がない</h2>
+<p>rails で mysql とかつかって作るときだと当たり前のように created_at とか updated_at を持っているけど、<br />
+datomic を使う場合は必要ない。<br />
+stack over flow に、持ってた方が良い？などの質問に対して、
+おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
+
+<div>
+  <pre><code class="clojure">; -------- 一応コピペしとく
+(def db-url (ref &quot;&quot;))
+(dosync
+  (ref-set db-url  &quot;datomic:free://localhost:4334/hoge&quot;))
+
+(defn setup-db [db-url]
+  (d/create-database db-url)
+  (d/transact
+    (d/connect db-url)
+    (concat
+      (ds/generate-parts d/tempid (dbparts))
+      (ds/generate-schema d/tempid (dbschema)))))
+(defn setup-testdb []
+  (dosync
+    (ref-set db-url (str &quot;datomic:mem:&quot; (d/squuid))))
+  (setup-db @db-url)
+)
+
+(defn connect-db []
+  (d/connect @db-url)
+)
+
+; -------- ここが本質
+(defn history [eid]
+  (d/q
+    &#39;[:find ?e ?a ?v ?tx ?added
+      :in $ ?e
+      :where
+      [?e ?a ?v ?tx ?added]]
+    (d/history (d/db (connect-db)))
+    eid
+    )
+)</code></pre>
+</div>
+
+<p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
+で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
+
+<blockquote><p>#&lt;HashSet [<br /> [17592186045436 74 this is new emotion. 13194139534331 true],<br /> [17592186045436 73 0 13194139534331 true],<br /> [17592186045436 72 17592186045423 13194139534331 true],<br /> [17592186045436 71 17592186045421 13194139534331 true],<br /> [17592186045436 75 17592186045432 13194139534331 true],<br /> [17592186045436 70 #inst &#8220;2014-12-12T00:11:51.228-00:00&#8221; 13194139534331 true],<br /> [17592186045436 71 17592186045422 13194139534333 true],<br /> [17592186045436 71 17592186045421 13194139534333 false],<br /> [17592186045436 74 hogera! 13194139534333 true],<br /> [17592186045436 74 this is new emotion. 13194139534333 false]<br />]&gt;</p></blockquote>
+<p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
+これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
+71, 74 の属性が 変更されたことなどが読み取れる。  </p>
+
+<h2 id="section">参考資料(便利)</h2>
+<ul>
+  <li><a href="http://sunday-programming.hatenablog.com/category/datomic">http://sunday-programming.hatenablog.com/category/datomic</a><br />
+– めっちゃ参考にさせていただいております。  </li>
+  <li><a href="http://www.learndatalogtoday.org/">http://www.learndatalogtoday.org/</a><br />
+– datomic の query language である datalog のチュートリアル。datomic をやる前にこれを触っておくのオススメ。  </li>
+  <li><a href="https://github.com/Datomic/day-of-datomic">https://github.com/Datomic/day-of-datomic</a>  </li>
+  <li><a href="https://github.com/Yuppiechef/datomic-schema">https://github.com/Yuppiechef/datomic-schema</a><br />
+– datomic のスキーマを書くのマジしんどいけどこれがあればいい感じでつくってくれて嬉しいやつ。  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac で wirelss な lenovo の keyboard を使う]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/09/mac-wiress-keyboard-scroll/"/>
+    <updated>2014-12-09T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/09/mac-wiress-keyboard-scroll</id>
+    <content type="html"><![CDATA[<h2 id="section">無線キーボードを買った</h2>
+<p><a href="http://www.amazon.co.jp/%E3%83%AC%E3%83%8E%E3%83%9C%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%91%E3%83%B3-ThinkPad-Bluetooth-%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89-0B47181/dp/B00DLK4GQA/ref=sr_1_1?ie=UTF8&amp;qid=1418113086&amp;sr=8-1&amp;keywords=thinkpad+%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89">thinkpad の無線キーボードを買った</a> のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。<br />
+具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。  </p>
+
+<h2 id="section-1">解決</h2>
+<ul>
+  <li>karabiner である程度設定は基本  </li>
+  <li>seil で変換、無変換を使用できるようにする  </li>
+  <li>firefox 中クリック問題、および iTerm2 で中クリックコピペされちゃう問題は<a href="http://www.marcmoini.com/sx_en.html">Smart Scroll を使う</a> とすべてが解決した。  </li>
+</ul>
+
+<h2 id="section-2">所感</h2>
+<p>結構はまったけど解法が見つかって嬉しい。<br />
+危うく1万ドブに捨てるとこだった。<br />
+有料アプリになるかもだけど、評価が終わった場合これは買ってしまっていいだろう。</p>
+
+<h2 id="section-3">参考資料</h2>
+<ul>
+  <li><a href="http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x">http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rubykaigi 2014/ 1日目]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday/"/>
+    <updated>2014-09-18T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday</id>
+    <content type="html"><![CDATA[<h1 id="rubykaigi-first-day">RubyKaigi first day</h1>
+
+<p>とりあえずまとめてみた。  </p>
+
+<h2 id="key-note-building-the-ruby-interpreter----what-is-easy-and-what-is-difficulthttprubykaigiorg2014presentations-koichisasada"><a href="http://rubykaigi.org/2014/presentation/S-KoichiSasada">(key note) Building the Ruby interpreter – What is easy and what is difficult?</a></h2>
+
+<p>何が簡単で、何が難しいのかという話。  </p>
+
+<h3 id="section">メモ</h3>
+
+<h4 id="section-1">パフォーマンス</h4>
+<p>パフォーマンスを単純に上げるのは簡単だが、メンテし易さなどとトレードオフの関係にあるので、<br />
+メンテしやすく、さらにパフォーマンスを上げるのは簡単ではない。  </p>
+
+<h4 id="vm">VM</h4>
+<p>VM や JIT コンパイルの仕組みなどを作るのはそんなに難しくない。<br />
+しかし reliability を保ちながら作るのは難しい。  </p>
+
+<h4 id="section-2">メンテしやすさ</h4>
+<p>Ruby の実装を Ruby で実装すればわかりやすいしメンテしやすい。<br />
+ruby のコードをいじったあとでは、 テストとか全部通ればまだ良い方(ダメだったら全部通らないから)。  </p>
+
+<h4 id="section-3">並列性</h4>
+<p>単純にカーネルレベルスレッドの仕組みを作るのは簡単だが、 ruby のユーザに残念体験を与えないためにあえてそうしてない。<br />
+また、スレッドを適切に扱える技術者(ウィザード)は数少ない。という説明もされていた。<br />
+同時実行性があり、バグの再現実効性が低いのも大変である。  </p>
+
+<h4 id="gc">GCアルゴリズム</h4>
+<p>ライトバリアを実装するのは簡単だが、拡張ライブラリなどにも実装するのは大変。  </p>
+
+<h4 id="section-4">性能評価</h4>
+<p>仮想のサーバでは性能評価が難しいので、物理サーバが必要。<br />
+実行時間とはなにか。メモリ使用量とは結局なんだろう(平均?最大?)。  </p>
+
+<h4 id="section-5">コミッターになるには</h4>
+<p>ただコミッターになるのは、matzにコミッター権限貰えばよい。<br />
+しかし、デベロッパーとして参加するのは大変。  </p>
+
+<h4 id="ruby">Ruby(処理系)をもっと知るために</h4>
+<p>Rubyソースコード完全解説<br />
+<a href="http://i.loveruby.net/ja/rhg/book/">http://i.loveruby.net/ja/rhg/book/</a><br />
+Ruby Under a microscope<br />
+<a href="http://shop.oreilly.com/product/9781593275273.do">http://shop.oreilly.com/product/9781593275273.do</a><br />
+(日本語翻訳中らしい)  </p>
+
+<h4 id="section-6">もっと良い技術者になるために</h4>
+<p>新しい技術を調べて<br />
+ - ブログを書いて<br />
+ - 議論をし<br />
+ - sns でチャットして<br />
+ - 会議に参加して<br />
+ - カンファレンスで発表<br />
+していきましょう。</p>
+
+<h3 id="section-7">所感</h3>
+<p>さすが ruby コミッターという凄さがあった。<br />
+普段 GC とかあまり意識しないけど、知識としてきちんと知っておかなきゃダメだなと思った。  </p>
+
+<h2 id="controller-testing-youre-doing-it-wronghttprubykaigiorg2014presentations-jonathanmukai-heidt"><a href="http://rubykaigi.org/2014/presentation/S-JonathanMukai-Heidt">Controller Testing: You’re Doing It Wrong</a></h2>
+
+<p>やりかた間違ってるよ的な煽りタイトル。</p>
+
+<h3 id="section-8">メモ</h3>
+
+<h4 id="section-9">ダメなことあるある</h4>
+<ul>
+  <li>いろんなことをテストしようとしちゃっている  </li>
+  <li>全部スタブしちゃってる  </li>
+</ul>
+
+<h4 id="section-10">コントローラのテストでやるべきこと</h4>
+<ul>
+  <li>authorization  </li>
+  <li>リソースの存在  </li>
+  <li>レスポンスの形式  </li>
+</ul>
+
+<h4 id="section-11">命令的ではなく、宣言的に</h4>
+<ul>
+  <li>チェックリストのようにテストを書こう  </li>
+</ul>
+
+<h4 id="section-12">実際問題</h4>
+<ul>
+  <li>5/6 の、今年やったプロジェクトでは、コントローラベタ書きｗｗｗ</li>
+</ul>
+
+<h4 id="section-13">なぜファットモデルのほうが良いのか</h4>
+<ul>
+  <li>ActiveModel で作っておくと良い  </li>
+  <li>すごく簡単なロジックでもコントローラに書いていて, それが変更による変更.. となるとすぐ太ってしまう。<br />
+ – モデルにしておくほうが良い  </li>
+</ul>
+
+<h4 id="section-14">まとめ</h4>
+<ul>
+  <li>テストは宣言的に、シンプルにかけ  </li>
+  <li>コントローラにロジックかくな、モデルにかけ  </li>
+</ul>
+
+<h3 id="section-15">所感</h3>
+<p>英語のセッションだったけどそこそこ聞き取りやすい英語でよかった。<br />
+それでも完全に内容を把握できたわけじゃあないけど。  </p>
+
+<h2 id="continuous-delivery-at-githubhttprubykaigiorg2014presentations-robertsanheim"><a href="http://rubykaigi.org/2014/presentation/S-RobertSanheim">Continuous Delivery at GitHub</a></h2>
+
+<p>ギッハブ社で行っている継続的デリバリについて<br />
+(普段会社で行っていることはメモってなかった)</p>
+
+<h3 id="section-16">メモ</h3>
+
+<h4 id="feature-flags">feature flags</h4>
+<p>ある機能を入れるときには、  </p>
+<div>
+  <pre><code class="ruby">def some_new_feature_enable?
+  something and user.is_stuff?
+end</code></pre>
+</div>
+
+<p>的なものを書いて、それが良さそうなら true に書き換えるなどして切り替えできるようにしていた。<br />
+(そういえば前職でもそういう仕組みがあった。)  </p>
+
+<h4 id="section-17">ブランチコントロールの話</h4>
+<ul>
+  <li>長いことブランチを活かしておくと臭ってくるやん？  </li>
+  <li>たとえば rails2 から rails3 に上げるみたいなプロジェクトがあった(実際に)。
+ – RAILS3=true てきな環境変数で rails3? みたいなコードを書いて条件分岐して master につけていった。</li>
+</ul>
+
+<h4 id="section-18">フィードバック可視化</h4>
+<p>ちゃんとしててすごく良かった</p>
+
+<h3 id="section-19">所感</h3>
+<p>機能をフラグで管理する( redis とか使ってもいいかも) のは確かに良い物かもなぁと思った。<br />
+ただ、ゆうてもこういう仕組みはものすごく大きい変更に関してはやっていけない気もした。<br />
+ブランチコントロールの話は、twitter では、うちは無理だ、とか出来そうにないとか、怖いとか<br />
+そういう反応が散見された。<br />
+確かに怖いは怖いし、実際、まとまった機能をつける場合は,<br />
+mediuamfeature/master みたいに master からきって、<br />
+mediuamfeature/feature_branch で mediuamfeature/master に pull req だしつつ<br />
+ある程度育ったら mediuamfeature/master で master を pull rebase で差分を取り込む感じでやっていた。<br />
+これは議論の余地はあるなぁ。  </p>
+
+<h2 id="whats-wrong-with-your-apphttprubykaigiorg2014presentations-keikooda"><a href="http://rubykaigi.org/2014/presentation/S-KeikoOda">What’s wrong with your app?</a></h2>
+<p>これも割りと釣りタイトルっぽくて聞いたけど、内容は heroku チームと、heroku 使ってるヒトの H12 とかいう<br />
+エラーの原因がなんなのか？みたいな話だった。<br />
+heroku に特化した感じであんまりだったので省略。  </p>
+
+<h2 id="non-linear-pattern-matching-against-unfree-data-types-in-ruby-egison-pattern-matching-in-ruby-httprubykaigiorg2014presentations-satoshiegi"><a href="http://rubykaigi.org/2014/presentation/S-SatoshiEgi">Non-Linear Pattern Matching against Unfree Data Types in Ruby (Egison Pattern Matching in Ruby) </a></h2>
+
+<p>egison っていうパターンマッチのプログラミング言語と、その ruby gem の話。<br />
+あんまり直接メモはしてなかった。</p>
+
+<h3 id="section-20">メモ</h3>
+<ul>
+  <li>様々なパターンマッチがあって、圧倒的な少ない記述量で、たとえばポーカーの役判定などができる。  </li>
+  <li>麻雀の役判定も！(これはすごいことだ!!!!)<br />
+ – 複数の判定もできるとのことなので工夫すれば全部役を本当にだせる？  </li>
+  <li>今注目されているプログラミング言語にも選出  </li>
+  <li>東京大学のカリキュラムにも!  </li>
+</ul>
+
+<h3 id="section-21">所感</h3>
+<p>めっちゃすごい。<br />
+通常のコードでも綺麗に簡潔に書けそうだ。<br />
+とりあえず試しに使ってみると良いかも。<br />
+すげぇどうでもいいけどググらビリティ低すぎる。  </p>
+
+<h2 id="hypermedia-the-missing-element-to-building-adaptable-web-apis-in-railshttprubykaigiorg2014presentations-torukawamura"><a href="http://rubykaigi.org/2014/presentation/S-ToruKawamura">Hypermedia: the Missing Element to Building Adaptable Web APIs in Rails</a></h2>
+
+<p>とりあえずこの日一番ヒットというか、一番驚いたのがこのセッション。</p>
+
+<h3 id="section-22">メモ</h3>
+
+<h4 id="api-">API の変更</h4>
+<p>変更マジしんどい。<br />
+/v1/hogehoge を /v2/hogehoge とかにすると必ず api の変更が必要</p>
+
+<h4 id="fizzbuzzaas-">FizzBuzzaaS の話</h4>
+<p>fizzbuzz を返す api サーバ。<br />
+100までの数値に対応している。  </p>
+
+<p>この api にテストを書こうとすると<br />
+/fizzbuzz/endpoint/1<br />
+/fizzbuzz/endpoint/2<br />
+/fizzbuzz/endpoint/100<br />
+…<br />
+となって、/fizzbuzz/endpoint のところはハードコードだし、<br />
+最後の値は数値を for とかで回すことになる。<br />
+それを、最初のレスポンスが nextUrl 的に、次の値を渡してくれれば<br />
+iterator で問題なくテストできる(当然最後もわかるし、100が変わっても大丈夫)。  </p>
+
+<h4 id="hypermedia">そこで hypermedia</h4>
+<p>HTML もそうだけど、次へのリンクや、前へのリンクなどはちゃんと付いている！<br />
+ブラウザのバージョンがかわっても全然大丈夫！  </p>
+
+<h4 id="json--link-">json + link などの情報フォーマット</h4>
+<p>じつはそういう規格がある。
+Uber, HAL, JSON-LD など..</p>
+
+<h4 id="html--web--api-">HTML で web の API が表現可能!</h4>
+<p>それで作ったのが<a href="https://github.com/tkawa/hypermicrodata">これ</a></p>
+
+<h4 id="section-23">使い方としては</h4>
+<p>設計順かいてあったけど、メモれてない..<br />
+状態遷移を書く、はすごく重要だと説明されていた。  </p>
+
+<h4 id="section-24">まとめ</h4>
+<p><a href="http://qiita.com/tkawa/items/0efd49ad07d39531a520">ここの qiita でほぼ書いてある</a></p>
+
+<h3 id="section-25">所感</h3>
+<p>正直言ってこの発想はなかった！と思った。<br />
+会場も、なるほどそうきたか！みたいな感じだった。<br />
+ただ、実際つかっている HTML の構造変えたくなったりしないのかなぁとか、<br />
+疑問はあったりする。<br />
+あ、というか api 用の HTML(view) を書いておけばいいのかな。<br />
+まぁ一つの手段としてこれはすごくあるなぁと思った。<br />
+API から web を作るのは、すごく手間ではないけど、二度手間であることに変わりはないし。  </p>
+
+<h2 id="gem-of-this-week---building-culture-and-making-gemhttprubykaigiorg2014presentations-takumimiura"><a href="http://rubykaigi.org/2014/presentation/S-TakumiMiura">“Gem of this Week” - building culture and making gem</a></h2>
+<p>ドリコムのヒトの話。<br />
+gem 作って共有する文化づくりのための工夫のお話。<br />
+今週のgem(媒体がチャットなのかメールなのかは不明)を作って、 gem を作る週間を作った。<br />
+社内用の rubygems 的なものを作った (drecom gem)。<br />
+これで gem publish みたいなことができた。<br />
+ヒアリングして不安を潰すことでそういう文化を作った、っていう話だった。  </p>
+
+<h2 id="section-26">最後に</h2>
+<p>すごくいろいろいい話をきいた。<br />
+どうでもいいけど、たったこれだけまとめるのに 2時間くらいかかってる。  </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/08/24/uilayout-sizetofit/"/>
+    <updated>2014-08-24T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/08/24/uilayout-sizetofit</id>
+    <content type="html"><![CDATA[<h2 id="uitableviewcell--uilabel--cell-not-autolayout">UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)</h2>
+<ol>
+  <li>基本的には<a href="http://qiita.com/kotaroito/items/8bd2f10833e07f7a5809">こちらの記事にそっておこなった</a> が、自分のやり方がわるいのか、 selected 時しかうまくいかなかった。  </li>
+  <li><a href="http://stackoverflow.com/questions/17823581/custom-cell-not-resizing-uilabels">このstackoverflow によると</a> sizeToFit は layoutSubviews に入れよ。とのこと。  </li>
+</ol>
+
+<blockquote><p>override func layoutSubviews() {<br />    super.layoutSubviews()<br />        self.body.sizeToFit()<br />}</p></blockquote>
+
+<h2 id="section">その他の参考</h2>
+<p><a href="http://qiita.com/yuch_i/items/b4612fae110254c816f4">http://qiita.com/yuch_i/items/b4612fae110254c816f4</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_august_17]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/08/17/life-august-17/"/>
+    <updated>2014-08-17T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/08/17/life-august-17</id>
+    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
+<p>またしばらく期間が開いてしまった。<br />
+精神的にバタバタしてしまっているのは変わらないが、だいぶ回復してきたっぽい。<br />
+なんかまた頑張れそうな気がしてきたので、また来週から頑張ろう。  </p>
+
+<h2 id="section-1">偉大な目標</h2>
+<p>とあるハッカソンにでて意見をぶつけてきたら、みんな同じ課題は持っているが<br />
+ソリューションが追い付いていないようだった。<br />
+ものを作って持っていくしか無い。  </p>
+
+<h2 id="section-2">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">読んでる</h3>
+<ul>
+  <li>SICP-問題2.4まで</li>
+  <li>詳解UNIX プログラミング第3版(8章まで)</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング(2章まで)</li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+  <li>Vimscript テクニックバイブル</li>
+  <li>ネットワークの剣</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/7)数学ガール(乱択アルゴリズム)</li>
+  <li>(2014/6/12)1冊でわかる数学</li>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[俺が考える最強ヘッドフォンゼンハイザーHD25-1 Ⅱ のベストカスタマイズ(リケーブル)]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/08/17/headphone-sennheiser-best/"/>
+    <updated>2014-08-17T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/08/17/headphone-sennheiser-best</id>
+    <content type="html"><![CDATA[<h2 id="section">はじめに</h2>
+<p>俺は音楽には結構こだわりがある(聞くほう)。<br />
+なので以下に現時点での最強だと考えたカスタマイズを記しておく。<br />
+だれかのためになれば幸いです。  </p>
+
+<h2 id="section-1">ひとまず結論</h2>
+
+<ul>
+  <li>
+    <p><a href="http://www.yodobashi.com/%E3%82%BC%E3%83%B3%E3%83%8F%E3%82%A4%E3%82%B6%E3%83%BC-SENNHEISER-HD25-1-II-%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%BA%E3%83%89%E5%9E%8B%E3%83%80%E3%82%A4%E3%83%8A%E3%83%9F%E3%83%83%E3%82%AF%E3%82%BF%E3%82%A4%E3%83%97-%E3%83%98%E3%83%83%E3%83%89%E3%83%9B%E3%83%B3/pd/100000001000898699/">基本の sennheiser HD25-1 Ⅱ</a>をまずひとつ<br />
+– 25700円(ヨドバシ・ドット・コム 8月17日時点)  </p>
+  </li>
+  <li>
+    <p>リケーブルは<a href="http://www.yodobashi.com/Oyaide-%E3%82%AA%E3%83%A4%E3%82%A4%E3%83%87-HPC-35HDX-Silver-1-3-HD650%E7%94%A8%E3%83%98%E3%83%83%E3%83%89%E3%83%9B%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89/pd/100000001001611601/">これ</a> 。HD25-1用じゃないけど刺さるし音はなる。レシートが手元に無いので要確認。<br />
+– 6940円(ヨドバシ・ドット・コム 8月17日時点)  </p>
+  </li>
+  <li>
+    <p><a href="http://www.yodobashi.com/%E3%82%BC%E3%83%B3%E3%83%8F%E3%82%A4%E3%82%B6%E3%83%BC-SENNHEISER-HD25-ALUMINIUM-EAR-PAD-%E4%BA%A4%E6%8F%9B%E7%94%A8%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%91%E3%83%83%E3%83%89-1%E3%83%9A%E3%82%A2/pd/100000001002133128/">イヤーパッドはHD25のアルミニウム用のやつを使用</a><br />
+– 3780円(ヨドバシ・ドット・コム 8月17日時点)  </p>
+  </li>
+</ul>
+
+<p>合計36420円なり。<br />
+ヨドバシの場合はポイントが10%つくので、大体最安値で揃えたら 33000円くらいまでは行けそうな予感。  </p>
+
+<p>ちなみに環境としては、 iPhone5 に直刺しって感じ。<br />
+よく聞くのは椿屋とかソノダバンドとか(ロック多め)。<br />
+一応ポタアンは持っているけど除外、というか上記そろえたらポタアン全然いらない。  </p>
+
+<h2 id="section-2">俺のリケーブルの歴史</h2>
+
+<h3 id="section-3">純正ケーブル満足期(星3)</h3>
+<p>実際リケーブルしなくても HD25-1 Ⅱ は本当に良い音を鳴らしてくれる。<br />
+コスパ重視なら実際ママイキで十分。<br />
+HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然現役で動いてくれるところ。  </p>
+
+<h3 id="hd25-4">オヤイデの黄色とか赤のHD25 専用ケーブル満足期(星4)</h3>
+<p><a href="http://www.yodobashi.com/Oyaide-%E3%82%AA%E3%83%A4%E3%82%A4%E3%83%87-HPC-HD25-Yellow-HD25%E7%94%A8%E3%83%AA%E3%83%BC%E3%83%89%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB/pd/100000001001642386/">オヤイデの黄色とか赤のHD25 専用ケーブル</a>とかもあるので、純正のケーブル断線を期に購入。<br />
+感想をいうと、単純にやっぱり音質は向上したように思う。<br />
+音質以外では、普通にカラフルでおしゃれだったりする点と、<br />
+純正よりプラグ部分が小さいので iPhone に直刺ししやすいあたりがよかった。<br />
+しかし、弱点があると思っていて、プラグ部分が小さい分、ものすごく断線しやすいと思う。<br />
+なんかに引っかかるとかはわりとありがちだけど、それでこれに 4回くらいリケーブルした。  </p>
+
+<h3 id="sigma-acoustics-sennheiser-upgrade-cable--2">最上級ライン Sigma Acoustics SENNHEISER UPGRADE CABLE 交換用アップグレードケーブル クソ太い期(星2)</h3>
+<p>一応<a href="http://www.amazon.co.jp/Sigma-Acoustics-SENNHEISER-UPGRADE-%E4%BA%A4%E6%8F%9B%E7%94%A8%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB/dp/B005LEY14Q">アマゾンリンク</a>。<br />
+これは音質に関しては中高音が得意というとおり、本当にものすごく出てくる。<br />
+ギターが超好きみたいなひとはこれがかなりいいんじゃないだろうか。<br />
+ただしデメリットがたくさんある。  </p>
+
+<p>まず、ケーブルが家用だと思われるのでクソ太い。<br />
+写真から見た感じだとミニプラグに見えるのに、実は普通のプラグなので変換アダプタが必要。<br />
+さらにケーブル自体が太いし、ざらざらしてるし、見た目もむっちゃ青いのでクソ目立つ。<br />
+歩き(外)で使うには相当の苦労は覚悟しなければならない。<br />
+ただ、 HD25 を外でつかう人たちはあんまり見た目は気にしないから大丈夫だとは思う(偏見)。  </p>
+
+<p>あといい忘れてたけど中高音が得意なのをいいことに低音がザルになって HD25 感がまったくなくなるのでやばい。<br />
+しかも値段が高いという、いま振り返ってみたら相当ダメな買い物だった。。<br />
+値段が高かったのである程度信じこんでいたが。。笑。</p>
+
+<h3 id="oyaide-hpc-35hdx-black25-hd6505">Oyaide(オヤイデ) HPC-35HDX Black/2.5 [HD650用ヘッドホンコード]最強期(星5)</h3>
+<p><a href="http://www.yodobashi.com/Oyaide-%E3%82%AA%E3%83%A4%E3%82%A4%E3%83%87-HPC-35HDX-Silver-1-3-HD650%E7%94%A8%E3%83%98%E3%83%83%E3%83%89%E3%83%9B%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89/pd/100000001001611601/">ヨドバシリンク(もしかしたら違うかもしれないので要確認)</a>。
+これがたぶん今のところ最強。明らかに音質がよくなった実感があった。好みもあるだろうけどね。  </p>
+
+<h2 id="section-4">結論に関する詳細</h2>
+
+<h3 id="hd25-1-2-">ゼンハイザーHD25-1 2 について</h3>
+<p>やっぱり優秀だと思う。<br />
+でもいまもし初めて買うなら HD25-1のアルミニウム買うのがいいと思う。  </p>
+
+<h3 id="section-5">リケーブルについて</h3>
+<p>実際上でちょっと書いた通り、これは一番良く感じる。<br />
+この先断線したら、ちょっともう冒険は出来ないなぁと思う(これ買えばいいから)。  </p>
+
+<h3 id="section-6">イヤーパッドについて</h3>
+<p>実際あんま変わらんだろとか思ってたら、遮音性が圧倒的に違うことに気づく。<br />
+幸運にもアルミニウムの変えパッドが売っているのでそれを買って装着すればいいだけ。<br />
+オーディオマニアにとっての4000円などゴミのようなもんだろう?(煽り)  </p>
+
+<h2 id="section-7">所感</h2>
+<p>実際やっぱ最強感というか、HD25 に慣れると他のヘッドフォンがカス過ぎてヤバイみたいな感じになる(視聴コーナーでの個人の感想です)。<br />
+イヤホンにも絶対戻れないし。<br />
+俺の中の、この誰にも伝えられないこだわりが、インターネットを通して誰かに伝われば嬉しい。  </p>
+
+<p>この記事にアフィはありません。念のため。  </p>
+
+<p>音を楽しむのは本当に良い。人生が豊かになる。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[docker と CiscoVpnConnection の相性が悪くて辛みがあった件の対処]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/07/25/docker-and-cisco-connection/"/>
+    <updated>2014-07-25T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/07/25/docker-and-cisco-connection</id>
+    <content type="html"><![CDATA[<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">起きていたこと</a></li>
+  <li><a href="#section-1">解法</a></li>
+</ul>
+
+<h2 id="section">起きていたこと</h2>
+<p>docker info とか docker ps とかしても  </p>
+
+<blockquote><p>Post http://192.168.59.103:2375/v1.13/containers/create: dial tcp 192.168.59.103:2375: operation timed out</p></blockquote>
+
+<p>とか出まくってマジ辛い感じになった。</p>
+
+<p><a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0CB4QFjAA&amp;url=https%3A%2F%2Fbotbot.me%2Ffreenode%2Fdocker%2F2014-07-21%2F%3Ftz%3DAmerica%2FLos_Angeles&amp;ei=zjfSU9nvO9bp8AXYloL4CA&amp;usg=AFQjCNFIh-SOKA95uGKggfe5WGwUVf2NTA&amp;sig2=3_Zk6QOd_8nSzsp0S4lW5g&amp;bvm=bv.71667212,d.dGc">これ</a>とかみると definetly routing problem て感じだった。  </p>
+
+<p>とりあえずしんどかったので、いつもの port fowarding で対応。  </p>
+
+<h2 id="section-1">解法</h2>
+
+<blockquote><p>ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -p 2022 -i /Users/vimtaku/.ssh/id_boot2docker docker@localhost -L2375:localhost:2375</p></blockquote>
+
+<p>docker ps, docker info できた。  </p>
+
+<p>以上。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_july_7]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/07/07/life-july-7/"/>
+    <updated>2014-07-07T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/07/07/life-july-7</id>
+    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
+<p>しばらく期間が開いてしまった。<br />
+仕事がかなり忙しかったり、精神的にバタバタしてしまっていた。<br />
+先日受けた某試験に合格出来ていた。<br />
+嬉しかったのでこの調子で勉強し続けたい。  </p>
+
+<h2 id="section-1">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-2">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">読んでる</h3>
+<ul>
+  <li>SICP-問題1.33 まで</li>
+  <li>数学ガール(乱択アルゴリズム)5章まで</li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/6/12)1冊でわかる数学</li>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_jun_15]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/15/life-jun-15/"/>
+    <updated>2014-06-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/15/life-jun-15</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>イマイチ加速しない。<br />
+地味な仕事が多かった。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>ランニングした。<br />
+angularJS についてかなり調べて概念はほぼ把握した。<br />
+試しに実装してみたらわりと簡単に導入出来たが、<br />
+rails との共存は一長一短な気がした。  </p>
+
+<p>サンプルで作ってみた実装はこれ。<br />
+基本はほとんど抑えたつもり。<br />
+<a href="https://github.com/vimtaku/angular_study">https://github.com/vimtaku/angular_study</a><br />
+<a href="http://vimtaku.github.io/angular_study/index.html">サンプルページ</a>  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>SICP-問題1.17 まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/6/12)1冊でわかる数学</li>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS を触ってみた感想]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/15/angular-js-1/"/>
+    <updated>2014-06-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/15/angular-js-1</id>
+    <content type="html"><![CDATA[<h2 id="angularjs-">angularjs とは</h2>
+<p>javascript の MVC フレームワークだ。<br />
+評判が妙に良いとは思っていたが、噂通りにとても良く出来ている。  </p>
+
+<h2 id="section">学習のためにやったこと</h2>
+<ul>
+  <li>angularjs のチュートリアルひと通りやった
+– <a href="https://docs.angularjs.org/tutorial">https://docs.angularjs.org/tutorial</a></li>
+  <li>angularjs を60分で知るビデオを見た
+– <a href="https://www.youtube.com/watch?v=i9MHigUZKEM">https://www.youtube.com/watch?v=i9MHigUZKEM</a></li>
+</ul>
+
+<h2 id="section-1">感想</h2>
+
+<h3 id="section-2">全体的な所感</h3>
+<p>テンプレートエンジンのように view でループしたりゴニョゴニョしたりっていうのが<br />
+めっちゃ簡単にできてすごく便利な時代になったなぁと思った。<br />
+DI がすごく良く出来ていて、このコントローラでは、これらを使用するみたいなのが非常に簡単にかけてよかった。<br />
+以前仕事でつかっていたオレオレ系フレームワークを、さらにもう一歩進化させているように思った。  </p>
+
+<h3 id="section-3">疎結合なところ</h3>
+<p>なにより、本当の意味での MVC というか、 model を操作すると view が即時に反映されるところが、とてもイケているなぁと思った。<br />
+module 化の仕組みもとても綺麗で、あるドメインに関するモジュールはそれでまとめておいて、<br />
+もう一つ上のレイヤーではそれに依存するような形でかけるのがかっこいい。<br />
+var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<br />
+このモジュールの仕組で提供される ngResource だったり ngRoute だったり、<br />
+モジュールとして使用できる仕組みが予め提供されている事による恩恵がすごく大きく、<br />
+いろいろな部分で疎になるように設計されているのがかっこいい。  </p>
+
+<h3 id="rails-">rails との共存</h3>
+<p>rails と使うときに、どのように使うかは結構悩ましいところがあるように感じた。<br />
+というのは、 rails をただの API server として使うのか、昔ながらてきにサーバサイドで view を描画して出すのかとか<br />
+その辺の住み分けが微妙に大変そうだった。  </p>
+
+<h3 id="seo-">SEO に関して</h3>
+<p>とくに SEO との相性は気になった。<br />
+参考 &gt; <a href="https://note.mu/wadako/n/n01733b19bc9c">https://note.mu/wadako/n/n01733b19bc9c</a><br />
+これを見る限りちょっと大変じゃね？って感じだったけど、<br />
+実際検索結果に載ってるあたり考えると不安はあるもののできそうなきもする。<br />
+が、信頼度が求められる production 環境でいきなり使えるかと言われるとちょっと不安がある。  </p>
+
+<h3 id="section-4">最後に</h3>
+<p>とは言え、 angularjs は非常に強力な選択肢だなぁと感じた。<br />
+学習コスト高いって書いてあったけど、はっきり言って chef とかと比べ物にならないくらい安いと思う。<br />
+ちょっとした web の何かを作るときには angularjs を使うのは相当いい手段なんじゃないかな。  </p>
+
+<h2 id="section-5">参考文献</h2>
+<p><a href="https://angularjs.org/">https://angularjs.org/</a><br />
+<a href="http://js.studio-kingdom.com/angularjs/guide/di">http://js.studio-kingdom.com/angularjs/guide/di</a><br />
+<a href="http://js.studio-kingdom.com/angularjs/guide/providers">http://js.studio-kingdom.com/angularjs/guide/providers</a>  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_jun_1]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/01/life-jun-1/"/>
+    <updated>2014-06-01T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/01/life-jun-1</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>なんか調査とかしてたら終わったぐらいのかんじ。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>ランニングした。<br />
+4km くらい走れたけどすげぇしんどかった。  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス 5章まで</li>
+  <li>SICP-問題1.10 まで</li>
+  <li>1冊でわかる数学(2章、証明)</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[【書評】いかにして問題を解くか]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/06/01/"/>
+    <updated>2014-06-01T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/06/</id>
+    <content type="html"><![CDATA[<h2 id="section">いかにして問題をとくか</h2>
+<p>この本は、数学を教える教師と、教わる生徒を主なターゲットとして、<br />
+いかにして問題をとくかということを真剣に考えている本である。<br />
+心に残った部分を以下に書いていく。  </p>
+
+<h2 id="section-1">決定問題と証明問題</h2>
+<p>何かを求めよ. という、問題の中の未知のものを見つけるものが決定問題で、<br />
+証明問題はある命題が正しいか正しくないかを示すものである。  </p>
+
+<p>本書では, 決定問題を解くことに重きをおいている。  </p>
+
+<h2 id="section-2">フレームワーク(チートシート)</h2>
+<ul>
+  <li>未知のものは何か, 条件は何か, データはなにか?  </li>
+  <li>条件をいくつかの部分に分けよ  </li>
+  <li>データと未知のものとの関連を求めよ  </li>
+  <li>未知のものをよく見よ! そして未知のものが同じかまたはよく似た問題は思い起こせ  </li>
+  <li>条件の一部を残して他を捨てよ. それでどこまで未知の部分が定まるか?<br />
+ – どの範囲で変化しうるか. データから何か役に立つ物を引き出しうるか.<br />
+ – その未知のものを決めるのに 適当な他のデータを思いつくか.<br />
+ – 未知のもの, データもしくはその両方を変えて新しい未知のものと, 新しいデータとが互いに近いものになるように出来るか?  </li>
+  <li>すべてのデータを使ったか, すべての条件を使ったか。  </li>
+</ul>
+
+<h2 id="section-3">逆向きに考える</h2>
+<p>4リットルと9リットルの桶しかないとき、ちょうど6リットルの水を汲むにはどうすればよいか？<br />
+この問に関して、逆向きに考えることが非常に重要だと示された。<br />
+答えとしては、9リットルの桶に、6リットルが入っている状態を考えればよい。<br />
+9:1から6:4にすればよい。  </p>
+
+<h2 id="section-4">トリアタマ</h2>
+<p>食物があり、それとは逆コの字でサクがあったとした時、<br />
+犬はそれを錯誤しに取ろうとするがしばらくしてサクを回りこんで<br />
+食物を取りに行くことができるが、 鳥はひたすら食物を手前にバタバタしてしまうらしい。<br />
+やはりしばらくの試行錯誤が必要ではあるが、あるタイミングで一旦物事を俯瞰してみる必要があるということだ。  </p>
+
+<h2 id="section-5">所感</h2>
+<p>とても難しい本ではあった。<br />
+また数学レベルが上がった時に読みたい。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_may_25]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/05/25/life-may-25/"/>
+    <updated>2014-05-25T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/05/25/life-may-25</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>なんか色々バタバタしてたら一週間終わった。<br />
+また来週から忙しくなるので頑張ろうと思う。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>ランニングした。<br />
+4km くらいしか走ってないがそれくらいはまぁ今でもちゃんと走れてよかった。  </p>
+
+<p>アルゴリズムクイックリファレンス第4章まで読んだ。<br />
+末尾再帰についていろいろ調べてた。  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 3章まで</li>
+  <li>アルゴリズムクイックリファレンス 4章まで</li>
+  <li>SICP-問題1.10 まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>詳解UNIX プログラミング第3版</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+  <li>ハイパフォーマンス ブラウザネットワーキング</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_may_18]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/05/18/life-may-18/"/>
+    <updated>2014-05-18T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/05/18/life-may-18</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>プロダクトをリリースできてよかった。<br />
+これからの成長が重要だ。  </p>
+
+<h2 id="section-1">週末振り返り</h2>
+<p>実際に料理を作ってみた。<br />
+色々見つかったのでフィードバックしてみる。  </p>
+
+<p>プロセッサを支える技術の第3章まで読んだ。<br />
+アルゴリズムクイックリファレンス第3章まで読んだ。  </p>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 3章まで</li>
+  <li>アルゴリズムクイックリファレンス 3章まで</li>
+  <li>SICP-問題1.8 まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_may_11]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/05/11/life-may-11/"/>
+    <updated>2014-05-11T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/05/11/life-may-11</id>
+    <content type="html"><![CDATA[<h2 id="section">週末振り返り</h2>
+<p>築地の豊ちゃんっていう洋食屋でかつ丼を食べてきた。<br />
+かなりうまかった。<br />
+銀座の船見坂っていうラーメン屋のラーメンはかなりうまかった。  </p>
+
+<p>プロセッサを支える技術の第2章まで読んだ。  </p>
+
+<h3 id="section-1">2章までのキーワード</h3>
+<ul>
+  <li>メモリアドレス空間<br />
+ – 64 ビットアーキテクチャとかは64ビットのアドレス空間に対応するために必要  </li>
+  <li>RISC と CISC<br />
+ – RISC(Reduced Instruction Set Computer) は固定長命令で、パイプライン制御をしやすくするために作られた<br />
+ – CISC(Complex Instruction Set Computer) は可変長命令なので、パイプライン制御しにくかった  </li>
+  <li>Out of Order と 分岐予測、投機実行<br />
+ – プログラムの実行時に次の演算結果が依存しない時にその次の命令を先読み実行できる、これを Out of Order という。<br />
+ – 分岐があるせいで演算の先読みが難しい<br />
+ — 処理が多い方の条件分岐を先に実行しておく(分岐予測)<br />
+ — Out of Order と 分岐予測を合わせた実行が投機実行  </li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界(2章まで)</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>DDD ショートバージョン(P40まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+  <li>アルゴリズムクイックリファレンス</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/11)入門コンピュータ科学</li>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_may_6]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/05/06/life-may-6/"/>
+    <updated>2014-05-06T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/05/06/life-may-6</id>
+    <content type="html"><![CDATA[<h2 id="gw-">GW 後半振り返り</h2>
+
+<h3 id="macmlh-">macmlh について</h3>
+<p>というか昨日だけど、 ずっとやってみたかった vim-mlh の mac IME 移植を試みた。<br />
+が、結論から言うとそう簡単ではないことがわかった。  </p>
+
+<p>基本的に、 mlh で必要なもの、 と言うか必要なパーツってのは、<br />
+ - カーソルの移動<br />
+ - 文字列の削除<br />
+ - 選択候補の表示<br />
+ などである。<br />
+mac の Input Method Kit という cocoa アプリを作成するときに<br />
+非常に便利なライブラリがあったが、 それがサポートしているのは<br />
+クライアントとサーバ形式での変換のやり取りなので基本的には<br />
+文字列の削除、 カーソルの移動などはできなかった。<br />
+割とこれが致命傷で、 mlh の場合は, というよりも俺が考える mlh では、<br />
+入力中に候補が出るたぐいのものではない。<br />
+入力中に候補が出るようにするのは全然造作なく作れるんだけど、<br />
+俺が考える、半角英数入力が終わったあとに / + <space> が入力されて初めて  
+変換されるようなものにするにはできなかった。  </space></p>
+
+<p>NSString に ^H(Ctrl+V,Ctrl+H) を送っても、 iTerm2 ではうまく動くけど、<br />
+xcode とか firefox ではうまく動かなかったり..<br />
+とにかく、 vimscript でかく上では上記に上げた必要なパーツは全て揃っていたが、<br />
+Input Method Kit 及びそれを書く cocoa アプリ作成では見つけられなかった。  </p>
+
+<p>ゴールデンウィークらしいモラトリアム期間の中でやってみたチャレンジだったが<br />
+非常に残念な結果になったので、 また平常運転で本を消化していこうと思う。  </p>
+
+<p>Input Method Kit に詳しい人いたら教えてほしいです。<br />
+@vimtaku までぜひご一報ください。  </p>
+
+<h3 id="section">本を買った</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス  </li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界  </li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h2 id="section-1">今日の目標</h2>
+<ul>
+  <li>詳解UNIXプログラミング(第3版) 4章 まで読む</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>DDD ショートバージョン(P40まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+  <li>アルゴリズムクイックリファレンス</li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[時をかける少女の感想]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/05/04/tokikake/"/>
+    <updated>2014-05-04T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/05/04/tokikake</id>
+    <content type="html"><![CDATA[<h2 id="dvd-">時をかける少女の DVD をレンタルしてみた</h2>
+<p>面白かった。<br />
+いままでは、金曜ロードショーだけ見て楽しい映画だなぁと思っていたけど<br />
+改めて DVD でみたらとても楽しめた。<br />
+自分史上映画ランキングでもかなり上位だと思う。  </p>
+
+<h2 id="section">最後のクライマックスシーンの解釈について</h2>
+<p>「未来で待ってる」「すぐ行く、走って行く」の解釈は、<br />
+いかにも映画らしく読者解釈に任せようというかんじだったけど、<br />
+エンディング曲の歌詞から察すると、自分の解釈としては、  </p>
+
+<p>もう逢えない関係性のなかでの、<br />
+「いつまでも忘れない」と「わたしも」<br />
+っていうやりとりなんだろう。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_may_5]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/05/04/life-may-5/"/>
+    <updated>2014-05-04T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/05/04/life-may-5</id>
+    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
+<p>仕事は相変わらず忙しいが一区切りつきそうである。  </p>
+
+<h2 id="section-1">今日振り返り</h2>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>詳解UNIXプログラミング(第3版) 1章</li>
+  <li>DDD ショートバージョン(P40まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_april_29]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/29/life-april-29/"/>
+    <updated>2014-04-29T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/29/life-april-29</id>
+    <content type="html"><![CDATA[<h2 id="section">週末振り返り</h2>
+
+<p>本を読みまくれたのでよかった。<br />
+ - rails tutorial 流し読み<br />
+ – なんていうかやっぱりだいたいわかってた。<br />
+ – ホントは Rspec の本とか読むともっと良いテストかけるようになっていいと思っている<br />
+ - Webエンジニアのためのデータベース技術［実践］入門 7章を読み干す<br />
+ – 昨日ブログ書いたとおり、読み終えた<br />
+ - オペレーティングシステムを読み干す<br />
+ – これはさくっと読み飛ばした。<br />
+ - ネットワークはなぜつながるのか?<br />
+ – 読みきった。面白かった。  </p>
+
+<p>TOEIC を受けてこようと思う。2014年7月21日。また podcast から始めるか。  </p>
+
+<h2 id="section-1">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-2">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">読んでる</h3>
+<ul>
+  <li>とある本4章まで</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>詳解UNIXプログラミング(第3版) 1章</li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>DDD ショートバージョン</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-6">買いたい</h3>
+<ul>
+  <li>nginxの本</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[life_april_28]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/28/life-april-28/"/>
+    <updated>2014-04-28T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/28/life-april-28</id>
+    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
+<p>すごく仕事が忙しかったのと、とある試験を受けるためにずっと勉強してて<br />
+全然ブログを更新出来ていなかったが、両方そこそこに落ち着いてきたのでそろそろ<br />
+また新しく書き始めることにする。  </p>
+
+<h2 id="section-1">今日の目標</h2>
+<ul>
+  <li>
+    <p>rails tutorial 終わらせる
+ – これもうかけるし全然大丈夫じゃないかとは思っている
+ – なのでさらっと読み飛ばす</p>
+  </li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章を読み干す</li>
+  <li>オペレーティングシステムを読み干す</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない..</p>
+
+<h2 id="section-4">勉強途中経過</h2>
+
+<h3 id="section-5">進んでない</h3>
+
+<h2 id="section-6">読書途中経過</h2>
+
+<h3 id="section-7">進んだ</h3>
+<ul>
+  <li>ネットワークはなぜつながるのか?(3章)</li>
+  <li>とある本4章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで終了</li>
+</ul>
+
+<h3 id="section-8">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>DDD ショートバージョン</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-9">諦めそう</h3>
+<ul>
+  <li>詳解UNIXプログラミング
+ – 新盤が出たのでそちらを読み直していく</li>
+</ul>
+
+<h3 id="section-10">まだ積んでないけど読む</h3>
+<ul>
+  <li>nginxの本</li>
+</ul>
+
+<h3 id="section-11">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: devenv | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/devenv/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac で wirelss な lenovo の keyboard を使う]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/09/mac-wiress-keyboard-scroll/"/>
+    <updated>2014-12-09T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/09/mac-wiress-keyboard-scroll</id>
+    <content type="html"><![CDATA[<h2 id="section">無線キーボードを買った</h2>
+<p><a href="http://www.amazon.co.jp/%E3%83%AC%E3%83%8E%E3%83%9C%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%91%E3%83%B3-ThinkPad-Bluetooth-%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89-0B47181/dp/B00DLK4GQA/ref=sr_1_1?ie=UTF8&amp;qid=1418113086&amp;sr=8-1&amp;keywords=thinkpad+%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89">thinkpad の無線キーボードを買った</a> のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。<br />
+具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。  </p>
+
+<h2 id="section-1">解決</h2>
+<ul>
+  <li>karabiner である程度設定は基本  </li>
+  <li>seil で変換、無変換を使用できるようにする  </li>
+  <li>firefox 中クリック問題、および iTerm2 で中クリックコピペされちゃう問題は<a href="http://www.marcmoini.com/sx_en.html">Smart Scroll を使う</a> とすべてが解決した。  </li>
+</ul>
+
+<h2 id="section-2">所感</h2>
+<p>結構はまったけど解法が見つかって嬉しい。<br />
+危うく1万ドブに捨てるとこだった。<br />
+有料アプリになるかもだけど、評価が終わった場合これは買ってしまっていいだろう。</p>
+
+<h2 id="section-3">参考資料</h2>
+<ul>
+  <li><a href="http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x">http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

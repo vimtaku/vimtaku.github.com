@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[vim-operator-mdurl という vim plugin 書いた]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/08/vim-operator-mdurl/"/>
+    <updated>2014-03-08T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/08/vim-operator-mdurl</id>
+    <content type="html"><![CDATA[<h2 id="section">はじめに</h2>
+<p>この記事は <a href="http://atnd.org/events/45072">Vim Advent Calender 2013</a> の 98 日目 の記事になります。</p>
+
+<h2 id="section-1">背景</h2>
+<p>Vimmer のみなさんが blog を書くなら普通に vim で markdown を書いていることと思います。<br />
+例に違わず僕も markdown で blog を書いているんですが、非常に不満に思っていたことがありました。<br />
+それは url を書くときそれを[]() で囲わなきゃならなかったことです。<br />
+まぁ書き慣れりゃ楽なんですけど最初は()[] なのか []() なのかわからなくて逆になって辛いみたいな<br />
+ことが起こっていました。<br />
+http://example.com みたいな url があった時に,<br />
+簡単に <a href="http://example.com">http://example.com</a> とできるような plugin が欲しかったのです。<br />
+正直言うと幾つか方法があって, 保存時に変換とかもやりようによっちゃあるんですが<br />
+僕はおせっかいが嫌なので自分で変換できる operator が欲しかったのです。  </p>
+
+<h2 id="section-2">概要</h2>
+<p>http://example.com という文字列を<br />
+<div>
+  <pre><code class='vim'>&lt;br /&gt;
+&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;</code></pre>
+</div>
+
+と簡単に変換できる operator plugin を書きました。<br />
+また, blog を書くときに参考資料とかに url を memo で書いていて,<br />
+それを
+<div>
+  <pre><code class='vim'>&lt;br /&gt;
+&lt;a href=&quot;http://example.com&quot;&gt;ここのリンク&lt;/a&gt;</code></pre>
+</div>
+
+みたいなふうに<br />
+作りたいというのがよくあったので, yank している url を 文字列にリンク展開できるようにもしました。  </p>
+
+<h2 id="section-3">成果物</h2>
+<p><a href="https://github.com/vimtaku/vim-operator-mdurl">https://github.com/vimtaku/vim-operator-mdurl</a>  </p>
+
+<h3 id="section-4">使用方法</h3>
+
+<h4 id="option-vim-textobj-url-">0. (option) vim-textobj-url をインストール</h4>
+<p>なくてもいいんだけど、あったら多分便利だと思います。
+<div>
+  <pre><code class='vim'>&lt;br /&gt;
+NeoBundle ‘mattn/vim-textobj-url’&lt;br /&gt;</code></pre>
+</div>
+  </p>
+
+<h4 id="vim-operator-mdurl--">1. vim-operator-mdurl を インストール</h4>
+<p>.vimrc に<br />
+<div>
+  <pre><code class='vim'>&lt;br /&gt;
+NeoBundle ‘vimtaku/vim-operator-mdurl’</code></pre>
+</div>
+<br />
+#### 2. .vimrc に map を書く<br />
+設定例)<br />
+<div>
+  <pre><code class='vim'>map L &lt;plug&gt;(operator-mdurl)
+map M &lt;plug&gt;(operator-mdurlp)</code></pre>
+</div>
+
+#### 3. 使う  
+http://example.com とかの文字列の何処かで LiW とかするとできます。  
+http://example.com を yank しておいて hoge とかの文字列上で Miw とかすると、  
+[hoge](http://example.com) になります。  </plug></plug></p>
+
+<p>0 の手順で url のテキストオブジェクトプラグインを入れておいたら LiW とかの W の部分が<br />
+デフォルトでは u で統一できて楽。  </p>
+
+<h3 id="text-obj-user--vimrc-">直接関係ないけど、text-obj-user の .vimrc の設定について</h3>
+
+<p>vim-textobj-user では map を変えられます。<br />
+textobj-wiw ですでに u は使っていたので<br />
+text-obj-url のデフォルトの u(i|a) とかぶると嫌なので以下の様に書きました。  </p>
+
+<p><div>
+  <pre><code class='vim'>xmap ah  &lt;plug&gt;(textobj-url-a)
+omap ah  &lt;plug&gt;(textobj-url-a)
+xmap ih  &lt;plug&gt;(textobj-url-i)
+omap ih  &lt;plug&gt;(textobj-url-i)&lt;/plug&gt;&lt;/plug&gt;&lt;/plug&gt;&lt;/plug&gt;&lt;/p&gt;
+
+&lt;p&gt;xmap au  &lt;plug&gt;(textobj-wiw-a)
+omap au  &lt;plug&gt;(textobj-wiw-a)
+xmap iu  &lt;plug&gt;(textobj-wiw-i)
+omap iu  &lt;plug&gt;(textobj-wiw-i)</code></pre>
+</div>
+</plug></plug></plug></plug></p>
+
+<h2 id="section-5">所感</h2>
+<p>最近は vim に注力出来ていなかったけど、ずっと書きたかった plugin がかけて良かったです。<br />
+もし良かったら使ってみてください。<br />
+<a href="http://atnd.org/events/45072">VAC 2013</a> にも参加できてとりあえず良かったです。<br />
+バグはちょろちょろ直していきます。  </p>
+]]></content>
+  </entry>
+  
+</feed>

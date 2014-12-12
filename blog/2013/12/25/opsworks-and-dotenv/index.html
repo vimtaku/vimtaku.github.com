@@ -1,0 +1,218 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>opsworks and dotenv - vimtaku blog</title>
+	<meta name="author" content="vimtaku">
+
+	
+	<meta name="description" content="">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="vimtaku blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="http://vimtakublog.qolwu.com/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">vimtaku blog</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vimtaku.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/vimtaku" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/vimtaku" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vimtaku.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Opsworks and Dotenv</h2>
+	<div class="entry-content">
+<h2 id="section">もくじ</h2>
+<ul id="markdown-toc">
+  <li><a href="#section">もくじ</a></li>
+  <li><a href="#opsworks--cookbook-">opsworks の cookbook 処理順について</a></li>
+  <li><a href="#opsworks--dotenv-">opsworks と dotenv の依存関係</a></li>
+  <li><a href="#section-1">(2014/1/26追記) 解決方法</a></li>
+  <li><a href="#section-2">(2013/12/26追記) 解決方法2つ</a></li>
+  <li><a href="#section-3">参考情報とか</a>    <ul>
+      <li><a href="#section-4">シンボリックリンクを使う</a></li>
+      <li><a href="#appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="opsworks--cookbook-">opsworks の cookbook 処理順について</h2>
+<p>opsworks では built-in cookbook -&gt; custom cookbook の順に処理されて、<br />
+custom cookbook でいい感じにディレクトリを配置しても上書きはできない。<br />
+(ただし、 built-in cookbook で使用される recipe の attribute に適切な値を設定することは可能。)<br />
+<a href="http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html">http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html</a></p>
+
+<h2 id="opsworks--dotenv-">opsworks と dotenv の依存関係</h2>
+<p>opsworks の built-in レシピの deploy::rails で使用する環境変数は、当然 .env に依存するのだけど、<br />
+.env の生成は custom cookbook でやっていて、上記にも書いたとおり上書きもできないから<br />
+rails は .env.test とか読んじゃって辛い。<br />
+これ回避する方法あるのかなぁ。。  </p>
+
+<h2 id="section-1">(2014/1/26追記) 解決方法</h2>
+<p>load balancer の死活チェックを health_check.html とかを見るようにしておいて、<br />
+built in recipe の deploy 時点で一回 unicorn 立っちゃうけど
+user recipe の deploy のところで dotenv を作って、<br />
+unicorn とか再起動したのち、 health_check とかを<br />
+おけば割と問題ないんじゃないかってことになってる。  </p>
+
+<h2 id="section-2">(2013/12/26追記) 解決方法2つ</h2>
+<p>考えた方法を2つ。  </p>
+
+<h2 id="section-3">参考情報とか</h2>
+<p>このへんとか参考になりそうなんだけど、いまいち確信 answer はない。<br />
+<a href="https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0">https://forums.aws.amazon.com/forum.jspa?forumID=153&amp;start=0</a></p>
+
+<h3 id="section-4">シンボリックリンクを使う</h3>
+<p>apps のリポジトリに予め、 .env -&gt; /etc/.env みたいなシンボリックリンクをコミットしておいて、<br />
+deploy::rails の前に dotenv を配置する recipe で配布する。  </p>
+
+<h3 id="appnamedeploybeforemigraterb-">{appname}/deploy/before_migrate.rb を使う</h3>
+<p><a href="http://docs.opscode.com/resource_deploy.html">http://docs.opscode.com/resource_deploy.html</a><br />
+こいつがデプロイ時(というかマージ実行時)に呼ばれるためのフックでいい感じに recipe を呼ぶ。<br />
+これを参考にした<a href="https://github.com/drnic/mydemoapp">https://github.com/drnic/mydemoapp</a>。<br />
+とりあえず消えたらあれなのでフォークしておいた.<br />
+<a href="https://github.com/vimtaku/mydemoapp">https://github.com/vimtaku/mydemoapp</a>  </p>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-25T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/aws/'>aws</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+
+		
+		
+
+        
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2013/12/25/opsworks-and-dotenv/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        
+        
+        
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        
+
+
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    vimtaku
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-30103097-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[jekyll から octopress に10 分で移行する]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/02/14/octopress/"/>
+    <updated>2014-02-14T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/02/14/octopress</id>
+    <content type="html"><![CDATA[<h2 id="section">背景</h2>
+<p>デザインが見づらいって言われたので辛くなったから、<br />
+octopress にノリで移行してみた。<br />
+当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので<br />
+問題なく移行できると思ったら移行できた。  </p>
+
+<h2 id="section-1">手順</h2>
+<p>大体こんなかんじでいける。空気さえ読めれば行ける感じ。  </p>
+
+<p><div>
+  <pre><code class='bash'>git clone git://github.com/imathis/octopress.git octopress
+cd octopress/
+bundle install
+rake install
+rake preview
+rake -T
+vim config.rb
+rake preview
+rake setup_github_pages&lt;/p&gt;
+
+&lt;h2 id=&quot;rakefile--l269--git-push---f-&quot;&gt;Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。&lt;/h2&gt;
+&lt;p&gt;vim Rakefile&lt;/p&gt;
+
+&lt;p&gt;rake deploy&lt;/p&gt;
+
+&lt;p&gt;cp -a $HOME/jekyll-bootstrap/_posts/* .&lt;/p&gt;
+
+&lt;h2 id=&quot;jb-setup-&quot;&gt;JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)&lt;/h2&gt;
+&lt;p&gt;mkdir $HOME/octopress/source/includes/JB
+cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
+</div>
+</p>
+
+<h2 id="section-2">ちなみに</h2>
+<p>テーマはコチラを使わせてもらった。<br />
+<a href="http://zespia.tw/Octopress-Theme-Slash/">http://zespia.tw/Octopress-Theme-Slash/</a><br />
+how to install 通りにやれば適用できる。  </p>
+
+<p>Octopress テーマ集みたいなのはコチラ。<br />
+<a href="http://opthemes.com/">http://opthemes.com/</a>  </p>
+
+<h2 id="section-3">参考資料</h2>
+
+<p><a href="http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/">http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/</a></p>
+
+]]></content>
+  </entry>
+  
+</feed>

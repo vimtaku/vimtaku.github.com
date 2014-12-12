@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: datomic | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/datomic/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Datomic まとめ]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/12/datomic-matome/"/>
+    <updated>2014-12-12T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/12/datomic-matome</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#datomic-">datomic まとめ(追記していく)</a>    <ul>
+      <li><a href="#datomic--1">datomic 自体の説明</a></li>
+    </ul>
+  </li>
+  <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
+      <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
+      <li><a href="#section">参考資料(便利)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="datomic-">datomic まとめ(追記していく)</h1>
+
+<h2 id="datomic--1">datomic 自体の説明</h2>
+<p>省略。<br />
+いつか書くかも。
+他に良い記事がたくさんあるので。  </p>
+
+<h1 id="datomic--2">datomic 本当のところ(使いながら追記していく)</h1>
+
+<h2 id="createdat-updatedat-">created_at, updated_at は持つ必要がない</h2>
+<p>rails で mysql とかつかって作るときだと当たり前のように created_at とか updated_at を持っているけど、<br />
+datomic を使う場合は必要ない。<br />
+stack over flow に、持ってた方が良い？などの質問に対して、
+おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
+
+<p><div>
+  <pre><code class='clojure'>&lt;/p&gt;
+
+&lt;p&gt;; ——– 一応コピペしとく
+(def db-url (ref “”))
+(dosync
+  (ref-set db-url  “datomic:free://localhost:4334/hoge”))&lt;/p&gt;
+
+&lt;p&gt;(defn setup-db [db-url]
+  (d/create-database db-url)
+  (d/transact
+    (d/connect db-url)
+    (concat
+      (ds/generate-parts d/tempid (dbparts))
+      (ds/generate-schema d/tempid (dbschema)))))
+(defn setup-testdb []
+  (dosync
+    (ref-set db-url (str “datomic:mem:” (d/squuid))))
+  (setup-db @db-url)
+)&lt;/p&gt;
+
+&lt;p&gt;(defn connect-db []
+  (d/connect @db-url)
+)&lt;/p&gt;
+
+&lt;p&gt;; ——– ここが本質
+(defn history [eid]
+  (d/q
+    ‘[:find ?e ?a ?v ?tx ?added
+      :in $ ?e
+      :where
+      [?e ?a ?v ?tx ?added]]
+    (d/history (d/db (connect-db)))
+    eid
+    )
+)</code></pre>
+</div>
+</p>
+
+<p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
+で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
+
+<p><blockquote><p>#&lt;HashSet [<br/> [17592186045436 74 this is new emotion. 13194139534331 true],<br/> [17592186045436 73 0 13194139534331 true],<br/> [17592186045436 72 17592186045423 13194139534331 true],<br/> [17592186045436 71 17592186045421 13194139534331 true],<br/> [17592186045436 75 17592186045432 13194139534331 true],<br/> [17592186045436 70 #inst “2014-12-12T00:11:51.228-00:00” 13194139534331 true],<br/> [17592186045436 71 17592186045422 13194139534333 true],<br/> [17592186045436 71 17592186045421 13194139534333 false],<br/> [17592186045436 74 hogera! 13194139534333 true],<br/> [17592186045436 74 this is new emotion. 13194139534333 false]<br/>]&gt;</p></blockquote>
+サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
+これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
+71, 74 の属性が 変更されたことなどが読み取れる。  </p>
+
+<h2 id="section">参考資料(便利)</h2>
+<ul>
+  <li><a href="http://sunday-programming.hatenablog.com/category/datomic">http://sunday-programming.hatenablog.com/category/datomic</a><br />
+– めっちゃ参考にさせていただいております。  </li>
+  <li><a href="http://www.learndatalogtoday.org/">http://www.learndatalogtoday.org/</a><br />
+– datomic の query language である datalog のチュートリアル。datomic をやる前にこれを触っておくのオススメ。  </li>
+  <li><a href="https://github.com/Datomic/day-of-datomic">https://github.com/Datomic/day-of-datomic</a>  </li>
+  <li><a href="https://github.com/Yuppiechef/datomic-schema">https://github.com/Yuppiechef/datomic-schema</a><br />
+– datomic のスキーマを書くのマジしんどいけどこれがあればいい感じでつくってくれて嬉しいやつ。  </li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

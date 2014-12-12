@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[rubykaigi 2014/ 1日目]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday/"/>
+    <updated>2014-09-18T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/09/18/rubykaigi-firstday</id>
+    <content type="html"><![CDATA[<h1 id="rubykaigi-first-day">RubyKaigi first day</h1>
+
+<p>とりあえずまとめてみた。  </p>
+
+<h2 id="key-note-building-the-ruby-interpreter----what-is-easy-and-what-is-difficulthttprubykaigiorg2014presentations-koichisasada"><a href="http://rubykaigi.org/2014/presentation/S-KoichiSasada">(key note) Building the Ruby interpreter – What is easy and what is difficult?</a></h2>
+
+<p>何が簡単で、何が難しいのかという話。  </p>
+
+<h3 id="section">メモ</h3>
+
+<h4 id="section-1">パフォーマンス</h4>
+<p>パフォーマンスを単純に上げるのは簡単だが、メンテし易さなどとトレードオフの関係にあるので、<br />
+メンテしやすく、さらにパフォーマンスを上げるのは簡単ではない。  </p>
+
+<h4 id="vm">VM</h4>
+<p>VM や JIT コンパイルの仕組みなどを作るのはそんなに難しくない。<br />
+しかし reliability を保ちながら作るのは難しい。  </p>
+
+<h4 id="section-2">メンテしやすさ</h4>
+<p>Ruby の実装を Ruby で実装すればわかりやすいしメンテしやすい。<br />
+ruby のコードをいじったあとでは、 テストとか全部通ればまだ良い方(ダメだったら全部通らないから)。  </p>
+
+<h4 id="section-3">並列性</h4>
+<p>単純にカーネルレベルスレッドの仕組みを作るのは簡単だが、 ruby のユーザに残念体験を与えないためにあえてそうしてない。<br />
+また、スレッドを適切に扱える技術者(ウィザード)は数少ない。という説明もされていた。<br />
+同時実行性があり、バグの再現実効性が低いのも大変である。  </p>
+
+<h4 id="gc">GCアルゴリズム</h4>
+<p>ライトバリアを実装するのは簡単だが、拡張ライブラリなどにも実装するのは大変。  </p>
+
+<h4 id="section-4">性能評価</h4>
+<p>仮想のサーバでは性能評価が難しいので、物理サーバが必要。<br />
+実行時間とはなにか。メモリ使用量とは結局なんだろう(平均?最大?)。  </p>
+
+<h4 id="section-5">コミッターになるには</h4>
+<p>ただコミッターになるのは、matzにコミッター権限貰えばよい。<br />
+しかし、デベロッパーとして参加するのは大変。  </p>
+
+<h4 id="ruby">Ruby(処理系)をもっと知るために</h4>
+<p>Rubyソースコード完全解説<br />
+<a href="http://i.loveruby.net/ja/rhg/book/">http://i.loveruby.net/ja/rhg/book/</a><br />
+Ruby Under a microscope<br />
+<a href="http://shop.oreilly.com/product/9781593275273.do">http://shop.oreilly.com/product/9781593275273.do</a><br />
+(日本語翻訳中らしい)  </p>
+
+<h4 id="section-6">もっと良い技術者になるために</h4>
+<p>新しい技術を調べて<br />
+ - ブログを書いて<br />
+ - 議論をし<br />
+ - sns でチャットして<br />
+ - 会議に参加して<br />
+ - カンファレンスで発表<br />
+していきましょう。</p>
+
+<h3 id="section-7">所感</h3>
+<p>さすが ruby コミッターという凄さがあった。<br />
+普段 GC とかあまり意識しないけど、知識としてきちんと知っておかなきゃダメだなと思った。  </p>
+
+<h2 id="controller-testing-youre-doing-it-wronghttprubykaigiorg2014presentations-jonathanmukai-heidt"><a href="http://rubykaigi.org/2014/presentation/S-JonathanMukai-Heidt">Controller Testing: You’re Doing It Wrong</a></h2>
+
+<p>やりかた間違ってるよ的な煽りタイトル。</p>
+
+<h3 id="section-8">メモ</h3>
+
+<h4 id="section-9">ダメなことあるある</h4>
+<ul>
+  <li>いろんなことをテストしようとしちゃっている  </li>
+  <li>全部スタブしちゃってる  </li>
+</ul>
+
+<h4 id="section-10">コントローラのテストでやるべきこと</h4>
+<ul>
+  <li>authorization  </li>
+  <li>リソースの存在  </li>
+  <li>レスポンスの形式  </li>
+</ul>
+
+<h4 id="section-11">命令的ではなく、宣言的に</h4>
+<ul>
+  <li>チェックリストのようにテストを書こう  </li>
+</ul>
+
+<h4 id="section-12">実際問題</h4>
+<ul>
+  <li>5/6 の、今年やったプロジェクトでは、コントローラベタ書きｗｗｗ</li>
+</ul>
+
+<h4 id="section-13">なぜファットモデルのほうが良いのか</h4>
+<ul>
+  <li>ActiveModel で作っておくと良い  </li>
+  <li>すごく簡単なロジックでもコントローラに書いていて, それが変更による変更.. となるとすぐ太ってしまう。<br />
+ – モデルにしておくほうが良い  </li>
+</ul>
+
+<h4 id="section-14">まとめ</h4>
+<ul>
+  <li>テストは宣言的に、シンプルにかけ  </li>
+  <li>コントローラにロジックかくな、モデルにかけ  </li>
+</ul>
+
+<h3 id="section-15">所感</h3>
+<p>英語のセッションだったけどそこそこ聞き取りやすい英語でよかった。<br />
+それでも完全に内容を把握できたわけじゃあないけど。  </p>
+
+<h2 id="continuous-delivery-at-githubhttprubykaigiorg2014presentations-robertsanheim"><a href="http://rubykaigi.org/2014/presentation/S-RobertSanheim">Continuous Delivery at GitHub</a></h2>
+
+<p>ギッハブ社で行っている継続的デリバリについて<br />
+(普段会社で行っていることはメモってなかった)</p>
+
+<h3 id="section-16">メモ</h3>
+
+<h4 id="feature-flags">feature flags</h4>
+<p>ある機能を入れるときには、<br />
+<div>
+  <pre><code class='ruby'>def some_new_feature_enable?
+  something and user.is_stuff?
+end</code></pre>
+</div>
+
+的なものを書いて、それが良さそうなら true に書き換えるなどして切り替えできるようにしていた。<br />
+(そういえば前職でもそういう仕組みがあった。)  </p>
+
+<h4 id="section-17">ブランチコントロールの話</h4>
+<ul>
+  <li>長いことブランチを活かしておくと臭ってくるやん？  </li>
+  <li>たとえば rails2 から rails3 に上げるみたいなプロジェクトがあった(実際に)。
+ – RAILS3=true てきな環境変数で rails3? みたいなコードを書いて条件分岐して master につけていった。</li>
+</ul>
+
+<h4 id="section-18">フィードバック可視化</h4>
+<p>ちゃんとしててすごく良かった</p>
+
+<h3 id="section-19">所感</h3>
+<p>機能をフラグで管理する( redis とか使ってもいいかも) のは確かに良い物かもなぁと思った。<br />
+ただ、ゆうてもこういう仕組みはものすごく大きい変更に関してはやっていけない気もした。<br />
+ブランチコントロールの話は、twitter では、うちは無理だ、とか出来そうにないとか、怖いとか<br />
+そういう反応が散見された。<br />
+確かに怖いは怖いし、実際、まとまった機能をつける場合は,<br />
+mediuamfeature/master みたいに master からきって、<br />
+mediuamfeature/feature_branch で mediuamfeature/master に pull req だしつつ<br />
+ある程度育ったら mediuamfeature/master で master を pull rebase で差分を取り込む感じでやっていた。<br />
+これは議論の余地はあるなぁ。  </p>
+
+<h2 id="whats-wrong-with-your-apphttprubykaigiorg2014presentations-keikooda"><a href="http://rubykaigi.org/2014/presentation/S-KeikoOda">What’s wrong with your app?</a></h2>
+<p>これも割りと釣りタイトルっぽくて聞いたけど、内容は heroku チームと、heroku 使ってるヒトの H12 とかいう<br />
+エラーの原因がなんなのか？みたいな話だった。<br />
+heroku に特化した感じであんまりだったので省略。  </p>
+
+<h2 id="non-linear-pattern-matching-against-unfree-data-types-in-ruby-egison-pattern-matching-in-ruby-httprubykaigiorg2014presentations-satoshiegi"><a href="http://rubykaigi.org/2014/presentation/S-SatoshiEgi">Non-Linear Pattern Matching against Unfree Data Types in Ruby (Egison Pattern Matching in Ruby) </a></h2>
+
+<p>egison っていうパターンマッチのプログラミング言語と、その ruby gem の話。<br />
+あんまり直接メモはしてなかった。</p>
+
+<h3 id="section-20">メモ</h3>
+<ul>
+  <li>様々なパターンマッチがあって、圧倒的な少ない記述量で、たとえばポーカーの役判定などができる。  </li>
+  <li>麻雀の役判定も！(これはすごいことだ!!!!)<br />
+ – 複数の判定もできるとのことなので工夫すれば全部役を本当にだせる？  </li>
+  <li>今注目されているプログラミング言語にも選出  </li>
+  <li>東京大学のカリキュラムにも!  </li>
+</ul>
+
+<h3 id="section-21">所感</h3>
+<p>めっちゃすごい。<br />
+通常のコードでも綺麗に簡潔に書けそうだ。<br />
+とりあえず試しに使ってみると良いかも。<br />
+すげぇどうでもいいけどググらビリティ低すぎる。  </p>
+
+<h2 id="hypermedia-the-missing-element-to-building-adaptable-web-apis-in-railshttprubykaigiorg2014presentations-torukawamura"><a href="http://rubykaigi.org/2014/presentation/S-ToruKawamura">Hypermedia: the Missing Element to Building Adaptable Web APIs in Rails</a></h2>
+
+<p>とりあえずこの日一番ヒットというか、一番驚いたのがこのセッション。</p>
+
+<h3 id="section-22">メモ</h3>
+
+<h4 id="api-">API の変更</h4>
+<p>変更マジしんどい。<br />
+/v1/hogehoge を /v2/hogehoge とかにすると必ず api の変更が必要</p>
+
+<h4 id="fizzbuzzaas-">FizzBuzzaaS の話</h4>
+<p>fizzbuzz を返す api サーバ。<br />
+100までの数値に対応している。  </p>
+
+<p>この api にテストを書こうとすると<br />
+/fizzbuzz/endpoint/1<br />
+/fizzbuzz/endpoint/2<br />
+/fizzbuzz/endpoint/100<br />
+…<br />
+となって、/fizzbuzz/endpoint のところはハードコードだし、<br />
+最後の値は数値を for とかで回すことになる。<br />
+それを、最初のレスポンスが nextUrl 的に、次の値を渡してくれれば<br />
+iterator で問題なくテストできる(当然最後もわかるし、100が変わっても大丈夫)。  </p>
+
+<h4 id="hypermedia">そこで hypermedia</h4>
+<p>HTML もそうだけど、次へのリンクや、前へのリンクなどはちゃんと付いている！<br />
+ブラウザのバージョンがかわっても全然大丈夫！  </p>
+
+<h4 id="json--link-">json + link などの情報フォーマット</h4>
+<p>じつはそういう規格がある。
+Uber, HAL, JSON-LD など..</p>
+
+<h4 id="html--web--api-">HTML で web の API が表現可能!</h4>
+<p>それで作ったのが<a href="https://github.com/tkawa/hypermicrodata">これ</a></p>
+
+<h4 id="section-23">使い方としては</h4>
+<p>設計順かいてあったけど、メモれてない..<br />
+状態遷移を書く、はすごく重要だと説明されていた。  </p>
+
+<h4 id="section-24">まとめ</h4>
+<p><a href="http://qiita.com/tkawa/items/0efd49ad07d39531a520">ここの qiita でほぼ書いてある</a></p>
+
+<h3 id="section-25">所感</h3>
+<p>正直言ってこの発想はなかった！と思った。<br />
+会場も、なるほどそうきたか！みたいな感じだった。<br />
+ただ、実際つかっている HTML の構造変えたくなったりしないのかなぁとか、<br />
+疑問はあったりする。<br />
+あ、というか api 用の HTML(view) を書いておけばいいのかな。<br />
+まぁ一つの手段としてこれはすごくあるなぁと思った。<br />
+API から web を作るのは、すごく手間ではないけど、二度手間であることに変わりはないし。  </p>
+
+<h2 id="gem-of-this-week---building-culture-and-making-gemhttprubykaigiorg2014presentations-takumimiura"><a href="http://rubykaigi.org/2014/presentation/S-TakumiMiura">“Gem of this Week” - building culture and making gem</a></h2>
+<p>ドリコムのヒトの話。<br />
+gem 作って共有する文化づくりのための工夫のお話。<br />
+今週のgem(媒体がチャットなのかメールなのかは不明)を作って、 gem を作る週間を作った。<br />
+社内用の rubygems 的なものを作った (drecom gem)。<br />
+これで gem publish みたいなことができた。<br />
+ヒアリングして不安を潰すことでそういう文化を作った、っていう話だった。  </p>
+
+<h2 id="section-26">最後に</h2>
+<p>すごくいろいろいい話をきいた。<br />
+どうでもいいけど、たったこれだけまとめるのに 2時間くらいかかってる。  </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips/"/>
+    <updated>2014-04-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/04/10/jbuilder-tips</id>
+    <content type="html"><![CDATA[<h2 id="section">結論</h2>
+<p>views/book/_book.jbuilder<br />
+<div>
+  <pre><code class='ruby'>json.cache! book do
+  _j = book.to_builder.target!
+    JSON.parse(_j).each do |k,v|
+        json.set! k, v
+    end
+end</code></pre>
+</div>
+</p>
+
+<p>controller で @tmpl[:book] が set されていると仮定<br />
+views/book/show.jbuilder<br />
+<div>
+  <pre><code class='ruby'>json.book do
+  json.partial! ‘book/book’, book: @tmpl[:book]
+end</code></pre>
+</div>
+</p>
+
+<p>controller で @tmpl[:books] が set されていると仮定<br />
+views/book/list.jbuilder<br />
+<div>
+  <pre><code class='ruby'>json.books @tmpl[:books], partial:’book/book’, as: :book</code></pre>
+</div>
+</p>
+
+<h2 id="section-1">背景</h2>
+<p>単体表示に<br />
+<div>
+  <pre><code class='ruby'>{
+    book: {
+        bookId: “moge”
+    }
+}</code></pre>
+</div>
+
+複数表示に<br />
+<div>
+  <pre><code class='ruby'>{
+    books:[
+    {
+      bookId: “moge”
+    },
+    {
+      bookId: “moge2”
+    }
+    ]
+}</code></pre>
+</div>
+
+としたいみたいなやつがググっても全然出てこなかったので。</p>
+
+<h2 id="section-2">所感</h2>
+<p>まぁこうは普通しないわなぁ。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner/"/>
+    <updated>2014-03-10T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/10/ruby-webrick-onewriner</id>
+    <content type="html"><![CDATA[<h2 id="section">ワンライナー</h2>
+<p><div>
+  <pre><code class='ruby'>ruby -e “require ‘webrick’; server = WEBrick::HTTPServer.new( {:BindAddress =&amp;gt; ‘0.0.0.0’, :Port =&amp;gt; 80}); trap(:INT){server.shutdown}; server.start;”</code></pre>
+</div>
+</p>
+
+<h2 id="section-1">普通の方</h2>
+<p><div>
+  <pre><code class='ruby'>require ‘webrick’
+server = WEBrick::HTTPServer.new({:BindAddress =&amp;gt; ‘0.0.0.0’, :Port =&amp;gt; 80})
+trap(:INT){server.shutdown}
+server.start</code></pre>
+</div>
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[devise を知るにはまず warden を知るが良い]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/03/02/warden/"/>
+    <updated>2014-03-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/03/02/warden</id>
+    <content type="html"><![CDATA[<h2 id="section">背景</h2>
+<p>devise という gem があるが、warden をベースにした認証の仕組みだということだった。<br />
+devise を知るには、まず warden を知らなければなるまい。<br />
+そう思った俺は warnden を rack ベースでいじってみることにした。  </p>
+
+<h2 id="warden-">warden とは</h2>
+
+<p>これのこと。<br />
+<a href="https://github.com/hassox/warden">https://github.com/hassox/warden</a><br />
+wiki が充実していたのでかなりわかりやすかった。<br />
+<a href="https://github.com/hassox/warden/wiki">https://github.com/hassox/warden/wiki</a>  </p>
+
+<h2 id="section-1">とりあえずやってみる、以下メモ書き。</h2>
+
+<p>config.rb
+<div>
+  <pre><code class='ruby'>require ‘rack’
+require ‘pp’
+require ‘warden’&lt;/p&gt;
+
+&lt;p&gt;class Application&lt;/p&gt;
+
+&lt;p&gt;def call(env)
+    request = Rack::Request.new(env)
+    response = if request.path_info = ‘/’
+                 body = “#{request.request_method}: Hello! #{request.params[‘name’]}!”
+                 Rack::Response.new(body, “200”, {‘Content-Type’ =&amp;gt; ‘text/plain’})
+               else
+                 Rack::Response.new(‘Not Found’, “404”, {‘Content-Type’ =&amp;gt; ‘text/plain’})
+               end
+    response.finish
+  end&lt;/p&gt;
+
+&lt;p&gt;end&lt;/p&gt;
+
+&lt;p&gt;app = Rack::Builder.new do
+  use Rack::Session::Cookie, :secret =&amp;gt; “replace this with some secret key”&lt;/p&gt;
+
+&lt;p&gt;use Warden::Manager do |manager|
+    manager.default_strategies :password, :basic
+    #manager.failure_app = BadAuthenticationEndsUpHere
+  end&lt;/p&gt;
+
+&lt;p&gt;run lambda { |env| Application.new().call(env) }
+end&lt;/p&gt;
+
+&lt;p&gt;run app</code></pre>
+</div>
+</p>
+
+<p>基本的に, default_strategies で定義した順に行われて、一つでも成功したら成功になる模様。  </p>
+
+<p>cookie セットされている<br />
+<img src="http://gyazo.com/be238cfa0282a588b1fad41ae91dd804.png" />
+<img src="http://gyazo.com/95a09e0d872829e8e0fef2204728cdaa.png" /></p>
+
+<p>試しに nil を返した時。<br />
+<img src="http://gyazo.com/de50e8c049809e31a41231c7b6fb1cd4.png" /></p>
+
+<p>明らかに error ハンドラがないぞッて感じのエラーが出ているので、<br />
+雰囲気でBadAuthenticationEndsUpHere クラスを足してみる。  </p>
+
+<p><div>
+  <pre><code class='ruby'>class BadAuthenticationEndsUpHere
+  def self.call(env)
+    p env
+    p “BadAuthenticationEndsUpHere”
+    Rack::Response.new(‘Not Found’, “404”, {‘Content-Type’ =&amp;gt; ‘text/plain’})
+  end
+end</code></pre>
+</div>
+</p>
+
+<p>思い通りだ。 error ハンドラとして BadAuthenticationEndsUpHere クラスが呼ばれた。<br />
+<img src="http://gyazo.com/f44ae6997b92aab707291851645c565a.png" /></p>
+
+<p>それでは、正しく期待している serialize_from_session が動くように User.get を定義する。  </p>
+
+<p><div>
+  <pre><code class='ruby'>def get(id)
+    ## 永続化されたものから引いてうまく引けたと過程して返す
+    return User.new(id)
+  end</code></pre>
+</div>
+</p>
+
+<p>1回目、とりあえずログインされるはず。<br />
+<img src="http://gyazo.com/9a31a0967443614441eeb729e34d6ba7.png" /></p>
+
+<p>サーバのデバッグログ<br />
+<blockquote><p>“Authenticate!!!!!!!!!!!!”<br/>“serialize into session!!!!!!!!!!!!”</p></blockquote>
+ログから、セッションに値が仕込まれた模様。</p>
+
+<p>2回目、セッションから値を引いてみる。<br />
+<img src="http://gyazo.com/e5db07a78d1f75119ffa76740d10032b.png" />
+あれ、ミス。。あ、 serialize_from_session が読んでるのは User.get(id) だから class method だった。。<br />
+修正して再チャレンジ。  </p>
+
+<p>ちゃんときたっぽい！<br />
+<img src="http://gyazo.com/c1225bebd28bd178e9c9aaa5967d8c89.png" /></p>
+
+<p>デバッグログ
+<blockquote><p>“Authenticate!!!!!!!!!!!!”<br/>“serialize from session!!!!!!!!!!!!”<br/>127.0.0.1 - - [01/Mar/2014 18:54:54] “GET /?password=hoge HTTP/1.1” 200 13 0.0022</p></blockquote></p>
+
+<p>get されている模様！  </p>
+
+<p>これで user にアクセスできる。<br />
+<div>
+  <pre><code class='ruby'>p “warden user is “
+p env[‘warden’].user</code></pre>
+</div>
+</p>
+
+<p>ドキュメントを読むと、<br />
+Warden::Strategies で定義した #valid? に関しては、定義されてようがなかろうが呼ばれるらしい。  </p>
+
+<p>試しにこの時点で #valid? で nil を返すと次の strategy にチャレンジがうつった。<br />
+すべての strategy で失敗したら、 failure_app が呼ばれる。  </p>
+
+<p>特筆すべきは、ここで呼ばれるのが /unauthenticated だということだ。<br />
+この url http://localhost:9292/?password=hoge を叩くと<br />
+127.0.0.1 - - [01/Mar/2014 19:01:45] “GET /unauthenticated?password=hoge HTTP/1.1” 404 9 0.0012<br />
+がデバッグログに表示されている。  </p>
+
+<p><div>
+  <pre><code class='ruby'>class BadAuthenticationEndsUpHere
+  def self.call(env)
+    p “in BadAuthenticationEndsUpHere!!!!!!!!!!!!”
+    request = Rack::Request.new(env)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;p &quot;request.path_info is &quot;
+p request.path_info
+
+Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&amp;gt; &#39;text/plain&#39;})   end end</code></pre>
+</div>
+ をデバッグとして試しに書いてみた。   やはり、内部的に path_info を unauthenticated に書き換えているようだ。   これは lib/warden/manager.rb のあたりを見ればわかる。   def process_unauthenticated(env, options={})   や   def call_failure_app(env, options = {})   で実際にそのように書かれている。   と思ったら   [https://github.com/hassox/warden/wiki/Failures](https://github.com/hassox/warden/wiki/Failures)   ここにめっちゃそのように書いてあった。  
+</code></pre>
+
+<p>halt! や success など便利なメソッドが strategy で使える模様。<br />
+<a href="https://github.com/hassox/warden/wiki/Strategies">https://github.com/hassox/warden/wiki/Strategies</a>
+詳細はコチラを参照。  </p>
+
+<p>このような認証の仕組みが rack で使えて、 認証自体が strategy パターンになっているので<br />
+いい感じに他の人が作った strategy を使えるようになっている。  </p>
+
+<p><a href="https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes">https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes</a><br />
+これを見ると、warden は、認証の scope を分けられるようになっている。<br />
+それぞれの認証で、違うロジックを定義して、認証できるようだ。<br />
+特に指定がない場合は、 env[‘warden’] は user として認証する。<br />
+しかし、これは上書きができるようだ。<br />
+default の設定上書きとは別に、明示的にスコープを指定することもできる。<br />
+<div>
+  <pre><code class='ruby'>env[‘warden’].authenticate! :scope =&amp;gt; :api</code></pre>
+</div>
+</p>
+
+<h3 id="callback">callback</h3>
+
+<p><div>
+  <pre><code class='ruby'>“serialize into session!!!!!!!!!!!!”
+“after_set_user caled!”
+“auth is”
+Warden::Proxy:70106638122900 @config={:default_scope=&amp;gt;:default, :scope_defaults=&amp;gt;{}, :default_strategies=&amp;gt;{:&lt;em&gt;all=&amp;gt;[:password, :basic]}, :intercept&lt;/em&gt;401=&amp;gt;true, :failure_app=&amp;gt;BadAuthenticationEndsUpHere}
+“logout called!!!!!!!!!!!”
+“in BadAuthenticationEndsUpHere!!!!!!!!!!!!”
+“request.path_info is “
+“/unauthenticated”
+127.0.0.1 - - [01/Mar/2014 19:55:10] “GET /unauthenticated?password=hoge HTTP/1.1” 404 9 0.0025</code></pre>
+</div>
+</p>
+
+<p>これも結構参考になる。<br />
+<a href="https://gist.github.com/lukesutton/107966">https://gist.github.com/lukesutton/107966</a></p>
+
+<h2 id="section-2">所感</h2>
+<p>warden 大体わかった。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

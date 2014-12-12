@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jekyll | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/jekyll/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-12T09:57:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[jekyll plugin が使えない]]></title>
+    <link href="http://vimtaku.github.io/blog/2013/12/23/jekyll-plugin-/"/>
+    <updated>2013-12-23T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2013/12/23/jekyll-plugin-</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="section">もくじ</h2>
+<ul id="markdown-toc">
+  <li><a href="#section">もくじ</a></li>
+  <li><a href="#jekyll--github-pages-">jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処</a></li>
+  <li><a href="#master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</a></li>
+  <li><a href="#deploy--master--push-">_deploy を作ってそれを master として push する</a></li>
+  <li><a href="#section-1">適当に最初のコミットを作る、この辺はもっとかっこいい方法あると思うけど気にしない</a></li>
+  <li><a href="#site-">_site を生成</a></li>
+  <li><a href="#vim--rakefile-">vim で Rakefile を修正</a></li>
+  <li><a href="#section-2">ちなみに</a></li>
+</ul>
+
+<h2 id="jekyll--github-pages-">jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処</h2>
+
+<p><a href="http://gosyujin.github.io/2013/05/21/jekyll-plugin-githubpages/">こちらのブログ</a>
+や
+<a href="https://help.github.com/articles/pages-don-t-build-unable-to-run-jekyll">github公式</a>
+を見てもらえればわかるけど、unsafe な plugin を入れられない模様。</p>
+
+<p>だから、結論としては静的 html を吐き出す感じにした。</p>
+
+<h2 id="master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</h2>
+<p>約1分でできるからご安心を。</p>
+
+<p><div>
+  <pre><code class='bash'>##  ソースブランチをコミット。以降はソースブランチで記事を書く
+git checkout -b source
+git push origin source:source&lt;/p&gt;
+
+&lt;h2 id=&quot;deploy--master--push-&quot;&gt;_deploy を作ってそれを master として push する&lt;/h2&gt;
+&lt;p&gt;mkdir _deploy
+cd _deploy&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;適当に最初のコミットを作る、この辺はもっとかっこいい方法あると思うけど気にしない&lt;/h2&gt;
+&lt;p&gt;git init
+touch hoge
+## 自分のいままでの master を remote add
+git remote add origin git@github.com:vimtaku/vimtaku.github.com.git
+git add .
+git ci . -m ‘Initial commit’
+git push -f origin master:master&lt;/p&gt;
+
+&lt;h2 id=&quot;site-&quot;&gt;_site を生成&lt;/h2&gt;
+&lt;p&gt;cd ..
+jekyll serve  –watch -P 4000 -H 127.0.0.1 –trace&lt;/p&gt;
+
+&lt;h2 id=&quot;vim--rakefile-&quot;&gt;vim で Rakefile を修正&lt;/h2&gt;
+&lt;p&gt;## これ(ひとのやつ)を参考に. https://github.com/gosyujin/gosyujin.github.com/commit/2943985064ced913767157eb0fdae431b68ac491
+vim Rakefile&lt;/p&gt;
+
+&lt;p&gt;rake deploy&lt;/p&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+</p>
+
+<h2 id="section-2">ちなみに</h2>
+<p>ソース見た感じ一日で複数ポストした場合には、ポストの並び順は辞書順っぽい。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jekyll blockquote 修正]]></title>
+    <link href="http://vimtaku.github.io/blog/2013/12/23/5_jekyll-blockquote-/"/>
+    <updated>2013-12-23T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2013/12/23/5_jekyll-blockquote-</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
+<p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
+やってみたら空白とか改行がいい感じに削られてイラッとしたので<br />
+それっぽい plugin ないかと思って調べたら github にblockquote<br />
+plugin があったのでそれを使ってみたら全く同じだったので<br />
+fork して quote と 改行入れる風にした。</p>
+
+<h2 id="section">一応カスみたいな差分</h2>
+<p><a href="https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9">https://github.com/vimtaku/jekyll-plugins/commit/810d8505d7bcbe0a4575ce5a8e20a366b9ddc0f9</a>
+gsub! 使った方がいいのでもういっこ差分足した</p>
+
+<h2 id="toc-">toc について</h2>
+<p>table of contents 機能が地味にあって  </p>
+
+<p><blockquote><p>* </p><br/><p></p></blockquote>
+って感じで書くといいらしい。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>
