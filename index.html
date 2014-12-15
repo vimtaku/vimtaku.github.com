@@ -7,8 +7,8 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TOC TOC ruby と比べて、 clojure のテスト test のメソッド filter をどうやるか？ 注意点 所感 ruby と比べて、 clojure のテスト
-普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。 &hellip;">
+	<meta name="description" content="TOC TOC ruby と比べて、 clojure のテスト test のメソッド filter をどうやるか？ repl で最初に定義されていてほしい 注意点 所感 ruby と比べて、 clojure のテスト
+普段書いている ruby と比べて、圧倒的に clojure &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -95,6 +95,7 @@
   <li><a href="#toc">TOC</a></li>
   <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
   <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
+  <li><a href="#repl-">repl で最初に定義されていてほしい</a></li>
   <li><a href="#section">注意点</a></li>
   <li><a href="#section-1">所感</a></li>
 </ul>
@@ -124,10 +125,55 @@ filter ができるのだが、 clojure ではどうやるのだろうか。調�
 )</code></pre>
 </div>
 
-<p>repl.clj みたいなものを作るか、 repl 内で定義しておき、<br />
+<p>上記をrepl 内で定義しておき、<br />
 (filter-autotest) か (all-autotest) かを評価する。<br />
 そうすると、 filter-autotest の場合は filter つきだけが、<br />
 all-autotest の場合は全てが実行される。  </p>
+
+<h2 id="repl-">repl で最初に定義されていてほしい</h2>
+<p>repl を起動するたびにいちいち定義するのは面倒くさいので,<br />
+<a href="http://dev.solita.fi/2014/03/18/pimp-my-repl.html">こちら</a><br />
+を参考にして設定することで, 起動時に load するようにした。</p>
+
+<div>
+  <pre><code class="diff">+++ b/dev/user.clj
+@@ -0,0 +1,29 @@
++(ns user
++  (:require
++    [clojure.tools.namespace.repl :refer [refresh]]
++    [midje.sweet :refer :all]
++    [midje.repl :refer :all]
++    )
++  )
++
++(defn filter-autotest []
++  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
++)
++
++(defn all-autotest []
++  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
++)
++
++(defn start
++  &quot;Start the application&quot;
++  []
++  )
++
++(defn stop
++  &quot;Stop the application&quot;
++  []
++  )
++
++(defn reset []
++  (stop)
++  (refresh :after &#39;user/start))
+
++++ b/project.clj
+@@ -20,7 +20,8 @@
+-  {:dev {:dependencies [
++  {:dev {:source-paths [&quot;dev&quot;]
++         :dependencies [</code></pre>
+</div>
 
 <h2 id="section">注意点</h2>
 <div>
