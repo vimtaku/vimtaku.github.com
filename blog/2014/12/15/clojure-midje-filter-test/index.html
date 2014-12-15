@@ -1,0 +1,217 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>clojure で 一部分だけテストがしたい using midje - vimtaku blog</title>
+	<meta name="author" content="vimtaku">
+
+	
+	<meta name="description" content="clojure で 一部分だけテストがしたい using midje">
+	<meta name="keywords" content="midje, clojure">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="vimtaku blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="http://vimtakublog.qolwu.com/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">vimtaku blog</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vimtaku.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/vimtaku" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/vimtaku" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vimtaku.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Clojure で 一部分だけテストがしたい Using Midje</h2>
+	<div class="entry-content">
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
+  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
+  <li><a href="#section">注意点</a></li>
+  <li><a href="#section-1">所感</a></li>
+</ul>
+
+<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
+<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
+比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
+基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
+さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
+filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
+
+<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
+
+<div>
+  <pre><code class="clojure">; in repl.clj
+(defn filter-autotest []
+(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
+)
+
+(defn all-autotest []
+(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
+)
+
+; in test
+(fact :filter &quot;do something great test&quot;
+ (is true)
+)</code></pre>
+</div>
+
+<p>repl.clj みたいなものを作るか、 repl 内で定義しておき、<br />
+(filter-autotest) か (all-autotest) かを評価する。<br />
+そうすると、 filter-autotest の場合は filter つきだけが、<br />
+all-autotest の場合は全てが実行される。  </p>
+
+<h2 id="section">注意点</h2>
+<div>
+  <pre><code class="clojure">(fact &quot;do something&quot;
+ (fact &quot;do2&quot;
+  ....</code></pre>
+</div>
+
+<p>のように、 fact でネストした場合は filter に引っかからないので、<br />
+この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
+
+<h2 id="section-1">所感</h2>
+
+<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/midje/'>midje</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+
+		
+		
+
+        
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        
+        
+        
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        
+
+
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    vimtaku
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-30103097-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

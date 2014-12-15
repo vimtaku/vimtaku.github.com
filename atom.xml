@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-12-12T09:57:11+09:00</updated>
+  <updated>2014-12-15T22:48:55+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[clojure で 一部分だけテストがしたい using midje]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test/"/>
+    <updated>2014-12-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test</id>
+    <content type="html"><![CDATA[
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
+  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
+  <li><a href="#section">注意点</a></li>
+  <li><a href="#section-1">所感</a></li>
+</ul>
+
+<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
+<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
+比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
+基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
+さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
+filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
+
+<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
+
+<div>
+  <pre><code class="clojure">; in repl.clj
+(defn filter-autotest []
+(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
+)
+
+(defn all-autotest []
+(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
+)
+
+; in test
+(fact :filter &quot;do something great test&quot;
+ (is true)
+)</code></pre>
+</div>
+
+<p>repl.clj みたいなものを作るか、 repl 内で定義しておき、<br />
+(filter-autotest) か (all-autotest) かを評価する。<br />
+そうすると、 filter-autotest の場合は filter つきだけが、<br />
+all-autotest の場合は全てが実行される。  </p>
+
+<h2 id="section">注意点</h2>
+<div>
+  <pre><code class="clojure">(fact &quot;do something&quot;
+ (fact &quot;do2&quot;
+  ....</code></pre>
+</div>
+
+<p>のように、 fact でネストした場合は filter に引っかからないので、<br />
+この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
+
+<h2 id="section-1">所感</h2>
+
+<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Datomic まとめ]]></title>
@@ -1285,88 +1346,6 @@ Input Method Kit 及びそれを書く cocoa アプリ作成では見つけら�
   <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
   <li>(2014/3/1)chef-solo 入門</li>
   <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_april_28]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/04/28/life-april-28/"/>
-    <updated>2014-04-28T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/04/28/life-april-28</id>
-    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
-<p>すごく仕事が忙しかったのと、とある試験を受けるためにずっと勉強してて<br />
-全然ブログを更新出来ていなかったが、両方そこそこに落ち着いてきたのでそろそろ<br />
-また新しく書き始めることにする。  </p>
-
-<h2 id="section-1">今日の目標</h2>
-<ul>
-  <li>
-    <p>rails tutorial 終わらせる
- – これもうかけるし全然大丈夫じゃないかとは思っている
- – なのでさらっと読み飛ばす</p>
-  </li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章を読み干す</li>
-  <li>オペレーティングシステムを読み干す</li>
-</ul>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない..</p>
-
-<h2 id="section-4">勉強途中経過</h2>
-
-<h3 id="section-5">進んでない</h3>
-
-<h2 id="section-6">読書途中経過</h2>
-
-<h3 id="section-7">進んだ</h3>
-<ul>
-  <li>ネットワークはなぜつながるのか?(3章)</li>
-  <li>とある本4章まで読んだ</li>
-  <li>SICP-問題1.1.5 まで終了</li>
-</ul>
-
-<h3 id="section-8">積んでる</h3>
-<ul>
-  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
-  <li>DDD ショートバージョン</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-9">諦めそう</h3>
-<ul>
-  <li>詳解UNIXプログラミング
- – 新盤が出たのでそちらを読み直していく</li>
-</ul>
-
-<h3 id="section-10">まだ積んでないけど読む</h3>
-<ul>
-  <li>nginxの本</li>
-</ul>
-
-<h3 id="section-11">読み終えた</h3>
-<ul>
-  <li>(2014/3/1)chef-solo 入門
-    <ul>
-      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
-    </ul>
-  </li>
-  <li>(2014/3/1)パーフェクトルビー
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
   <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
   <li>(2014/2/8)プログラマの数学</li>
   <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>

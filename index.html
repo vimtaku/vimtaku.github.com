@@ -7,8 +7,8 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TOC TOC datomic まとめ(追記していく) datomic 自体の説明 datomic 本当のところ(使いながら追記していく) created_at, updated_at は持つ必要がない 参考資料(便利) datomic まとめ(追記していく) datomic 自体の説明
-省略 &hellip;">
+	<meta name="description" content="TOC TOC ruby と比べて、 clojure のテスト test のメソッド filter をどうやるか？ 注意点 所感 ruby と比べて、 clojure のテスト
+普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -79,6 +79,99 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/12/15/clojure-midje-filter-test/">
+		
+			Clojure で 一部分だけテストがしたい Using Midje</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
+  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
+  <li><a href="#section">注意点</a></li>
+  <li><a href="#section-1">所感</a></li>
+</ul>
+
+<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
+<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
+比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
+基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
+さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
+filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
+
+<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
+
+<div>
+  <pre><code class="clojure">; in repl.clj
+(defn filter-autotest []
+(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
+)
+
+(defn all-autotest []
+(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
+)
+
+; in test
+(fact :filter &quot;do something great test&quot;
+ (is true)
+)</code></pre>
+</div>
+
+<p>repl.clj みたいなものを作るか、 repl 内で定義しておき、<br />
+(filter-autotest) か (all-autotest) かを評価する。<br />
+そうすると、 filter-autotest の場合は filter つきだけが、<br />
+all-autotest の場合は全てが実行される。  </p>
+
+<h2 id="section">注意点</h2>
+<div>
+  <pre><code class="clojure">(fact &quot;do something&quot;
+ (fact &quot;do2&quot;
+  ....</code></pre>
+</div>
+
+<p>のように、 fact でネストした場合は filter に引っかからないので、<br />
+この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
+
+<h2 id="section-1">所感</h2>
+
+<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/midje/'>midje</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1054,97 +1147,6 @@ rails との共存は一長一短な気がした。  </p>
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/15/angular-js-1/">
-		
-			AngularJS を触ってみた感想</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="angularjs-">angularjs とは</h2>
-<p>javascript の MVC フレームワークだ。<br />
-評判が妙に良いとは思っていたが、噂通りにとても良く出来ている。  </p>
-
-<h2 id="section">学習のためにやったこと</h2>
-<ul>
-  <li>angularjs のチュートリアルひと通りやった
-– <a href="https://docs.angularjs.org/tutorial">https://docs.angularjs.org/tutorial</a></li>
-  <li>angularjs を60分で知るビデオを見た
-– <a href="https://www.youtube.com/watch?v=i9MHigUZKEM">https://www.youtube.com/watch?v=i9MHigUZKEM</a></li>
-</ul>
-
-<h2 id="section-1">感想</h2>
-
-<h3 id="section-2">全体的な所感</h3>
-<p>テンプレートエンジンのように view でループしたりゴニョゴニョしたりっていうのが<br />
-めっちゃ簡単にできてすごく便利な時代になったなぁと思った。<br />
-DI がすごく良く出来ていて、このコントローラでは、これらを使用するみたいなのが非常に簡単にかけてよかった。<br />
-以前仕事でつかっていたオレオレ系フレームワークを、さらにもう一歩進化させているように思った。  </p>
-
-<h3 id="section-3">疎結合なところ</h3>
-<p>なにより、本当の意味での MVC というか、 model を操作すると view が即時に反映されるところが、とてもイケているなぁと思った。<br />
-module 化の仕組みもとても綺麗で、あるドメインに関するモジュールはそれでまとめておいて、<br />
-もう一つ上のレイヤーではそれに依存するような形でかけるのがかっこいい。<br />
-var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<br />
-このモジュールの仕組で提供される ngResource だったり ngRoute だったり、<br />
-モジュールとして使用できる仕組みが予め提供されている事による恩恵がすごく大きく、<br />
-いろいろな部分で疎になるように設計されているのがかっこいい。  </p>
-
-<h3 id="rails-">rails との共存</h3>
-<p>rails と使うときに、どのように使うかは結構悩ましいところがあるように感じた。<br />
-というのは、 rails をただの API server として使うのか、昔ながらてきにサーバサイドで view を描画して出すのかとか<br />
-その辺の住み分けが微妙に大変そうだった。  </p>
-
-<h3 id="seo-">SEO に関して</h3>
-<p>とくに SEO との相性は気になった。<br />
-参考 &gt; <a href="https://note.mu/wadako/n/n01733b19bc9c">https://note.mu/wadako/n/n01733b19bc9c</a><br />
-これを見る限りちょっと大変じゃね？って感じだったけど、<br />
-実際検索結果に載ってるあたり考えると不安はあるもののできそうなきもする。<br />
-が、信頼度が求められる production 環境でいきなり使えるかと言われるとちょっと不安がある。  </p>
-
-<h3 id="section-4">最後に</h3>
-<p>とは言え、 angularjs は非常に強力な選択肢だなぁと感じた。<br />
-学習コスト高いって書いてあったけど、はっきり言って chef とかと比べ物にならないくらい安いと思う。<br />
-ちょっとした web の何かを作るときには angularjs を使うのは相当いい手段なんじゃないかな。  </p>
-
-<h2 id="section-5">参考文献</h2>
-<p><a href="https://angularjs.org/">https://angularjs.org/</a><br />
-<a href="http://js.studio-kingdom.com/angularjs/guide/di">http://js.studio-kingdom.com/angularjs/guide/di</a><br />
-<a href="http://js.studio-kingdom.com/angularjs/guide/providers">http://js.studio-kingdom.com/angularjs/guide/providers</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tech/'>tech</a>
 
 
 </div>

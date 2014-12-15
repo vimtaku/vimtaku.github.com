@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: midje | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/midje/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2014-12-15T22:48:55+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[clojure で 一部分だけテストがしたい using midje]]></title>
+    <link href="http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test/"/>
+    <updated>2014-12-15T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
+  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
+  <li><a href="#section">注意点</a></li>
+  <li><a href="#section-1">所感</a></li>
+</ul>
+
+<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
+<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
+比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
+基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
+さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
+filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
+
+<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
+
+<p><div>
+  <pre><code class='clojure'>; in repl.clj
+(defn filter-autotest []
+(require ‘midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
+)&lt;/p&gt;
+
+&lt;p&gt;(defn all-autotest []
+(require ‘midje.repl) (midje.repl/autotest :filter (fn [fact] true))
+)&lt;/p&gt;
+
+&lt;p&gt;; in test
+(fact :filter “do something great test”
+ (is true)
+)</code></pre>
+</div>
+</p>
+
+<p>repl.clj みたいなものを作るか、 repl 内で定義しておき、<br />
+(filter-autotest) か (all-autotest) かを評価する。<br />
+そうすると、 filter-autotest の場合は filter つきだけが、<br />
+all-autotest の場合は全てが実行される。  </p>
+
+<h2 id="section">注意点</h2>
+<p><div>
+  <pre><code class='clojure'>(fact “do something”
+ (fact “do2”
+  ….</code></pre>
+</div>
+
+のように、 fact でネストした場合は filter に引っかからないので、<br />
+この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
+
+<h2 id="section-1">所感</h2>
+
+<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
+]]></content>
+  </entry>
+  
+</feed>
