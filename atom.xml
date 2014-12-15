@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2014-12-16T07:29:23+09:00</updated>
+  <updated>2014-12-16T07:43:28+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -69,6 +69,7 @@ all-autotest の場合は全てが実行される。  </p>
 @@ -0,0 +1,29 @@
 +(ns user
 +  (:require
++    [clojure.repl :refer :all]
 +    [clojure.tools.namespace.repl :refer [refresh]]
 +    [midje.sweet :refer :all]
 +    [midje.repl :refer :all]
