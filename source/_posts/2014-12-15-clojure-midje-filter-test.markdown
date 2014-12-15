@@ -53,6 +53,7 @@ repl を起動するたびにいちいち定義するのは面倒くさいので
 @@ -0,0 +1,29 @@
 +(ns user
 +  (:require
++    [clojure.repl :refer :all]
 +    [clojure.tools.namespace.repl :refer [refresh]]
 +    [midje.sweet :refer :all]
 +    [midje.repl :refer :all]
