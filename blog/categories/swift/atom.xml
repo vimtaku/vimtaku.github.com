@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/swift/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-01-22T22:24:03+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Swift の promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/01/22/swift-promise-craft/"/>
+    <updated>2015-01-22T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/01/22/swift-promise-craft</id>
+    <content type="html"><![CDATA[<p>
+</p>
+
+<h1 id="toc">TOC</h1>
+
+<h1 id="section">はじめに</h1>
+<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
+なんか BrightFuture っていうやつが Star が多いように見えて<br />
+しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
+Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
+
+<h1 id="craft-">Craft 使用例</h1>
+
+<p>```
+    let moge = “moge”
+    let promise = Craft.promise({
+      (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in</p>
+
+<pre><code>    // post の処理
+    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
+        if (ticket != nil) {
+            resolve(value: ticket!.token!)
+        } else {
+            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
+        }
+    }
+})
+promise.then({(value: Value) -&gt; Value in
+
+    println("promise 1 value 1 is ")
+    println(value) ; 1コメのやつ
+
+    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
+        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
+            if (ticket != nil) {
+                resolve(value: "2komenoyatu!!!!!!!!!!!!")
+            } else {
+                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
+            }
+        }
+    })
+    return promise
+}).then({(value: Value) -&gt; Value in
+    println("promise 2 value 2 is ")
+    println(value) ; 2コメのやつ
+    return "mogo"
+}) ```
+</code></pre>
+
+<h1 id="section-1">幾つか気づいた店</h1>
+<ul>
+  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
+  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
+ 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
+</ul>
+
+<h1 id="section-2">所感</h1>
+<p>やっと promise で楽に書けそう。  </p>
+
+<h1 id="url">参考URL</h1>
+<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
+<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

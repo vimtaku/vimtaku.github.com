@@ -7,8 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TOC TOC ruby と比べて、 clojure のテスト test のメソッド filter をどうやるか？ repl で最初に定義されていてほしい 注意点 所感 ruby と比べて、 clojure のテスト
-普段書いている ruby と比べて、圧倒的に clojure &hellip;">
+	<meta name="description" content="TOC はじめに
+最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、
+なんか BrightFuture っていうやつが Star が多いように見えて
+しばらくつかってみたけど、then &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -79,6 +81,138 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/01/22/swift-promise-craft/">
+		
+			Swift の Promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった</a>
+	</h2>
+	<div class="entry-content">
+		
+<h1 id="toc">TOC</h1>
+
+<h1 id="section">はじめに</h1>
+<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
+なんか BrightFuture っていうやつが Star が多いように見えて<br />
+しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
+Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
+
+<h1 id="craft-">Craft 使用例</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let moge = "moge"
+</span><span class="line">let promise = Craft.promise({
+</span><span class="line">  (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
+</span><span class="line">
+</span><span class="line">    // post の処理
+</span><span class="line">    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
+</span><span class="line">        if (ticket != nil) {
+</span><span class="line">            resolve(value: ticket!.token!)
+</span><span class="line">        } else {
+</span><span class="line">            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
+</span><span class="line">        }
+</span><span class="line">    }
+</span><span class="line">})
+</span><span class="line">promise.then({(value: Value) -&gt; Value in
+</span><span class="line">
+</span><span class="line">    println("promise 1 value 1 is ")
+</span><span class="line">    println(value) ; 1コメのやつ
+</span><span class="line">
+</span><span class="line">    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
+</span><span class="line">        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
+</span><span class="line">            if (ticket != nil) {
+</span><span class="line">                resolve(value: "2komenoyatu!!!!!!!!!!!!")
+</span><span class="line">            } else {
+</span><span class="line">                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
+</span><span class="line">            }
+</span><span class="line">        }
+</span><span class="line">    })
+</span><span class="line">    return promise
+</span><span class="line">}).then({(value: Value) -&gt; Value in
+</span><span class="line">    println("promise 2 value 2 is ")
+</span><span class="line">    println(value) ; 2コメのやつ
+</span><span class="line">    return "mogo"
+</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h1 id="section-1">幾つか気づいた店</h1>
+<ul>
+  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
+  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
+ 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
+</ul>
+
+<h1 id="section-2">所感</h1>
+<p>やっと promise で楽に書けそう。  </p>
+
+<h1 id="url">参考URL</h1>
+<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
+<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-22T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/swift/'>swift</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1103,104 +1237,6 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/15/life-jun-15/">
-		
-			Life_jun_15</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">先週振り返り</h2>
-<p>イマイチ加速しない。<br />
-地味な仕事が多かった。  </p>
-
-<h2 id="section-1">週末振り返り</h2>
-<p>ランニングした。<br />
-angularJS についてかなり調べて概念はほぼ把握した。<br />
-試しに実装してみたらわりと簡単に導入出来たが、<br />
-rails との共存は一長一短な気がした。  </p>
-
-<p>サンプルで作ってみた実装はこれ。<br />
-基本はほとんど抑えたつもり。<br />
-<a href="https://github.com/vimtaku/angular_study">https://github.com/vimtaku/angular_study</a><br />
-<a href="http://vimtaku.github.io/angular_study/index.html">サンプルページ</a>  </p>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>アルゴリズムクイックリファレンス 5章まで</li>
-  <li>SICP-問題1.17 まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
-  <li>詳解UNIX プログラミング第3版</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-  <li>ハイパフォーマンス ブラウザネットワーキング</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/6/12)1冊でわかる数学</li>
-  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
     
@@ -1208,7 +1244,7 @@ rails との共存は一長一短な気がした。  </p>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
+	<footer id="footer" class="inner">Copyright &copy; 2015
 
     vimtaku
 
