@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-01-31T19:30:12+09:00</updated>
+  <updated>2015-02-02T23:15:29+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/"/>
+    <updated>2015-02-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm</id>
+    <content type="html"><![CDATA[<h1 id="toc">TOC</h1>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
+      <li><a href="#about-realm">About realm</a></li>
+      <li><a href="#related-link">Related link</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
+<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
+I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
+The error is “swift_dynamicCastClassUnconditional”.<br />
+I struggled a lot, finally I got a solution.<br />
+First of all, below is my code.  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import Foundation
+</span><span class="line">
+</span><span class="line">class FMUserCredential: RLMObject {
+</span><span class="line">    dynamic var accessToken :String = ""
+</span><span class="line">    dynamic var refreshToken :String = ""
+</span><span class="line">    
+</span><span class="line">    // 代替案
+</span><span class="line">    private struct ClassProperty {
+</span><span class="line">        static var _realm:RLMRealm? = nil
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    // Computed Property
+</span><span class="line">    class var _realm: RLMRealm? {
+</span><span class="line">        get {
+</span><span class="line">            return ClassProperty._realm
+</span><span class="line">        }
+</span><span class="line">        set {
+</span><span class="line">            return ClassProperty._realm = newValue
+</span><span class="line">        }
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    class func realm() -&gt; RLMRealm {
+</span><span class="line">        if (FMUserCredential._realm == nil) {
+</span><span class="line">            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+</span><span class="line">            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
+</span><span class="line">            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
+</span><span class="line">            FMUserCredential._realm = realm
+</span><span class="line">        }
+</span><span class="line">        return FMUserCredential._realm!
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    class func findAll() -&gt; RLMResults {
+</span><span class="line">        return FMUserCredential.allObjectsInRealm(realm())
+</span><span class="line">    }
+</span><span class="line">    class func find() -&gt; FMUserCredential? {
+</span><span class="line">        if (findAll().count &gt;= 1) {
+</span><span class="line">            return findAll().firstObject() as FMUserCredential?
+</span><span class="line">        }
+</span><span class="line">        return nil
+</span><span class="line">    }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This class has static params realm, and when I test write, I set realm object.<br />
+But, I notice that I have to new realm object when I do test.<br />
+So, I changed my test code to use  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
+</span><span class="line">FMUserCredential._realm = realm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This worked fine.  </p>
+
+<h2 id="about-realm">About realm</h2>
+<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
+Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
+The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
+
+<h2 id="related-link">Related link</h2>
+<ul>
+  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
+  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
+  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ハッカーと画家を読んだ]]></title>
@@ -1530,29 +1660,6 @@ Input Method Kit 及びそれを書く cocoa アプリ作成では見つけら�
   <li>(2014/1/13)読む筋トレ</li>
   <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[時をかける少女の感想]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/05/04/tokikake/"/>
-    <updated>2014-05-04T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/05/04/tokikake</id>
-    <content type="html"><![CDATA[<h2 id="dvd-">時をかける少女の DVD をレンタルしてみた</h2>
-<p>面白かった。<br />
-いままでは、金曜ロードショーだけ見て楽しい映画だなぁと思っていたけど<br />
-改めて DVD でみたらとても楽しめた。<br />
-自分史上映画ランキングでもかなり上位だと思う。  </p>
-
-<h2 id="section">最後のクライマックスシーンの解釈について</h2>
-<p>「未来で待ってる」「すぐ行く、走って行く」の解釈は、<br />
-いかにも映画らしく読者解釈に任せようというかんじだったけど、<br />
-エンディング曲の歌詞から察すると、自分の解釈としては、  </p>
-
-<p>もう逢えない関係性のなかでの、<br />
-「いつまでも忘れない」と「わたしも」<br />
-っていうやりとりなんだろう。  </p>
 
 ]]></content>
   </entry>

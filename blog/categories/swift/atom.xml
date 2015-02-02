@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-01-31T19:30:12+09:00</updated>
+  <updated>2015-02-02T23:15:29+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/"/>
+    <updated>2015-02-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm</id>
+    <content type="html"><![CDATA[<h1 id="toc">TOC</h1>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
+      <li><a href="#about-realm">About realm</a></li>
+      <li><a href="#related-link">Related link</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
+<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
+I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
+The error is “swift_dynamicCastClassUnconditional”.<br />
+I struggled a lot, finally I got a solution.<br />
+First of all, below is my code.  </p>
+
+<p>```
+    import Foundation</p>
+
+<pre><code>class FMUserCredential: RLMObject {
+    dynamic var accessToken :String = ""
+    dynamic var refreshToken :String = ""
+    
+    // 代替案
+    private struct ClassProperty {
+        static var _realm:RLMRealm? = nil
+    }
+    
+    // Computed Property
+    class var _realm: RLMRealm? {
+        get {
+            return ClassProperty._realm
+        }
+        set {
+            return ClassProperty._realm = newValue
+        }
+    }
+    
+    class func realm() -&gt; RLMRealm {
+        if (FMUserCredential._realm == nil) {
+            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
+            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
+            FMUserCredential._realm = realm
+        }
+        return FMUserCredential._realm!
+    }
+    
+    class func findAll() -&gt; RLMResults {
+        return FMUserCredential.allObjectsInRealm(realm())
+    }
+    class func find() -&gt; FMUserCredential? {
+        if (findAll().count &gt;= 1) {
+            return findAll().firstObject() as FMUserCredential?
+        }
+        return nil
+    }
+} ```
+</code></pre>
+
+<p>This class has static params realm, and when I test write, I set realm object.<br />
+But, I notice that I have to new realm object when I do test.<br />
+So, I changed my test code to use  </p>
+
+<p><code>
+    let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
+    FMUserCredential._realm = realm
+</code></p>
+
+<p>This worked fine.  </p>
+
+<h2 id="about-realm">About realm</h2>
+<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
+Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
+The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
+
+<h2 id="related-link">Related link</h2>
+<ul>
+  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
+  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
+  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift の promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった]]></title>
