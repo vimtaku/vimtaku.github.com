@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "boot2docker の docker container 内 に立てた docker transactor + peer のコンテナに対して mac から repl で datomic を操作する"
-description: "boot2docker の docker container 内 に立てた docker transactor + peer のコンテナに対して mac から repl で datomic を操作する"
+title: "boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する"
+description: "boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する"
 category: "datomic"
 tags: ["datomic", "docker"]
 ---
 
-## boot2docker の docker container 内 に立てた docker transactor + peer のコンテナに対して mac から repl で datomic を操作する
+## boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する
 
 ### 下準備(docker image の作成)
 [ここに Datomic の Dockerfile があった](https://registry.hub.docker.com/u/colinrymer/docker-datomic-free/dockerfile/)  
