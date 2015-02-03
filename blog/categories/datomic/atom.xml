@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datomic | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/datomic/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-03T22:18:45+09:00</updated>
+  <updated>2015-02-03T22:23:26+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -49,6 +49,11 @@
 </code>
 などとすることで、うまく起動した。<br />
 結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  </p>
+
+<p><code>
+    ssh -L 4334:localhost:4334 -L 4335:localhost:4335 -L 4336:localhost:4336 docker@localhost -p 2022
+    (password: tcuser)
+</code></p>
 
 <h3 id="lein-repl">lein repl</h3>
 <p>あとは repl から操作するだけ。  </p>

@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-03T22:18:45+09:00</updated>
+  <updated>2015-02-03T22:23:26+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -46,6 +46,11 @@
 </pre></td><td class="code"><pre><code class=""><span class="line">docker run -p 4334:4334 -p 4335:4335 -p 4336:4336 -m 512m -t-i datomicfree</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>などとすることで、うまく起動した。<br />
 結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh -L 4334:localhost:4334 -L 4335:localhost:4335 -L 4336:localhost:4336 docker@localhost -p 2022
+</span><span class="line">(password: tcuser)</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h3 id="lein-repl">lein repl</h3>
 <p>あとは repl から操作するだけ。  </p>
