@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datomic | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/datomic/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-02T23:15:29+09:00</updated>
+  <updated>2015-02-03T22:18:45+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/03/datomic-free-on-docker/"/>
+    <updated>2015-02-03T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/03/datomic-free-on-docker</id>
+    <content type="html"><![CDATA[<h2 id="boot2docker--datomic-transactor--peer-mac--lein-repl--datomic-">boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する</h2>
+
+<h3 id="docker-image-">下準備(docker image の作成)</h3>
+<p><a href="https://registry.hub.docker.com/u/colinrymer/docker-datomic-free/dockerfile/">ここに Datomic の Dockerfile があった</a><br />
+ので、datomic の version は違うが修正したら、使えるだろうと思ってたら、使えた。  </p>
+
+<p>最終的な Dockerfile は <a href="https://gist.github.com/vimtaku/94cef31a166921b9b7f2">こちら</a>。
+これを元に build する。  </p>
+
+<p><code>
+    docker build -t datomicfree .
+</code></p>
+
+<p><code>
+    docker exec -ti {container_id} /bin/bash
+</code>
+などとして、デバッグしたりした。  </p>
+
+<h3 id="section">実行環境の説明</h3>
+<p>MacbookPro -&gt; boot2docker(vagrant) -&gt; docker container<br />
+という構成になっている。  </p>
+
+<h3 id="docker-container-">docker container 起動</h3>
+<p>最初、 boot2docker の vagrant の割り当てメモリが小さすぎて、 datomic が立たなかったので、<br />
+一度 vm を停止してから、割り当てを変更して</p>
+
+<p><code>
+    docker run -p 4334:4334 -p 4335:4335 -p 4336:4336 -m 512m -t-i datomicfree
+</code>
+などとすることで、うまく起動した。<br />
+結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  </p>
+
+<h3 id="lein-repl">lein repl</h3>
+<p>あとは repl から操作するだけ。  </p>
+
+<p><code>
+    (def uri "datomic:free://localhost:4334/test")
+    (d/create-database uri)
+    (def conn (d/connect uri))
+</code>
+あとは先ほどの Dockerfile のリンクにもあるので、そちらを参照のこと。</p>
+
+<h2 id="section-1">所感</h2>
+<p>ちょっとハマったけど、これができたのは大きい。  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Datomic まとめ]]></title>

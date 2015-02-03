@@ -7,12 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="時をかける少女の DVD をレンタルしてみた
-面白かった。
-いままでは、金曜ロードショーだけ見て楽しい映画だなぁと思っていたけど
-改めて DVD でみたらとても楽しめた。
-自分史上映画ランキングでもかなり上位だと思う。 最後のクライマックスシーンの解釈について
-「未来で待ってる」「すぐ行く、 &hellip;">
+	<meta name="description" content="GW 後半振り返り macmlh について
+というか昨日だけど、 ずっとやってみたかった vim-mlh の mac IME 移植を試みた。
+が、結論から言うとそう簡単ではないことがわかった。 基本的に、 mlh で必要なもの、 と言うか必要なパーツってのは、 - カーソルの移動 - &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +80,131 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/06/life-may-6/">
+		
+			Life_may_6</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="gw-">GW 後半振り返り</h2>
+
+<h3 id="macmlh-">macmlh について</h3>
+<p>というか昨日だけど、 ずっとやってみたかった vim-mlh の mac IME 移植を試みた。<br />
+が、結論から言うとそう簡単ではないことがわかった。  </p>
+
+<p>基本的に、 mlh で必要なもの、 と言うか必要なパーツってのは、<br />
+ - カーソルの移動<br />
+ - 文字列の削除<br />
+ - 選択候補の表示<br />
+ などである。<br />
+mac の Input Method Kit という cocoa アプリを作成するときに<br />
+非常に便利なライブラリがあったが、 それがサポートしているのは<br />
+クライアントとサーバ形式での変換のやり取りなので基本的には<br />
+文字列の削除、 カーソルの移動などはできなかった。<br />
+割とこれが致命傷で、 mlh の場合は, というよりも俺が考える mlh では、<br />
+入力中に候補が出るたぐいのものではない。<br />
+入力中に候補が出るようにするのは全然造作なく作れるんだけど、<br />
+俺が考える、半角英数入力が終わったあとに / + <space> が入力されて初めて  
+変換されるようなものにするにはできなかった。  </space></p>
+
+<p>NSString に ^H(Ctrl+V,Ctrl+H) を送っても、 iTerm2 ではうまく動くけど、<br />
+xcode とか firefox ではうまく動かなかったり..<br />
+とにかく、 vimscript でかく上では上記に上げた必要なパーツは全て揃っていたが、<br />
+Input Method Kit 及びそれを書く cocoa アプリ作成では見つけられなかった。  </p>
+
+<p>ゴールデンウィークらしいモラトリアム期間の中でやってみたチャレンジだったが<br />
+非常に残念な結果になったので、 また平常運転で本を消化していこうと思う。  </p>
+
+<p>Input Method Kit に詳しい人いたら教えてほしいです。<br />
+@vimtaku までぜひご一報ください。  </p>
+
+<h3 id="section">本を買った</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス  </li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界  </li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h2 id="section-1">今日の目標</h2>
+<ul>
+  <li>詳解UNIXプログラミング(第3版) 4章 まで読む</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>DDD ショートバージョン(P40まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+  <li>アルゴリズムクイックリファレンス</li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-06T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -902,124 +1024,6 @@ json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
 
 
 	<a class='category' href='/blog/categories/rails/'>rails</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/16/life-march-16/">
-		
-			3月ももう半ば</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">先週振り返り</h2>
-<p>引き続き、ものすごく仕事が忙しくてやばかった。<br />
-でも進んできた感があるので、この調子でがんばろう。  </p>
-
-<h2 id="section-1">不摂生</h2>
-<p>不摂生がたたってついに体に異常をきたし始めたのでそろそろ<br />
-控えようと思う。  </p>
-
-<h2 id="section-2">週末振り返り</h2>
-
-<h3 id="section-3">プチ旅行</h3>
-<p>三浦半島の先にある三浦海岸というところで河津桜の祭りがあるとのことで<br />
-春を先取りしてきた。<br />
-おどろくべきことに、すでに桜は散り始めていて、ピークは2週間前くらいのように感じた。<br />
-もちろん桜だけではもったいないので、三崎口というつぎの駅辺りでよくとれるらしい  </p>
-
-<p><a href="http://tabelog.com/kanagawa/A1406/A140603/14002818/">紀川さんで</a> マグロを寿司でいただいてきた。<br />
-そこで頼んだ特上ずしは、すごく美味しかった。<br />
-トロがうますぎて別でさらに注文してしまった。<br />
-そして、梅酒がとても美味しかった。ある種、梅酒目当てでも寄れるくらいおいしかった。  </p>
-
-<h3 id="section-4">クライアント認証について再び勉強</h3>
-<p>あとで書くけど、クライアント認証やサーバのオレオレ認証局などについて再勉強した。<br />
-すごく理解が深まった感がある。  </p>
-
-<h2 id="section-5">来週は</h2>
-<p>4日しかないし、不摂生しないように頑張る。  </p>
-
-<h2 id="section-6">勉強途中経過</h2>
-
-<h3 id="section-7">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 まで</li>
-</ul>
-
-<h2 id="section-8">読書途中経過</h2>
-
-<h3 id="section-9">進んだ</h3>
-<ul>
-  <li>ネットワークはなぜつながるのか?(2章)</li>
-</ul>
-
-<h3 id="section-10">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第8章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>DDD ショートバージョン</li>
-  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-11">まだ積んでないけど読む</h3>
-<ul>
-  <li>nginxの本</li>
-</ul>
-
-<h3 id="section-12">読み終えた</h3>
-<ul>
-  <li>(2014/3/1)chef-solo 入門
-    <ul>
-      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
-    </ul>
-  </li>
-  <li>(2014/3/1)パーフェクトルビー
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
 
 
 </div>
