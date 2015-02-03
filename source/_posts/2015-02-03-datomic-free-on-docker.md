@@ -38,6 +38,11 @@ MacbookPro -> boot2docker(vagrant) -> docker container
 などとすることで、うまく起動した。  
 結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  
 
+```
+    ssh -L 4334:localhost:4334 -L 4335:localhost:4335 -L 4336:localhost:4336 docker@localhost -p 2022
+    (password: tcuser)
+```
+
 ### lein repl
 あとは repl から操作するだけ。  
 
