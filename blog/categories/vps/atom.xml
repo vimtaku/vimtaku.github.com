@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vps | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/vps/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-02-07T18:15:24+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[さくらvps に CoreOS を入れる]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/07/sakuravps_coreos/"/>
+    <updated>2015-02-07T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/07/sakuravps_coreos</id>
+    <content type="html"><![CDATA[<h1 id="vps--coreos-">さくらvps に CoreOS を入れる</h1>
+<p>基本的には
+<a href="http://qiita.com/yujiod/items/dc154120c4df2e938111">http://qiita.com/yujiod/items/dc154120c4df2e938111</a>
+に従ってやれば行ける。  </p>
+
+<p>ただ、自分は VirtIO を ON にしたせいか、<br />
+ネットワークの設定のところで、</p>
+
+<p><code>
+    [Match]
+    Name=ens3
+</code></p>
+
+<p>となっているところの ens3 は eth0 にしないと繋がらなかった。<br />
+(cloud-config も同様)</p>
+
+<h1 id="section">所感</h1>
+<p>英字キーボードを久しぶりに打ったけど慣れてないのでめちゃくちゃ辛かった。<br />
+何もはまらなければすぐできるとは思うけど、<br />
+普通にダウンロードとか調査とか考えたら1時間くらいかかると思う。  </p>
+]]></content>
+  </entry>
+  
+</feed>

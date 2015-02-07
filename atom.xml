@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-03T22:23:26+09:00</updated>
+  <updated>2015-02-07T18:15:24+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[さくらvps に CoreOS を入れる]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/07/sakuravps_coreos/"/>
+    <updated>2015-02-07T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/07/sakuravps_coreos</id>
+    <content type="html"><![CDATA[<h1 id="vps--coreos-">さくらvps に CoreOS を入れる</h1>
+<p>基本的には
+<a href="http://qiita.com/yujiod/items/dc154120c4df2e938111">http://qiita.com/yujiod/items/dc154120c4df2e938111</a>
+に従ってやれば行ける。  </p>
+
+<p>ただ、自分は VirtIO を ON にしたせいか、<br />
+ネットワークの設定のところで、</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[Match]
+</span><span class="line">Name=ens3</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>となっているところの ens3 は eth0 にしないと繋がらなかった。<br />
+(cloud-config も同様)</p>
+
+<h1 id="section">所感</h1>
+<p>英字キーボードを久しぶりに打ったけど慣れてないのでめちゃくちゃ辛かった。<br />
+何もはまらなければすぐできるとは思うけど、<br />
+普通にダウンロードとか調査とか考えたら1時間くらいかかると思う。  </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する]]></title>
@@ -1535,75 +1563,6 @@ var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<
 <ul>
   <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
   <li>論語入門</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_may_11]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/05/11/life-may-11/"/>
-    <updated>2014-05-11T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/05/11/life-may-11</id>
-    <content type="html"><![CDATA[<h2 id="section">週末振り返り</h2>
-<p>築地の豊ちゃんっていう洋食屋でかつ丼を食べてきた。<br />
-かなりうまかった。<br />
-銀座の船見坂っていうラーメン屋のラーメンはかなりうまかった。  </p>
-
-<p>プロセッサを支える技術の第2章まで読んだ。  </p>
-
-<h3 id="section-1">2章までのキーワード</h3>
-<ul>
-  <li>メモリアドレス空間<br />
- – 64 ビットアーキテクチャとかは64ビットのアドレス空間に対応するために必要  </li>
-  <li>RISC と CISC<br />
- – RISC(Reduced Instruction Set Computer) は固定長命令で、パイプライン制御をしやすくするために作られた<br />
- – CISC(Complex Instruction Set Computer) は可変長命令なので、パイプライン制御しにくかった  </li>
-  <li>Out of Order と 分岐予測、投機実行<br />
- – プログラムの実行時に次の演算結果が依存しない時にその次の命令を先読み実行できる、これを Out of Order という。<br />
- – 分岐があるせいで演算の先読みが難しい<br />
- — 処理が多い方の条件分岐を先に実行しておく(分岐予測)<br />
- — Out of Order と 分岐予測を合わせた実行が投機実行  </li>
-</ul>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界(2章まで)</li>
-  <li>SICP-問題1.1.5 まで</li>
-  <li>DDD ショートバージョン(P40まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-  <li>アルゴリズムクイックリファレンス</li>
   <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
 </ul>
 
