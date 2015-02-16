@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-17T06:21:49+09:00</updated>
+  <updated>2015-02-17T08:05:38+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -158,8 +158,9 @@ promise.then({(value: Value) -&gt; Value in
 }) ```
 </code></pre>
 
-<h1 id="section-1">幾つか気づいた店</h1>
+<h1 id="section-1">幾つか気づいた点</h1>
 <ul>
+  <li>(2015/2/16追記) release build で最適化されるとうまく処理できず死ぬので注意 &gt; <a href="http://qiita.com/jumbOS5/items/d4941439a0b3a3534396">http://qiita.com/jumbOS5/items/d4941439a0b3a3534396</a></li>
   <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
   <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
  意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
