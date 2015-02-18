@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gtd | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/gtd/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-02-18T17:10:52+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GTD テンプレート]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/18/gtd_template/"/>
+    <updated>2015-02-18T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/18/gtd_template</id>
+    <content type="html"><![CDATA[<p>```</p>
+
+<h1 id="inbox">Inbox</h1>
+
+<hr />
+<p># 行動を起こす必要があるもの</p>
+
+<h2 id="section">カレンダー</h2>
+<p>Google カレンダー参照</p>
+
+<h2 id="section-1">次に取るべき行動のリスト</h2>
+<p>### @会社
+### @自宅
+### @電車
+### @暇</p>
+
+<h2 id="section-2">連絡待ちリスト</h2>
+
+<h2 id="section-3">プロジェクトリスト</h2>
+<p>### プロジェクトA
+### プロジェクトB</p>
+
+<h2 id="section-4">プロジェクトの参考情報</h2>
+
+<hr />
+<p># 行動を起こす必要がないもの</p>
+
+<h2 id="section-5">ゴミ箱</h2>
+
+<h2 id="section-6">保留</h2>
+<p>### いつかやる・多分やるリスト</p>
+
+<h2 id="section-7">資料</h2>
+
+<hr />
+<p># GTD の処理方法
+1. 収集
+– トリガーリスト
+2. 処理
+– ワークフローにしたがって振り分ける
+3. 上記の行動を起こす必要があるもの(カレンダー、次に取るべき行動のリスト、連絡待ちリスト、プロジェクトリスト、プロジェクトの参考情報)と行動を起こす必要がないもの(ゴミ箱、保留、資料)
+4. レビュー
+5. 実行</p>
+
+<h1 id="section-8">プロジェクトプランニング</h1>
+<p>プランニングについては、考える必要がないもの以外では、以下のとおりに進めると良い。
+## 目的と価値観を見極める
+## 結果をイメージする
+## ブレインストーミング
+## 整理
+## 会議
+## 情報収集
+## 次に取るべき行動を判断</p>
+
+<h1 id="section-9">週次レビューの方法</h1>
+<p>基本的なレビューは随時行う。週次レビューは週に一度時間をとって行う。<br />
+以下にそのまま項目を引用しておく。
+## 雑多な紙類を集める。
+## 処理を行う
+## カレンダーのチェック(過去)
+## カレンダーのチェック(未来)
+## 頭のなかにあるものを出す
+## プロジェクトリスト及び大きな目標のレビュー
+## 「次に取るべき行動リスト」のレビュー
+## 連絡待ちリストのレビュー
+## プロジェクト候補のチェックリストのレビュー
+## いつかやる・多分やるリストのレビュー
+## プロジェクトの参考情報
+## 創造的、かつ大胆に考える</p>
+
+<p>```</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GTD の本を読んだ]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/18/gtd/"/>
+    <updated>2015-02-18T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/18/gtd</id>
+    <content type="html"><![CDATA[<h1 id="gtd-">GTD の本を読んだ</h1>
+
+<h2 id="section">この本</h2>
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4576082116" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<h2 id="section-1">本の内容</h2>
+<p>大体読んだらわかることなんだが、<br />
+ - <a href="http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/">http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/</a><br />
+ - <a href="http://postd.cc/gtd-in-15-minutes/">http://postd.cc/gtd-in-15-minutes/</a><br />
+この辺によくまとまっているのでそちらを参照してもらうと良いかも。  </p>
+
+<h2 id="section-2">所感</h2>
+<p>僕の尊敬するとある人が、GTD やってますと言っていて、それから何年も経つがやってみたいと思ったので、<br />
+本を買って読んでみたがとても良さそうに感じた。<br />
+頭のなかを一つのシステムに書き出すことによって、それについて考える時間が増えた実感があるし、<br />
+やるべきことが可視化されることは非常に良いと思った。あとは週次レビューをどう組み込むかかなぁと思った。  </p>
+
+<h1 id="section-3">自分の場合どのような方法で実践するか</h1>
+
+<h2 id="section-4">ツール</h2>
+
+<h3 id="vimqfixhowm---dropbox-">vim(qfixhowm のメモ) + dropbox でやる</h3>
+<p>これについては基本的に markdown で見るのが一番自分らしく、わかりやすいので markdown で管理する。<br />
+週次レビューについては、毎週金曜か土曜日に時間をとってやるのが良いと思った。  </p>
+
+<h3 id="section-5">紙とマインドマップ</h3>
+<p>基本的には IT の仕事なので紙とマインドマップと vim があれば大丈夫かと。  </p>
+
+<h3 id="qfixhowm--dropbox--iphone-">qfixhowm のメモを dropbox のやつで見た時 iphone から見れるようにするやつ</h3>
+<p>がほしいのでどっかでつくる。  </p>
+
+<h3 id="section-6">とりあえずでテンプレート作ってみた</h3>
+<p><a href="http://vimtaku.github.io/blog/2015/02/18/gtd_template">http://vimtaku.github.io/blog/2015/02/18/gtd_template</a></p>
+
+]]></content>
+  </entry>
+  
+</feed>
