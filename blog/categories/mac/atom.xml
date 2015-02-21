@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mac | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-02-21T15:49:38+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[WIP] mac 開発環境 setup 2015]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015/"/>
+    <updated>2015-02-21T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015</id>
+    <content type="html"><![CDATA[<h1 id="wip-mac-">[WIP]新しい mac を手に入れた時にすること</h1>
+
+<p>[http://www.d-wood.com/blog/2014/03/12<em>5808.html](http://www.d-wood.com/blog/2014/03/12</em>5808.html)</p>
+
+<p>これが非常に良さそうなので、一旦自分用に考えてみる。  </p>
+
+<h2 id="section">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+<p>xcode-select —install</p>
+
+<h3 id="homebrew">homebrewのインストール</h3>
+
+<p><code>
+$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+$ brew doctor
+</code></p>
+
+<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
+<ul>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある
+– sudo easy_install pip
+– pip install requests
+– brew file init
+– vimtaku/Brewfile
+– あとは手順にしたがってすすめると push とかいろいろやってくれる</li>
+</ul>
+
+<h3 id="brewfile--1">Brewfile からインストール</h3>
+<p>git clone https://github.com/vimtaku/Brewfile.git
+brew file install</p>
+]]></content>
+  </entry>
+  
+</feed>

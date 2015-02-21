@@ -7,58 +7,7 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52 &hellip;">
+	<meta name="description" content="[WIP]新しい mac を手に入れた時にすること [http://www.d-wood.com/blog/2014/03/125808.html](http://www.d-wood.com/blog/2014/03/125808.html) これが非常に良さそうなので、一旦自分用に考えてみる &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -129,6 +78,77 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/21/mac-setup-2015/">
+		
+			[WIP] Mac 開発環境 Setup 2015</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="wip-mac-">[WIP]新しい mac を手に入れた時にすること</h1>
+
+<p>[http://www.d-wood.com/blog/2014/03/12<em>5808.html](http://www.d-wood.com/blog/2014/03/12</em>5808.html)</p>
+
+<p>これが非常に良さそうなので、一旦自分用に考えてみる。  </p>
+
+<h2 id="section">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+<p>xcode-select —install</p>
+
+<h3 id="homebrew">homebrewのインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+</span><span class="line">$ brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
+<ul>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある
+– sudo easy_install pip
+– pip install requests
+– brew file init
+– vimtaku/Brewfile
+– あとは手順にしたがってすすめると push とかいろいろやってくれる</li>
+</ul>
+
+<h3 id="brewfile--1">Brewfile からインストール</h3>
+<p>git clone https://github.com/vimtaku/Brewfile.git
+brew file install</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/mac/'>mac</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1293,131 +1313,6 @@ all-autotest の場合は全てが実行される。  </p>
 
 
 	<a class='category' href='/blog/categories/midje/'>midje</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/12/datomic-matome/">
-		
-			Datomic まとめ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#datomic-">datomic まとめ(追記していく)</a>    <ul>
-      <li><a href="#datomic--1">datomic 自体の説明</a></li>
-    </ul>
-  </li>
-  <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
-      <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
-      <li><a href="#section">参考資料(便利)</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="datomic-">datomic まとめ(追記していく)</h1>
-
-<h2 id="datomic--1">datomic 自体の説明</h2>
-<p>省略。<br />
-いつか書くかも。
-他に良い記事がたくさんあるので。  </p>
-
-<h1 id="datomic--2">datomic 本当のところ(使いながら追記していく)</h1>
-
-<h2 id="createdat-updatedat-">created_at, updated_at は持つ必要がない</h2>
-<p>rails で mysql とかつかって作るときだと当たり前のように created_at とか updated_at を持っているけど、<br />
-datomic を使う場合は必要ない。<br />
-stack over flow に、持ってた方が良い？などの質問に対して、
-おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
-
-<div>
-  <pre><code class="clojure">; -------- 一応コピペしとく
-(def db-url (ref &quot;&quot;))
-(dosync
-  (ref-set db-url  &quot;datomic:free://localhost:4334/hoge&quot;))
-
-(defn setup-db [db-url]
-  (d/create-database db-url)
-  (d/transact
-    (d/connect db-url)
-    (concat
-      (ds/generate-parts d/tempid (dbparts))
-      (ds/generate-schema d/tempid (dbschema)))))
-(defn setup-testdb []
-  (dosync
-    (ref-set db-url (str &quot;datomic:mem:&quot; (d/squuid))))
-  (setup-db @db-url)
-)
-
-(defn connect-db []
-  (d/connect @db-url)
-)
-
-; -------- ここが本質
-(defn history [eid]
-  (d/q
-    &#39;[:find ?e ?a ?v ?tx ?added
-      :in $ ?e
-      :where
-      [?e ?a ?v ?tx ?added]]
-    (d/history (d/db (connect-db)))
-    eid
-    )
-)</code></pre>
-</div>
-
-<p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
-で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
-
-<blockquote><p>#&lt;HashSet [<br /> [17592186045436 74 this is new emotion. 13194139534331 true],<br /> [17592186045436 73 0 13194139534331 true],<br /> [17592186045436 72 17592186045423 13194139534331 true],<br /> [17592186045436 71 17592186045421 13194139534331 true],<br /> [17592186045436 75 17592186045432 13194139534331 true],<br /> [17592186045436 70 #inst &#8220;2014-12-12T00:11:51.228-00:00&#8221; 13194139534331 true],<br /> [17592186045436 71 17592186045422 13194139534333 true],<br /> [17592186045436 71 17592186045421 13194139534333 false],<br /> [17592186045436 74 hogera! 13194139534333 true],<br /> [17592186045436 74 this is new emotion. 13194139534333 false]<br />]&gt;</p></blockquote>
-<p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
-これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
-71, 74 の属性が 変更されたことなどが読み取れる。  </p>
-
-<h2 id="section">参考資料(便利)</h2>
-<ul>
-  <li><a href="http://sunday-programming.hatenablog.com/category/datomic">http://sunday-programming.hatenablog.com/category/datomic</a><br />
-– めっちゃ参考にさせていただいております。  </li>
-  <li><a href="http://www.learndatalogtoday.org/">http://www.learndatalogtoday.org/</a><br />
-– datomic の query language である datalog のチュートリアル。datomic をやる前にこれを触っておくのオススメ。  </li>
-  <li><a href="https://github.com/Datomic/day-of-datomic">https://github.com/Datomic/day-of-datomic</a>  </li>
-  <li><a href="https://github.com/Yuppiechef/datomic-schema">https://github.com/Yuppiechef/datomic-schema</a><br />
-– datomic のスキーマを書くのマジしんどいけどこれがあればいい感じでつくってくれて嬉しいやつ。  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/datomic/'>datomic</a>
 
 
 </div>

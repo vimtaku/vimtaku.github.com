@@ -7,10 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="背景
-devise を知るには warden を知るべしと思ったので warden を勉強した。
-大体 warden はわかったので warden の仕組みをかぶせた認証エンジンである
-devise を触ってみる。 では早速、以下メモ。 /Users/mac/try_devise/ &hellip;">
+	<meta name="description" content="はじめに
+この記事は Vim Advent Calender 2013 の 98 日目 の記事になります。 背景
+Vimmer のみなさんが blog を書くなら普通に vim で markdown を書いていることと思います。
+例に違わず僕も markdown で blog &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +81,131 @@ devise を触ってみる。 では早速、以下メモ。 /Users/mac/try_devis
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/08/vim-operator-mdurl/">
+		
+			Vim-operator-mdurl という Vim Plugin 書いた</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">はじめに</h2>
+<p>この記事は <a href="http://atnd.org/events/45072">Vim Advent Calender 2013</a> の 98 日目 の記事になります。</p>
+
+<h2 id="section-1">背景</h2>
+<p>Vimmer のみなさんが blog を書くなら普通に vim で markdown を書いていることと思います。<br />
+例に違わず僕も markdown で blog を書いているんですが、非常に不満に思っていたことがありました。<br />
+それは url を書くときそれを[]() で囲わなきゃならなかったことです。<br />
+まぁ書き慣れりゃ楽なんですけど最初は()[] なのか []() なのかわからなくて逆になって辛いみたいな<br />
+ことが起こっていました。<br />
+http://example.com みたいな url があった時に,<br />
+簡単に <a href="http://example.com">http://example.com</a> とできるような plugin が欲しかったのです。<br />
+正直言うと幾つか方法があって, 保存時に変換とかもやりようによっちゃあるんですが<br />
+僕はおせっかいが嫌なので自分で変換できる operator が欲しかったのです。  </p>
+
+<h2 id="section-2">概要</h2>
+<p>http://example.com という文字列を  </p>
+<div>
+  <pre><code class="vim">[http://example.com](http://example.com)</code></pre>
+</div>
+
+<p>と簡単に変換できる operator plugin を書きました。<br />
+また, blog を書くときに参考資料とかに url を memo で書いていて,<br />
+それを</p>
+<div>
+  <pre><code class="vim">[ここのリンク](http://example.com)</code></pre>
+</div>
+
+<p>みたいなふうに<br />
+作りたいというのがよくあったので, yank している url を 文字列にリンク展開できるようにもしました。  </p>
+
+<h2 id="section-3">成果物</h2>
+<p><a href="https://github.com/vimtaku/vim-operator-mdurl">https://github.com/vimtaku/vim-operator-mdurl</a>  </p>
+
+<h3 id="section-4">使用方法</h3>
+
+<h4 id="option-vim-textobj-url-">0. (option) vim-textobj-url をインストール</h4>
+<p>なくてもいいんだけど、あったら多分便利だと思います。</p>
+<div>
+  <pre><code class="vim">NeoBundle &#39;mattn/vim-textobj-url&#39;</code></pre>
+</div>
+
+<h4 id="vim-operator-mdurl--">1. vim-operator-mdurl を インストール</h4>
+<p>.vimrc に  </p>
+<div>
+  <pre><code class="vim">NeoBundle &#39;vimtaku/vim-operator-mdurl&#39;</code></pre>
+</div>
+
+<h4 id="vimrc--map-">2. .vimrc に map を書く</h4>
+<p>設定例)  </p>
+<div>
+  <pre><code class="vim">map L &lt;Plug&gt;(operator-mdurl)
+map M &lt;Plug&gt;(operator-mdurlp)</code></pre>
+</div>
+
+<h4 id="section-5">3. 使う</h4>
+<p>http://example.com とかの文字列の何処かで LiW とかするとできます。<br />
+http://example.com を yank しておいて hoge とかの文字列上で Miw とかすると、<br />
+<a href="http://example.com">hoge</a> になります。  </p>
+
+<p>0 の手順で url のテキストオブジェクトプラグインを入れておいたら LiW とかの W の部分が<br />
+デフォルトでは u で統一できて楽。  </p>
+
+<h3 id="text-obj-user--vimrc-">直接関係ないけど、text-obj-user の .vimrc の設定について</h3>
+
+<p>vim-textobj-user では map を変えられます。<br />
+textobj-wiw ですでに u は使っていたので<br />
+text-obj-url のデフォルトの u(i|a) とかぶると嫌なので以下の様に書きました。  </p>
+
+<div>
+  <pre><code class="vim">xmap ah  &lt;Plug&gt;(textobj-url-a)
+omap ah  &lt;Plug&gt;(textobj-url-a)
+xmap ih  &lt;Plug&gt;(textobj-url-i)
+omap ih  &lt;Plug&gt;(textobj-url-i)
+
+xmap au  &lt;Plug&gt;(textobj-wiw-a)
+omap au  &lt;Plug&gt;(textobj-wiw-a)
+xmap iu  &lt;Plug&gt;(textobj-wiw-i)
+omap iu  &lt;Plug&gt;(textobj-wiw-i)</code></pre>
+</div>
+
+<h2 id="section-6">所感</h2>
+<p>最近は vim に注力出来ていなかったけど、ずっと書きたかった plugin がかけて良かったです。<br />
+もし良かったら使ってみてください。<br />
+<a href="http://atnd.org/events/45072">VAC 2013</a> にも参加できてとりあえず良かったです。<br />
+バグはちょろちょろ直していきます。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-08T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/vim/'>vim</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1391,134 +1516,6 @@ CONVERT_TZ(‘${dataimporter.last_index_time}’, ‘Asia/Tokyo’, ‘GMT’)<b
 
 
 	<a class='category' href='/blog/categories/solr/'>solr</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/10/docker-boot2docker-port-foward/">
-		
-			Docker_boot2docker_port_foward</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="os-x-108--docker">OS X 10.8 公式サポートで話題の Docker</h2>
-
-<p><a href="http://qiita.com/kanekoa/items/cf3cabb23da69c609002">これ</a>をもとにとりあえず docker client を準備,<br />
-docker server を建てた。  </p>
-
-<h2 id="mac--localhost--telnet-11211--memcached-">mac の localhost に telnet 11211 したら memcached につながるようにしたい</h2>
-
-<p><a href="https://www.docker.io/learn/dockerfile/level2/">https://www.docker.io/learn/dockerfile/level2/</a>
-これをもとに Dockerfile を作った。 ここでは ubuntu を元にした vimtaku/memcached_1 とした。  </p>
-
-<p>Dockefile</p>
-<div>
-  <pre><code class="bash"># Memcached
-#
-# VERSION       2.2
-
-# use the ubuntu base image provided by dotCloud
-FROM ubuntu
-
-MAINTAINER Victor Coisne victor.coisne@dotcloud.com
-
-# make sure the package repository is up to date
-RUN echo &quot;deb http://archive.ubuntu.com/ubuntu precise main universe&quot; &gt; /etc/apt/sources.list
-RUN apt-get update
-
-# install memcached
-RUN apt-get install -y memcached
-
-# Launch memcached when launching the container
-ENTRYPOINT [&quot;memcached&quot;]
-
-# run memcached as the daemon user
-USER daemon
-
-# expose memcached port
-EXPOSE 11211</code></pre>
-</div>
-
-<div>
-  <pre><code class="bash">docker build -t vimtaku/memcached_1 - &lt; Dockerfile</code></pre>
-</div>
-
-<p>これでとりあえず memcached な image を作れる。  </p>
-
-<div>
-  <pre><code class="bash">docker run -p 11211:11211 vimtaku/memcached_1</code></pre>
-</div>
-
-<p>これで boot2docker -&gt; ubuntu が立つ。  </p>
-
-<h2 id="section">追記(2014/02/13)</h2>
-<p>成功法っぽいのを発見した。<br />
-恥ずかしながら ssh port fowarding が -L オプションで できるっていうのを
-<a href="http://motemen.hatenablog.com/entry/2014/02/11/Dockerfile_%E3%82%92%E5%85%83%E3%81%AB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%82%92%E8%B5%B0%E3%82%89%E3%81%9B%E3%81%A6%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%81%AB%E3%83%9D%E3%83%BC%E3%83%88%E3%82%92">このブログ記事</a>
-で初めて知った。  </p>
-
-<p>まだ、やってないけど  </p>
-<div>
-  <pre><code class="bash">ssh -L 11211:localhost:11211 -p 2022 root@localhost</code></pre>
-</div>
-
-<p>とかすれば、 ssh port fowarding できるので、以下の手順は不要。</p>
-
-<p>追記終わり。</p>
-
-<h2 id="section-1">とりあえず確認するには</h2>
-
-<p>とりあえず確認するには<br />
-boot2docker ssh して ifconfig | grep -A4 docker0 すると<br />
-172…. のような IP が見える。<br />
-そこに対して telnet すると ちゃんと疎通できてる。<br />
-ちなみに telnet localhost 11211 しても同様。  </p>
-
-<p>あとは mac -&gt; boot2docker に 11211 疎通できればよい。<br />
-ぐぐったら
-<a href="http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/">http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/</a> の記事が見つかったのでほぼこれの通りに、</p>
-
-<div>
-  <pre><code class="bash">boot2docker down
-したあと
-VBoxManage modifyvm &quot;boot2docker-vm&quot; --natpf1 &quot;guestmemcached,tcp,,11211,,11211&quot;
-boot2docker up
-docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
-</div>
-
-<p>これで mac から telnet localhost 11211 で行けた。たぶん。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/docker/'>docker</a>
 
 
 </div>
