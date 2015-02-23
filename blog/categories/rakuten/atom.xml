@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rakuten | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/rakuten/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-02-23T12:12:33+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/02/23/rakuten-kard/"/>
+    <updated>2015-02-23T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/02/23/rakuten-kard</id>
+    <content type="html"><![CDATA[<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
+<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
+システム的に翌月になるまで照会が出来ないとのこと。<br />
+もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
+]]></content>
+  </entry>
+  
+</feed>
