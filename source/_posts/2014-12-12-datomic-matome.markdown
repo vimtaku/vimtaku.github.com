@@ -87,6 +87,19 @@ stack over flow に、持ってた方が良い？などの質問に対して、
 これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、  
 71, 74 の属性が 変更されたことなどが読み取れる。  
 
+## where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)
+
+```
+(d/q '[:find ?token ?arn
+     :in $ ?uid
+     :where
+      [?dt :device_token/user ?uid]
+      [?dt :device_token/endpoint_arn ?arn]
+```
+
+などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、  
+filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき  
+ちょっと困った。  
 
 ## 参考資料(便利)
 - [http://sunday-programming.hatenablog.com/category/datomic](http://sunday-programming.hatenablog.com/category/datomic)  
