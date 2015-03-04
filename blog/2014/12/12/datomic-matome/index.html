@@ -89,6 +89,7 @@
   </li>
   <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
       <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
+      <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
       <li><a href="#section">参考資料(便利)</a></li>
     </ul>
   </li>
@@ -152,6 +153,23 @@ stack over flow に、持ってた方が良い？などの質問に対して、
 <p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
 これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
 71, 74 の属性が 変更されたことなどが読み取れる。  </p>
+
+<h2 id="where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(d/q '[:find ?token ?arn
+</span><span class="line">     :in $ ?uid
+</span><span class="line">     :where
+</span><span class="line">      [?dt :device_token/user ?uid]
+</span><span class="line">      [?dt :device_token/endpoint_arn ?arn]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
+filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
+ちょっと困った。  </p>
 
 <h2 id="section">参考資料(便利)</h2>
 <ul>

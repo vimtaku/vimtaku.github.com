@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>[WIP] mac 開発環境 setup 2015 - vimtaku blog</title>
+	<title>mac 開発環境 setup 2015 - vimtaku blog</title>
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="[WIP] mac 開発環境 setup 2015">
+	<meta name="description" content="mac 開発環境 setup 2015">
 	<meta name="keywords" content="mac setup brew">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,38 +78,66 @@
 		
 	
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">[WIP] Mac 開発環境 Setup 2015</h2>
-	<div class="entry-content"><h1 id="wip-mac-">[WIP]新しい mac を手に入れた時にすること</h1>
+	<h2 class="title">Mac 開発環境 Setup 2015</h2>
+	<div class="entry-content"><h1 id="mac-">新しい mac を手に入れた時にすること</h1>
+<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
+なので、一旦自分用に考えてみる。  </p>
 
-<p>[http://www.d-wood.com/blog/2014/03/12<em>5808.html](http://www.d-wood.com/blog/2014/03/12</em>5808.html)</p>
+<h2 id="section">気をつけるべきこと</h2>
+<ul>
+  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
+  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
+</ul>
 
-<p>これが非常に良さそうなので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-<p>xcode-select —install</p>
-
-<h3 id="homebrew">homebrewのインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-</span><span class="line">$ brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+<h2 id="section-1">準備</h2>
 
 <h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
 <ul>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある
-– sudo easy_install pip
-– pip install requests
-– brew file init
-– vimtaku/Brewfile
-– あとは手順にしたがってすすめると push とかいろいろやってくれる</li>
+  <li>brew install rcmdnk/file/brew-file  </li>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
+– sudo easy_install pip<br />
+– pip install requests<br />
+– brew file init vimtaku/Brewfile<br />
+– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
 </ul>
 
+<h2 id="section-2">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homebrew-">homebrew のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 <h3 id="brewfile--1">Brewfile からインストール</h3>
-<p>git clone https://github.com/vimtaku/Brewfile.git
-brew file install</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
+</span><span class="line">cd Brewfile
+</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homesick-">homesick のインストール</h3>
+<p>ちょっと違うかも。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
+</span><span class="line">gem install homesick
+</span><span class="line">rbenv rehash
+</span><span class="line">homesick clone vimtaku/dotfiles
+</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 </div>
 
 

@@ -7,10 +7,7 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content=" 楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない
-タイトルの通りであるのだが、電話で問い合わせたところ、
-システム的に翌月になるまで照会が出来ないとのこと。
-もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。 rakuten ">
+	<meta name="description" content="TL;DR virtual box disk io is not good because of file sync. so turn off. – use NFS, for sync your directories. Environment fig 1.0.0 boot2docker v1. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -86,6 +83,204 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2015/03/04/fig-so-slow/">
+		
+			Fig and Rails Env Is Too Heavy, I Found workaround(Mac OSX)</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>virtual box disk io is not good because of file sync. so turn off.<br />
+ – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
+  <li>use NFS, for sync your directories.  </li>
+</ul>
+
+<h2 id="environment">Environment</h2>
+<ul>
+  <li>fig 1.0.0  </li>
+  <li>boot2docker v1.3.1  </li>
+  <li>docker container(rails)  </li>
+  <li>docker container(mysql)  </li>
+</ul>
+
+<h2 id="background--problem">Background &amp; Problem</h2>
+<p>Recently, it is very easy to create development env because fig and docker.<br />
+But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
+
+<h2 id="workaround">Workaround</h2>
+
+<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
+<p>By default, /Users directory is synced with boot2docker.<br />
+This sync is very slow so I turned it off, response speed is up.  </p>
+
+<h3 id="use-nfs">Use NFS</h3>
+<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
+I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
+This thread is quite good for me.  </p>
+
+<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
+because I wanna use fig.  </p>
+
+<h4 id="syncsh">sync.sh</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">!/bin/bash
+</span><span class="line">
+</span><span class="line">set -u # prevent unbound variables
+</span><span class="line">set -e # terminate on error
+</span><span class="line">
+</span><span class="line">SSH_PORT=$(boot2docker config 2&gt;&amp;1 | awk '/SSHPort/ {print $3}')
+</span><span class="line">
+</span><span class="line"># load rsync
+</span><span class="line">boot2docker ssh tce-load -wi rsync
+</span><span class="line">
+</span><span class="line"># ensure existance of .rsyncignore
+</span><span class="line">touch .rsyncignore
+</span><span class="line">
+</span><span class="line">function sync {
+</span><span class="line">  # sync current directory to ~/share on the vm
+</span><span class="line">  rsync -rlz --exclude-from=.rsyncignore -e "ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT" --force --delete ./ docker@localhost:/home/docker/share
+</span><span class="line">  echo "sync: $(date)"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">sync
+</span><span class="line">#fswatch -o . | xargs -n1 -I{} sync</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
+so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
+I wrote .rsyncignore something like below.  </p>
+
+<h4 id="rsyncignore">.rsyncignore</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tmp/
+</span><span class="line">vendor/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>gem is installed global.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">FROM ruby
+</span><span class="line">RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
+</span><span class="line">RUN mkdir /myapp
+</span><span class="line">WORKDIR /myapp
+</span><span class="line">ADD Gemfile /myapp/Gemfile
+</span><span class="line">ADD . /myapp
+</span><span class="line">RUN bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="figyml">fig.yml</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hoge
+</span><span class="line">  # volumes:
+</span><span class="line">  #   - ./data:/var/lib/mysql
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  working_dir: /myapp
+</span><span class="line">  dns: localhost
+</span><span class="line">  volumes:
+</span><span class="line">    - /home/docker/share:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  expose:
+</span><span class="line">    - 3000
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In db section, volumes isn’t need.<br />
+In web section, volumes is attached from boot2docker to web container.  </p>
+
+<p>That’s it.  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-04T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/fig/'>fig</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2015/02/23/rakuten-kard/">
 		
 			楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</a>
@@ -132,40 +327,68 @@
 		
 		<a href="/blog/2015/02/21/mac-setup-2015/">
 		
-			[WIP] Mac 開発環境 Setup 2015</a>
+			Mac 開発環境 Setup 2015</a>
 	</h2>
 	<div class="entry-content">
-		<h1 id="wip-mac-">[WIP]新しい mac を手に入れた時にすること</h1>
+		<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
+<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
+なので、一旦自分用に考えてみる。  </p>
 
-<p>[http://www.d-wood.com/blog/2014/03/12<em>5808.html](http://www.d-wood.com/blog/2014/03/12</em>5808.html)</p>
+<h2 id="section">気をつけるべきこと</h2>
+<ul>
+  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
+  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
+</ul>
 
-<p>これが非常に良さそうなので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-<p>xcode-select —install</p>
-
-<h3 id="homebrew">homebrewのインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-</span><span class="line">$ brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+<h2 id="section-1">準備</h2>
 
 <h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
 <ul>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある
-– sudo easy_install pip
-– pip install requests
-– brew file init
-– vimtaku/Brewfile
-– あとは手順にしたがってすすめると push とかいろいろやってくれる</li>
+  <li>brew install rcmdnk/file/brew-file  </li>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
+– sudo easy_install pip<br />
+– pip install requests<br />
+– brew file init vimtaku/Brewfile<br />
+– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
 </ul>
 
+<h2 id="section-2">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homebrew-">homebrew のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 <h3 id="brewfile--1">Brewfile からインストール</h3>
-<p>git clone https://github.com/vimtaku/Brewfile.git
-brew file install</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
+</span><span class="line">cd Brewfile
+</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homesick-">homesick のインストール</h3>
+<p>ちょっと違うかも。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
+</span><span class="line">gem install homesick
+</span><span class="line">rbenv rehash
+</span><span class="line">homesick clone vimtaku/dotfiles
+</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 
 		
 		
@@ -1087,139 +1310,6 @@ The cost of studying it is quite high. but I don’t know how difficult coredata
 
 
 	<a class='category' href='/blog/categories/book/'>book</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/01/22/swift-promise-craft/">
-		
-			Swift の Promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった</a>
-	</h2>
-	<div class="entry-content">
-		
-<h1 id="toc">TOC</h1>
-
-<h1 id="section">はじめに</h1>
-<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
-なんか BrightFuture っていうやつが Star が多いように見えて<br />
-しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
-Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
-
-<h1 id="craft-">Craft 使用例</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let moge = "moge"
-</span><span class="line">let promise = Craft.promise({
-</span><span class="line">  (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">
-</span><span class="line">    // post の処理
-</span><span class="line">    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">        if (ticket != nil) {
-</span><span class="line">            resolve(value: ticket!.token!)
-</span><span class="line">        } else {
-</span><span class="line">            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">})
-</span><span class="line">promise.then({(value: Value) -&gt; Value in
-</span><span class="line">
-</span><span class="line">    println("promise 1 value 1 is ")
-</span><span class="line">    println(value) ; 1コメのやつ
-</span><span class="line">
-</span><span class="line">    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">            if (ticket != nil) {
-</span><span class="line">                resolve(value: "2komenoyatu!!!!!!!!!!!!")
-</span><span class="line">            } else {
-</span><span class="line">                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">            }
-</span><span class="line">        }
-</span><span class="line">    })
-</span><span class="line">    return promise
-</span><span class="line">}).then({(value: Value) -&gt; Value in
-</span><span class="line">    println("promise 2 value 2 is ")
-</span><span class="line">    println(value) ; 2コメのやつ
-</span><span class="line">    return "mogo"
-</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="section-1">幾つか気づいた点</h1>
-<ul>
-  <li>(2015/2/16追記) release build で最適化されるとうまく処理できず死ぬので注意 &gt; <a href="http://qiita.com/jumbOS5/items/d4941439a0b3a3534396">http://qiita.com/jumbOS5/items/d4941439a0b3a3534396</a></li>
-  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
-  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
- 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
-</ul>
-
-<h1 id="section-2">所感</h1>
-<p>やっと promise で楽に書けそう。  </p>
-
-<h1 id="url">参考URL</h1>
-<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
-<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-22T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>

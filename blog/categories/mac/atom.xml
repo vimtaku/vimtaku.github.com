@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-23T12:12:33+09:00</updated>
+  <updated>2015-03-05T00:10:50+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -14,41 +14,66 @@
 
   
   <entry>
-    <title type="html"><![CDATA[[WIP] mac 開発環境 setup 2015]]></title>
+    <title type="html"><![CDATA[mac 開発環境 setup 2015]]></title>
     <link href="http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015/"/>
     <updated>2015-02-21T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015</id>
-    <content type="html"><![CDATA[<h1 id="wip-mac-">[WIP]新しい mac を手に入れた時にすること</h1>
+    <content type="html"><![CDATA[<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
+<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
+なので、一旦自分用に考えてみる。  </p>
 
-<p>[http://www.d-wood.com/blog/2014/03/12<em>5808.html](http://www.d-wood.com/blog/2014/03/12</em>5808.html)</p>
+<h2 id="section">気をつけるべきこと</h2>
+<ul>
+  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
+  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
+</ul>
 
-<p>これが非常に良さそうなので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-<p>xcode-select —install</p>
-
-<h3 id="homebrew">homebrewのインストール</h3>
-
-<p><code>
-$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-$ brew doctor
-</code></p>
+<h2 id="section-1">準備</h2>
 
 <h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
 <ul>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある
-– sudo easy_install pip
-– pip install requests
-– brew file init
-– vimtaku/Brewfile
-– あとは手順にしたがってすすめると push とかいろいろやってくれる</li>
+  <li>brew install rcmdnk/file/brew-file  </li>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
+– sudo easy_install pip<br />
+– pip install requests<br />
+– brew file init vimtaku/Brewfile<br />
+– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
 </ul>
 
+<h2 id="section-2">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+
+<p><code>
+xcode-select —install
+</code></p>
+
+<h3 id="homebrew-">homebrew のインストール</h3>
+
+<p><code>
+ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+brew doctor
+</code></p>
+
 <h3 id="brewfile--1">Brewfile からインストール</h3>
-<p>git clone https://github.com/vimtaku/Brewfile.git
-brew file install</p>
+
+<p><code>
+git clone https://github.com/vimtaku/Brewfile.git
+cd Brewfile
+brew file -f Brewfile install
+</code></p>
+
+<h3 id="homesick-">homesick のインストール</h3>
+<p>ちょっと違うかも。</p>
+
+<p><code>
+/usr/local/bin/zsh
+gem install homesick
+rbenv rehash
+homesick clone vimtaku/dotfiles
+homesick link
+</code></p>
+
 ]]></content>
   </entry>
   

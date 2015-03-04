@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-02-23T12:12:33+09:00</updated>
+  <updated>2015-03-05T00:10:50+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,172 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[fig and rails env is too heavy, I found workaround(Mac OSX)]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/"/>
+    <updated>2015-03-04T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/03/04/fig-so-slow</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>virtual box disk io is not good because of file sync. so turn off.<br />
+ – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
+  <li>use NFS, for sync your directories.  </li>
+</ul>
+
+<h2 id="environment">Environment</h2>
+<ul>
+  <li>fig 1.0.0  </li>
+  <li>boot2docker v1.3.1  </li>
+  <li>docker container(rails)  </li>
+  <li>docker container(mysql)  </li>
+</ul>
+
+<h2 id="background--problem">Background &amp; Problem</h2>
+<p>Recently, it is very easy to create development env because fig and docker.<br />
+But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
+
+<h2 id="workaround">Workaround</h2>
+
+<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
+<p>By default, /Users directory is synced with boot2docker.<br />
+This sync is very slow so I turned it off, response speed is up.  </p>
+
+<h3 id="use-nfs">Use NFS</h3>
+<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
+I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
+This thread is quite good for me.  </p>
+
+<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
+because I wanna use fig.  </p>
+
+<h4 id="syncsh">sync.sh</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">!/bin/bash
+</span><span class="line">
+</span><span class="line">set -u # prevent unbound variables
+</span><span class="line">set -e # terminate on error
+</span><span class="line">
+</span><span class="line">SSH_PORT=$(boot2docker config 2&gt;&amp;1 | awk '/SSHPort/ {print $3}')
+</span><span class="line">
+</span><span class="line"># load rsync
+</span><span class="line">boot2docker ssh tce-load -wi rsync
+</span><span class="line">
+</span><span class="line"># ensure existance of .rsyncignore
+</span><span class="line">touch .rsyncignore
+</span><span class="line">
+</span><span class="line">function sync {
+</span><span class="line">  # sync current directory to ~/share on the vm
+</span><span class="line">  rsync -rlz --exclude-from=.rsyncignore -e "ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT" --force --delete ./ docker@localhost:/home/docker/share
+</span><span class="line">  echo "sync: $(date)"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">sync
+</span><span class="line">#fswatch -o . | xargs -n1 -I{} sync</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
+so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
+I wrote .rsyncignore something like below.  </p>
+
+<h4 id="rsyncignore">.rsyncignore</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tmp/
+</span><span class="line">vendor/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>gem is installed global.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">FROM ruby
+</span><span class="line">RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
+</span><span class="line">RUN mkdir /myapp
+</span><span class="line">WORKDIR /myapp
+</span><span class="line">ADD Gemfile /myapp/Gemfile
+</span><span class="line">ADD . /myapp
+</span><span class="line">RUN bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="figyml">fig.yml</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hoge
+</span><span class="line">  # volumes:
+</span><span class="line">  #   - ./data:/var/lib/mysql
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  working_dir: /myapp
+</span><span class="line">  dns: localhost
+</span><span class="line">  volumes:
+</span><span class="line">    - /home/docker/share:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  expose:
+</span><span class="line">    - 3000
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In db section, volumes isn’t need.<br />
+In web section, volumes is attached from boot2docker to web container.  </p>
+
+<p>That’s it.  </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない]]></title>
@@ -26,41 +192,69 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[[WIP] mac 開発環境 setup 2015]]></title>
+    <title type="html"><![CDATA[mac 開発環境 setup 2015]]></title>
     <link href="http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015/"/>
     <updated>2015-02-21T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015</id>
-    <content type="html"><![CDATA[<h1 id="wip-mac-">[WIP]新しい mac を手に入れた時にすること</h1>
+    <content type="html"><![CDATA[<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
+<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
+なので、一旦自分用に考えてみる。  </p>
 
-<p>[http://www.d-wood.com/blog/2014/03/12<em>5808.html](http://www.d-wood.com/blog/2014/03/12</em>5808.html)</p>
+<h2 id="section">気をつけるべきこと</h2>
+<ul>
+  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
+  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
+</ul>
 
-<p>これが非常に良さそうなので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-<p>xcode-select —install</p>
-
-<h3 id="homebrew">homebrewのインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-</span><span class="line">$ brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+<h2 id="section-1">準備</h2>
 
 <h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
 <ul>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある
-– sudo easy_install pip
-– pip install requests
-– brew file init
-– vimtaku/Brewfile
-– あとは手順にしたがってすすめると push とかいろいろやってくれる</li>
+  <li>brew install rcmdnk/file/brew-file  </li>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
+– sudo easy_install pip<br />
+– pip install requests<br />
+– brew file init vimtaku/Brewfile<br />
+– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
 </ul>
 
+<h2 id="section-2">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homebrew-">homebrew のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 <h3 id="brewfile--1">Brewfile からインストール</h3>
-<p>git clone https://github.com/vimtaku/Brewfile.git
-brew file install</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
+</span><span class="line">cd Brewfile
+</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homesick-">homesick のインストール</h3>
+<p>ちょっと違うかも。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
+</span><span class="line">gem install homesick
+</span><span class="line">rbenv rehash
+</span><span class="line">homesick clone vimtaku/dotfiles
+</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 ]]></content>
   </entry>
   
@@ -961,6 +1155,7 @@ all-autotest の場合は全てが実行される。  </p>
   </li>
   <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
       <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
+      <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
       <li><a href="#section">参考資料(便利)</a></li>
     </ul>
   </li>
@@ -1024,6 +1219,23 @@ stack over flow に、持ってた方が良い？などの質問に対して、
 <p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
 これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
 71, 74 の属性が 変更されたことなどが読み取れる。  </p>
+
+<h2 id="where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(d/q '[:find ?token ?arn
+</span><span class="line">     :in $ ?uid
+</span><span class="line">     :where
+</span><span class="line">      [?dt :device_token/user ?uid]
+</span><span class="line">      [?dt :device_token/endpoint_arn ?arn]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
+filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
+ちょっと困った。  </p>
 
 <h2 id="section">参考資料(便利)</h2>
 <ul>
@@ -1552,72 +1764,6 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
 </ul>
 
 <h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/6/12)1冊でわかる数学</li>
-  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_jun_15]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/06/15/life-jun-15/"/>
-    <updated>2014-06-15T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/06/15/life-jun-15</id>
-    <content type="html"><![CDATA[<h2 id="section">先週振り返り</h2>
-<p>イマイチ加速しない。<br />
-地味な仕事が多かった。  </p>
-
-<h2 id="section-1">週末振り返り</h2>
-<p>ランニングした。<br />
-angularJS についてかなり調べて概念はほぼ把握した。<br />
-試しに実装してみたらわりと簡単に導入出来たが、<br />
-rails との共存は一長一短な気がした。  </p>
-
-<p>サンプルで作ってみた実装はこれ。<br />
-基本はほとんど抑えたつもり。<br />
-<a href="https://github.com/vimtaku/angular_study">https://github.com/vimtaku/angular_study</a><br />
-<a href="http://vimtaku.github.io/angular_study/index.html">サンプルページ</a>  </p>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>アルゴリズムクイックリファレンス 5章まで</li>
-  <li>SICP-問題1.17 まで</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
-  <li>詳解UNIX プログラミング第3版</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-  <li>ハイパフォーマンス ブラウザネットワーキング</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
 <ul>
   <li>(2014/6/12)1冊でわかる数学</li>
   <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>

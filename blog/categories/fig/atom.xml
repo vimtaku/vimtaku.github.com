@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: fig | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/fig/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-03-05T00:10:50+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[fig and rails env is too heavy, I found workaround(Mac OSX)]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/"/>
+    <updated>2015-03-04T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/03/04/fig-so-slow</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>virtual box disk io is not good because of file sync. so turn off.<br />
+ – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
+  <li>use NFS, for sync your directories.  </li>
+</ul>
+
+<h2 id="environment">Environment</h2>
+<ul>
+  <li>fig 1.0.0  </li>
+  <li>boot2docker v1.3.1  </li>
+  <li>docker container(rails)  </li>
+  <li>docker container(mysql)  </li>
+</ul>
+
+<h2 id="background--problem">Background &amp; Problem</h2>
+<p>Recently, it is very easy to create development env because fig and docker.<br />
+But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
+
+<h2 id="workaround">Workaround</h2>
+
+<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
+<p>By default, /Users directory is synced with boot2docker.<br />
+This sync is very slow so I turned it off, response speed is up.  </p>
+
+<h3 id="use-nfs">Use NFS</h3>
+<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
+I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
+This thread is quite good for me.  </p>
+
+<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
+because I wanna use fig.  </p>
+
+<h4 id="syncsh">sync.sh</h4>
+<p>```
+!/bin/bash</p>
+
+<p>set -u # prevent unbound variables
+set -e # terminate on error</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>SSH_PORT=$(boot2docker config 2&gt;&amp;1</td>
+      <td>awk ‘/SSHPort/ {print $3}’)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="load-rsync">load rsync</h1>
+<p>boot2docker ssh tce-load -wi rsync</p>
+
+<h1 id="ensure-existance-of-rsyncignore">ensure existance of .rsyncignore</h1>
+<p>touch .rsyncignore</p>
+
+<p>function sync {
+  # sync current directory to ~/share on the vm
+  rsync -rlz –exclude-from=.rsyncignore -e “ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT” –force –delete ./ docker@localhost:/home/docker/share
+  echo “sync: $(date)”
+}</p>
+
+<p>sync
+#fswatch -o . | xargs -n1 -I{} sync
+```</p>
+
+<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
+so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
+I wrote .rsyncignore something like below.  </p>
+
+<h4 id="rsyncignore">.rsyncignore</h4>
+
+<p><code>
+tmp/
+vendor/
+</code></p>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>gem is installed global.</p>
+
+<p><code>
+FROM ruby
+RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
+RUN mkdir /myapp
+WORKDIR /myapp
+ADD Gemfile /myapp/Gemfile
+ADD . /myapp
+RUN bundle install
+</code></p>
+
+<h4 id="figyml">fig.yml</h4>
+
+<p>```
+db:
+  image: mysql:5.6
+  ports:
+    - “3306:3306”
+  environment:
+    - MYSQL_ROOT_PASSWORD=hoge
+  # volumes:
+  #   - ./data:/var/lib/mysql</p>
+
+<p>web:
+  build: .
+  command: bundle exec rails server –port=3000 –binding=0.0.0.0
+  working_dir: /myapp
+  dns: localhost
+  volumes:
+    - /home/docker/share:/myapp
+  ports:
+    - “3000:3000”
+  expose:
+    - 3000
+  links:
+    - db
+```</p>
+
+<p>In db section, volumes isn’t need.<br />
+In web section, volumes is attached from boot2docker to web container.  </p>
+
+<p>That’s it.  </p>
+]]></content>
+  </entry>
+  
+</feed>
