@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-05T00:10:50+09:00</updated>
+  <updated>2015-03-08T12:00:41+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,7 +18,20 @@
     <link href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/"/>
     <updated>2015-03-04T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2015/03/04/fig-so-slow</id>
-    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+    <content type="html"><![CDATA[<h2 id="ps">(PS)</h2>
+<p>I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.<br />
+Firstly, this blog was quite good and effective for me.<br />
+Sync is working fine, but suddonly, rsync was getting weird.<br />
+Additionally, these rsync strategy is faster than sync folder,<br />
+ but it is definetly slow than localhost.<br />
+Localhost is super fast.<br />
+And I faced problems as follows. 
+ - rails console history or mysql history is gone away when fig restart.<br />
+ - rails console mysql connection has gone away because of restarting db.<br />
+For now, I think fig(docker compose) is not good as development environment.<br />
+If you have identical dev env, please message to me.  </p>
+
+<h2 id="tldr">TL;DR</h2>
 <ul>
   <li>virtual box disk io is not good because of file sync. so turn off.<br />
  – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
@@ -176,6 +189,77 @@ I wrote .rsyncignore something like below.  </p>
 In web section, volumes is attached from boot2docker to web container.  </p>
 
 <p>That’s it.  </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[fig(docker compose) で rails する]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/03/03/fig-rails/"/>
+    <updated>2015-03-03T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/03/03/fig-rails</id>
+    <content type="html"><![CDATA[<h1 id="section">追記</h1>
+<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
+おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
+localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
+現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
+参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
+
+<h1 id="section-1">メモ</h1>
+
+<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
+が、それに気づかず しばらく fig で進めた。  </p>
+
+<p>fig で rails は tutorial 通りでは動かなかった。<br />
+基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
+binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
+その辺を修正した。<br />
+ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
+
+<h3 id="figyml">fig.yml</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  volumes:
+</span><span class="line">    - .:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>fig run web rake db:create db:migrate</code></p>
+
+<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
+docker images でだした image を docker rmi で全て消してやり直したり、<br />
+それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
+
+<h1 id="section-2">所感</h1>
+<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
+
 ]]></content>
   </entry>
   
@@ -1723,64 +1807,6 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
 <p>docker ps, docker info できた。  </p>
 
 <p>以上。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[life_july_7]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/07/07/life-july-7/"/>
-    <updated>2014-07-07T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/07/07/life-july-7</id>
-    <content type="html"><![CDATA[<h2 id="section">いろいろ振り返り</h2>
-<p>しばらく期間が開いてしまった。<br />
-仕事がかなり忙しかったり、精神的にバタバタしてしまっていた。<br />
-先日受けた某試験に合格出来ていた。<br />
-嬉しかったのでこの調子で勉強し続けたい。  </p>
-
-<h2 id="section-1">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-2">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">読んでる</h3>
-<ul>
-  <li>SICP-問題1.33 まで</li>
-  <li>数学ガール(乱択アルゴリズム)5章まで</li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>アルゴリズムクイックリファレンス 5章まで</li>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
-  <li>詳解UNIX プログラミング第3版</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-  <li>ハイパフォーマンス ブラウザネットワーキング</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/6/12)1冊でわかる数学</li>
-  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
 
 ]]></content>
   </entry>

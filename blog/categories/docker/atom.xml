@@ -4,7 +4,7 @@
   <title><![CDATA[Category: docker | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/docker/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-05T00:10:50+09:00</updated>
+  <updated>2015-03-08T12:00:41+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[fig(docker compose) で rails する]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/03/03/fig-rails/"/>
+    <updated>2015-03-03T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/03/03/fig-rails</id>
+    <content type="html"><![CDATA[<h1 id="section">追記</h1>
+<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
+おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
+localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
+現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
+参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
+
+<h1 id="section-1">メモ</h1>
+
+<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
+が、それに気づかず しばらく fig で進めた。  </p>
+
+<p>fig で rails は tutorial 通りでは動かなかった。<br />
+基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
+binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
+その辺を修正した。<br />
+ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
+
+<h3 id="figyml">fig.yml</h3>
+
+<p>```
+db:
+  image: mysql:5.6
+  ports:
+    - “3306:3306”
+  environment:
+    - MYSQL_ROOT_PASSWORD=hogehoge</p>
+
+<p>web:
+  build: .
+  command: bundle exec rails server –port=3000 –binding=0.0.0.0
+  volumes:
+    - .:/myapp
+  ports:
+    - “3000:3000”
+  links:
+    - db
+```</p>
+
+<p><code>fig run web rake db:create db:migrate</code></p>
+
+<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
+docker images でだした image を docker rmi で全て消してやり直したり、<br />
+それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
+
+<h1 id="section-2">所感</h1>
+<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[docker と CiscoVpnConnection の相性が悪くて辛みがあった件の対処]]></title>
