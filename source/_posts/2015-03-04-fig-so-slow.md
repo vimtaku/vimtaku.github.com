@@ -6,6 +6,18 @@ category: "fig"
 tags: [fig, docker, ruby, rails]
 ---
 
+## (PS)
+I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.  
+Firstly, this blog was quite good and effective for me.  
+Sync is working fine, but suddonly, rsync was getting weird.  
+Additionally, these rsync strategy is faster than sync folder,  
+ but it is definetly slow than localhost.  
+Localhost is super fast.  
+And I faced problems as follows. 
+ - rails console history or mysql history is gone away when fig restart.  
+ - rails console mysql connection has gone away because of restarting db.  
+For now, I think fig(docker compose) is not good as development environment.  
+If you have identical dev env, please message to me.  
 
 ## TL;DR
  - virtual box disk io is not good because of file sync. so turn off.  
