@@ -101,6 +101,19 @@ stack over flow に、持ってた方が良い？などの質問に対して、
 filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき  
 ちょっと困った。  
 
+
+## 個人的に datomic を立てている設定
+[https://github.com/pointslope/docker-datomic-example.git](https://github.com/pointslope/docker-datomic-example.git)
+を使って、 fig で up している。  
+datomic console 付きで立つ。  
+
+## datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=
+unable to validate user が出た。  
+これは、 transactor に対して 3つ以上の接続をした時に出る模様。  
+いったん接続している peer を落としてみたら、無事に接続できた。  
+そういう意味では、datomic console を使って本番DB をみたいなら、必然的に 待ち受けている peer は 1つになる。  
+まぁ基本的にはそれでいいのかな。  
+
 ## 参考資料(便利)
 - [http://sunday-programming.hatenablog.com/category/datomic](http://sunday-programming.hatenablog.com/category/datomic)  
 -- めっちゃ参考にさせていただいております。  
