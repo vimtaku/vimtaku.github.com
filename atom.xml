@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-08T12:00:41+09:00</updated>
+  <updated>2015-03-14T15:37:23+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[やるべきこと、やるべき場所]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/03/14/yarubekikoto-poem/"/>
+    <updated>2015-03-14T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/03/14/yarubekikoto-poem</id>
+    <content type="html"><![CDATA[<h1 id="section">やるべきこと</h1>
+<p>人には、やるべきことが与えられていると、最近思うようになった。<br />
+こういうと大層なことを言っているように聞こえるかもしれないけど、<br />
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。  </p>
+
+<p>それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、<br />
+楽しいことや辛いこともあるけど、仕事を通して影響を与えられるなら、<br />
+こんなに楽しいことはない。  </p>
+
+<p>自分が満足して、自分らしく生きられて、大きく社会に影響できる環境を、<br />
+創れるようにならなきゃダメだなぁと思う。  </p>
+
+<h1 id="section-1">やるべき場所</h1>
+<p>たぶん働くべき場所というか、自分がもっと輝く場所っていうのは<br />
+人それぞれにちゃんとあって、そのやるべき場所っていうのは答えが無いんだけど、<br />
+今いる場所が、自分がいるべき場所か? 自分がやるべきことをやってるのか?<br />
+という問いは、定期的に行ったほうがいいかもしれない。  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[fig and rails env is too heavy, I found workaround(Mac OSX)]]></title>
@@ -1240,6 +1266,8 @@ all-autotest の場合は全てが実行される。  </p>
   <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
       <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
       <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
+      <li><a href="#datomic--3">個人的に datomic を立てている設定</a></li>
+      <li><a href="#datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</a></li>
       <li><a href="#section">参考資料(便利)</a></li>
     </ul>
   </li>
@@ -1320,6 +1348,18 @@ stack over flow に、持ってた方が良い？などの質問に対して、
 <p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
 filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
 ちょっと困った。  </p>
+
+<h2 id="datomic--3">個人的に datomic を立てている設定</h2>
+<p><a href="https://github.com/pointslope/docker-datomic-example.git">https://github.com/pointslope/docker-datomic-example.git</a>
+を使って、 fig で up している。<br />
+datomic console 付きで立つ。  </p>
+
+<h2 id="datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</h2>
+<p>unable to validate user が出た。<br />
+これは、 transactor に対して 3つ以上の接続をした時に出る模様。<br />
+いったん接続している peer を落としてみたら、無事に接続できた。<br />
+そういう意味では、datomic console を使って本番DB をみたいなら、必然的に 待ち受けている peer は 1つになる。<br />
+まぁ基本的にはそれでいいのかな。  </p>
 
 <h2 id="section">参考資料(便利)</h2>
 <ul>
@@ -1773,40 +1813,6 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
 <p>この記事にアフィはありません。念のため。  </p>
 
 <p>音を楽しむのは本当に良い。人生が豊かになる。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[docker と CiscoVpnConnection の相性が悪くて辛みがあった件の対処]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/07/25/docker-and-cisco-connection/"/>
-    <updated>2014-07-25T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/07/25/docker-and-cisco-connection</id>
-    <content type="html"><![CDATA[<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">起きていたこと</a></li>
-  <li><a href="#section-1">解法</a></li>
-</ul>
-
-<h2 id="section">起きていたこと</h2>
-<p>docker info とか docker ps とかしても  </p>
-
-<blockquote><p>Post http://192.168.59.103:2375/v1.13/containers/create: dial tcp 192.168.59.103:2375: operation timed out</p></blockquote>
-
-<p>とか出まくってマジ辛い感じになった。</p>
-
-<p><a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0CB4QFjAA&amp;url=https%3A%2F%2Fbotbot.me%2Ffreenode%2Fdocker%2F2014-07-21%2F%3Ftz%3DAmerica%2FLos_Angeles&amp;ei=zjfSU9nvO9bp8AXYloL4CA&amp;usg=AFQjCNFIh-SOKA95uGKggfe5WGwUVf2NTA&amp;sig2=3_Zk6QOd_8nSzsp0S4lW5g&amp;bvm=bv.71667212,d.dGc">これ</a>とかみると definetly routing problem て感じだった。  </p>
-
-<p>とりあえずしんどかったので、いつもの port fowarding で対応。  </p>
-
-<h2 id="section-1">解法</h2>
-
-<blockquote><p>ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -p 2022 -i /Users/vimtaku/.ssh/id_boot2docker docker@localhost -L2375:localhost:2375</p></blockquote>
-
-<p>docker ps, docker info できた。  </p>
-
-<p>以上。</p>
 
 ]]></content>
   </entry>

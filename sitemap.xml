@@ -270,7 +270,7 @@
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2014/12/12/datomic-matome/</loc>
-        <lastmod>2015-03-01T21:42:48+09:00</lastmod>
+        <lastmod>2015-03-11T07:15:04+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test/</loc>
@@ -327,12 +327,16 @@
         <lastmod>2015-03-08T11:51:24+09:00</lastmod>
     </url>
     <url>
+        <loc>http://vimtaku.github.io/blog/2015/03/14/yarubekikoto-poem/</loc>
+        <lastmod>2015-03-14T15:36:57+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://vimtaku.github.io/blog/archives/</loc>
-        <lastmod>2015-03-08T11:59:51+09:00</lastmod>
+        <lastmod>2015-03-14T15:36:57+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/</loc>
-        <lastmod>2015-03-08T11:59:51+09:00</lastmod>
+        <lastmod>2015-03-14T15:36:57+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/robots.txt</loc>

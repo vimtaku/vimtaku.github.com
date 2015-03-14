@@ -7,9 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="(PS)
-I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.
-Firstly, this blog was quite good and effective &hellip;">
+	<meta name="description" content="やるべきこと
+人には、やるべきことが与えられていると、最近思うようになった。
+こういうと大層なことを言っているように聞こえるかもしれないけど、
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。 それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +81,64 @@ Firstly, this blog was quite good and effective &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/14/yarubekikoto-poem/">
+		
+			やるべきこと、やるべき場所</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">やるべきこと</h1>
+<p>人には、やるべきことが与えられていると、最近思うようになった。<br />
+こういうと大層なことを言っているように聞こえるかもしれないけど、<br />
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。  </p>
+
+<p>それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、<br />
+楽しいことや辛いこともあるけど、仕事を通して影響を与えられるなら、<br />
+こんなに楽しいことはない。  </p>
+
+<p>自分が満足して、自分らしく生きられて、大きく社会に影響できる環境を、<br />
+創れるようにならなきゃダメだなぁと思う。  </p>
+
+<h1 id="section-1">やるべき場所</h1>
+<p>たぶん働くべき場所というか、自分がもっと輝く場所っていうのは<br />
+人それぞれにちゃんとあって、そのやるべき場所っていうのは答えが無いんだけど、<br />
+今いる場所が、自分がいるべき場所か? 自分がやるべきことをやってるのか?<br />
+という問いは、定期的に行ったほうがいいかもしれない。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/poem/'>poem</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1059,168 +1118,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 
 	<a class='category' href='/blog/categories/datomic/'>datomic</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/">
-		
-			If You Test Using realm.io Object, You Should Use RLMRealm.inMemoryRealmWithIdentifier</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="toc">TOC</h1>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
-      <li><a href="#about-realm">About realm</a></li>
-      <li><a href="#related-link">Related link</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
-<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
-I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
-The error is “swift_dynamicCastClassUnconditional”.<br />
-I struggled a lot, finally I got a solution.<br />
-First of all, below is my code.  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import Foundation
-</span><span class="line">
-</span><span class="line">class FMUserCredential: RLMObject {
-</span><span class="line">    dynamic var accessToken :String = ""
-</span><span class="line">    dynamic var refreshToken :String = ""
-</span><span class="line">    
-</span><span class="line">    // 代替案
-</span><span class="line">    private struct ClassProperty {
-</span><span class="line">        static var _realm:RLMRealm? = nil
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    // Computed Property
-</span><span class="line">    class var _realm: RLMRealm? {
-</span><span class="line">        get {
-</span><span class="line">            return ClassProperty._realm
-</span><span class="line">        }
-</span><span class="line">        set {
-</span><span class="line">            return ClassProperty._realm = newValue
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func realm() -&gt; RLMRealm {
-</span><span class="line">        if (FMUserCredential._realm == nil) {
-</span><span class="line">            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-</span><span class="line">            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
-</span><span class="line">            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
-</span><span class="line">            FMUserCredential._realm = realm
-</span><span class="line">        }
-</span><span class="line">        return FMUserCredential._realm!
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func findAll() -&gt; RLMResults {
-</span><span class="line">        return FMUserCredential.allObjectsInRealm(realm())
-</span><span class="line">    }
-</span><span class="line">    class func find() -&gt; FMUserCredential? {
-</span><span class="line">        if (findAll().count &gt;= 1) {
-</span><span class="line">            return findAll().firstObject() as FMUserCredential?
-</span><span class="line">        }
-</span><span class="line">        return nil
-</span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This class has static params realm, and when I test write, I set realm object.<br />
-But, I notice that I have to new realm object when I do test.<br />
-So, I changed my test code to use  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
-</span><span class="line">FMUserCredential._realm = realm</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This worked fine.  </p>
-
-<h2 id="about-realm">About realm</h2>
-<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
-Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
-The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
-
-<h2 id="related-link">Related link</h2>
-<ul>
-  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
-  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
-  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
-</ul>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
