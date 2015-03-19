@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datomic | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/datomic/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-14T15:37:23+09:00</updated>
+  <updated>2015-03-05T00:10:50+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -89,8 +89,6 @@
   <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
       <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
       <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
-      <li><a href="#datomic--3">個人的に datomic を立てている設定</a></li>
-      <li><a href="#datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</a></li>
       <li><a href="#section">参考資料(便利)</a></li>
     </ul>
   </li>
@@ -171,18 +169,6 @@ stack over flow に、持ってた方が良い？などの質問に対して、
 <p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
 filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
 ちょっと困った。  </p>
-
-<h2 id="datomic--3">個人的に datomic を立てている設定</h2>
-<p><a href="https://github.com/pointslope/docker-datomic-example.git">https://github.com/pointslope/docker-datomic-example.git</a>
-を使って、 fig で up している。<br />
-datomic console 付きで立つ。  </p>
-
-<h2 id="datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</h2>
-<p>unable to validate user が出た。<br />
-これは、 transactor に対して 3つ以上の接続をした時に出る模様。<br />
-いったん接続している peer を落としてみたら、無事に接続できた。<br />
-そういう意味では、datomic console を使って本番DB をみたいなら、必然的に 待ち受けている peer は 1つになる。<br />
-まぁ基本的にはそれでいいのかな。  </p>
 
 <h2 id="section">参考資料(便利)</h2>
 <ul>
