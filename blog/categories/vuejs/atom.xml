@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vuejs | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/vuejs/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-03-19T10:30:39+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[vue.js ではまったこと]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/03/19/vue-js-error/"/>
+    <updated>2015-03-19T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/03/19/vue-js-error</id>
+    <content type="html"><![CDATA[<h2 id="typeerror-thiselremoveattribute-is-not-a-function">TypeError: this.el.removeAttribute is not a function</h2>
+<p>とかいうエラーが出た。
+いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。</p>
+
+]]></content>
+  </entry>
+  
+</feed>
