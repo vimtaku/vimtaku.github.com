@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:11:18+09:00</updated>
+  <updated>2015-04-02T16:32:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -42,6 +42,10 @@
 <span class="line-number">13</span>
 <span class="line-number">14</span>
 <span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
 </pre></td><td class="code"><pre><code class=""><span class="line"># Fix for bug when specified japanese datetime string
 </span><span class="line"># http://qiita.com/kuboon/items/1d009e2f89729fe5db78
 </span><span class="line">module RailsAdmin
@@ -49,6 +53,10 @@
 </span><span class="line">    module Fields
 </span><span class="line">      module Types
 </span><span class="line">        class Datetime &lt; RailsAdmin::Config::Fields::Base
+</span><span class="line">          ## こいつを入れないと変更ない時にダメだった
+</span><span class="line">          def form_value
+</span><span class="line">            I18n.l(self.value, format:localized_date_format)
+</span><span class="line">          end
 </span><span class="line">          def localized_date_format
 </span><span class="line">            "%Y-%m-%d"
 </span><span class="line">          end
