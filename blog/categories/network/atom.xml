@@ -4,7 +4,7 @@
   <title><![CDATA[Category: network | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/network/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,7 +18,8 @@
     <link href="http://vimtaku.github.io/blog/2013/12/23/1_learning_arp/"/>
     <updated>2013-12-23T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/23/1_learning_arp</id>
-    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
+    <content type="html"><![CDATA[<p>
+</p>
 
 <h2 id="section">目次</h2>
 <ul id="markdown-toc">
@@ -45,55 +46,13 @@ ARP のやり取りには broadcast が使われます。  </p>
 
 <p>$ man arp</p>
 
-<p>{% blockquote %}
- ARP(8)                    BSD System Manager’s Manual                   ARP(8)</p>
-
-<p>NAME
-      arp – address resolution display and control</p>
-
-<p>SYNOPSIS
-      arp [-n] [-i interface] hostname
-      arp [-n] [-i interface] [-l] -a
-      arp -d hostname [pub] [ifscope interface]
-      arp -d [-i interface] -a
-      arp -s hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]
-      arp -S hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]
-      arp -f filename</p>
-
-<p>DESCRIPTION
-      The arp utility displays and modifies the Internet-to-Ethernet address translation tables used by the address
-      resolution protocol (arp(4)).  With no flags, the program displays the current ARP entry for hostname.  The
-      host may be specified by name or by number, using Internet dot notation.
-{% endblockquote %}</p>
+<p><blockquote><p>ARP(8)                    BSD System Manager’s Manual                   ARP(8)</p></p><p><p>NAME<br/>      arp – address resolution display and control</p></p><p><p>SYNOPSIS<br/>      arp [-n] [-i interface] hostname<br/>      arp [-n] [-i interface] [-l] -a<br/>      arp -d hostname [pub] [ifscope interface]<br/>      arp -d [-i interface] -a<br/>      arp -s hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br/>      arp -S hostname ether_addr [temp] [reject] [blackhole] [pub [only]] [ifscope interface]<br/>      arp -f filename</p></p><p><p>DESCRIPTION<br/>      The arp utility displays and modifies the Internet-to-Ethernet address translation tables used by the address<br/>      resolution protocol (arp(4)).  With no flags, the program displays the current ARP entry for hostname.  The<br/>      host may be specified by name or by number, using Internet dot notation.</p></blockquote></p>
 
 <h2 id="arp--mac-osx-">arp で実際に mac osx で実験</h2>
 <p>ここでは、 arp コマンドテーブルを表示したあと、<br />
 一度削除して、http通信を行った後に、テーブルを再度確認してみる。  </p>
 
-<p>{% blockquote %}
- /net% arp -a
- ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]
- ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]
- /net% arp -d 192.168.1.1
- arp: writing to routing socket: Operation not permitted
- /net% sudo arp -d 192.168.1.1
- Password:
- 192.168.1.1 (192.168.1.1) deleted
- /net% arp -a
- ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]
- ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]</p>
-
-<p>/net% telnet  mixi.jp 80
- Trying 110.44.179.199…
- Connected to mixi.jp.
- Escape character is ‘^]’.
- ^]
- telnet&gt; quit
- Connection closed.
- /net% arp -a
- ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]
- ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]
-{% endblockquote %}</p>
+<p><blockquote><p>/net% arp -a<br/> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br/> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br/> /net% arp -d 192.168.1.1<br/> arp: writing to routing socket: Operation not permitted<br/> /net% sudo arp -d 192.168.1.1<br/> Password:<br/> 192.168.1.1 (192.168.1.1) deleted<br/> /net% arp -a<br/> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]<br/> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]</p></p><p><p>/net% telnet  mixi.jp 80<br/> Trying 110.44.179.199…<br/> Connected to mixi.jp.<br/> Escape character is ‘^]’.<br/> ^]<br/> telnet&gt; quit<br/> Connection closed.<br/> /net% arp -a<br/> ? (192.168.1.1) at 0:1e:31:9e:c3:b4 on en0 ifscope [ethernet]<br/> ? (192.168.1.255) at ff:ff:ff:ff:ff:ff on en0 ifscope [ethernet]</p></blockquote></p>
 
 <h2 id="section-1">所感</h2>
 <p>arp -d のあとすぐに確認しても、192.168.1.1 のキャッシュは存在した。<br />

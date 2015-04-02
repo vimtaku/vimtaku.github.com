@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datomic | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/datomic/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -76,7 +76,8 @@
     <link href="http://vimtaku.github.io/blog/2014/12/12/datomic-matome/"/>
     <updated>2014-12-12T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/12/12/datomic-matome</id>
-    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
+    <content type="html"><![CDATA[<p>
+</p>
 
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -110,14 +111,15 @@ datomic を使う場合は必要ない。<br />
 stack over flow に、持ってた方が良い？などの質問に対して、
 おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
 
-<p>{% highlight clojure %}</p>
+<p><div>
+  <pre><code class='clojure'>&lt;/p&gt;
 
-<p>; ——– 一応コピペしとく
+&lt;p&gt;; ——– 一応コピペしとく
 (def db-url (ref “”))
 (dosync
-  (ref-set db-url  “datomic:free://localhost:4334/hoge”))</p>
+  (ref-set db-url  “datomic:free://localhost:4334/hoge”))&lt;/p&gt;
 
-<p>(defn setup-db [db-url]
+&lt;p&gt;(defn setup-db [db-url]
   (d/create-database db-url)
   (d/transact
     (d/connect db-url)
@@ -128,13 +130,13 @@ stack over flow に、持ってた方が良い？などの質問に対して、
   (dosync
     (ref-set db-url (str “datomic:mem:” (d/squuid))))
   (setup-db @db-url)
-)</p>
+)&lt;/p&gt;
 
-<p>(defn connect-db []
+&lt;p&gt;(defn connect-db []
   (d/connect @db-url)
-)</p>
+)&lt;/p&gt;
 
-<p>; ——– ここが本質
+&lt;p&gt;; ——– ここが本質
 (defn history [eid]
   (d/q
     ‘[:find ?e ?a ?v ?tx ?added
@@ -144,26 +146,14 @@ stack over flow に、持ってた方が良い？などの質問に対して、
     (d/history (d/db (connect-db)))
     eid
     )
-)
-{% endhighlight %}</p>
+)</code></pre>
+</div>
+</p>
 
 <p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
 で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
 
-<p>{% blockquote %}
-#&lt;HashSet [
- [17592186045436 74 this is new emotion. 13194139534331 true],
- [17592186045436 73 0 13194139534331 true],
- [17592186045436 72 17592186045423 13194139534331 true],
- [17592186045436 71 17592186045421 13194139534331 true],
- [17592186045436 75 17592186045432 13194139534331 true],
- [17592186045436 70 #inst “2014-12-12T00:11:51.228-00:00” 13194139534331 true],
- [17592186045436 71 17592186045422 13194139534333 true],
- [17592186045436 71 17592186045421 13194139534333 false],
- [17592186045436 74 hogera! 13194139534333 true],
- [17592186045436 74 this is new emotion. 13194139534333 false]
-]&gt;
-{% endblockquote %}
+<p><blockquote><p>#&lt;HashSet [<br/> [17592186045436 74 this is new emotion. 13194139534331 true],<br/> [17592186045436 73 0 13194139534331 true],<br/> [17592186045436 72 17592186045423 13194139534331 true],<br/> [17592186045436 71 17592186045421 13194139534331 true],<br/> [17592186045436 75 17592186045432 13194139534331 true],<br/> [17592186045436 70 #inst “2014-12-12T00:11:51.228-00:00” 13194139534331 true],<br/> [17592186045436 71 17592186045422 13194139534333 true],<br/> [17592186045436 71 17592186045421 13194139534333 false],<br/> [17592186045436 74 hogera! 13194139534333 true],<br/> [17592186045436 74 this is new emotion. 13194139534333 false]<br/>]&gt;</p></blockquote>
 サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
 これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
 71, 74 の属性が 変更されたことなどが読み取れる。  </p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -79,21 +79,23 @@ layout ‘api/application.jbuilder’
 app/views/hoge/new.jbuilder が呼ばれるので、  </p>
 
 <p>app/views/hoge/new.jbuilder
-{% highlight ruby %}
-json.from_hoge “from_hoge_param”
-{% endhighlight %}</p>
+<div>
+  <pre><code class='ruby'>json.from_hoge “from_hoge_param”</code></pre>
+</div>
+</p>
 
 <p>layouts/api/application.jbuilder<br />
-{% highlight ruby %}
-# common に値を付与
+<div>
+  <pre><code class='ruby'># common に値を付与
 json.common “common_param_is_here”
 # controller の @hoge を参照できる
 json.hoge @hoge
 # template の値を付与
 JSON.parse(yield).each do |k,v|
   json.set! k, v
-end
-{% endhighlight %}
+end</code></pre>
+</div>
+
 とかしておくと良いのかもしれない。<br />
 結果は
 {common:”common_param_is_here”, fromHoge:”from_hoge_param”, hoge:”hoge_from_controller”}

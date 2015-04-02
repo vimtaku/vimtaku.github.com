@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:40+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -72,6 +72,11 @@
 
 <h1 id="pods--dependencies--alamofire--swiftyjson-">pods の dependencies に alamofire と swiftyjson をたしてあげよう</h1>
 <p>たぶんそれで行けるはず。  </p>
+
+<h1 id="section-1">他のマシーンでなぜか動かない場合</h1>
+<p><a href="http://stackoverflow.com/questions/26834293/swift-could-not-build-objective-c-module-alamofire">この stack overflow の</a>
+Dependencies を 削除する、でうまく行った。<br />
+Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
 
 ]]></content>
   </entry>

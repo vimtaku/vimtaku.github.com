@@ -4,7 +4,7 @@
   <title><![CDATA[Category: env | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/env/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,7 +18,8 @@
     <link href="http://vimtaku.github.io/blog/2013/11/28/installing-limechat-and-znc/"/>
     <updated>2013-11-28T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/11/28/installing-limechat-and-znc</id>
-    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
+    <content type="html"><![CDATA[<p>
+</p>
 
 <h2 id="znc-">znc のインストール</h2>
 <p>これを参考にした。

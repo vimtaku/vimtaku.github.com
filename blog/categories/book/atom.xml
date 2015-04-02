@@ -4,7 +4,7 @@
   <title><![CDATA[Category: book | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/book/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,7 +18,8 @@
     <link href="http://vimtaku.github.io/blog/2015/01/30/hackers-and-painters/"/>
     <updated>2015-01-30T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2015/01/30/hackers-and-painters</id>
-    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
+    <content type="html"><![CDATA[<p>
+</p>
 
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">

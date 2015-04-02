@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 自炊 | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/zi-chui/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,7 +18,8 @@
     <link href="http://vimtaku.github.io/blog/2014/01/19/jisui-best-practice/"/>
     <updated>2014-01-19T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/19/jisui-best-practice</id>
-    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
+    <content type="html"><![CDATA[<p>
+</p>
 
 <h2 id="section">背景</h2>
 <p>覚悟を決めたので自炊セットを買うことにした。<br />

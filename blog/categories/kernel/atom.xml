@@ -4,7 +4,7 @@
   <title><![CDATA[Category: kernel | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/kernel/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -31,9 +31,7 @@
 <h2 id="systemtap">systemtap</h2>
 <p>system tap とは <a href="https://access.redhat.com/site/ja/node/289453">https://access.redhat.com/site/ja/node/289453</a> にある通り  </p>
 
-<p>{% blockquote %}
-実行している Linux カーネルで簡易情報を取得できるようにする革新的なツールです。
-{% endblockquote %}
+<p><blockquote><p>実行している Linux カーネルで簡易情報を取得できるようにする革新的なツールです。</p></blockquote>
 である。  </p>
 
 <h3 id="install-centos">install 方法(@CentOS)</h3>
@@ -42,20 +40,21 @@ Vagrantfile 的に<br />
 config.vm.box = “Berkshelf-CentOS-6.3-x86_64-minimal”<br />
 この box を使っている人は以下の通りでインストールできると思います。  </p>
 
-<p>{% highlight bash %}
-sudo yum -y install systemtap
+<p><div>
+  <pre><code class='bash'>sudo yum -y install systemtap
 cd /tmp
-wget http://debuginfo.centos.org/6/x86<em>64/kernel-debuginfo-common-x86</em>64-2.6.32-279.el6.x86<em>64.rpm
-wget http://debuginfo.centos.org/6/x86</em>64/kernel-debug-debuginfo-2.6.32-279.el6.x86<em>64.rpm
-sudo yum install kernel-debuginfo-common-x86</em>64-2.6.32-279.el6.x86<em>64.rpm
-sudo yum install kernel-debug-debuginfo-2.6.32-279.el6.x86</em>64.rpm</p>
+wget http://debuginfo.centos.org/6/x86&lt;em&gt;64/kernel-debuginfo-common-x86&lt;/em&gt;64-2.6.32-279.el6.x86&lt;em&gt;64.rpm
+wget http://debuginfo.centos.org/6/x86&lt;/em&gt;64/kernel-debug-debuginfo-2.6.32-279.el6.x86&lt;em&gt;64.rpm
+sudo yum install kernel-debuginfo-common-x86&lt;/em&gt;64-2.6.32-279.el6.x86&lt;em&gt;64.rpm
+sudo yum install kernel-debug-debuginfo-2.6.32-279.el6.x86&lt;/em&gt;64.rpm&lt;/p&gt;
 
-<h1 id="stap-">これで stap がつかえる</h1>
-<p>stap</p>
+&lt;h1 id=&quot;stap-&quot;&gt;これで stap がつかえる&lt;/h1&gt;
+&lt;p&gt;stap&lt;/p&gt;
 
-<h2 id="section-2">追記</h2>
-<p>(これだと probe.kernel が使えないっぽい.. 要調査。)
-{% endhighlight %}</p>
+&lt;h2 id=&quot;section-2&quot;&gt;追記&lt;/h2&gt;
+&lt;p&gt;(これだと probe.kernel が使えないっぽい.. 要調査。)</code></pre>
+</div>
+</p>
 
 <p>あとは
 <a href="http://sourceware.org/systemtap/examples/">http://sourceware.org/systemtap/examples/</a><br />
@@ -68,28 +67,29 @@ vm.tracepoints.stp や, sched_switch.stp を落として来て実行できる。
 <h2 id="section-3">プロセスのメモリ割付について</h2>
 <p>/proc/[processId]/maps (これをメモリーマップと呼ぶ。)を参照すれば、どのようにメモリが割り付けられているかがわかる。  </p>
 
-<p>{% highlight bash %}</p>
+<p><div>
+  <pre><code class='bash'>&lt;/p&gt;
 
-<h2 id="vi-hogec">vi hoge.c</h2>
-<p>#include <stdio.h /></p>
+&lt;h2 id=&quot;vi-hogec&quot;&gt;vi hoge.c&lt;/h2&gt;
+&lt;p&gt;#include &lt;stdio.h /&gt;&lt;/p&gt;
 
-<p>int main(void) {
-  char hoge[4096] = “aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa”;</p>
+&lt;p&gt;int main(void) {
+  char hoge[4096] = “aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa”;&lt;/p&gt;
 
-<p>printf(“sleep start\n”);
+&lt;p&gt;printf(“sleep start\n”);
   sleep(500000);
 printf(“sleep stop\n”);
   return 0;
-}</p>
+}&lt;/p&gt;
 
-<p>ps aux | grep a.out
+&lt;p&gt;ps aux | grep a.out
 vagrant  19157  0.0  0.0   3928   408 pts/1    S+   04:41   0:00 ./a.out
-vagrant  19164  0.0  0.0 107456   948 pts/0    S+   04:42   0:00 grep a.out</p>
+vagrant  19164  0.0  0.0 107456   948 pts/0    S+   04:42   0:00 grep a.out&lt;/p&gt;
 
-<p>cd /proc/
-cat /proc/19157/maps</p>
+&lt;p&gt;cd /proc/
+cat /proc/19157/maps&lt;/p&gt;
 
-<p>00400000-00402000 r-xp 00000000 fd:00 3590                               /tmp/a.out
+&lt;p&gt;00400000-00402000 r-xp 00000000 fd:00 3590                               /tmp/a.out
 00601000-00602000 rw-p 00001000 fd:00 3590                               /tmp/a.out
 7fdf912e5000-7fdf91470000 r-xp 00000000 fd:00 3071                       /lib64/libc-2.12.so
 7fdf91470000-7fdf9166f000 —p 0018b000 fd:00 3071                       /lib64/libc-2.12.so
@@ -104,8 +104,9 @@ cat /proc/19157/maps</p>
 7fdf9189a000-7fdf9189b000 rw-p 00000000 00:00 0
 7fff2a0dc000-7fff2a0f1000 rw-p 00000000 00:00 0                          [stack]
 7fff2a1b4000-7fff2a1b5000 r-xp 00000000 00:00 0                          [vdso]
-ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
-{% endhighlight %}</p>
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]</code></pre>
+</div>
+</p>
 
 <p>下から見ると、 systemcall が呼ばれる領域(カーネル仮想空間)があるのと、 stack が積まれる領域があるのと、<br />
 shared object がリンクされている領域と、 テキスト(プログラム)が格納されている領域があるのが見て取れる。  </p>

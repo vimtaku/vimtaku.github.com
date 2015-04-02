@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -24,12 +24,7 @@
   <li><a href="http://stackoverflow.com/questions/17823581/custom-cell-not-resizing-uilabels">このstackoverflow によると</a> sizeToFit は layoutSubviews に入れよ。とのこと。  </li>
 </ol>
 
-<p>{% blockquote %}
-override func layoutSubviews() {
-    super.layoutSubviews()
-        self.body.sizeToFit()
-}
-{% endblockquote %}</p>
+<p><blockquote><p>override func layoutSubviews() {<br/>    super.layoutSubviews()<br/>        self.body.sizeToFit()<br/>}</p></blockquote></p>
 
 <h2 id="section">その他の参考</h2>
 <p><a href="http://qiita.com/yuch_i/items/b4612fae110254c816f4">http://qiita.com/yuch_i/items/b4612fae110254c816f4</a></p>

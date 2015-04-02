@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-04-02T16:07:48+09:00</updated>
+  <updated>2015-04-02T16:11:18+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -27,8 +27,8 @@ octopress にノリで移行してみた。<br />
 <h2 id="section-1">手順</h2>
 <p>大体こんなかんじでいける。空気さえ読めれば行ける感じ。  </p>
 
-<p>{% highlight bash %}
-git clone git://github.com/imathis/octopress.git octopress
+<p><div>
+  <pre><code class='bash'>git clone git://github.com/imathis/octopress.git octopress
 cd octopress/
 bundle install
 rake install
@@ -36,19 +36,20 @@ rake preview
 rake -T
 vim config.rb
 rake preview
-rake setup_github_pages</p>
+rake setup_github_pages&lt;/p&gt;
 
-<h2 id="rakefile--l269--git-push---f-">Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。</h2>
-<p>vim Rakefile</p>
+&lt;h2 id=&quot;rakefile--l269--git-push---f-&quot;&gt;Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。&lt;/h2&gt;
+&lt;p&gt;vim Rakefile&lt;/p&gt;
 
-<p>rake deploy</p>
+&lt;p&gt;rake deploy&lt;/p&gt;
 
-<p>cp -a $HOME/jekyll-bootstrap/_posts/* .</p>
+&lt;p&gt;cp -a $HOME/jekyll-bootstrap/_posts/* .&lt;/p&gt;
 
-<h2 id="jb-setup-">JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)</h2>
-<p>mkdir $HOME/octopress/source/includes/JB
-cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB
-{% endhighlight %}</p>
+&lt;h2 id=&quot;jb-setup-&quot;&gt;JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)&lt;/h2&gt;
+&lt;p&gt;mkdir $HOME/octopress/source/includes/JB
+cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
+</div>
+</p>
 
 <h2 id="section-2">ちなみに</h2>
 <p>テーマはコチラを使わせてもらった。<br />
