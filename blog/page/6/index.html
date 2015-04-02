@@ -7,11 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="概要
-日経Linux 2月号(2014)
-に、カーネルの特集記事があったので買って読んでみた。
-今まで知らなかった部分とか、便利そうなことについて、以下に記載する。 メモリ管理
-buddy システム, スラブアロケータについて書かれていた。 &hellip;">
+	<meta name="description" content="背景
+devise という gem があるが、warden をベースにした認証の仕組みだということだった。
+devise を知るには、まず warden を知らなければなるまい。
+そう思った俺は warnden を rack ベースでいじってみることにした。 warden とは これのこと。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +81,375 @@ buddy システム, スラブアロケータについて書かれていた。 &h
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/02/warden/">
+		
+			Devise を知るにはまず Warden を知るが良い</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">背景</h2>
+<p>devise という gem があるが、warden をベースにした認証の仕組みだということだった。<br />
+devise を知るには、まず warden を知らなければなるまい。<br />
+そう思った俺は warnden を rack ベースでいじってみることにした。  </p>
+
+<h2 id="warden-">warden とは</h2>
+
+<p>これのこと。<br />
+<a href="https://github.com/hassox/warden">https://github.com/hassox/warden</a><br />
+wiki が充実していたのでかなりわかりやすかった。<br />
+<a href="https://github.com/hassox/warden/wiki">https://github.com/hassox/warden/wiki</a>  </p>
+
+<h2 id="section-1">とりあえずやってみる、以下メモ書き。</h2>
+
+<p>config.rb</p>
+<div>
+  <pre><code class="ruby">require &#39;rack&#39;
+require &#39;pp&#39;
+require &#39;warden&#39;
+
+class Application
+
+  def call(env)
+    request = Rack::Request.new(env)
+    response = if request.path_info = &#39;/&#39;
+                 body = &quot;#{request.request_method}: Hello! #{request.params[&#39;name&#39;]}!&quot;
+                 Rack::Response.new(body, &quot;200&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
+               else
+                 Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
+               end
+    response.finish
+  end
+
+end
+
+
+app = Rack::Builder.new do
+  use Rack::Session::Cookie, :secret =&gt; &quot;replace this with some secret key&quot;
+
+  use Warden::Manager do |manager|
+    manager.default_strategies :password, :basic
+    #manager.failure_app = BadAuthenticationEndsUpHere
+  end
+
+  run lambda { |env| Application.new().call(env) }
+end
+
+run app</code></pre>
+</div>
+
+<p>基本的に, default_strategies で定義した順に行われて、一つでも成功したら成功になる模様。  </p>
+
+<p>cookie セットされている<br />
+<img src="http://gyazo.com/be238cfa0282a588b1fad41ae91dd804.png" />
+<img src="http://gyazo.com/95a09e0d872829e8e0fef2204728cdaa.png" /></p>
+
+<p>試しに nil を返した時。<br />
+<img src="http://gyazo.com/de50e8c049809e31a41231c7b6fb1cd4.png" /></p>
+
+<p>明らかに error ハンドラがないぞッて感じのエラーが出ているので、<br />
+雰囲気でBadAuthenticationEndsUpHere クラスを足してみる。  </p>
+
+<div>
+  <pre><code class="ruby">class BadAuthenticationEndsUpHere
+  def self.call(env)
+    p env
+    p &quot;BadAuthenticationEndsUpHere&quot;
+    Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
+  end
+end</code></pre>
+</div>
+
+<p>思い通りだ。 error ハンドラとして BadAuthenticationEndsUpHere クラスが呼ばれた。<br />
+<img src="http://gyazo.com/f44ae6997b92aab707291851645c565a.png" /></p>
+
+<p>それでは、正しく期待している serialize_from_session が動くように User.get を定義する。  </p>
+
+<div>
+  <pre><code class="ruby">def get(id)
+    ## 永続化されたものから引いてうまく引けたと過程して返す
+    return User.new(id)
+  end</code></pre>
+</div>
+
+<p>1回目、とりあえずログインされるはず。<br />
+<img src="http://gyazo.com/9a31a0967443614441eeb729e34d6ba7.png" /></p>
+
+<p>サーバのデバッグログ  </p>
+<blockquote><p>&#8220;Authenticate!!!!!!!!!!!!&#8221;<br />&#8220;serialize into session!!!!!!!!!!!!&#8221;</p></blockquote>
+<p>ログから、セッションに値が仕込まれた模様。</p>
+
+<p>2回目、セッションから値を引いてみる。<br />
+<img src="http://gyazo.com/e5db07a78d1f75119ffa76740d10032b.png" />
+あれ、ミス。。あ、 serialize_from_session が読んでるのは User.get(id) だから class method だった。。<br />
+修正して再チャレンジ。  </p>
+
+<p>ちゃんときたっぽい！<br />
+<img src="http://gyazo.com/c1225bebd28bd178e9c9aaa5967d8c89.png" /></p>
+
+<p>デバッグログ</p>
+<blockquote><p>&#8220;Authenticate!!!!!!!!!!!!&#8221;<br />&#8220;serialize from session!!!!!!!!!!!!&#8221;<br />127.0.0.1 - - [01/Mar/2014 18:54:54] &#8220;GET /?password=hoge HTTP/1.1&#8221; 200 13 0.0022</p></blockquote>
+
+<p>get されている模様！  </p>
+
+<p>これで user にアクセスできる。  </p>
+<div>
+  <pre><code class="ruby">p &quot;warden user is &quot;
+p env[&#39;warden&#39;].user</code></pre>
+</div>
+
+<p>ドキュメントを読むと、<br />
+Warden::Strategies で定義した #valid? に関しては、定義されてようがなかろうが呼ばれるらしい。  </p>
+
+<p>試しにこの時点で #valid? で nil を返すと次の strategy にチャレンジがうつった。<br />
+すべての strategy で失敗したら、 failure_app が呼ばれる。  </p>
+
+<p>特筆すべきは、ここで呼ばれるのが /unauthenticated だということだ。<br />
+この url http://localhost:9292/?password=hoge を叩くと<br />
+127.0.0.1 - - [01/Mar/2014 19:01:45] “GET /unauthenticated?password=hoge HTTP/1.1” 404 9 0.0012<br />
+がデバッグログに表示されている。  </p>
+
+<div>
+  <pre><code class="ruby">class BadAuthenticationEndsUpHere
+  def self.call(env)
+    p &quot;in BadAuthenticationEndsUpHere!!!!!!!!!!!!&quot;
+    request = Rack::Request.new(env)
+
+    p &quot;request.path_info is &quot;
+    p request.path_info
+
+    Rack::Response.new(&#39;Not Found&#39;, &quot;404&quot;, {&#39;Content-Type&#39; =&gt; &#39;text/plain&#39;})
+  end
+end</code></pre>
+</div>
+
+<p>をデバッグとして試しに書いてみた。<br />
+やはり、内部的に path_info を unauthenticated に書き換えているようだ。<br />
+これは lib/warden/manager.rb のあたりを見ればわかる。<br />
+def process_unauthenticated(env, options={})<br />
+や<br />
+def call_failure_app(env, options = {})<br />
+で実際にそのように書かれている。<br />
+と思ったら<br />
+<a href="https://github.com/hassox/warden/wiki/Failures">https://github.com/hassox/warden/wiki/Failures</a><br />
+ここにめっちゃそのように書いてあった。  </p>
+
+<p>halt! や success など便利なメソッドが strategy で使える模様。<br />
+<a href="https://github.com/hassox/warden/wiki/Strategies">https://github.com/hassox/warden/wiki/Strategies</a>
+詳細はコチラを参照。  </p>
+
+<p>このような認証の仕組みが rack で使えて、 認証自体が strategy パターンになっているので<br />
+いい感じに他の人が作った strategy を使えるようになっている。  </p>
+
+<p><a href="https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes">https://github.com/hassox/warden/wiki/Setup#advanced-setup-with-scopes</a><br />
+これを見ると、warden は、認証の scope を分けられるようになっている。<br />
+それぞれの認証で、違うロジックを定義して、認証できるようだ。<br />
+特に指定がない場合は、 env[‘warden’] は user として認証する。<br />
+しかし、これは上書きができるようだ。<br />
+default の設定上書きとは別に、明示的にスコープを指定することもできる。  </p>
+<div>
+  <pre><code class="ruby">env[&#39;warden&#39;].authenticate! :scope =&gt; :api</code></pre>
+</div>
+
+<h3 id="callback">callback</h3>
+
+<div>
+  <pre><code class="ruby">&quot;serialize into session!!!!!!!!!!!!&quot;
+&quot;after_set_user caled!&quot;
+&quot;auth is&quot;
+Warden::Proxy:70106638122900 @config={:default_scope=&gt;:default, :scope_defaults=&gt;{}, :default_strategies=&gt;{:_all=&gt;[:password, :basic]}, :intercept_401=&gt;true, :failure_app=&gt;BadAuthenticationEndsUpHere}
+&quot;logout called!!!!!!!!!!!&quot;
+&quot;in BadAuthenticationEndsUpHere!!!!!!!!!!!!&quot;
+&quot;request.path_info is &quot;
+&quot;/unauthenticated&quot;
+127.0.0.1 - - [01/Mar/2014 19:55:10] &quot;GET /unauthenticated?password=hoge HTTP/1.1&quot; 404 9 0.0025</code></pre>
+</div>
+
+<p>これも結構参考になる。<br />
+<a href="https://gist.github.com/lukesutton/107966">https://gist.github.com/lukesutton/107966</a></p>
+
+<h2 id="section-2">所感</h2>
+<p>warden 大体わかった。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/02/life-march-2/">
+		
+			3月が来た</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">先週振り返り</h2>
+<p>一週間開いてしまった。<br />
+やっぱ life 的なブログは毎週書かないとダメな気がしてきた。  </p>
+
+<p>先週はお腹の調子がひたすら悪くてしんどかった。<br />
+rails っていう覚えゲーをひたすらこなしているんだけど<br />
+とにかく雪崩のように覚えることがあって大変だ。  </p>
+
+<p>でも二回目以降(知識が増えたら)もっと楽になるだろうから今だけだと思って頑張ろう。  </p>
+
+<p>ついに花粉が本気出し始めた。<br />
+早めに病院に行ってこようと思う。<br />
+ちなみにロラタジンってくすりが俺にとってはすごく効いた(去年)。  </p>
+
+<h2 id="section-1">困っていること</h2>
+<p>筋トレのモチベーションがどうも上がらない。<br />
+太る一方だし。。<br />
+あと ruby に駆り立てられてすごい頭を使ってるからずいぶん疲れている。<br />
+ruby の勉強というか調査とかのせいであんまり本を最近読めてない。<br />
+これは改善すべきだ。  </p>
+
+<h2 id="section-2">勉強途中経過</h2>
+
+<h3 id="section-3">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 まで</li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>DDD ショートバージョン</li>
+  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/3/1)chef-solo 入門
+    <ul>
+      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
+    </ul>
+  </li>
+  <li>(2014/3/1)パーフェクトルビー
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/24/factory-girl-active-support-concern/">
+		
+			Factory_girl_active_support_concern</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">ぼやき</h2>
+<p>rspec でテストを書いていて、ある(concern)モジュールを include した active record なクラスで、<br />
+どうしても、ActiveSupport::Concern を include したところに インスタンスメソッドを定義しても<br />
+NoMethodError(undefined method) になってしまう..  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/boyaki/'>ぼやき</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1082,316 +1450,6 @@ ruby 力が2くらい上がった。気がする。  </p>
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/08/life-feb-8/">
-		
-			2月の Solr には雪も Full</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">先週の振り返り</h2>
-<p>先週は solr 祭りだった。<br />
-solr は存在くらいしか知らなかったけど、非常によく出来たソフトウェアで<br />
-これを使いこなせれば(使い方を知っていれば)非常によい価値を<br />
-提供できる気がした。  </p>
-
-<p>先々週はあんまり何やったか覚えていない。<br />
-そういや 先週は docker とかめっちゃいいなと思ってたところだった。<br />
-あとで触ってみよう。  </p>
-
-<p>ところで東京のくせに雪とか降るのは生意気だと思う(北から目線。  </p>
-
-<h2 id="section-1">勉強途中経過</h2>
-
-<h3 id="section-2">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第7章まで読んだ</li>
-  <li>パーフェクトルビー10章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-08T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/08/ichiro/">
-		
-			イチロー</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">名言</h2>
-
-<h3 id="by-">小さいことを積み重ねるのが、とんでもないところへ行くただひとつの道だと思っています。(by イチロー)</h3>
-
-<p>はい、がんばりましょう。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-08T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ming-yan/'>名言</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/02/what-is-docker/">
-		
-			Docker の概要をしらべて触ってみた</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">はじめに</a></li>
-  <li><a href="#docker-">docker とは</a></li>
-  <li><a href="#lxc-">LXC とは</a></li>
-  <li><a href="#aufs-union-fs-">aufs, Union FS とは</a>    <ul>
-      <li><a href="#union-mount">union mount</a></li>
-      <li><a href="#section-1">読み込み</a></li>
-      <li><a href="#section-2">書き込み</a></li>
-      <li><a href="#section-3">削除</a></li>
-    </ul>
-  </li>
-  <li><a href="#github-">github 的な要素</a>    <ul>
-      <li><a href="#section-4">出来上がりイメージ</a></li>
-    </ul>
-  </li>
-  <li><a href="#section-5">所感</a></li>
-  <li><a href="#section-6">参考文献</a></li>
-</ul>
-
-<h2 id="section">はじめに</h2>
-<p>この記事では Docker について自分なりに理解するために調べたことをまとめる。<br />
-Docker の tutorial は command line を ブラウザで実際に叩くところまでできるようになっているので、<br />
-非常にわかりやすく入門できる。なので、 tutorial に関してはそっちをやったほうが良い。<br />
-この記事は Docker ってこんな感じのやつなんだーってのが伝わればばいいなと思う。<br />
-(ちなみに まだ Docker 歴は1日)</p>
-
-<h2 id="docker-">docker とは</h2>
-<p>LXC と aufs と github のようなものをうまくくみ合わせて提供される<br />
-仮想化ソフトウェアだ。  </p>
-
-<h2 id="lxc-">LXC とは</h2>
-<p>Linux Container のこと。  </p>
-
-<p><a href="http://gihyo.jp/admin/column/01/vm/2011/lxc_container">http://gihyo.jp/admin/column/01/vm/2011/lxc_container</a>によれば、  </p>
-<blockquote><p>LXCの基本技術となるのが「コンテナ」と呼ばれる一種のリソース管理システムです。ファイルシステムの他，ホスト名やプロセス，ネットワークソケットなどのカーネルが扱うさまざまなリソースの管理テーブルを個々に用意し，これをコンテナごとに管理することで，コンテナごとに独立したOSのように動作させることができます。</p></blockquote>
-<p>とある。<br />
-また、カーネルの機能である <a href="http://ja.wikipedia.org/wiki/Cgroups">Cgroups</a> の説明をみれば非常によく理解できた。  </p>
-
-<h2 id="aufs-union-fs-">aufs, Union FS とは</h2>
-<p>ここに、 Union mount と Union type file system の資料がある。<br />
-非常にわかりやすい説明だった。ここに、 aufs の説明もある。結構古いけど。。<br />
-<a href="http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html">http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html</a>
-ちょっとだけ簡単に自分用にまとめる。  </p>
-
-<h3 id="union-mount">union mount</h3>
-<p>filesystem A と filesystem B をマウントして、それぞれが file A, file B を同じディレクトリで持っていたとすると、<br />
-union mount をつかったとき、fileA, file B の両方のファイルが見える。  </p>
-
-<h3 id="section-1">読み込み</h3>
-<p>open システムコールとかを通して呼ぶと、 union 機能が上から順に読んでいけば、差分的に一番新しいものを読める。<br />
-両方のファイルシステムが fileA を持っていて、その内容がちがう場合、filesystem の mount の優先度(レイヤー順?)で<br />
-どちらの filesystem の fileA が見えるか変わるんだと思う。  </p>
-
-<h3 id="section-2">書き込み</h3>
-<p>なんらかを書き込んで差分ができたとき、 上位ディスクとは違うものを保証しなければならないため、<br />
-上位ディスクのものをコピーして書き込む。だからコピーオンライト。<br />
-でもこの場合は、 copy-up と呼ばれて、プロセス fork でいうそれとは区別されている模様。  </p>
-
-<h3 id="section-3">削除</h3>
-<p>ファイルが削除されても、上位ディスクには存在しているため、事実上削除ができない。<br />
-なので 特別なファイルを作成することで 消えたように見せる。(DB で言う論理削除みたいなもんだと認識)<br />
-whiteout という。  </p>
-
-<h2 id="github-">github 的な要素</h2>
-<p><a href="https://index.docker.io">index.docker.io</a> レポジトリに image を push できる。<br />
-memcached を <a href="https://www.docker.io/learn/dockerfile/">Dockerfile によって image を作る tutorial</a> があるので、それをやった。<br />
-それでできた Dockerfile  を使って repository に push した例を以下に示す。<br />
-ちなみに、 <a href="https://index.docker.io/account/">https://index.docker.io/account/</a> にあらかじめ登録しておいた。  </p>
-
-<div>
-  <pre><code class="bash">vagrant@ubuntu-12:~$ docker login
-Username: vimtaku
-Password:
-Email: ******@gmail.com
-Login Succeeded
-
-vagrant@ubuntu-12:~$ docker build -t vimtaku/memcached_sample - &lt; Dockerfile
-
-vagrant@ubuntu-12:~$ docker images
-REPOSITORY                 TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-vimtaku/memcached_sample   latest              242bd405025e        22 seconds ago      217.1 MB
-run_memcached              latest              5f1cda03f61c        17 hours ago        217.1 MB
-memcached                  latest              9166d484dda8        17 hours ago        217.1 MB
-brand_new_memcached        latest              7bdd82d0abf7        20 hours ago        217.1 MB
-memcached_new              latest              c18168a45363        20 hours ago        245.5 MB
-ubuntu                     12.10               426130da57f7        7 days ago          127.6 MB
-ubuntu                     quantal             426130da57f7        7 days ago          127.6 MB
-ubuntu                     10.04               8589d4e9c7c6        7 days ago          139.6 MB
-ubuntu                     lucid               8589d4e9c7c6        7 days ago          139.6 MB
-ubuntu                     12.04               72e10143e54a        7 days ago          125.9 MB
-ubuntu                     latest              72e10143e54a        7 days ago          125.9 MB
-ubuntu                     precise             72e10143e54a        7 days ago          125.9 MB
-ubuntu                     13.10               721f07d19f96        7 days ago          144.6 MB
-ubuntu                     saucy               721f07d19f96        7 days ago          144.6 MB
-ubuntu                     13.04               476aa49de636        7 days ago          133.6 MB
-ubuntu                     raring              476aa49de636        7 days ago          133.6 MB
-
-vagrant@ubuntu-12:~$ docker push vimtaku/memcached_sample
-The push refers to a repository [vimtaku/memcached_sample] (len: 1)
-Sending image list
-Pushing repository vimtaku/memcached_sample (1 tags)
-511136ea3c5a: Image already pushed, skipping 
-b74728ce6435: Image already pushed, skipping 
-72e10143e54a: Image already pushed, skipping 
-28d8e9cef54f: Image successfully pushed 
-6be17bb13216: Image successfully pushed 
-1b910f3ee9b7: Image successfully pushed 
-18e04c08eb9b: Image successfully pushed 
-2e32ba041afa: Image successfully pushed 
-1cf353d00dd8: Image successfully pushed 
-242bd405025e: Image successfully pushed 
-Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/repositories/vimtaku/memcached_sample/tags/latest}</code></pre>
-</div>
-
-<p><br /></p>
-
-<h3 id="section-4">出来上がりイメージ</h3>
-<p><img src="http://gyazo.com/6a99a7bdffa6ce80369dad852461aacb.png" style="width:100%;" /></p>
-
-<h2 id="section-5">所感</h2>
-<p>この記事では、 docker の一番の利点だと感じている、 image を簡単に作って試す、みたいな部分は書いていない。<br />
-すごい早さで image を作り出すことができるのには感動した。そこが一番の利点だと思う。<br />
-あと、<a href="http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html">この oreilly の資料</a>は 3回くらい読む価値はありそうだ。  </p>
-
-<h2 id="section-6">参考文献</h2>
-<p><a href="http://ja.wikipedia.org/wiki/LXC">http://ja.wikipedia.org/wiki/LXC</a><br />
-<a href="http://gihyo.jp/admin/column/01/vm/2011/lxc_container">http://gihyo.jp/admin/column/01/vm/2011/lxc_container</a><br />
-<a href="http://ja.wikipedia.org/wiki/Cgroups">http://ja.wikipedia.org/wiki/Cgroups</a><br />
-<a href="http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html">http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html</a><br />
-<a href="http://teppeis.hatenablog.com/entry/docker">http://teppeis.hatenablog.com/entry/docker</a><br />
-<a href="http://shibayu36.hatenablog.com/entry/2013/12/30/173949">http://shibayu36.hatenablog.com/entry/2013/12/30/173949</a><br />
-<a href="http://2013.8-p.info/japanese/06-22-docker.html">http://2013.8-p.info/japanese/06-22-docker.html</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/docker/'>docker</a>
 
 
 </div>

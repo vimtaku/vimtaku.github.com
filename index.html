@@ -7,9 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content=" TypeError: this.el.removeAttribute is not a function
-とかいうエラーが出た。
-いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。 vuejs ">
+	<meta name="description" content="概要
+rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出る。
+原因は
+参考のQiita 参照。 自分の場合はうまくいかなかったので、ソースおったらここ直せば良さそうだったので
+ここを上書きする感じにした。 config/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +82,201 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/04/02/rails_admin_ja_datepicker/">
+		
+			Rails_admin の日付のピッカーで日本語が使われて Argument Out of Range エラーが出るときの解決法</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">概要</h1>
+<p>rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出る。<br />
+原因は
+<a href="http://qiita.com/kuboon/items/1d009e2f89729fe5db78">参考のQiita</a> 参照。  </p>
+
+<p>自分の場合はうまくいかなかったので、ソースおったらここ直せば良さそうだったので<br />
+ここを上書きする感じにした。  </p>
+
+<h4 id="configinitializersrailsadminrb">config/initializers/rails_admin.rb</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># Fix for bug when specified japanese datetime string
+</span><span class="line"># http://qiita.com/kuboon/items/1d009e2f89729fe5db78
+</span><span class="line">module RailsAdmin
+</span><span class="line">  module Config
+</span><span class="line">    module Fields
+</span><span class="line">      module Types
+</span><span class="line">        class Datetime &lt; RailsAdmin::Config::Fields::Base
+</span><span class="line">          def localized_date_format
+</span><span class="line">            "%Y-%m-%d"
+</span><span class="line">          end
+</span><span class="line">        end
+</span><span class="line">      end
+</span><span class="line">    end
+</span><span class="line">  end
+</span><span class="line">end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以上。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/30/swiftyjson-alamofire/">
+		
+			Alamofire_SwiftyJSON でビルドエラーが出るとき</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">こんなエラーが出ていた</h1>
+<p>The operation couldn’t be completed. No such file or directory.  </p>
+
+<h1 id="pods--dependencies--alamofire--swiftyjson-">pods の dependencies に alamofire と swiftyjson をたしてあげよう</h1>
+<p>たぶんそれで行けるはず。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-30T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/swift/'>swift</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/24/himedai/">
+		
+			ヒメダイをマルで買ってきて捌いて食べてみた</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>ヒメダイはすごく美味しい白身魚だった</li>
+  <li>ムニエルだと引くレベルでウマイ</li>
+</ul>
+
+<h2 id="section">チャート</h2>
+<ul>
+  <li>捌く難易度
+    <ul>
+      <li>割りとシンプルなタイ。鱗を取るのがめっちゃダルい。</li>
+    </ul>
+  </li>
+  <li>味
+    <ul>
+      <li>すこぶる美味</li>
+    </ul>
+  </li>
+  <li>料理
+    <ul>
+      <li>刺し身はかなり美味</li>
+      <li>ムニエルはすこぶる美味</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-1">写真あるけど</h2>
+<p>めんどいから省略</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cooking/'>cooking</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -811,268 +1008,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 
 	<a class='category' href='/blog/categories/gtd/'>gtd</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/18/gtd/">
-		
-			GTD の本を読んだ</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="gtd-">GTD の本を読んだ</h1>
-
-<h2 id="section">この本</h2>
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4576082116" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<h2 id="section-1">本の内容</h2>
-<p>大体読んだらわかることなんだが、<br />
- - <a href="http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/">http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/</a><br />
- - <a href="http://postd.cc/gtd-in-15-minutes/">http://postd.cc/gtd-in-15-minutes/</a><br />
-この辺によくまとまっているのでそちらを参照してもらうと良いかも。  </p>
-
-<h2 id="section-2">所感</h2>
-<p>僕の尊敬するとある人が、GTD やってますと言っていて、それから何年も経つがやってみたいと思ったので、<br />
-本を買って読んでみたがとても良さそうに感じた。<br />
-頭のなかを一つのシステムに書き出すことによって、それについて考える時間が増えた実感があるし、<br />
-やるべきことが可視化されることは非常に良いと思った。あとは週次レビューをどう組み込むかかなぁと思った。  </p>
-
-<h1 id="section-3">自分の場合どのような方法で実践するか</h1>
-
-<h2 id="section-4">ツール</h2>
-
-<h3 id="vimqfixhowm---dropbox-">vim(qfixhowm のメモ) + dropbox でやる</h3>
-<p>これについては基本的に markdown で見るのが一番自分らしく、わかりやすいので markdown で管理する。<br />
-週次レビューについては、毎週金曜か土曜日に時間をとってやるのが良いと思った。  </p>
-
-<h3 id="section-5">紙とマインドマップ</h3>
-<p>基本的には IT の仕事なので紙とマインドマップと vim があれば大丈夫かと。  </p>
-
-<h3 id="qfixhowm--dropbox--iphone-">qfixhowm のメモを dropbox のやつで見た時 iphone から見れるようにするやつ</h3>
-<p>がほしいのでどっかでつくる。  </p>
-
-<h3 id="section-6">とりあえずでテンプレート作ってみた</h3>
-<p><a href="http://vimtaku.github.io/blog/2015/02/18/gtd_template">http://vimtaku.github.io/blog/2015/02/18/gtd_template</a></p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-18T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/gtd/'>gtd</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/16/money-is-nani/">
-		
-			金はチケットである</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">金はチケットである</h1>
-<p>金はチケットだ。<br />
-美味しいものを食べたり、サービスを受けるための交換手段である。<br />
-金はあればあるほどよい。より良いサービスを受けられるからだ。<br />
-ただ、金がそこにあるだけで幸せなのかというと、たぶんそうじゃあないと思う。  </p>
-
-<h1 id="section-1">金の入力</h1>
-<p>金はどこからくるのだろう。<br />
-今日食べたご飯や、受けたサービスは、金を使って得られたものだ。<br />
-自分の場合、基本的には、金は会社から得られたものである。<br />
-会社はなぜ自分に金を払うのだろうか。<br />
-それは自分が、会社にサービスを提供した(もしくはするという契約を結んだ)からである。<br />
-富を創りだせるからこそ、金を払うのである。  </p>
-
-<p>金を手にすることは困難だろうか。<br />
-確かにそれは難しいことではある。<br />
-ただ、価値を提供できれば、それ相応の金を得られるはずだ。  </p>
-
-<p>単純に、金を稼ぐことは楽しい。<br />
-サラリーマンをやる上でも、給料が上がらないというのは面白くない。  </p>
-
-<p>富を創ること、が、完全に金に結びつくかはわからないが、<br />
-富を創ることで、お金をいくらでも得られるのだとかんがえると、<br />
-人生はいかに楽しいものかと思う。  </p>
-
-<p>現状の金の入力に満足出来ないなら、<br />
-自分が価値を提供できていないのだと振り返ることができるはずだ。<br />
-価値を生み出せるはずだと信じて、富を創る行動を始めたら良いと思う。  </p>
-
-<h1 id="section-2">金の出力</h1>
-<p>金を使うのは簡単だ。<br />
-金は使えばすぐに無くなる。<br />
-サービスは、その相互の関係において値段が付けられる。  </p>
-
-<p>そういう意味で、納得出来ないサービス(買い物)はすべきでない。<br />
-そしてまた、納得出来ない価格(給料)でサービス(仕事)すべきでもないはずだ。  </p>
-
-<h1 id="section-3">金とサービス</h1>
-<p>単純に、金を使うのは楽しい。<br />
-一般的に、良いサービスほどお金がかかる。<br />
-そういう意味で、金はチケットだと思う。  </p>
-
-<p>いつも行っている美容室で、普段髪を切るのに 3000 円かかるとしよう。<br />
-たまたまその美容室が混んでいて、どうしても髪を切りたいあなたが<br />
-たまたま入ったおしゃれな美容室は、すぐに髪を切ってくれて、 6000 円だったとしよう。<br />
-それでいつもよりクールな髪型になるんだ。  </p>
-
-<p>より良いサービスにはお金がかかる。<br />
-あなたはより良いサービスを受けたいと思う。<br />
-それにはチケットが必要なのだ。<br />
-(蛇足ではあるが、普段のサービスを受けるためにもチケットは必要である。)</p>
-
-<h1 id="section-4">金と価値感</h1>
-<p>一度良いサービスを受けてしまうと、元のサービスに戻るのが耐えられないと言うのは真実だと思う。<br />
-自分が富を創ることでお金を入力し、自分が良いと思うものにお金を出力する。<br />
-すごく自分勝手に聞こえるかもしれないが、日常の支出をメタに書いただけである。  </p>
-
-<p>金をどう使うかは、その人の価値観に依存する。<br />
-良いサービスを知らない、受ける必要がないなら、お金を稼ぐ必要がない。<br />
-断捨離というやつかもしれない。<br />
-仏教的に、ただ生かされているんだというロックで生きるならそれで良い。<br />
-自分は仏教的な考え方にはある種賛成だけど、それを楽しむなら人生長すぎると思う。<br />
-だから現時点では、仏教的考え方もあるなぁと思いつつも、<br />
-精一杯富を創る(サービスを提供する)ことに全力を注ぎたい。  </p>
-
-<h1 id="section-5">自分が金を出力して受けたいサービス</h1>
-<p>振り返ってみると、基本的に自分が受けたいサービスは、音楽と勉強と食事と服と程よい住まいだ。<br />
-より良い音楽を楽しむ方法にはお金をかけてみたいし、<br />
-より自分がよく価値を提供できるように勉強(主により良い本をよんだり)したいし、
-より美味しいものを食べて(いたい|みたい)し、<br />
-自分が着たいと思った服を着たいし、<br />
-自分が便利だ！、と感じるところに住みたい。<br />
-逆にいうと、ちょっと考えたくらいだったらこんなもんなのかと思う。  </p>
-
-<h1 id="section-6">富として生み出したい、金以外の価値</h1>
-<p>金はチケットであればあるほどよいが、富を創ることで金以外に得られるものは、本質的には金より重要だ。<br />
-富を創るために時間を使うのは、自分の価値観では、とても有意義なことである。  </p>
-
-<h1 id="section-7">所感</h1>
-<p>ふとポエムを書きたくなったので書いた。<br />
-ハッカーと画家を読んだせいで、最近のポエム熱がやばい。<br />
-おそらくこの文章も富である。<br />
-ただこの文章にお金を払う人がいないだけだ。<br />
-そういう意味で、文章を書き続ける(ブログ他)ことは、<br />
-富を生み出す行為だと思う。  </p>
-
-<p>ふとどうでもよいことを思ったが、仏教をロックと割り切るなら、この文章もロックであるはずだ。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/poem/'>poem</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/07/sakuravps_coreos/">
-		
-			さくらvps に CoreOS を入れる</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="vps--coreos-">さくらvps に CoreOS を入れる</h1>
-<p>基本的には
-<a href="http://qiita.com/yujiod/items/dc154120c4df2e938111">http://qiita.com/yujiod/items/dc154120c4df2e938111</a>
-に従ってやれば行ける。  </p>
-
-<p>ただ、自分は VirtIO を ON にしたせいか、<br />
-ネットワークの設定のところで、</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[Match]
-</span><span class="line">Name=ens3</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>となっているところの ens3 は eth0 にしないと繋がらなかった。<br />
-(cloud-config も同様)</p>
-
-<h1 id="section">所感</h1>
-<p>英字キーボードを久しぶりに打ったけど慣れてないのでめちゃくちゃ辛かった。<br />
-何もはまらなければすぐできるとは思うけど、<br />
-普通にダウンロードとか調査とか考えたら1時間くらいかかると思う。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-07T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/vps/'>vps</a>
 
 
 </div>
