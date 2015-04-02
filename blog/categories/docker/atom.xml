@@ -4,7 +4,7 @@
   <title><![CDATA[Category: docker | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/docker/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -85,7 +85,9 @@ docker images でだした image を docker rmi で全て消してやり直し�
 <h2 id="section">起きていたこと</h2>
 <p>docker info とか docker ps とかしても  </p>
 
-<p><blockquote><p>Post http://192.168.59.103:2375/v1.13/containers/create: dial tcp 192.168.59.103:2375: operation timed out</p></blockquote></p>
+<p>{% blockquote %}
+Post http://192.168.59.103:2375/v1.13/containers/create: dial tcp 192.168.59.103:2375: operation timed out
+{% endblockquote %}</p>
 
 <p>とか出まくってマジ辛い感じになった。</p>
 
@@ -95,7 +97,9 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 <h2 id="section-1">解法</h2>
 
-<p><blockquote><p>ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -p 2022 -i /Users/vimtaku/.ssh/id_boot2docker docker@localhost -L2375:localhost:2375</p></blockquote></p>
+<p>{% blockquote %}
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -p 2022 -i /Users/vimtaku/.ssh/id_boot2docker docker@localhost -L2375:localhost:2375
+{% endblockquote %}</p>
 
 <p>docker ps, docker info できた。  </p>
 
@@ -109,8 +113,7 @@ docker images でだした image を docker rmi で全て消してやり直し�
     <link href="http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward/"/>
     <updated>2014-02-10T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/10/docker-boot2docker-port-foward</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="os-x-108--docker">OS X 10.8 公式サポートで話題の Docker</h2>
 
@@ -123,46 +126,42 @@ docker server を建てた。  </p>
 これをもとに Dockerfile を作った。 ここでは ubuntu を元にした vimtaku/memcached_1 とした。  </p>
 
 <p>Dockefile
-<div>
-  <pre><code class='bash'>&lt;/p&gt;
+{% highlight bash %}</p>
 
-&lt;h1 id=&quot;memcached&quot;&gt;Memcached&lt;/h1&gt;
-&lt;p&gt;#
-# VERSION       2.2&lt;/p&gt;
+<h1 id="memcached">Memcached</h1>
+<p>#
+# VERSION       2.2</p>
 
-&lt;h1 id=&quot;use-the-ubuntu-base-image-provided-by-dotcloud&quot;&gt;use the ubuntu base image provided by dotCloud&lt;/h1&gt;
-&lt;p&gt;FROM ubuntu&lt;/p&gt;
+<h1 id="use-the-ubuntu-base-image-provided-by-dotcloud">use the ubuntu base image provided by dotCloud</h1>
+<p>FROM ubuntu</p>
 
-&lt;p&gt;MAINTAINER Victor Coisne victor.coisne@dotcloud.com&lt;/p&gt;
+<p>MAINTAINER Victor Coisne victor.coisne@dotcloud.com</p>
 
-&lt;h1 id=&quot;make-sure-the-package-repository-is-up-to-date&quot;&gt;make sure the package repository is up to date&lt;/h1&gt;
-&lt;p&gt;RUN echo “deb http://archive.ubuntu.com/ubuntu precise main universe” &amp;gt; /etc/apt/sources.list
-RUN apt-get update&lt;/p&gt;
+<h1 id="make-sure-the-package-repository-is-up-to-date">make sure the package repository is up to date</h1>
+<p>RUN echo “deb http://archive.ubuntu.com/ubuntu precise main universe” &gt; /etc/apt/sources.list
+RUN apt-get update</p>
 
-&lt;h1 id=&quot;install-memcached&quot;&gt;install memcached&lt;/h1&gt;
-&lt;p&gt;RUN apt-get install -y memcached&lt;/p&gt;
+<h1 id="install-memcached">install memcached</h1>
+<p>RUN apt-get install -y memcached</p>
 
-&lt;h1 id=&quot;launch-memcached-when-launching-the-container&quot;&gt;Launch memcached when launching the container&lt;/h1&gt;
-&lt;p&gt;ENTRYPOINT [“memcached”]&lt;/p&gt;
+<h1 id="launch-memcached-when-launching-the-container">Launch memcached when launching the container</h1>
+<p>ENTRYPOINT [“memcached”]</p>
 
-&lt;h1 id=&quot;run-memcached-as-the-daemon-user&quot;&gt;run memcached as the daemon user&lt;/h1&gt;
-&lt;p&gt;USER daemon&lt;/p&gt;
+<h1 id="run-memcached-as-the-daemon-user">run memcached as the daemon user</h1>
+<p>USER daemon</p>
 
-&lt;h1 id=&quot;expose-memcached-port&quot;&gt;expose memcached port&lt;/h1&gt;
-&lt;p&gt;EXPOSE 11211</code></pre>
-</div>
-</p>
+<h1 id="expose-memcached-port">expose memcached port</h1>
+<p>EXPOSE 11211
+{% endhighlight %}</p>
 
-<p><div>
-  <pre><code class='bash'>docker build -t vimtaku/memcached_1 - &amp;lt; Dockerfile</code></pre>
-</div>
-
+<p>{% highlight bash %}
+docker build -t vimtaku/memcached_1 - &lt; Dockerfile
+{% endhighlight %}
 これでとりあえず memcached な image を作れる。  </p>
 
-<p><div>
-  <pre><code class='bash'>docker run -p 11211:11211 vimtaku/memcached_1</code></pre>
-</div>
-
+<p>{% highlight bash %}
+docker run -p 11211:11211 vimtaku/memcached_1
+{% endhighlight %}
 これで boot2docker -&gt; ubuntu が立つ。  </p>
 
 <h2 id="section">追記(2014/02/13)</h2>
@@ -172,10 +171,9 @@ RUN apt-get update&lt;/p&gt;
 で初めて知った。  </p>
 
 <p>まだ、やってないけど<br />
-<div>
-  <pre><code class='bash'>ssh -L 11211:localhost:11211 -p 2022 root@localhost&lt;br /&gt;</code></pre>
-</div>
-
+{% highlight bash %}
+ssh -L 11211:localhost:11211 -p 2022 root@localhost<br />
+{% endhighlight %}
 とかすれば、 ssh port fowarding できるので、以下の手順は不要。</p>
 
 <p>追記終わり。</p>
@@ -192,14 +190,13 @@ boot2docker ssh して ifconfig | grep -A4 docker0 すると<br />
 ぐぐったら
 <a href="http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/">http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/</a> の記事が見つかったのでほぼこれの通りに、</p>
 
-<p><div>
-  <pre><code class='bash'>boot2docker down
+<p>{% highlight bash %}
+boot2docker down
 したあと
 VBoxManage modifyvm “boot2docker-vm” –natpf1 “guestmemcached,tcp,,11211,,11211”
 boot2docker up
-docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
-</div>
-
+docker run -d -p 11211:11211 vimtaku/memcached_1
+{% endhighlight %}
 これで mac から telnet localhost 11211 で行けた。たぶん。</p>
 
 ]]></content>
@@ -210,8 +207,7 @@ docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
     <link href="http://vimtaku.github.io/blog/2014/02/02/what-is-docker/"/>
     <updated>2014-02-02T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/02/what-is-docker</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -249,7 +245,9 @@ Docker の tutorial は command line を ブラウザで実際に叩くところ
 <p>Linux Container のこと。  </p>
 
 <p><a href="http://gihyo.jp/admin/column/01/vm/2011/lxc_container">http://gihyo.jp/admin/column/01/vm/2011/lxc_container</a>によれば、<br />
-<blockquote><p>LXCの基本技術となるのが「コンテナ」と呼ばれる一種のリソース管理システムです。ファイルシステムの他，ホスト名やプロセス，ネットワークソケットなどのカーネルが扱うさまざまなリソースの管理テーブルを個々に用意し，これをコンテナごとに管理することで，コンテナごとに独立したOSのように動作させることができます。</p></blockquote>
+{% blockquote %}
+LXCの基本技術となるのが「コンテナ」と呼ばれる一種のリソース管理システムです。ファイルシステムの他，ホスト名やプロセス，ネットワークソケットなどのカーネルが扱うさまざまなリソースの管理テーブルを個々に用意し，これをコンテナごとに管理することで，コンテナごとに独立したOSのように動作させることができます。
+{% endblockquote %}
 とある。<br />
 また、カーネルの機能である <a href="http://ja.wikipedia.org/wiki/Cgroups">Cgroups</a> の説明をみれば非常によく理解できた。  </p>
 
@@ -284,16 +282,16 @@ memcached を <a href="https://www.docker.io/learn/dockerfile/">Dockerfile に�
 それでできた Dockerfile  を使って repository に push した例を以下に示す。<br />
 ちなみに、 <a href="https://index.docker.io/account/">https://index.docker.io/account/</a> にあらかじめ登録しておいた。  </p>
 
-<p><div>
-  <pre><code class='bash'>vagrant@ubuntu-12:~$ docker login
+<p>{% highlight bash %}
+vagrant@ubuntu-12:~$ docker login
 Username: vimtaku
 Password:
-Email: &lt;strong&gt;**&lt;/strong&gt;@gmail.com
-Login Succeeded&lt;/p&gt;
+Email: <strong>**</strong>@gmail.com
+Login Succeeded</p>
 
-&lt;p&gt;vagrant@ubuntu-12:~$ docker build -t vimtaku/memcached_sample - &amp;lt; Dockerfile&lt;/p&gt;
+<p>vagrant@ubuntu-12:~$ docker build -t vimtaku/memcached_sample - &lt; Dockerfile</p>
 
-&lt;p&gt;vagrant@ubuntu-12:~$ docker images
+<p>vagrant@ubuntu-12:~$ docker images
 REPOSITORY                 TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
 vimtaku/memcached_sample   latest              242bd405025e        22 seconds ago      217.1 MB
 run_memcached              latest              5f1cda03f61c        17 hours ago        217.1 MB
@@ -310,9 +308,9 @@ ubuntu                     precise             72e10143e54a        7 days ago   
 ubuntu                     13.10               721f07d19f96        7 days ago          144.6 MB
 ubuntu                     saucy               721f07d19f96        7 days ago          144.6 MB
 ubuntu                     13.04               476aa49de636        7 days ago          133.6 MB
-ubuntu                     raring              476aa49de636        7 days ago          133.6 MB&lt;/p&gt;
+ubuntu                     raring              476aa49de636        7 days ago          133.6 MB</p>
 
-&lt;p&gt;vagrant@ubuntu-12:~$ docker push vimtaku/memcached_sample
+<p>vagrant@ubuntu-12:~$ docker push vimtaku/memcached_sample
 The push refers to a repository [vimtaku/memcached_sample] (len: 1)
 Sending image list
 Pushing repository vimtaku/memcached_sample (1 tags)
@@ -326,9 +324,8 @@ b74728ce6435: Image already pushed, skipping
 2e32ba041afa: Image successfully pushed 
 1cf353d00dd8: Image successfully pushed 
 242bd405025e: Image successfully pushed 
-Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/repositories/vimtaku/memcached_sample/tags/latest}</code></pre>
-</div>
-</p>
+Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/repositories/vimtaku/memcached_sample/tags/latest}
+{% endhighlight %}</p>
 
 <p><br /></p>
 

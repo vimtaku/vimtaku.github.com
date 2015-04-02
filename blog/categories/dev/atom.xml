@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dev | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/dev/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -70,56 +70,50 @@ openssl の ca を扱うのに便利な付属スクリプトは使っていな�
 
 <p>client認証はしていて、さらに config レベルで、アクセスを制限したい場合には、
 ssl.conf に
-<div>
-  <pre><code class='apache'>&lt;/p&gt;
-&lt;location /&gt;
+{% highlight apache %}</p>
+<location />
 
-&lt;p&gt;SSLRequire (    %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
+<p>SSLRequire (    %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
             and ( \
                   %{SSL_CLIENT_S_DN_CN} eq “vimtaku” \
                   or %{SSL_CLIENT_S_DN_CN} eq “hogetaku” \
                 ) \
             )
-&amp;lt;/Location&amp;gt;</code></pre>
-</div>
-
+&lt;/Location&gt;
+{% endhighlight %}
 などと書けば設定できる。  </p>
 
 <p>他にも条件は書けそうなので、パラメータに関しては<a href="http://httpd.apache.org/docs/2.4/mod/mod_ssl.html">こちらを参考</a>に。  </p>
 
 <p>デバッグとしては
-<div>
-  <pre><code class='apache'>CustomLog logs/ssl_request_log \
-  “%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x %{SSL_CLIENT_S_DN_O}x %{SSL_CLIENT_S_DN_CN}x %{SSL_CLIENT_S_DN}x &quot;%r&quot; %b”</code></pre>
-</div>
-
+{% highlight apache %}
+CustomLog logs/ssl_request_log \
+  “%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x %{SSL_CLIENT_S_DN_O}x %{SSL_CLIENT_S_DN_CN}x %{SSL_CLIENT_S_DN}x "%r" %b”
+{% endhighlight %}
 としてログだすとよいかもしれない。</p>
 
 <h4 id="revoke-">revoke による証明書の失効</h4>
 <p>config ではなく、 revoke で、たとえば hogetaku が会社辞めたとかで配った証明書を失効させる方法として、  </p>
 
-<p><div>
-  <pre><code class='bash'>cd /etc/pki/CA
+<p>{% highlight bash %}
+cd /etc/pki/CA
 cp serial crlnumber
 openssl ca -gencrl -revoke  /etc/pki/CA/certs/hogetaku.ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt -config /etc/pki/tls/openssl-client.cnf
 cd /etc/pki/CA/crl/
-openssl ca -gencrl -out crl.pem</code></pre>
-</div>
-
+openssl ca -gencrl -out crl.pem
+{% endhighlight %}
 として、</p>
 
 <p>そして<br />
 /etc/httpd/conf.d/ssl.conf に、
-<div>
-  <pre><code class='apache'>SLCACertificateFile /etc/pki/CA/cacert.pem</code></pre>
-</div>
-
+{% highlight apache %}
+SLCACertificateFile /etc/pki/CA/cacert.pem
+{% endhighlight %}
 の下くらいに<br />
-<div>
-  <pre><code class='apache'>SSLCARevocationCheck chain
-SSLCARevocationFile /etc/pki/CA/crl/crl.pem</code></pre>
-</div>
-
+{% highlight apache %}
+SSLCARevocationCheck chain
+SSLCARevocationFile /etc/pki/CA/crl/crl.pem
+{% endhighlight %}
 を追加した。  </p>
 
 <p>それで、サーバを再起動すれば、revoke した証明書を持つクライアントはアクセスできなくなる(400)。</p>
@@ -130,19 +124,18 @@ SSLCARevocationFile /etc/pki/CA/crl/crl.pem</code></pre>
 <h2 id="nginx-ssl-">nginx による、SSL 設定とクライアント認証</h2>
 <p>はっきり言ってなんの問題もない</p>
 
-<p><div>
-  <pre><code class='bash'>sudo yum -y install nginx</code></pre>
-</div>
-</p>
+<p>{% highlight bash %}
+sudo yum -y install nginx
+{% endhighlight %}</p>
 
 <p>/etc/nginx/conf を編集。  </p>
 
-<p><div>
-  <pre><code class='nginx'>server {
+<p>{% highlight nginx %}
+ server {
         listen       443;
-        server_name  localhost;&lt;/p&gt;
+        server_name  localhost;</p>
 
-&lt;pre&gt;&lt;code&gt;    ssl                  on;
+<pre><code>    ssl                  on;
     ssl_certificate      /etc/pki/CA/certs/ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt.pem;
     ssl_certificate_key  /etc/pki/CA/private/ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.key;
     ssl_verify_client on;
@@ -159,9 +152,7 @@ SSLCARevocationFile /etc/pki/CA/crl/crl.pem</code></pre>
         root   html;
         index  index.html index.htm;
     }
-}</code></pre>
-</div>
-
+} {% endhighlight %}
 </code></pre>
 
 <p>大体、 apache と同じような設定を行えば使用できる。  </p>
@@ -204,42 +195,37 @@ openssl ca -gencrl -out crl.pem<br />
 
 <h2 id="section-1">下準備</h2>
 
-<p><div>
-  <pre><code class='bash'>## apache と phpmyadmin が入る
+<p>{% highlight bash %}
+## apache と phpmyadmin が入る
 sudo yum –enablerepo=epel install phpmyadmin
 ## mod_ssl
 sudo yum install mod24_ssl
-sudo yum install openssl-devel</code></pre>
-</div>
-</p>
+sudo yum install openssl-devel
+{% endhighlight %}</p>
 
 <h2 id="db-">DB の設定をあれこれする</h2>
-<p><div>
-  <pre><code class='bash'>sudo vim /etc/phpMyAdmin/config.inc.php</code></pre>
-</div>
-</p>
+<p>{% highlight bash %}
+sudo vim /etc/phpMyAdmin/config.inc.php
+{% endhighlight %}</p>
 
 <h2 id="phpmyadmin--">phpmyadmin のアクセス制限,今回は クライアント認証する前提なので全開放</h2>
-<p><div>
-  <pre><code class='bash'>sudo vim /etc/httpd/conf.d/phpMyAdmin.conf</code></pre>
-</div>
-</p>
+<p>{% highlight bash %}
+sudo vim /etc/httpd/conf.d/phpMyAdmin.conf
+{% endhighlight %}</p>
 
 <p>とりあえず全開放
-<div>
-  <pre><code class='bash'>## L16 あたりに
+{% highlight bash %}
+## L16 あたりに
 Require all granted
 ## L26 あたりに
-Allow from 0.0.0.0</code></pre>
-</div>
-</p>
+Allow from 0.0.0.0
+{% endhighlight %}</p>
 
-<p><div>
-  <pre><code class='bash'>/etc/httpd/conf.d/virtualhost.conf</code></pre>
-</div>
-
-<div>
-  <pre><code class='apache'>&amp;lt;Directory “/phpmyadmin”&amp;gt;
+<p>{% highlight bash %}
+/etc/httpd/conf.d/virtualhost.conf
+{% endhighlight %}
+{% highlight apache %}
+&lt;Directory “/phpmyadmin”&gt;
     Options ExecCGI
     AllowOverride all
     Order Allow,Deny
@@ -248,9 +234,8 @@ Allow from 0.0.0.0</code></pre>
     RewriteCond %{SERVER_PORT} 80
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/%{REQUEST_URI} [R,L]
     LogLevel alert rewrite:trace3
-&amp;lt;/Directory&amp;gt;</code></pre>
-</div>
-</p>
+&lt;/Directory&gt;
+{% endhighlight %}</p>
 
 <h2 id="section-2">クライアント認証</h2>
 <p>については
@@ -276,8 +261,7 @@ Vimperator(Firefox) についてはブラウザに pom.p12 を入れたら行け
     <link href="http://vimtaku.github.io/blog/2013/11/28/learning-vagrant/"/>
     <updated>2013-11-28T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/11/28/learning-vagrant</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="vagrant">vagrant</h2>
 <p>っていうか vagrant はめちゃくちゃ簡単に導入できる。<br />
@@ -304,50 +288,45 @@ chef-solo 入門の naoya 氏が書いたやつ買ったのと、ウェブに落
     <link href="http://vimtaku.github.io/blog/2013/11/20/template-test/"/>
     <updated>2013-11-20T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/11/20/template-test</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="code-">code ハイライトテスト</h2>
 <p>jekyll pygments.rb は python2.7 じゃないとだめらしい。</p>
 
-<p><div>
-  <pre><code class='ruby'>def foo
+<p>{% highlight ruby %}
+def foo
   puts ‘foo’
-end</code></pre>
-</div>
-</p>
+end
+{% endhighlight %}</p>
 
-<p><div>
-  <pre><code class='python'># coding: utf-8
-import sys&lt;/p&gt;
+<p>{% highlight python %}
+# coding: utf-8
+import sys</p>
 
-&lt;p&gt;from pygments import highlight
+<p>from pygments import highlight
 from pygments.lexers import guess_lexer
-from pygments.formatters import HtmlFormatter</code></pre>
-</div>
-</p>
+from pygments.formatters import HtmlFormatter
+{% endhighlight %}</p>
 
-<p><div>
-  <pre><code class='bash'>$ cd UserName.github.com
+<p>{% highlight bash %}
+$ cd UserName.github.com
 $ git init
 $ git add .
 $ git commit -m “first commit”
 $ git remote add origin https://github.com/UserName/UserName.github.git
-$ git push -u origin master</code></pre>
-</div>
-</p>
+$ git push -u origin master
+{% endhighlight %}</p>
 
-<p><div>
-  <pre><code class='vim'>function! SetColumnWidthLimit()
+<p>{% highlight vim %}
+function! SetColumnWidthLimit()
   setlocal textwidth=78
   if exists(‘+colorcolumn’)
     setlocal colorcolumn=+1
   endif
-endfun&lt;/p&gt;
+endfun</p>
 
-&lt;p&gt;au Filetype perl,javascript,vim call SetColumnWidthLimit()</code></pre>
-</div>
-</p>
+<p>au Filetype perl,javascript,vim call SetColumnWidthLimit()
+{% endhighlight %}</p>
 
 <h2 id="url">参考URL</h2>
 <p>http://web.sfc.keio.ac.jp/~t10078si/wpx/?p=862</p>

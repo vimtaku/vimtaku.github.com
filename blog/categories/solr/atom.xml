@@ -4,7 +4,7 @@
   <title><![CDATA[Category: solr | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/solr/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,8 +18,7 @@
     <link href="http://vimtaku.github.io/blog/2014/02/13/solr-sample/"/>
     <updated>2014-02-13T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/02/13/solr-sample</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -82,7 +81,10 @@
 <a href="http://ja.wikipedia.org/wiki/Apache_Solr">http://ja.wikipedia.org/wiki/Apache_Solr</a></p>
 
 <h3 id="lucene-">Lucene とは</h3>
-<p><blockquote><p>Lucene（ルシーン）は、Javaで記述された全文検索ソフトウェアである。<br/>あらかじめ蓄積した大量のデータから、指定したキーワードを探し出す機能を持つ。Javaのクラスライブラリとして提供される。</p></blockquote>
+<p>{% blockquote %}
+Lucene（ルシーン）は、Javaで記述された全文検索ソフトウェアである。
+あらかじめ蓄積した大量のデータから、指定したキーワードを探し出す機能を持つ。Javaのクラスライブラリとして提供される。
+{% endblockquote %}
 <a href="http://ja.wikipedia.org/wiki/Lucene">http://ja.wikipedia.org/wiki/Lucene</a>
 なるほど。</p>
 
@@ -92,19 +94,16 @@
 Solr の schema.xml で、スキーマを定義することができる。  </p>
 
 <p>以下に、 schema.xml の fileds の設定例を載せる。<br />
-<div>
-  <pre><code class='xml'>&lt;/p&gt;
-&lt;fields&gt;
-    &lt;field name=&quot;recipe_id&quot; type=&quot;int&quot; indexed=&quot;true&quot; stored=&quot;true&quot; required=&quot;true&quot; /&gt;
-    &lt;field name=&quot;chef&quot; type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot; /&gt;
-    &lt;field name=&quot;recipe_name&quot; type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot; /&gt;
-    &lt;field name=&quot;genre&quot; type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot; multivalued=&quot;true&quot; /&gt;
-    &lt;field name=&quot;price&quot; type=&quot;int&quot; indexed=&quot;true&quot; stored=&quot;true&quot; /&gt;
-    &lt;field name=&quot;_version_&quot; type=&quot;long&quot; indexed=&quot;true&quot; stored=&quot;true&quot; /&gt;
-  &lt;/fields&gt;
-&lt;p&gt;</code></pre>
-</div>
-</p>
+{% highlight xml %}</p>
+<fields>
+    <field name="recipe_id" type="int" indexed="true" stored="true" required="true" />
+    <field name="chef" type="text_ja" indexed="true" stored="true" />
+    <field name="recipe_name" type="text_ja" indexed="true" stored="true" />
+    <field name="genre" type="text_ja" indexed="true" stored="true" multivalued="true" />
+    <field name="price" type="int" indexed="true" stored="true" />
+    <field name="_version_" type="long" indexed="true" stored="true" />
+  </fields>
+<p>{% endhighlight %}</p>
 
 <h3 id="section-3">フィールドタイプについて</h3>
 <ul>
@@ -159,37 +158,35 @@ elevate が評価されてダメっぽかったのでコメントアウト。<br
 
 <h2 id="section-9">サンプルデータを入れてみよう</h2>
 <p>だいたいこんなかんじの data.json を用意して
-<div>
-  <pre><code class='json'>[                                                                            &lt;br /&gt;
-{                                                                            &lt;br /&gt;
-    “recipe_id”:”1”,                                                         &lt;br /&gt;
-    “chef”:”vimtaku”,                                                        &lt;br /&gt;
-    “recipe_name”:”vim の炒めもの”,                                          &lt;br /&gt;
-    “genre”:[“和食”, “洋食”],                                                &lt;br /&gt;
-    “price”:980                                                              &lt;br /&gt;
-},                                                                           &lt;br /&gt;
-{                                                                            &lt;br /&gt;
-    “recipe_id”:”2”,                                                         &lt;br /&gt;
-    “chef”:”noro”,                                                           &lt;br /&gt;
-    “recipe_name”:”emacs 焼き”,                                              &lt;br /&gt;
-    “genre”:[“和食”, “中華”],                                                &lt;br /&gt;
-    “price”:500                                                              &lt;br /&gt;
-},                                                                           &lt;br /&gt;
-{                                                                            &lt;br /&gt;
-    “recipe_id”:”3”,                                                         &lt;br /&gt;
-    “chef”:”sublime”,                                                        &lt;br /&gt;
-    “recipe_name”:”sublime 揚げ”,                                            &lt;br /&gt;
-    “genre”:[“洋食”],                                                        &lt;br /&gt;
-    “price”:250                                                              &lt;br /&gt;
-}                                                                            &lt;br /&gt;
-]</code></pre>
-</div>
-</p>
+{% highlight json %}
+[                                                                            <br />
+{                                                                            <br />
+    “recipe_id”:”1”,                                                         <br />
+    “chef”:”vimtaku”,                                                        <br />
+    “recipe_name”:”vim の炒めもの”,                                          <br />
+    “genre”:[“和食”, “洋食”],                                                <br />
+    “price”:980                                                              <br />
+},                                                                           <br />
+{                                                                            <br />
+    “recipe_id”:”2”,                                                         <br />
+    “chef”:”noro”,                                                           <br />
+    “recipe_name”:”emacs 焼き”,                                              <br />
+    “genre”:[“和食”, “中華”],                                                <br />
+    “price”:500                                                              <br />
+},                                                                           <br />
+{                                                                            <br />
+    “recipe_id”:”3”,                                                         <br />
+    “chef”:”sublime”,                                                        <br />
+    “recipe_name”:”sublime 揚げ”,                                            <br />
+    “genre”:[“洋食”],                                                        <br />
+    “price”:250                                                              <br />
+}                                                                            <br />
+] 
+{% endhighlight %}</p>
 
-<p><div>
-  <pre><code class='bash'>curl ‘http://localhost:8983/solr/vimtaku/update/json?commit=true’ –data-binary @data.json -H ‘Content-type:application/json;charset:utf-8’</code></pre>
-</div>
-
+<p>{% highlight bash %}
+curl ‘http://localhost:8983/solr/vimtaku/update/json?commit=true’ –data-binary @data.json -H ‘Content-type:application/json;charset:utf-8’
+{% endhighlight %}
 これで データ登録が完了する。  </p>
 
 <h2 id="dihdataimporthandler-">DIH(DataImportHandler) について</h2>
@@ -197,14 +194,13 @@ elevate が評価されてダメっぽかったのでコメントアウト。<br
 DIH を使うための設定は、 solrconfig.xml と DIHの設定ファイル data―config にある。  </p>
 
 <h3 id="solr-config-">solr config に記述する</h3>
-<p><div>
-  <pre><code class='xml'>&lt;requesthandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DatalmportHandler&quot;&gt;
-&lt;lst name=&quot;defaults&quot;&gt;
-  &lt;str name=&quot;config&quot;&gt;db-data-config.xml&lt;/str&gt;
-&lt;/lst&gt;
-&lt;/requesthandler&gt;</code></pre>
-</div>
-</p>
+<p>{% highlight xml %}
+<requesthandler name="/dataimport" class="org.apache.solr.handler.dataimport.DatalmportHandler">
+<lst name="defaults">
+  <str name="config">db-data-config.xml</str>
+</lst>
+</requesthandler>
+{% endhighlight %}</p>
 
 <h3 id="mysql--connector-">mysql の connector をダウンロードして設置</h3>
 <p>mysql-connector-java-5.1.29-bin.jar を <a href="http://dev.mysql.com/downloads/connector/j/">http://dev.mysql.com/downloads/connector/j/</a>から落としてきて
@@ -214,72 +210,69 @@ dist 以下に設置する。</p>
 <p>そしてだいたいこんなかんじに設置する。 mysql は localhost の 3306 番で動いているものとし、<br />
 solrsample っていう database があるものとする。 password は hogehoge とする。  </p>
 
-<p><div>
-  <pre><code class='bash'>&lt;/p&gt;
+<p>{% highlight bash %}</p>
 
-&lt;p&gt;diff –git a/conf/db-data-config.xml b/conf/db-data-config.xml
+<p>diff –git a/conf/db-data-config.xml b/conf/db-data-config.xml
 new file mode 100644
 index 0000000..c758319
 — /dev/null
 +++ b/conf/db-data-config.xml
 @@ -0,0 +1,24 @@
-+&lt;dataconfig&gt;
-+    &amp;lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;
-+        url=&quot;jdbc:mysql://localhost:3306/solrsample&quot;
-+        user=&quot;vimtaku&quot; password=&quot;hogehoge&quot;/&amp;gt;
-+    &lt;document&gt;
-+        &amp;lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
-+            query=&quot;select * from recipe_mst&quot;
-+            deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
-+            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &amp;gt;= &#39;${dataimporter.last_index_time}&#39;&quot;&amp;gt;
-+            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
-+            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
-+            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
-+            &amp;lt;entity name=&quot;recipe_genre_rel&quot;
-+                query=&quot;select * from recipe_genre_rel where recipe_id = &#39;${recipe_mst.recipe_id}&#39;&quot;&amp;gt;
-+                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = &#39;${recipe_genre_rel.genre_id}&#39;&quot;&gt;
-+                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
-+                &lt;/entity&gt;
-+            &amp;lt;/entity&amp;gt;
-+            &lt;entity name=&quot;chef_mst&quot; query=&quot;select * from chef_mst where chef_id = &#39;${recipe_mst.chef_id}&#39;&quot;&gt;
-+                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
++<dataconfig>
++    &lt;dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
++        url="jdbc:mysql://localhost:3306/solrsample"
++        user="vimtaku" password="hogehoge"/&gt;
++    <document>
++        &lt;entity name="recipe_mst" pk="recipe_id"
++            query="select * from recipe_mst"
++            deltaImportQuery="SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}"
++            deltaQuery="select recipe_id from recipe_mst WHERE updated_at &gt;= '${dataimporter.last_index_time}'"&gt;
++            <field column="recipe_id" name="recipe_id" />
++            <field column="recipe_name" name="recipe_name" />
++            <field column="price" name="price" />
++            &lt;entity name="recipe_genre_rel"
++                query="select * from recipe_genre_rel where recipe_id = '${recipe_mst.recipe_id}'"&gt;
++                <entity name="genre_mst" query="select * from genre_mst where genre_id = '${recipe_genre_rel.genre_id}'">
++                    <field column="name" name="genre" />
++                </entity>
 +            &lt;/entity&gt;
-+        &amp;lt;/entity&amp;gt;
-+    &lt;/document&gt;
-+&lt;/dataconfig&gt;
++            <entity name="chef_mst" query="select * from chef_mst where chef_id = '${recipe_mst.chef_id}'">
++                <field column="name" name="chef" />
++            </entity>
++        &lt;/entity&gt;
++    </document>
++</dataconfig>
 diff –git a/conf/solrconfig.xml b/conf/solrconfig.xml
 index 00b7555..2d19133 100644
 — a/conf/solrconfig.xml
 +++ b/conf/solrconfig.xml
 @@ -84,6 +84,9 @@
-   &lt;lib dir=&quot;../../../contrib/velocity/lib&quot; regex=&quot;.*\.jar&quot; /&gt;
-   &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-velocity-\d.*\.jar&quot; /&gt;&lt;/p&gt;
+   <lib dir="../../../contrib/velocity/lib" regex=".*\.jar" />
+   <lib dir="../../../dist/" regex="solr-velocity-\d.*\.jar" /></p>
 
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-dataimporthandler-.*\.jar&quot; /&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;mysql.*\.jar&quot; /&gt;
+<ul>
+  <li>
+    <lib dir="../../../dist/" regex="solr-dataimporthandler-.*\.jar" />
+  </li>
+  <li>
+    <lib dir="../../../dist/" regex="mysql.*\.jar" />
 
-    &lt;p&gt;+
-&amp;lt;!– an exact ‘path’ can be used instead of a ‘dir’ to specify a
+    <p>+
+&lt;!– an exact ‘path’ can be used instead of a ‘dir’ to specify a
      specific jar file.  This will cause a serious error to be logged
      if it can’t be loaded.
 @@ -1513,6 +1516,15 @@
-&amp;lt;/requestHandler&amp;gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&amp;lt;requestHandler name=”/dataimport”&lt;/li&gt;
-  &lt;li&gt;class=”org.apache.solr.handler.dataimport.DataImportHandler”&amp;gt;&lt;/li&gt;
-  &lt;li&gt;
-    &lt;lst name=&quot;defaults&quot;&gt;
-&lt;/lst&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;str name=&quot;config&quot;&gt;db-data-config.xml&lt;/str&gt;
-    &lt;p&gt;</code></pre>
-</div>
-</p>
+&lt;/requestHandler&gt;</p>
+  </li>
+  <li>&lt;requestHandler name=”/dataimport”</li>
+  <li>class=”org.apache.solr.handler.dataimport.DataImportHandler”&gt;</li>
+  <li>
+    <lst name="defaults">
+</lst>
+  </li>
+  <li>
+    <str name="config">db-data-config.xml</str>
+    <p>{% endhighlight %}</p>
   </li>
 </ul>
 
@@ -304,29 +297,26 @@ deltaQuery は どんなに nest が深くても実行される(たぶん)。</p
 
 <p>例えば</p>
 
-<p><div>
-  <pre><code class='xml'>&lt;/p&gt;
-&lt;dataconfig&gt;
-    &lt;datasource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot; url=&quot;jdbc:mysql://localhost:3306/solrsample&quot; user=&quot;vimtaku&quot; password=&quot;hogehoge&quot; /&gt;
-    &lt;document&gt;
-        &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot; query=&quot;select * from recipe_mst&quot; deltaimportquery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot; deltaquery=&quot;select recipe_id from recipe_mst WHERE updated_at &amp;gt;= &#39;${dataimporter.last_index_time}&#39;&quot;&gt;
-            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
-            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
-            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
-            &lt;entity name=&quot;recipe_genre_rel&quot; query=&quot;select * from recipe_genre_rel where recipe_id = &#39;${recipe_mst.recipe_id}&#39;&quot;&gt;
-                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = &#39;${recipe_genre_rel.genre_id}&#39;&quot;&gt;
-                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
-                &lt;/entity&gt;
-            &lt;/entity&gt;
-            &lt;entity name=&quot;chef_mst&quot; pk=&quot;chef_id&quot; query=&quot;select * from chef_mst where chef_id = &#39;${recipe_mst.chef_id}&#39;&quot; deltaquery=&quot;select chef_id from chef_mst where chef_id = 1&quot; parentdeltaquery=&quot;select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1&quot;&gt;
-                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
-            &lt;/entity&gt;
-        &lt;/entity&gt;
-    &lt;/document&gt;
-&lt;/dataconfig&gt;
-&lt;p&gt;</code></pre>
-</div>
-</p>
+<p>{% highlight xml %}</p>
+<dataconfig>
+    <datasource type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/solrsample" user="vimtaku" password="hogehoge" />
+    <document>
+        <entity name="recipe_mst" pk="recipe_id" query="select * from recipe_mst" deltaimportquery="SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}" deltaquery="select recipe_id from recipe_mst WHERE updated_at &gt;= '${dataimporter.last_index_time}'">
+            <field column="recipe_id" name="recipe_id" />
+            <field column="recipe_name" name="recipe_name" />
+            <field column="price" name="price" />
+            <entity name="recipe_genre_rel" query="select * from recipe_genre_rel where recipe_id = '${recipe_mst.recipe_id}'">
+                <entity name="genre_mst" query="select * from genre_mst where genre_id = '${recipe_genre_rel.genre_id}'">
+                    <field column="name" name="genre" />
+                </entity>
+            </entity>
+            <entity name="chef_mst" pk="chef_id" query="select * from chef_mst where chef_id = '${recipe_mst.chef_id}'" deltaquery="select chef_id from chef_mst where chef_id = 1" parentdeltaquery="select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1">
+                <field column="name" name="chef" />
+            </entity>
+        </entity>
+    </document>
+</dataconfig>
+<p>{% endhighlight %}</p>
 
 <p>こうなっていた場合、<br />
 deltaQuery=”select chef_id from chef_mst where chef_id = 1”<br />

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jekyll | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/jekyll/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,8 +18,7 @@
     <link href="http://vimtaku.github.io/blog/2013/12/23/jekyll-plugin-/"/>
     <updated>2013-12-23T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/23/jekyll-plugin-</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="section">もくじ</h2>
 <ul id="markdown-toc">
@@ -45,37 +44,35 @@
 <h2 id="master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</h2>
 <p>約1分でできるからご安心を。</p>
 
-<p><div>
-  <pre><code class='bash'>##  ソースブランチをコミット。以降はソースブランチで記事を書く
+<p>{% highlight bash %}
+##  ソースブランチをコミット。以降はソースブランチで記事を書く
 git checkout -b source
-git push origin source:source&lt;/p&gt;
+git push origin source:source</p>
 
-&lt;h2 id=&quot;deploy--master--push-&quot;&gt;_deploy を作ってそれを master として push する&lt;/h2&gt;
-&lt;p&gt;mkdir _deploy
-cd _deploy&lt;/p&gt;
+<h2 id="deploy--master--push-">_deploy を作ってそれを master として push する</h2>
+<p>mkdir _deploy
+cd _deploy</p>
 
-&lt;h2 id=&quot;section-1&quot;&gt;適当に最初のコミットを作る、この辺はもっとかっこいい方法あると思うけど気にしない&lt;/h2&gt;
-&lt;p&gt;git init
+<h2 id="section-1">適当に最初のコミットを作る、この辺はもっとかっこいい方法あると思うけど気にしない</h2>
+<p>git init
 touch hoge
 ## 自分のいままでの master を remote add
 git remote add origin git@github.com:vimtaku/vimtaku.github.com.git
 git add .
 git ci . -m ‘Initial commit’
-git push -f origin master:master&lt;/p&gt;
+git push -f origin master:master</p>
 
-&lt;h2 id=&quot;site-&quot;&gt;_site を生成&lt;/h2&gt;
-&lt;p&gt;cd ..
-jekyll serve  –watch -P 4000 -H 127.0.0.1 –trace&lt;/p&gt;
+<h2 id="site-">_site を生成</h2>
+<p>cd ..
+jekyll serve  –watch -P 4000 -H 127.0.0.1 –trace</p>
 
-&lt;h2 id=&quot;vim--rakefile-&quot;&gt;vim で Rakefile を修正&lt;/h2&gt;
-&lt;p&gt;## これ(ひとのやつ)を参考に. https://github.com/gosyujin/gosyujin.github.com/commit/2943985064ced913767157eb0fdae431b68ac491
-vim Rakefile&lt;/p&gt;
+<h2 id="vim--rakefile-">vim で Rakefile を修正</h2>
+<p>## これ(ひとのやつ)を参考に. https://github.com/gosyujin/gosyujin.github.com/commit/2943985064ced913767157eb0fdae431b68ac491
+vim Rakefile</p>
 
-&lt;p&gt;rake deploy&lt;/p&gt;
+<p>rake deploy</p>
 
-&lt;p&gt;</code></pre>
-</div>
-</p>
+<p>{% endhighlight %}</p>
 
 <h2 id="section-2">ちなみに</h2>
 <p>ソース見た感じ一日で複数ポストした場合には、ポストの並び順は辞書順っぽい。</p>
@@ -88,8 +85,7 @@ vim Rakefile&lt;/p&gt;
     <link href="http://vimtaku.github.io/blog/2013/12/23/5_jekyll-blockquote-/"/>
     <updated>2013-12-23T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/23/5_jekyll-blockquote-</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="jekyll--blockquote-">jekyll で blockquote で改行とかいい感じにならない問題</h2>
 <p>なんか jekyll で 最初 markdown で &gt; で引用できるって知らなくて<br />
@@ -105,7 +101,9 @@ gsub! 使った方がいいのでもういっこ差分足した</p>
 <h2 id="toc-">toc について</h2>
 <p>table of contents 機能が地味にあって  </p>
 
-<p><blockquote><p>* </p><br/><p></p></blockquote>
+<p>{% blockquote %}
+* </p>
+<p>{% endblockquote %}
 って感じで書くといいらしい。  </p>
 
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,8 +18,7 @@
     <link href="http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile/"/>
     <updated>2014-01-21T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/21/fog-iam-profile</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="section">現象</h2>
 <p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
@@ -34,11 +33,10 @@ metadata な endpoint にアクセスして一時的な access_key と secret �
 credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
 
 <p>lib/fog/core/service.rb
-<div>
-  <pre><code class='bash'>-options = options.merge(fetch_credentials(options))
-+options = fetch_credentials(options).merge(options)</code></pre>
-</div>
-</p>
+{% highlight bash %}
+-options = options.merge(fetch_credentials(options))
++options = fetch_credentials(options).merge(options)
+{% endhighlight %}</p>
 
 <p>とりあえずもっと調べなきゃよくわからない。<br />
 これがうまくいっていそうなら pull req だしてみよう。  </p>
@@ -50,8 +48,7 @@ credential を撮ってきたものを使用していないので ここが怪�
     <link href="http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm/"/>
     <updated>2014-01-20T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/20/cloud-watch-alarm</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -106,8 +103,8 @@ CLI ではこちらが参考になる。<br />
 
 <h3 id="from-cli">メトリックの作成 from cli</h3>
 
-<p><div>
-  <pre><code class='bash'>aws cloudwatch put-metric-alarm
+<p>{% highlight bash %}
+aws cloudwatch put-metric-alarm
 –alarm-name=’disk-usage’ \
              –alarm-description ‘Disk usage alert’ \
              –alarm-actions=’arn:aws:sns:ap-northeast-1:99999999:mogemoga’   \
@@ -120,9 +117,8 @@ CLI ではこちらが参考になる。<br />
              –threshold  ‘50’
              –evaluation-periods  ‘1’
              –region ‘ap-northeast-1’
-             –comparison-operator ‘GreaterThanOrEqualToThreshold’</code></pre>
-</div>
-</p>
+             –comparison-operator ‘GreaterThanOrEqualToThreshold’
+{% endhighlight %}</p>
 
 <p>ここですんなりうまくいくかどうかが別れると思う。<br />
 IAM role を使う場合は、権限が許可されていれば問題なく通ると思う。<br />
@@ -185,11 +181,10 @@ chef 力低めで申し訳なので、アドバイス、pull req など大歓迎
 </ul>
 
 <h4 id="section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</h4>
-<p><div>
-  <pre><code class='bash'>/dev/null &amp;lt; $(yes)
-cat - &amp;lt; $(yes)</code></pre>
-</div>
-</p>
+<p>{% highlight bash %}
+/dev/null &lt; $(yes)
+cat - &lt; $(yes)
+{% endhighlight %}</p>
 ]]></content>
   </entry>
   
@@ -198,8 +193,7 @@ cat - &amp;lt; $(yes)</code></pre>
     <link href="http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs/"/>
     <updated>2014-01-08T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/08/z_elasticsearch-ebs</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h1 id="opsworks--elasticsearch-">opsworks と elasticsearch についてのメモ</h1>
 
@@ -243,32 +237,29 @@ cat - &amp;lt; $(yes)</code></pre>
 
 <h2 id="opsworks--chef-">opsworks の chef で役立つコマンド例</h2>
 
-<p><div>
-  <pre><code class='bash'>&lt;/p&gt;
+<p>{% highlight bash %}</p>
 
-&lt;h2 id=&quot;setup--retry&quot;&gt;setup サイクルを retry&lt;/h2&gt;
-&lt;p&gt;opsworks-cli-agent run_command setup&lt;/p&gt;
+<h2 id="setup--retry">setup サイクルを retry</h2>
+<p>opsworks-cli-agent run_command setup</p>
 
-&lt;h2 id=&quot;customjson--dump&quot;&gt;custom.json を dump&lt;/h2&gt;
-&lt;p&gt;opsworks-cli-agent get_json &amp;gt; hoge.json&lt;/p&gt;
+<h2 id="customjson--dump">custom.json を dump</h2>
+<p>opsworks-cli-agent get_json &gt; hoge.json</p>
 
-&lt;h2 id=&quot;section&quot;&gt;ログをみる&lt;/h2&gt;
-&lt;p&gt;opsworks-cli-agent show_log&lt;/p&gt;
+<h2 id="section">ログをみる</h2>
+<p>opsworks-cli-agent show_log</p>
 
-&lt;h2 id=&quot;hogejson-&quot;&gt;hoge.json を指定すれば、楽にもう一度ライフサイクルを指定できる&lt;/h2&gt;
-&lt;p&gt;“/opt/aws/opsworks/current/bin/chef-solo” -j “hoge.json” -c “/opt/aws/opsworks/current/conf/solo.rb” -L “/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log” &amp;gt; “/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log.out” 2&amp;gt;&amp;amp;1&lt;/p&gt;
+<h2 id="hogejson-">hoge.json を指定すれば、楽にもう一度ライフサイクルを指定できる</h2>
+<p>“/opt/aws/opsworks/current/bin/chef-solo” -j “hoge.json” -c “/opt/aws/opsworks/current/conf/solo.rb” -L “/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log” &gt; “/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log.out” 2&gt;&amp;1</p>
 
-&lt;h3 id=&quot;section-1&quot;&gt;役に立つディレクトリ&lt;/h3&gt;
+<h3 id="section-1">役に立つディレクトリ</h3>
 
-&lt;h2 id=&quot;opsworks--chef-solo--json-&quot;&gt;opsworks の chef-solo が走るときにログが出たり、走るときの json が出たりする&lt;/h2&gt;
-&lt;p&gt;/var/lib/aws/opsworks&lt;/p&gt;
+<h2 id="opsworks--chef-solo--json-">opsworks の chef-solo が走るときにログが出たり、走るときの json が出たりする</h2>
+<p>/var/lib/aws/opsworks</p>
 
-&lt;h2 id=&quot;opsworks--chef-solo-&quot;&gt;opsworks の chef-solo のクックブックとかがこのへんにある。&lt;/h2&gt;
-&lt;p&gt;/opt/aws/opsworks&lt;/p&gt;
+<h2 id="opsworks--chef-solo-">opsworks の chef-solo のクックブックとかがこのへんにある。</h2>
+<p>/opt/aws/opsworks</p>
 
-&lt;p&gt;</code></pre>
-</div>
-</p>
+<p>{% endhighlight %}</p>
 
 <h2 id="useiamprofile-">use_iam_profile がうまく行かない件</h2>
 <p>gem の fog を使うところで use_iam_profile =&gt; true で渡しても全然うまく動かない問題があって、<br />
@@ -291,8 +282,7 @@ cat - &amp;lt; $(yes)</code></pre>
     <link href="http://vimtaku.github.io/blog/2013/12/25/opsworks-and-dotenv/"/>
     <updated>2013-12-25T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/25/opsworks-and-dotenv</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="section">もくじ</h2>
 <ul id="markdown-toc">

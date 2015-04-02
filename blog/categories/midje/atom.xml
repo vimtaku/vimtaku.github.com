@@ -4,7 +4,7 @@
   <title><![CDATA[Category: midje | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/midje/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,8 +18,7 @@
     <link href="http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test/"/>
     <updated>2014-12-15T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="toc">TOC</h2>
 <ul id="markdown-toc">
@@ -40,22 +39,21 @@ filter ができるのだが、 clojure ではどうやるのだろうか。調�
 
 <h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
 
-<p><div>
-  <pre><code class='clojure'>; in repl.clj
+<p>{% highlight clojure %}
+; in repl.clj
 (defn filter-autotest []
 (require ‘midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-)&lt;/p&gt;
+)</p>
 
-&lt;p&gt;(defn all-autotest []
+<p>(defn all-autotest []
 (require ‘midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-)&lt;/p&gt;
+)</p>
 
-&lt;p&gt;; in test
+<p>; in test
 (fact :filter “do something great test”
  (is true)
-)</code></pre>
-</div>
-</p>
+)
+{% endhighlight %}</p>
 
 <p>上記をrepl 内で定義しておき、<br />
 (filter-autotest) か (all-autotest) かを評価する。<br />
@@ -67,8 +65,8 @@ all-autotest の場合は全てが実行される。  </p>
 <a href="http://dev.solita.fi/2014/03/18/pimp-my-repl.html">こちら</a><br />
 を参考にして設定することで, 起動時に load するようにした。</p>
 
-<p><div>
-  <pre><code class='diff'>+++ b/dev/user.clj
+<p>{% highlight diff %}
++++ b/dev/user.clj
 @@ -0,0 +1,29 @@
 +(ns user
 +  (:require
@@ -99,23 +97,21 @@ all-autotest の場合は全てが実行される。  </p>
 +
 +(defn reset []
 +  (stop)
-+  (refresh :after ‘user/start))&lt;/p&gt;
++  (refresh :after ‘user/start))</p>
 
-&lt;p&gt;+++ b/project.clj
+<p>+++ b/project.clj
 @@ -20,7 +20,8 @@
 -  {:dev {:dependencies [
 +  {:dev {:source-paths [“dev”]
-+         :dependencies [</code></pre>
-</div>
-</p>
++         :dependencies [
+{% endhighlight %}</p>
 
 <h2 id="section">注意点</h2>
-<p><div>
-  <pre><code class='clojure'>(fact “do something”
+<p>{% highlight clojure %}
+(fact “do something”
  (fact “do2”
-  ….</code></pre>
-</div>
-
+  ….
+{% endhighlight %}
 のように、 fact でネストした場合は filter に引っかからないので、<br />
 この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
 

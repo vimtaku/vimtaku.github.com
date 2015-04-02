@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -36,9 +36,23 @@ MariaDB とか PostgreSQL とかでは Hash Join が実装されているよう�
 Hash JOIN のほうがすごく早い場合がある、が、単純に Hash Join のほうが早いというわけではない。<br />
  <a href="http://www.mysqlperformanceblog.com/2012/05/31/a-case-for-mariadbs-hash-joins/">mysql performance blog</a>の結論部をたいして無い英語力で翻訳してみると、  </p>
 
-<p><blockquote><p>Based on the above information and the benchmark results for different test cases, we can see where Hash Joins work best and where they don’t. First of all Hash joins only work for equijoins. Hash join work best when you are joining very big tables with no WHERE clause, or a WHERE clause on a non-indexed column. They also provide big improvement in query response time when you are joining tables with no indexes on the join condition (Full Join). The best performance with Hash Join can be achieved when the left table can fit completely in the join buffer, or when the least amount of buffer refills are needed, as each buffer refill means a scan of the right-side table. However, Hash joins do not outperform BNL or BKA when you are joining a really small subset of rows, as then scanning the right-side table becomes costly in comparison. Block Nested Loop Join would perform better than Hash Join when you are joining two tables on a PK column such that both tables are read in PK order. One use case that I can think of for hash joins is data warehouse applications that need to run reporting queries that need to join on lookup tables which tend to be small mostly. What use cases can you think of</p></blockquote></p>
+<p>{% blockquote %}
+Based on the above information and the benchmark results for different test cases, we can see where Hash Joins work best and where they don’t. First of all Hash joins only work for equijoins. Hash join work best when you are joining very big tables with no WHERE clause, or a WHERE clause on a non-indexed column. They also provide big improvement in query response time when you are joining tables with no indexes on the join condition (Full Join). The best performance with Hash Join can be achieved when the left table can fit completely in the join buffer, or when the least amount of buffer refills are needed, as each buffer refill means a scan of the right-side table. However, Hash joins do not outperform BNL or BKA when you are joining a really small subset of rows, as then scanning the right-side table becomes costly in comparison. Block Nested Loop Join would perform better than Hash Join when you are joining two tables on a PK column such that both tables are read in PK order. One use case that I can think of for hash joins is data warehouse applications that need to run reporting queries that need to join on lookup tables which tend to be small mostly. What use cases can you think of
+{% endblockquote %}</p>
 
-<p><blockquote><p>まず Hash join は inner join じゃなきゃそもそもうごかない。<br /><br/>Hash join は where 句なしの大きいテーブルか、<br /><br/>where 使っているけど インデックスはられていないカラムの条件指定の時に効果を発揮するよ。<br /><br/>もしくは、index がはられていない列同士の結合とかにもだいぶ効果発揮するよ。<br /><br/>ベストパフォーマンス発揮するタイミングは、左のテーブルがジョインバッファに全部収まる<br /><br/>(最低限再度バッファに入れる時に入るサイズ)ときだ。<br /><br/>それは右のテーブルを読みきった時にまたジョインバッファ更新するから。<br /><br/>すげぇ小さいテーブルとか、右のテーブルに const 検索条件が使われている時とかは BNL とか BKA とかのほうがいい感じだぜ。<br /><br/>BNL は PK での 検索条件とか、 PK での sort order 使ってるときに Hash join よりいいぜ。<br /><br/>まぁ、一つ思いつくのは data ware hause Application とかでレポートする処理とか書く時にかなり早くなりそうだよね。<br /><br/>あとなんかある？<br /></p></blockquote></p>
+<p>{% blockquote %}
+まず Hash join は inner join じゃなきゃそもそもうごかない。<br />
+Hash join は where 句なしの大きいテーブルか、<br />
+where 使っているけど インデックスはられていないカラムの条件指定の時に効果を発揮するよ。<br />
+もしくは、index がはられていない列同士の結合とかにもだいぶ効果発揮するよ。<br />
+ベストパフォーマンス発揮するタイミングは、左のテーブルがジョインバッファに全部収まる<br />
+(最低限再度バッファに入れる時に入るサイズ)ときだ。<br />
+それは右のテーブルを読みきった時にまたジョインバッファ更新するから。<br />
+すげぇ小さいテーブルとか、右のテーブルに const 検索条件が使われている時とかは BNL とか BKA とかのほうがいい感じだぜ。<br />
+BNL は PK での 検索条件とか、 PK での sort order 使ってるときに Hash join よりいいぜ。<br />
+まぁ、一つ思いつくのは data ware hause Application とかでレポートする処理とか書く時にかなり早くなりそうだよね。<br />
+あとなんかある？<br />
+{% endblockquote %}</p>
 
 <p>って感じだ。<br />
 なるほど、そう考えると格段と良くなるとは言えないが、場合によっては相当効力がありそうだ。<br />
@@ -68,10 +82,9 @@ show engine innodb status;<br />
 https://github.com/yoshinorim/MySlowTranCapture  </p>
 
 <p>この辺は見直すとよいかも。
-<div>
-  <pre><code class='sql'>mysql&amp;gt; show global variables like ‘%innodb_lock_wait_timeout%’;</code></pre>
-</div>
-</p>
+{% highlight sql %}
+mysql&gt; show global variables like ‘%innodb_lock_wait_timeout%’;
+{% endhighlight %}</p>
 
 <h3 id="rds-">RDS におけるリストアについて</h3>
 <p>オンプレミスな DB のリストアなら、<br />

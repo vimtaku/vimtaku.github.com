@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出るときの解決法]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/04/02/rails_admin_ja_datepicker/"/>
+    <updated>2015-04-02T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/04/02/rails_admin_ja_datepicker</id>
+    <content type="html"><![CDATA[<h1 id="section">概要</h1>
+<p>rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出る。<br />
+原因は
+<a href="http://qiita.com/kuboon/items/1d009e2f89729fe5db78">参考のQiita</a> 参照。  </p>
+
+<p>自分の場合はうまくいかなかったので、ソースおったらここ直せば良さそうだったので<br />
+ここを上書きする感じにした。  </p>
+
+<h4 id="configinitializersrailsadminrb">config/initializers/rails_admin.rb</h4>
+<p><code>
+# Fix for bug when specified japanese datetime string
+# http://qiita.com/kuboon/items/1d009e2f89729fe5db78
+module RailsAdmin
+  module Config
+    module Fields
+      module Types
+        class Datetime &lt; RailsAdmin::Config::Fields::Base
+          def localized_date_format
+            "%Y-%m-%d"
+          end
+        end
+      end
+    end
+  end
+end
+</code></p>
+
+<p>以上。  </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Jbuilder で 共通パラメータを付与したい時は layout を使うといいかも]]></title>
@@ -43,23 +79,21 @@ layout ‘api/application.jbuilder’
 app/views/hoge/new.jbuilder が呼ばれるので、  </p>
 
 <p>app/views/hoge/new.jbuilder
-<div>
-  <pre><code class='ruby'>json.from_hoge “from_hoge_param”</code></pre>
-</div>
-</p>
+{% highlight ruby %}
+json.from_hoge “from_hoge_param”
+{% endhighlight %}</p>
 
 <p>layouts/api/application.jbuilder<br />
-<div>
-  <pre><code class='ruby'># common に値を付与
+{% highlight ruby %}
+# common に値を付与
 json.common “common_param_is_here”
 # controller の @hoge を参照できる
 json.hoge @hoge
 # template の値を付与
 JSON.parse(yield).each do |k,v|
   json.set! k, v
-end</code></pre>
-</div>
-
+end
+{% endhighlight %}
 とかしておくと良いのかもしれない。<br />
 結果は
 {common:”common_param_is_here”, fromHoge:”from_hoge_param”, hoge:”hoge_from_controller”}

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -34,19 +34,15 @@ http://example.com みたいな url があった時に,<br />
 
 <h2 id="section-2">概要</h2>
 <p>http://example.com という文字列を<br />
-<div>
-  <pre><code class='vim'>&lt;br /&gt;
-&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;</code></pre>
-</div>
-
+{% highlight vim %}<br />
+<a href="http://example.com">http://example.com</a>
+{% endhighlight %}
 と簡単に変換できる operator plugin を書きました。<br />
 また, blog を書くときに参考資料とかに url を memo で書いていて,<br />
 それを
-<div>
-  <pre><code class='vim'>&lt;br /&gt;
-&lt;a href=&quot;http://example.com&quot;&gt;ここのリンク&lt;/a&gt;</code></pre>
-</div>
-
+{% highlight vim %}<br />
+<a href="http://example.com">ここのリンク</a>
+{% endhighlight %}
 みたいなふうに<br />
 作りたいというのがよくあったので, yank している url を 文字列にリンク展開できるようにもしました。  </p>
 
@@ -57,26 +53,21 @@ http://example.com みたいな url があった時に,<br />
 
 <h4 id="option-vim-textobj-url-">0. (option) vim-textobj-url をインストール</h4>
 <p>なくてもいいんだけど、あったら多分便利だと思います。
-<div>
-  <pre><code class='vim'>&lt;br /&gt;
-NeoBundle ‘mattn/vim-textobj-url’&lt;br /&gt;</code></pre>
-</div>
-  </p>
+{% highlight vim %}<br />
+NeoBundle ‘mattn/vim-textobj-url’<br />
+{% endhighlight %}  </p>
 
 <h4 id="vim-operator-mdurl--">1. vim-operator-mdurl を インストール</h4>
 <p>.vimrc に<br />
-<div>
-  <pre><code class='vim'>&lt;br /&gt;
-NeoBundle ‘vimtaku/vim-operator-mdurl’</code></pre>
-</div>
-<br />
+{% highlight vim %}<br />
+NeoBundle ‘vimtaku/vim-operator-mdurl’
+{% endhighlight %}<br />
 #### 2. .vimrc に map を書く<br />
 設定例)<br />
-<div>
-  <pre><code class='vim'>map L &lt;plug&gt;(operator-mdurl)
-map M &lt;plug&gt;(operator-mdurlp)</code></pre>
-</div>
-
+{% highlight vim %}
+map L <plug>(operator-mdurl)
+map M <plug>(operator-mdurlp)
+{% endhighlight %}
 #### 3. 使う  
 http://example.com とかの文字列の何処かで LiW とかするとできます。  
 http://example.com を yank しておいて hoge とかの文字列上で Miw とかすると、  
@@ -91,18 +82,17 @@ http://example.com を yank しておいて hoge とかの文字列上で Miw �
 textobj-wiw ですでに u は使っていたので<br />
 text-obj-url のデフォルトの u(i|a) とかぶると嫌なので以下の様に書きました。  </p>
 
-<p><div>
-  <pre><code class='vim'>xmap ah  &lt;plug&gt;(textobj-url-a)
-omap ah  &lt;plug&gt;(textobj-url-a)
-xmap ih  &lt;plug&gt;(textobj-url-i)
-omap ih  &lt;plug&gt;(textobj-url-i)&lt;/plug&gt;&lt;/plug&gt;&lt;/plug&gt;&lt;/plug&gt;&lt;/p&gt;
+<p>{% highlight vim %}
+xmap ah  <plug>(textobj-url-a)
+omap ah  <plug>(textobj-url-a)
+xmap ih  <plug>(textobj-url-i)
+omap ih  <plug>(textobj-url-i)</plug></plug></plug></plug></p>
 
-&lt;p&gt;xmap au  &lt;plug&gt;(textobj-wiw-a)
-omap au  &lt;plug&gt;(textobj-wiw-a)
-xmap iu  &lt;plug&gt;(textobj-wiw-i)
-omap iu  &lt;plug&gt;(textobj-wiw-i)</code></pre>
-</div>
-</plug></plug></plug></plug></p>
+<p>xmap au  <plug>(textobj-wiw-a)
+omap au  <plug>(textobj-wiw-a)
+xmap iu  <plug>(textobj-wiw-i)
+omap iu  <plug>(textobj-wiw-i)
+{% endhighlight %}</plug></plug></plug></plug></p>
 
 <h2 id="section-5">所感</h2>
 <p>最近は vim に注力出来ていなかったけど、ずっと書きたかった plugin がかけて良かったです。<br />

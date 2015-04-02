@@ -4,7 +4,7 @@
   <title><![CDATA[Category: chef | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/chef/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-03-19T10:30:39+09:00</updated>
+  <updated>2015-04-02T16:04:49+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -18,8 +18,7 @@
     <link href="http://vimtaku.github.io/blog/2014/01/27/chef-memo-2/"/>
     <updated>2014-01-27T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/27/chef-memo-2</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="chef--libraries-">chef の libraries を使う場合の今のところの俺の結論</h2>
 
@@ -102,8 +101,7 @@
     <link href="http://vimtaku.github.io/blog/2014/01/24/chef-memo/"/>
     <updated>2014-01-24T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/24/chef-memo</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="section">概要</h2>
 <p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
@@ -149,8 +147,7 @@
     <link href="http://vimtaku.github.io/blog/2014/01/14/asset-sync/"/>
     <updated>2014-01-14T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2014/01/14/asset-sync</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h2 id="rails--asset-pipeline--s3-opsworks">rails で asset pipeline を使って s3 に上げる手順について(opsworks使用)</h2>
 
@@ -159,28 +156,26 @@
 <a href="http://d.hatena.ne.jp/lettas0726/20130320/1363773153">http://d.hatena.ne.jp/lettas0726/20130320/1363773153</a></p>
 
 <h4 id="gemfile">Gemfile</h4>
-<p><div>
-  <pre><code class='ruby'>gem ‘uglifier’, ‘&amp;gt;= 1.3.0’
-gem ‘asset_sync’</code></pre>
-</div>
-
+<p>{% highlight ruby %}
+gem ‘uglifier’, ‘&gt;= 1.3.0’
+gem ‘asset_sync’
+{% endhighlight %}
 を追記。</p>
 
 <h4 id="deploybeforemigraterb">deploy/before_migrate.rb</h4>
 
-<p><div>
-  <pre><code class='ruby'>template “#{release_path}/config/asset_sync.yml” do
+<p>{% highlight ruby %}
+template “#{release_path}/config/asset_sync.yml” do
   mode “0644”
   source “asset_sync.yml.erb”
-end&lt;/p&gt;
+end</p>
 
-&lt;p&gt;bash “precompile_assets” do
+<p>bash “precompile_assets” do
   user “deploy”
   cwd release_path
   code ‘bundle exec rake assets:precompile RAILS_ENV=production’
-end</code></pre>
-</div>
-</p>
+end
+{% endhighlight %}</p>
 
 <p>今回は、 before_migrate で呼ぶことにする。<br />
 chef-solo で呼ばれるので resource が使える模様。<br />
@@ -190,11 +185,10 @@ template は asset_sync.yml.erb としておいておく感じ。</p>
 <h4 id="configenvironmentsproductionrb">config/environments/production.rb</h4>
 <p>hoge.example.com のバケットとしたとき、以下のように追記。</p>
 
-<p><div>
-  <pre><code class='ruby'>config.action_controller.asset_host = ‘//s3-ap-northeast-1.amazonaws.com/hoge.example.com’
-config.assets.initialize_on_precompile = true</code></pre>
-</div>
-</p>
+<p>{% highlight ruby %}
+config.action_controller.asset_host = ‘//s3-ap-northeast-1.amazonaws.com/hoge.example.com’
+config.assets.initialize_on_precompile = true
+{% endhighlight %}</p>
 
 <h2 id="existingremotefiles-">existing_remote_files オプションについて</h2>
 <p>アセットパイプラインでは、ファイルにおそらく md5 の hash 値がついているのを生成する。<br />
@@ -212,8 +206,7 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
     <link href="http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me/"/>
     <updated>2013-12-27T00:00:00+09:00</updated>
     <id>http://vimtaku.github.io/blog/2013/12/27/z_chef-for-me</id>
-    <content type="html"><![CDATA[<p>
-</p>
+    <content type="html"><![CDATA[<p>{% include JB/setup %}</p>
 
 <h1 id="chef-solo-vagrant-">chef-solo, vagrant に慣れるためにそれっぽいチュートリアルをやる</h1>
 
@@ -252,10 +245,9 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   <li>foodcritic を入れる。</li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>$ gem install foodcritic</code></pre>
-</div>
-</p>
+<p>{% highlight bash %}
+$ gem install foodcritic
+{% endhighlight %}</p>
 
 <ul>
   <li>Install VirtualBox
@@ -271,8 +263,8 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   <li>Creating the Cookbook</li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>/Users/vimtaku/vm/myface% berks cookbook myface –foodcritic
+<p>{% highlight bash %}
+/Users/vimtaku/vm/myface% berks cookbook myface –foodcritic
       create  myface/files/default
       create  myface/templates/default
       create  myface/attributes
@@ -291,9 +283,8 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
       create  myface/.gitignore
          run  git init from “./myface”
       create  myface/Gemfile
-      create  myface/Vagrantfile</code></pre>
-</div>
-</p>
+      create  myface/Vagrantfile
+{% endhighlight %}</p>
 
 <p>クックブックのスケルトンテンプレートを、 myface っていう名前で作成した。</p>
 
@@ -315,10 +306,10 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   </li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
+<p>{% highlight bash %}
+/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
    ringing machine ‘default’ up with ‘virtualbox’ provider…
-   [default] Box ‘Berkshelf-CentOS-6.3-x86&lt;em&gt;64-minimal’ was not found. Fetching box from specified URL for
+   [default] Box ‘Berkshelf-CentOS-6.3-x86<em>64-minimal’ was not found. Fetching box from specified URL for
    the provider ‘virtualbox’. Note that if the URL does not have
    a box for this provider, you should interrupt Vagrant now and add
    the box yourself. Otherwise Vagrant will attempt to download the
@@ -329,14 +320,13 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
    Progress: 51% (Rate: 1147k/s, Estimated time remaining: 0:02:01)^U
    Progress: 85% (Rate: 1061k/s, Estimated time remaining: 0:00:38)load: 1.27  cmd: curl 27613 waiting 2.72u 4.99s
    Extracting box…te: 2251k/s, Estimated time remaining: 0:00:01)j
-   Successfully added box ‘Berkshelf-CentOS-6.3-x86&lt;/em&gt;64-minimal’ with provider ‘virtualbox’!
+   Successfully added box ‘Berkshelf-CentOS-6.3-x86</em>64-minimal’ with provider ‘virtualbox’!
    There are errors in the configuration of this machine. Please fix
-   the following errors and try again:&lt;/p&gt;
+   the following errors and try again:</p>
 
-&lt;p&gt;SSH:
-   * The following settings shouldn’t exist: max_tries, timeout</code></pre>
-</div>
-</p>
+<p>SSH:
+   * The following settings shouldn’t exist: max_tries, timeout
+{% endhighlight %}</p>
 
 <ul>
   <li>エラー。 ssh
@@ -347,8 +337,8 @@ config/asset_sync.yml の中の existing_remote_files を keep にする。<br /
   </li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
+<p>{% highlight bash %}
+/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
 Bringing machine ‘default’ up with ‘virtualbox’ provider…
 [default] Importing base box ‘Berkshelf-CentOS-6.3-x86_64-minimal’…
 [default] Matching MAC address for NAT networking…
@@ -364,7 +354,7 @@ Bringing machine ‘default’ up with ‘virtualbox’ provider…
 [default] Clearing any previously set network interfaces…
 [default] Preparing network interfaces based on configuration…
 [default] Forwarding ports…
-[default] – 22 =&amp;gt; 2222 (adapter 1)
+[default] – 22 =&gt; 2222 (adapter 1)
 [default] Booting VM…
 [default] Waiting for machine to boot. This may take a few minutes…
 [default] Machine booted and ready!
@@ -376,7 +366,7 @@ Bringing machine ‘default’ up with ‘virtualbox’ provider…
 [default] Running provisioner: chef_solo…
 Generating chef JSON and uploading…
 Running chef-solo…
-[2013-12-27T09:05:00+00:00] INFO: &lt;em&gt;** Chef 10.14.2 **&lt;/em&gt;
+[2013-12-27T09:05:00+00:00] INFO: <em>** Chef 10.14.2 **</em>
 [2013-12-27T09:05:01+00:00] INFO: Setting the run_list to [“recipe[myface::default]”] from JSON
 [2013-12-27T09:05:01+00:00] INFO: Run List is [recipe[myface::default]]
 [2013-12-27T09:05:01+00:00] INFO: Run List expands to [myface::default]
@@ -385,9 +375,8 @@ Running chef-solo…
 [2013-12-27T09:05:01+00:00] INFO: Start handlers complete.
 [2013-12-27T09:05:01+00:00] INFO: Chef Run complete in 0.017946119 seconds
 [2013-12-27T09:05:01+00:00] INFO: Running report handlers
-[2013-12-27T09:05:01+00:00] INFO: Report handlers complete</code></pre>
-</div>
-</p>
+[2013-12-27T09:05:01+00:00] INFO: Report handlers complete
+{% endhighlight %}</p>
 
 <ul>
   <li>実行されているのは Vagrantfile の中に含まれていた run_list のところのリストだった</li>
@@ -407,30 +396,29 @@ Running chef-solo…
         </ul>
       </li>
       <li>vim で編集. 
-<div>
-  <pre><code class='bash'>/Users/vimtaku/vm/myface/myface% vim recipes/default.rb&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+{% highlight bash %}
+/Users/vimtaku/vm/myface/myface% vim recipes/default.rb</li>
+    </ul>
+  </li>
+</ul>
 
-&lt;p&gt;artifact_deploy “myface” do
+<p>artifact_deploy “myface” do
   version “1.0.0”
   artifact_location “http://dl.dropbox.com/u/31081437/myface-1.0.0.tar.gz”
   deploy_to “/srv/myface”
   owner “myface”
   group “myface”
   action :deploy
-end</code></pre>
-</div>
-</p>
+end
+{% endhighlight %}</p>
 
 <ul>
   <li>provision command でもう一回 chef の provision を実行する。</li>
   <li>berkshelf vagrant plugin の 魔法によって依存関係を勝手に解決してくれる!</li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>[Berkshelf] This version of the Berkshelf plugin has not been fully tested on this version of Vagrant.
+<p>{% highlight bash %}
+[Berkshelf] This version of the Berkshelf plugin has not been fully tested on this version of Vagrant.
 [Berkshelf] You should check for a newer version of vagrant-berkshelf.
 [Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
 [Berkshelf] You can also join the discussion in #berkshelf on Freenode.
@@ -439,43 +427,42 @@ end</code></pre>
 [default] Running provisioner: chef_solo…
 Generating chef JSON and uploading…
 Running chef-solo…
-[2013-12-27T09:36:54+00:00] INFO: &lt;em&gt;** Chef 10.14.2 **&lt;/em&gt;
+[2013-12-27T09:36:54+00:00] INFO: <em>** Chef 10.14.2 **</em>
 [2013-12-27T09:36:54+00:00] INFO: Setting the run_list to [“recipe[myface::default]”] from JSON
 [2013-12-27T09:36:54+00:00] INFO: Run List is [recipe[myface::default]]
 [2013-12-27T09:36:54+00:00] INFO: Run List expands to [myface::default]
 [2013-12-27T09:36:54+00:00] INFO: Starting Chef Run for myface-berkshelf
 [2013-12-27T09:36:54+00:00] INFO: Running start handlers
-[2013-12-27T09:36:54+00:00] INFO: Start handlers complete.&lt;/p&gt;
+[2013-12-27T09:36:54+00:00] INFO: Start handlers complete.</p>
 
-&lt;p&gt;================================================================================
+<p>================================================================================
 Recipe Compile Error in /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb
-================================================================================&lt;/p&gt;
+================================================================================</p>
 
-&lt;h2 id=&quot;nameerror&quot;&gt;NameError&lt;/h2&gt;
-&lt;p&gt;Cannot find a resource for artifact_deploy on centos version 6.3&lt;/p&gt;
+<h2 id="nameerror">NameError</h2>
+<p>Cannot find a resource for artifact_deploy on centos version 6.3</p>
 
-&lt;h2 id=&quot;cookbook-trace&quot;&gt;Cookbook Trace:&lt;/h2&gt;
-&lt;p&gt;/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file’&lt;/p&gt;
+<h2 id="cookbook-trace">Cookbook Trace:</h2>
+<p>/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file’</p>
 
-&lt;h2 id=&quot;relevant-file-content&quot;&gt;Relevant File Content:&lt;/h2&gt;
-&lt;p&gt;/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:&lt;/p&gt;
+<h2 id="relevant-file-content">Relevant File Content:</h2>
+<p>/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:</p>
 
-&lt;p&gt;1:  #
+<p>1:  #
   2:  # Cookbook Name:: myface
   3:  # Recipe:: default
   4:  #
   5:  # Copyright (C) 2013 YOUR_NAME
   6:  # 
   7:  # All rights reserved - Do Not Redistribute
-  8:&lt;br /&gt;
-  9:  artifact_deploy “myface” do&lt;/p&gt;
+  8:<br />
+  9:  artifact_deploy “myface” do</p>
 
-&lt;p&gt;[2013-12-27T09:36:55+00:00] ERROR: Running exception handlers
+<p>[2013-12-27T09:36:55+00:00] ERROR: Running exception handlers
 [2013-12-27T09:36:55+00:00] ERROR: Exception handlers complete
 [2013-12-27T09:36:55+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
-[2013-12-27T09:36:55+00:00] FATAL: NameError: Cannot find a resource for artifact_deploy on centos version 6.3</code></pre>
-</div>
-</p>
+[2013-12-27T09:36:55+00:00] FATAL: NameError: Cannot find a resource for artifact_deploy on centos version 6.3
+{% endhighlight %}</p>
 
 <ul>
   <li>期待通りにエラッた
@@ -524,34 +511,32 @@ Recipe Compile Error in /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes
   <li>Refactoring into attributes
     <ul>
       <li>attributes/default.rb に記入
-<div>
-  <pre><code class='bash'>default[:myface][:user] = “myface”
-default[:myface][:group] = “myface”</code></pre>
-</div>
-</li>
+{% highlight bash %}
+default[:myface][:user] = “myface”
+default[:myface][:group] = “myface”
+{% endhighlight %}</li>
     </ul>
   </li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>group “#{node[‘myface’][‘group’]}”&lt;/p&gt;
+<p>{% highlight bash %}
+group “#{node[‘myface’][‘group’]}”</p>
 
-&lt;p&gt;user “#{node[‘myface’][‘group’]}” do
+<p>user “#{node[‘myface’][‘group’]}” do
   group “#{node[‘myface’][‘group’]}”
   system true
   shell “/bin/bash”
-end&lt;/p&gt;
+end</p>
 
-&lt;p&gt;artifact_deploy “#{node[‘myface’][‘group’]}” do
+<p>artifact_deploy “#{node[‘myface’][‘group’]}” do
   version “1.0.0”
   artifact_location “/tmp/myface-1.0.0.tar.gz”
   deploy_to “/srv/myface”
   owner “#{node[‘myface’][‘user’]}”
   group “#{node[‘myface’][‘group’]}”
   action :deploy
-end</code></pre>
-</div>
-</p>
+end
+{% endhighlight %}</p>
 
 <ul>
   <li>artifact_location に /tmp 指定してるのは回線事情があって wget したやつをおいておいた.</li>
@@ -598,14 +583,13 @@ end</code></pre>
   <li>これが便利</li>
 </ul>
 
-<p><div>
-  <pre><code class='bash'>require ‘json’&lt;/p&gt;
+<p>{% highlight bash %}
+require ‘json’</p>
 
-&lt;p&gt;file “/tmp/dna.json” do
+<p>file “/tmp/dna.json” do
   content JSON.pretty_generate(node)
-end</code></pre>
-</div>
-</p>
+end
+{% endhighlight %}</p>
 
 ]]></content>
   </entry>
