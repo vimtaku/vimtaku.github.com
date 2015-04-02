@@ -23,6 +23,10 @@ module RailsAdmin
     module Fields
       module Types
         class Datetime < RailsAdmin::Config::Fields::Base
+          ## こいつを入れないと変更ない時にダメだった
+          def form_value
+            I18n.l(self.value, format:localized_date_format)
+          end
           def localized_date_format
             "%Y-%m-%d"
           end
