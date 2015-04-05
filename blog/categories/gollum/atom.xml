@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gollum | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/gollum/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-04-05T21:56:23+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[シンプルな wiki 「gollum」 を評価した]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/04/05/gollum-eval/"/>
+    <updated>2015-04-05T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/04/05/gollum-eval</id>
+    <content type="html"><![CDATA[<h1 id="tldr">TL;DR</h1>
+<ul>
+  <li>backlog はかなり緑だけど、よく出来てた  </li>
+  <li>gollum は backlog と比べると、今の組織ではまだ早い  </li>
+  <li>気合があれば gollum を修正して使うといいんじゃないの  </li>
+</ul>
+
+<h1 id="section">背景</h1>
+
+<p><code>
+【緩募】シンプルな wiki で無料で markdown がかけてデザインがイケてて添付ファイルが up できて backlog より便利なヤツ  
+</code></p>
+
+<p>こういう要求があった。<br />
+今、会社で wikiシステムにも backlog を使っていて、よく出来ているんだけど、<br />
+エンジニア的な視点からは非常に使いづらい気がしていて、<br />
+markdown でもっとイイ感じのなにかが欲しかった。  </p>
+
+<h2 id="backlog-">はたして backlog の何が不満なのか</h2>
+<ul>
+  <li>なんか全体的に緑なデザイン  </li>
+  <li>markdown プレビューがだるい点  </li>
+  <li>(重要)コンフルに比べて、小ページの概念がないこと<br />
+    <ul>
+      <li>いま気づいたけど、これがマジでイケてない。コンフルはそれが便利だったことに今気づいた。<br />
+        <ul>
+          <li>どうでもいいけど コンフルは検索がクソな印象がある。  </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>(重要)なんかロックインされちゃう点<br />
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>ぶっちゃけ疎にしておきたい。(エクスポート</td>
+              <td>インポートできるようになっていてほしい(調べてない))</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>markdown という表記自体もある種ロックインだけど、markdown からの変換は期待できるし、現在のデファクトだからそれはそれでいいかと..  </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="gollum-">それで気になっていた gollum を評価した</h1>
+<p><a href="https://github.com/gollum/gollum">gollum</a> はシンプルな wiki で、かなり良く出来ていると思う。<br />
+ただ、まだ実用にはたえないと思う。足りないと感じている点は以下に述べる。  </p>
+
+<h2 id="section-1">足りないと感じている点</h2>
+<ul>
+  <li>pdf のファイルを添付したとき、それがプレビューにならない(pdf.js的な)。  </li>
+  <li>ファイルを添付した場合、その画面に添付されているリストが出て欲しいが、出ない  </li>
+  <li>ライブプレビュー機能はあるがずいぶん画面が変わってしまう。非エンジニアにとっては、ライブプレビューがない方が使いやすい(WYSWIG?だっけ、があるから)  </li>
+  <li>だけど、ほんとはライブプレビューしたい。 docbase みたいなライブプレビューがある方が良い。  </li>
+  <li>どのファイルが最近編集されたのか、というようなストリームが欲しいが、ない。  </li>
+  <li>多くのボタンが英語で書かれている点。<br />
+    <ul>
+      <li>rails 的に i18n でおけばイイってことではないように見える。  </li>
+    </ul>
+  </li>
+  <li>ディレクトリ一覧のファイルを見たいとき、URL を削ってディレクトリを指定するが、そのとき期待する動作は自分にとってはそのパス以下のファイル一覧であるが、見れない(ページ作成になる)。<br />
+    <ul>
+      <li>Apache とかでディレクトリの中が見えてるあれを期待してる(伝われ)  </li>
+    </ul>
+  </li>
+  <li>あるファイルを見ている時、それ以下のファイルが木構造で見えていて欲しい、もしくは簡単に見えるようになってほしい<br />
+    <ul>
+      <li>コンフル小ページの発想  </li>
+    </ul>
+  </li>
+  <li>Dropbox と連携とかするとウマイことできるかなぁと感じたけど、エクセルとかそういうのを web で見ようとしてダウンロードになっちゃって辛みみたいなのがかなりある  </li>
+  <li>(自分はあまり必要としていないが)変更をメールで飛ばせる機能がない<br />
+    <ul>
+      <li>そういう意味で コンフルも一度編集したら勝手に記憶していて、メール通知が飛んでくる機能があった。まぁ悪くない。  </li>
+    </ul>
+  </li>
+  <li>日本語での検索でエラーがでる(これはたぶんいろいろ追ったら普通に修正可能だと思う)  </li>
+  <li>チームで使うなら、TOP のロゴみたいなやつは欲しい。  </li>
+</ul>
+
+<p>ただ、これらのほぼすべてについて、自分たち用に修正することができるのは、とんでもないメリットだ。<br />
+ただ修正するには時間が必要であることは間違いない。  </p>
+
+<h2 id="section-2">良いなと思っている点</h2>
+<ul>
+  <li>シンプルで動作が早く、unix な人にはかなり便利に使える点  </li>
+  <li>ディレクトリを スラッシュで切っていく点は本当に便利(アトラシアンのコンフルとかで／とかで区切っていた風潮)  </li>
+  <li>markdown でかける  </li>
+  <li>h1, h2 がリンクになる点。これは素晴らしい。  </li>
+  <li>(重要)すべてがファイルになっているので、なにかいい仕組みが出てきた時に気軽に変更できる点  </li>
+</ul>
+
+<h2 id="gollum--memo">gollum 使用方法 memo</h2>
+<p><a href="https://github.com/gollum/gollum">https://github.com/gollum/gollum</a>
+を見て欲しい。<br />
+日本語対応は<a href="http://d.hatena.ne.jp/a_bicky/20140915/1410750993">この記事</a> を参考にした。<br />
+なんか、普通に保存したときエラーがでるのは、 ググッた結果 Gemfile に<br />
+<code>gem 'gollum-rugged_adapter' </code>
+を追加してなんかウマイことやったら回避できた。  </p>
+
+<p><code>
+# アップロード付き、 rugged はエラー回避で必要だった、 show-all でファイルが全部観れる
+bundle exec gollum --allow-upload page --adapter rugged --show-all
+</code></p>
+
+<h2 id="section-3">所感</h2>
+<p>こと、営業職の多い組織だと、素での gollum 使用はしんどいに違いない。<br />
+backlog と比べて出来ないことが多すぎて、それ以上のメリットを享受できないからだ。<br />
+だから、大抵の場合はたぶん既存で使っているやつのほうがいいかもしれない。  </p>
+
+<p>エンジニアが多い職場で、本当に金がないなら、これは導入する価値はあると思う。<br />
+(ぶっちゃけ、markdown 系共有のサービスで有料なものが多すぎると思う。<br />
+エンジニアとしてビジネスする側で考えたら非常にいいなと思うけど、<br />
+おかね払って使う立場から考えたら markdown が共有できたくらいでお金を払いたくないっていうのが<br />
+僕の正直なキモチだ。)<br />
+(そして逆に言うと、このオープンソースを使って自分が欲しい機能を付け足すだけで<br />
+お金をとれるレベルのサービスを創れる気もする。fork して月額100円くらいで売り出したい。<br />
+(まぁそんな時間ないんだけども。)
+)
+でも、今考えると gollum と、 qiita や docbase とかって微妙に立ち位置が違う気もしてきた。  </p>
+
+<p><a href="https://support-project.org/knowledge_info/index">https://support-project.org/knowledge_info/index</a>
+っていうオープンソースを作っている人がいて、これもかなり有用で、いい感じな気はしているんだけど、<br />
+個人的に、Java で書かれているのがネックで、JVM を起動したり、Java でメンテするってのを考えると<br />
+ちょっと敷居が高かったりするのがホンネだ。  </p>
+
+<p>そういう意味で、何もなかったら gollum に contribute したいんだけど、<br />
+ぶっちゃけそれ以上にやらなきゃならんことがたくさんあるのでちょっとしんどい。<br />
+それでも少しずつは貢献できたらいいなと思う(したいに価値はないが)。  </p>
+
+<p>この週末というか今日はかなりコレの評価に費やしたので記事にしておく。<br />
+だれかにとってこの記事がためになれば幸いです。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -7,7 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="RubyKaigi first day とりあえずまとめてみた。 (key note) Building the Ruby interpreter – What is easy and what is difficult? 何が簡単で、何が難しいのかという話。 メモ パフォーマンス &hellip;">
+	<meta name="description" content="無線キーボードを買った
+thinkpad の無線キーボードを買った のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。
+具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。 解決 karabiner &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +80,67 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/12/09/mac-wiress-keyboard-scroll/">
+		
+			Mac で Wirelss な Lenovo の Keyboard を使う</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">無線キーボードを買った</h2>
+<p><a href="http://www.amazon.co.jp/%E3%83%AC%E3%83%8E%E3%83%9C%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%91%E3%83%B3-ThinkPad-Bluetooth-%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89-0B47181/dp/B00DLK4GQA/ref=sr_1_1?ie=UTF8&amp;qid=1418113086&amp;sr=8-1&amp;keywords=thinkpad+%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89">thinkpad の無線キーボードを買った</a> のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。<br />
+具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。  </p>
+
+<h2 id="section-1">解決</h2>
+<ul>
+  <li>karabiner である程度設定は基本  </li>
+  <li>seil で変換、無変換を使用できるようにする  </li>
+  <li>firefox 中クリック問題、および iTerm2 で中クリックコピペされちゃう問題は<a href="http://www.marcmoini.com/sx_en.html">Smart Scroll を使う</a> とすべてが解決した。  </li>
+</ul>
+
+<h2 id="section-2">所感</h2>
+<p>結構はまったけど解法が見つかって嬉しい。<br />
+危うく1万ドブに捨てるとこだった。<br />
+有料アプリになるかもだけど、評価が終わった場合これは買ってしまっていいだろう。</p>
+
+<h2 id="section-3">参考資料</h2>
+<ul>
+  <li><a href="http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x">http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x</a></li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/devenv/'>devenv</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1048,86 +1111,6 @@ var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/01/">
-		
-			【書評】いかにして問題を解くか</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">いかにして問題をとくか</h2>
-<p>この本は、数学を教える教師と、教わる生徒を主なターゲットとして、<br />
-いかにして問題をとくかということを真剣に考えている本である。<br />
-心に残った部分を以下に書いていく。  </p>
-
-<h2 id="section-1">決定問題と証明問題</h2>
-<p>何かを求めよ. という、問題の中の未知のものを見つけるものが決定問題で、<br />
-証明問題はある命題が正しいか正しくないかを示すものである。  </p>
-
-<p>本書では, 決定問題を解くことに重きをおいている。  </p>
-
-<h2 id="section-2">フレームワーク(チートシート)</h2>
-<ul>
-  <li>未知のものは何か, 条件は何か, データはなにか?  </li>
-  <li>条件をいくつかの部分に分けよ  </li>
-  <li>データと未知のものとの関連を求めよ  </li>
-  <li>未知のものをよく見よ! そして未知のものが同じかまたはよく似た問題は思い起こせ  </li>
-  <li>条件の一部を残して他を捨てよ. それでどこまで未知の部分が定まるか?<br />
- – どの範囲で変化しうるか. データから何か役に立つ物を引き出しうるか.<br />
- – その未知のものを決めるのに 適当な他のデータを思いつくか.<br />
- – 未知のもの, データもしくはその両方を変えて新しい未知のものと, 新しいデータとが互いに近いものになるように出来るか?  </li>
-  <li>すべてのデータを使ったか, すべての条件を使ったか。  </li>
-</ul>
-
-<h2 id="section-3">逆向きに考える</h2>
-<p>4リットルと9リットルの桶しかないとき、ちょうど6リットルの水を汲むにはどうすればよいか？<br />
-この問に関して、逆向きに考えることが非常に重要だと示された。<br />
-答えとしては、9リットルの桶に、6リットルが入っている状態を考えればよい。<br />
-9:1から6:4にすればよい。  </p>
-
-<h2 id="section-4">トリアタマ</h2>
-<p>食物があり、それとは逆コの字でサクがあったとした時、<br />
-犬はそれを錯誤しに取ろうとするがしばらくしてサクを回りこんで<br />
-食物を取りに行くことができるが、 鳥はひたすら食物を手前にバタバタしてしまうらしい。<br />
-やはりしばらくの試行錯誤が必要ではあるが、あるタイミングで一旦物事を俯瞰してみる必要があるということだ。  </p>
-
-<h2 id="section-5">所感</h2>
-<p>とても難しい本ではあった。<br />
-また数学レベルが上がった時に読みたい。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-01T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/book/'>book</a>
 
 
 </div>

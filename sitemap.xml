@@ -270,7 +270,7 @@
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2014/12/12/datomic-matome/</loc>
-        <lastmod>2015-03-19T10:15:43+09:00</lastmod>
+        <lastmod>2015-03-11T07:15:04+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2014/12/15/clojure-midje-filter-test/</loc>
@@ -320,39 +320,43 @@
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/03/03/fig-rails/</loc>
-        <lastmod>2015-03-19T10:15:43+09:00</lastmod>
+        <lastmod>2015-03-08T11:59:51+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/</loc>
-        <lastmod>2015-03-19T10:15:43+09:00</lastmod>
+        <lastmod>2015-03-08T11:51:24+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/03/14/yarubekikoto-poem/</loc>
-        <lastmod>2015-03-19T10:15:43+09:00</lastmod>
+        <lastmod>2015-03-14T15:36:57+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/03/19/vue-js-error/</loc>
-        <lastmod>2015-03-19T10:29:45+09:00</lastmod>
+        <lastmod>2015-04-05T21:43:12+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/03/24/himedai/</loc>
-        <lastmod>2015-04-02T16:05:39+09:00</lastmod>
+        <lastmod>2015-03-30T21:35:03+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/03/30/swiftyjson-alamofire/</loc>
-        <lastmod>2015-04-02T16:10:48+09:00</lastmod>
+        <lastmod>2015-04-05T21:43:12+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/2015/04/02/rails_admin_ja_datepicker/</loc>
-        <lastmod>2015-04-02T16:31:49+09:00</lastmod>
+        <lastmod>2015-04-05T21:43:12+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://vimtaku.github.io/blog/2015/04/05/gollum-eval/</loc>
+        <lastmod>2015-04-05T21:55:29+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/blog/archives/</loc>
-        <lastmod>2015-04-02T16:31:49+09:00</lastmod>
+        <lastmod>2015-04-05T21:55:29+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/</loc>
-        <lastmod>2015-04-02T16:31:49+09:00</lastmod>
+        <lastmod>2015-04-05T21:55:29+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/robots.txt</loc>

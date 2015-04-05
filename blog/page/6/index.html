@@ -8,9 +8,9 @@
 
 	
 	<meta name="description" content="背景
-devise という gem があるが、warden をベースにした認証の仕組みだということだった。
-devise を知るには、まず warden を知らなければなるまい。
-そう思った俺は warnden を rack ベースでいじってみることにした。 warden とは これのこと。 &hellip;">
+devise を知るには warden を知るべしと思ったので warden を勉強した。
+大体 warden はわかったので warden の仕組みをかぶせた認証エンジンである
+devise を触ってみる。 では早速、以下メモ。 /Users/mac/try_devise/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +81,155 @@ devise を知るには、まず warden を知らなければなるまい。
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/02/z_devise1/">
+		
+			Devise に入門してみる</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">背景</h2>
+<p><a href="/blog/2014/03/02/warden/">devise を知るには warden を知るべしと思ったので warden を勉強した。</a><br />
+大体 warden はわかったので warden の仕組みをかぶせた認証エンジンである<br />
+<a href="https://github.com/plataformatec/devise">devise</a> を触ってみる。  </p>
+
+<h2 id="section-1">では早速、以下メモ。</h2>
+
+<div>
+  <pre><code class="bash">/Users/mac/try_devise/try_devise% be rails g devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven&#39;t yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { :host =&gt; &#39;localhost:3000&#39; }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root :to =&gt; &quot;home#index&quot;
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       &lt;p class=&quot;notice&quot;&gt;&lt;%= notice %&gt;&lt;/p&gt;
+       &lt;p class=&quot;alert&quot;&gt;&lt;%= alert %&gt;&lt;/p&gt;
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================</code></pre>
+</div>
+
+<p>bundle exec rails g devise User<br />
+予めcreate database しておく<br />
+bundle exec rake db:migrate  </p>
+
+<p>すると出来上がる。</p>
+<div>
+  <pre><code class="sql">CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `encrypted_password` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `reset_password_token` varchar(255) DEFAULT NULL,
+  `reset_password_sent_at` datetime DEFAULT NULL,
+  `remember_created_at` datetime DEFAULT NULL,
+  `sign_in_count` int(11) NOT NULL DEFAULT &#39;0&#39;,
+  `current_sign_in_at` datetime DEFAULT NULL,
+  `last_sign_in_at` datetime DEFAULT NULL,
+  `current_sign_in_ip` varchar(255) DEFAULT NULL,
+  `last_sign_in_ip` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_users_on_email` (`email`),
+  UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</code></pre>
+</div>
+
+<p>config/routes.rb に行が追加されている。  </p>
+<blockquote><p>devise_for :users</p></blockquote>
+
+<p>localhost:3000 にアクセスすると<br />
+<img src="http://gyazo.com/ff5a659072c28ff0934f6ec51ca74dc3.png" /><br />
+/users/にものすごくたくさんいろいろできている。  </p>
+
+<p>login した後の、 users/edit とか<br />
+<img src="http://gyazo.com/27ca0f5038500c7796c51c81973755a9.png" />  </p>
+
+<h2 id="view-">独自の view を使うには</h2>
+
+<p>独自の view を使うには、<br />
+scope (admin モデルと user モデルがいる場合に使用)のロジックを使う方法と、<br />
+view を単純に上書きする方法がある。<br />
+当然、用途に応じて admin と user のモデルを使うんなら scope を使えば良い。<br />
+単純にひとつだけなら、 view を上書きする方法が良い。  </p>
+
+<p>view を上書きする方法では、<br />
+be rails generate devise:views して、<br />
+devise/sessions/new.html.erb<br />
+を編集などすれば良い。  </p>
+
+<p>scope を使う方法では、<br />
+config/initializers/devise.rb に<br />
+config.scoped_views = true<br />
+を追加して、<br />
+be rails generate devise:views users<br />
+すれば、<br />
+users/sessions/new.html.erb<br />
+などが使われるようになる。  </p>
+
+<h2 id="section-2">所感</h2>
+<p>全然入門できてない。続きはまた書く。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/devise/'>devise</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1370,86 +1519,6 @@ docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
 
 
 	<a class='category' href='/blog/categories/docker/'>docker</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/09/life-feb-9/">
-		
-			2014/2/9</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">土日振り返り</h2>
-<p>雪うざい。地味に perfect ruby を進めた。<br />
-ruby 力が2くらい上がった。気がする。  </p>
-
-<h2 id="section-1">勉強途中経過</h2>
-
-<h3 id="section-2">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>パーフェクトルビー15章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第7章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
 
 
 </div>
