@@ -7,9 +7,7 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="無線キーボードを買った
-thinkpad の無線キーボードを買った のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。
-具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。 解決 karabiner &hellip;">
+	<meta name="description" content="TOC TOC datomic まとめ(追記していく) datomic 自体の説明 datomic 本当のところ(使いながら追記していく) created_at, updated_at は持つ必要がない where での絞込みでは、nil のものは消えてしまう(datomic というより &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +78,163 @@ thinkpad の無線キーボードを買った のだけど, firefox で使うス
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/12/12/datomic-matome/">
+		
+			Datomic まとめ</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#datomic-">datomic まとめ(追記していく)</a>    <ul>
+      <li><a href="#datomic--1">datomic 自体の説明</a></li>
+    </ul>
+  </li>
+  <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
+      <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
+      <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
+      <li><a href="#datomic--3">個人的に datomic を立てている設定</a></li>
+      <li><a href="#datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</a></li>
+      <li><a href="#section">参考資料(便利)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="datomic-">datomic まとめ(追記していく)</h1>
+
+<h2 id="datomic--1">datomic 自体の説明</h2>
+<p>省略。<br />
+いつか書くかも。
+他に良い記事がたくさんあるので。  </p>
+
+<h1 id="datomic--2">datomic 本当のところ(使いながら追記していく)</h1>
+
+<h2 id="createdat-updatedat-">created_at, updated_at は持つ必要がない</h2>
+<p>rails で mysql とかつかって作るときだと当たり前のように created_at とか updated_at を持っているけど、<br />
+datomic を使う場合は必要ない。<br />
+stack over flow に、持ってた方が良い？などの質問に対して、
+おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
+
+<div>
+  <pre><code class="clojure">; -------- 一応コピペしとく
+(def db-url (ref &quot;&quot;))
+(dosync
+  (ref-set db-url  &quot;datomic:free://localhost:4334/hoge&quot;))
+
+(defn setup-db [db-url]
+  (d/create-database db-url)
+  (d/transact
+    (d/connect db-url)
+    (concat
+      (ds/generate-parts d/tempid (dbparts))
+      (ds/generate-schema d/tempid (dbschema)))))
+(defn setup-testdb []
+  (dosync
+    (ref-set db-url (str &quot;datomic:mem:&quot; (d/squuid))))
+  (setup-db @db-url)
+)
+
+(defn connect-db []
+  (d/connect @db-url)
+)
+
+; -------- ここが本質
+(defn history [eid]
+  (d/q
+    &#39;[:find ?e ?a ?v ?tx ?added
+      :in $ ?e
+      :where
+      [?e ?a ?v ?tx ?added]]
+    (d/history (d/db (connect-db)))
+    eid
+    )
+)</code></pre>
+</div>
+
+<p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
+で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
+
+<blockquote><p>#&lt;HashSet [<br /> [17592186045436 74 this is new emotion. 13194139534331 true],<br /> [17592186045436 73 0 13194139534331 true],<br /> [17592186045436 72 17592186045423 13194139534331 true],<br /> [17592186045436 71 17592186045421 13194139534331 true],<br /> [17592186045436 75 17592186045432 13194139534331 true],<br /> [17592186045436 70 #inst &#8220;2014-12-12T00:11:51.228-00:00&#8221; 13194139534331 true],<br /> [17592186045436 71 17592186045422 13194139534333 true],<br /> [17592186045436 71 17592186045421 13194139534333 false],<br /> [17592186045436 74 hogera! 13194139534333 true],<br /> [17592186045436 74 this is new emotion. 13194139534333 false]<br />]&gt;</p></blockquote>
+<p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
+これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
+71, 74 の属性が 変更されたことなどが読み取れる。  </p>
+
+<h2 id="where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(d/q '[:find ?token ?arn
+</span><span class="line">     :in $ ?uid
+</span><span class="line">     :where
+</span><span class="line">      [?dt :device_token/user ?uid]
+</span><span class="line">      [?dt :device_token/endpoint_arn ?arn]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
+filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
+ちょっと困った。  </p>
+
+<h2 id="datomic--3">個人的に datomic を立てている設定</h2>
+<p><a href="https://github.com/pointslope/docker-datomic-example.git">https://github.com/pointslope/docker-datomic-example.git</a>
+を使って、 fig で up している。<br />
+datomic console 付きで立つ。  </p>
+
+<h2 id="datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</h2>
+<p>unable to validate user が出た。<br />
+これは、 transactor に対して 3つ以上の接続をした時に出る模様。<br />
+いったん接続している peer を落としてみたら、無事に接続できた。<br />
+そういう意味では、datomic console を使って本番DB をみたいなら、必然的に 待ち受けている peer は 1つになる。<br />
+まぁ基本的にはそれでいいのかな。  </p>
+
+<h2 id="section">参考資料(便利)</h2>
+<ul>
+  <li><a href="http://sunday-programming.hatenablog.com/category/datomic">http://sunday-programming.hatenablog.com/category/datomic</a><br />
+– めっちゃ参考にさせていただいております。  </li>
+  <li><a href="http://www.learndatalogtoday.org/">http://www.learndatalogtoday.org/</a><br />
+– datomic の query language である datalog のチュートリアル。datomic をやる前にこれを触っておくのオススメ。  </li>
+  <li><a href="https://github.com/Datomic/day-of-datomic">https://github.com/Datomic/day-of-datomic</a>  </li>
+  <li><a href="https://github.com/Yuppiechef/datomic-schema">https://github.com/Yuppiechef/datomic-schema</a><br />
+– datomic のスキーマを書くのマジしんどいけどこれがあればいい感じでつくってくれて嬉しいやつ。  </li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/datomic/'>datomic</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1021,96 +1176,6 @@ var app = angular.module(“MyApp”, [“SomeDomain”]) と言った感じ。<
 
 
 	<a class='category' href='/blog/categories/tech/'>tech</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/01/life-jun-1/">
-		
-			Life_jun_1</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">先週振り返り</h2>
-<p>なんか調査とかしてたら終わったぐらいのかんじ。  </p>
-
-<h2 id="section-1">週末振り返り</h2>
-<p>ランニングした。<br />
-4km くらい走れたけどすげぇしんどかった。  </p>
-
-<h2 id="section-2">偉大な目標</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-3">完成してないゲーム</h2>
-<p>全く進んでない</p>
-
-<h2 id="section-4">読書途中経過</h2>
-
-<h3 id="section-5">読んでる</h3>
-<ul>
-  <li>アルゴリズムクイックリファレンス 5章まで</li>
-  <li>SICP-問題1.10 まで</li>
-  <li>1冊でわかる数学(2章、証明)</li>
-</ul>
-
-<h3 id="section-6">積んでる</h3>
-<ul>
-  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界 4章から</li>
-  <li>詳解UNIX プログラミング第3版</li>
-  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
-  <li>ハイパフォーマンス ブラウザネットワーキング</li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-7">読み終えた</h3>
-<ul>
-  <li>(2014/6/1)いかにして問題をとくか(とてもさらっと)</li>
-  <li>(2014/5/11)入門コンピュータ科学</li>
-  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
-  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
-  <li>(2014/4/29)オペレーティングシステム</li>
-  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
-  <li>(2014/3/1)chef-solo 入門</li>
-  <li>(2014/3/1)パーフェクトルビー</li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-01T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
 
 
 </div>
