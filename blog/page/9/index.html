@@ -7,12 +7,7 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="年の瀬感
-年の瀬っぽい雰囲気になってきた。
-今年はクリスマスが平日のせいで、なんか違和感がある。
-たいてい、クリスマスが絡むのは休みの日のイメージがあるんだけどなぁ。
-まぁあんまり興味ないけど。俺キリスト教じゃないし。 最近のお仕事
-jenkins さんと testflight &hellip;">
+	<meta name="description" content="もくじ もくじ jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処 もともと master ブランチで運用していた人へのアドバイスと、実際に変更 ちなみに jekyll のプラグイン入れたら github pages &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +78,99 @@ jenkins さんと testflight &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/23/jekyll-plugin-/">
+		
+			Jekyll Plugin が使えない</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">もくじ</h2>
+<ul id="markdown-toc">
+  <li><a href="#section">もくじ</a></li>
+  <li><a href="#jekyll--github-pages-">jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処</a></li>
+  <li><a href="#master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</a></li>
+  <li><a href="#section-1">ちなみに</a></li>
+</ul>
+
+<h2 id="jekyll--github-pages-">jekyll のプラグイン入れたら github pages がエラーでてビルドできなくなる件の対処</h2>
+
+<p><a href="http://gosyujin.github.io/2013/05/21/jekyll-plugin-githubpages/">こちらのブログ</a>
+や
+<a href="https://help.github.com/articles/pages-don-t-build-unable-to-run-jekyll">github公式</a>
+を見てもらえればわかるけど、unsafe な plugin を入れられない模様。</p>
+
+<p>だから、結論としては静的 html を吐き出す感じにした。</p>
+
+<h2 id="master-">もともと master ブランチで運用していた人へのアドバイスと、実際に変更</h2>
+<p>約1分でできるからご安心を。</p>
+
+<div>
+  <pre><code class="bash">##  ソースブランチをコミット。以降はソースブランチで記事を書く
+git checkout -b source
+git push origin source:source
+
+## _deploy を作ってそれを master として push する
+mkdir _deploy
+cd _deploy
+
+## 適当に最初のコミットを作る、この辺はもっとかっこいい方法あると思うけど気にしない
+git init
+touch hoge
+## 自分のいままでの master を remote add
+git remote add origin git@github.com:vimtaku/vimtaku.github.com.git
+git add .
+git ci . -m &#39;Initial commit&#39;
+git push -f origin master:master
+
+## _site を生成
+cd ..
+jekyll serve  --watch -P 4000 -H 127.0.0.1 --trace
+
+## vim で Rakefile を修正
+## これ(ひとのやつ)を参考に. https://github.com/gosyujin/gosyujin.github.com/commit/2943985064ced913767157eb0fdae431b68ac491
+vim Rakefile
+
+rake deploy</code></pre>
+</div>
+
+<h2 id="section-1">ちなみに</h2>
+<p>ソース見た感じ一日で複数ポストした場合には、ポストの並び順は辞書順っぽい。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">

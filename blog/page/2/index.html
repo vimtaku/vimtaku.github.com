@@ -7,9 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="新しい mac を手に入れた時にすること
-これが非常に良さそう
-なので、一旦自分用に考えてみる。 気をつけるべきこと 一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか 入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう 準備 &hellip;">
+	<meta name="description" content=" 楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない
+タイトルの通りであるのだが、電話で問い合わせたところ、
+システム的に翌月になるまで照会が出来ないとのこと。
+もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。 rakuten ">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +81,50 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/23/rakuten-kard/">
+		
+			楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
+<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
+システム的に翌月になるまで照会が出来ないとのこと。<br />
+もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rakuten/'>rakuten</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1203,146 +1248,6 @@ Craft は js の promise と同じように使えて、 chainable なので便�
 
 
 	<a class='category' href='/blog/categories/swift/'>swift</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/15/clojure-midje-filter-test/">
-		
-			Clojure で 一部分だけテストがしたい Using Midje</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
-  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
-  <li><a href="#repl-">repl で最初に定義されていてほしい</a></li>
-  <li><a href="#section">注意点</a></li>
-  <li><a href="#section-1">所感</a></li>
-</ul>
-
-<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
-<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
-比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
-基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
-さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
-filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
-
-<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
-
-<div>
-  <pre><code class="clojure">; in repl.clj
-(defn filter-autotest []
-(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-)
-
-(defn all-autotest []
-(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-)
-
-; in test
-(fact :filter &quot;do something great test&quot;
- (is true)
-)</code></pre>
-</div>
-
-<p>上記をrepl 内で定義しておき、<br />
-(filter-autotest) か (all-autotest) かを評価する。<br />
-そうすると、 filter-autotest の場合は filter つきだけが、<br />
-all-autotest の場合は全てが実行される。  </p>
-
-<h2 id="repl-">repl で最初に定義されていてほしい</h2>
-<p>repl を起動するたびにいちいち定義するのは面倒くさいので,<br />
-<a href="http://dev.solita.fi/2014/03/18/pimp-my-repl.html">こちら</a><br />
-を参考にして設定することで, 起動時に load するようにした。</p>
-
-<div>
-  <pre><code class="diff">+++ b/dev/user.clj
-@@ -0,0 +1,29 @@
-+(ns user
-+  (:require
-+    [clojure.repl :refer :all]
-+    [clojure.tools.namespace.repl :refer [refresh]]
-+    [midje.sweet :refer :all]
-+    [midje.repl :refer :all]
-+    )
-+  )
-+
-+(defn filter-autotest []
-+  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-+)
-+
-+(defn all-autotest []
-+  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-+)
-+
-+(defn start
-+  &quot;Start the application&quot;
-+  []
-+  )
-+
-+(defn stop
-+  &quot;Stop the application&quot;
-+  []
-+  )
-+
-+(defn reset []
-+  (stop)
-+  (refresh :after &#39;user/start))
-
-+++ b/project.clj
-@@ -20,7 +20,8 @@
--  {:dev {:dependencies [
-+  {:dev {:source-paths [&quot;dev&quot;]
-+         :dependencies [</code></pre>
-</div>
-
-<h2 id="section">注意点</h2>
-<div>
-  <pre><code class="clojure">(fact &quot;do something&quot;
- (fact &quot;do2&quot;
-  ....</code></pre>
-</div>
-
-<p>のように、 fact でネストした場合は filter に引っかからないので、<br />
-この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
-
-<h2 id="section-1">所感</h2>
-
-<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/midje/'>midje</a>
 
 
 </div>

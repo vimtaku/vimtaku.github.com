@@ -7,12 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="エンジニアのための 確定拠出年金 はじめに
-俺だ、 vimtax だ。
-今日は確定拠出年金について調べてみるぞ。 確定拠出年金について 確定拠出年金とは 1
-2
-3
-確定拠出年金は、公的年金に上乗せするための選択肢として作られた年金制度です。 60歳未満の自営業者（国民年金加入者） &hellip;">
+	<meta name="description" content="Create staging server using jvm with t2.micro jvm is required many memories
+I ran command lein ring server, not-enough-memory error has raised.
+I &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +80,88 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/">
+		
+			Create Staging Server Using Jvm With t2.micro</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
+
+<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
+<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
+I googled and found solution.<br />
+<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
+
+<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
+
+<p>something like this(picked up from history)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install leiningen
+</span><span class="line">wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+</span><span class="line">mkdir bin
+</span><span class="line">chmod a+x lein
+</span><span class="line">./lein
+</span><span class="line">ssh-keygen
+</span><span class="line">export MY_DATOMIC_USERNAME="moge@gmail.com"
+</span><span class="line">export MY_DATOMIC_PASSWORD="datomic_password"
+</span><span class="line">sudo yum install java-1.8.0-openjdk.x86_64
+</span><span class="line">ll /etc/alternatives/java
+</span><span class="line">cd /etc/alternatives/
+</span><span class="line">sudo mv /etc/alternatives/java{,.bak}
+</span><span class="line">ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">lein ring server</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/leiningen/'>leiningen</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1001,50 +1080,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 
 	<a class='category' href='/blog/categories/docker/'>docker</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/23/rakuten-kard/">
-		
-			楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
-<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
-システム的に翌月になるまで照会が出来ないとのこと。<br />
-もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rakuten/'>rakuten</a>
 
 
 </div>
