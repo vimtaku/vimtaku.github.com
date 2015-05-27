@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Create staging server using jvm with t2.micro - vimtaku blog</title>
+	<title>クリティカル・シンキング - vimtaku blog</title>
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="Create staging server using jvm with t2.micro">
+	<meta name="description" content="クリティカル・シンキング">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,49 +78,38 @@
 		
 	
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Create Staging Server Using Jvm With t2.micro</h2>
-	<div class="entry-content"><h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
+	<h2 class="title">クリティカル・シンキング</h2>
+	<div class="entry-content"><h1 id="section">クリティカル・シンキング</h1>
 
-<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
-<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
-I googled and found solution.<br />
-<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
+<h2 id="section-1">ベネフィット</h2>
+<p>相手によってベネフィットは変わる。<br />
+どのようにベネフィットを聞き出すのかが問題。<br />
+また、ベネフィットに答えるために、有効な実績があるのは強い。  </p>
 
-<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
+<h2 id="section-2">難しさ</h2>
+<p>何かを提案、説得するためには、ベネフィットに答えることを意識すると良いと思う。<br />
+実績を作るための努力はいつも怠らないことが重要なのだと思う。<br />
+また、実績がない場合も、それに準ずる実績を提示することで、その可能性を示すことができる。  </p>
 
-<p>something like this(picked up from history)</p>
+<h2 id="section-3">提案における顧客のベネフィットの共通項</h2>
+<ul>
+  <li>お前は誰なのか。信用できるのか。  </li>
+  <li>困っていることを解決できるのか。  </li>
+  <li>実際に効果があるのか。  </li>
+  <li>コスト感<br />
+    <ul>
+      <li>導入しやすさ  </li>
+      <li>値段  </li>
+    </ul>
+  </li>
+</ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install leiningen
-</span><span class="line">wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
-</span><span class="line">mkdir bin
-</span><span class="line">chmod a+x lein
-</span><span class="line">./lein
-</span><span class="line">ssh-keygen
-</span><span class="line">export MY_DATOMIC_USERNAME="moge@gmail.com"
-</span><span class="line">export MY_DATOMIC_PASSWORD="datomic_password"
-</span><span class="line">sudo yum install java-1.8.0-openjdk.x86_64
-</span><span class="line">ll /etc/alternatives/java
-</span><span class="line">cd /etc/alternatives/
-</span><span class="line">sudo mv /etc/alternatives/java{,.bak}
-</span><span class="line">ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
-</span><span class="line">sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
-</span><span class="line">lein ring server</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>面接でも、何かの商品を売る場合でも、上記は必要なのだと思った。  </p>
 
+<h2 id="section-4">所感</h2>
+<p>イイタイコト、キキタイコトでブレストすると、本当に相手が求める質問に辿りつけた。<br />
+たとえばプレゼンや、面接でも、相手がどういうことを聞きたいか、などをある程度想定して、<br />
+それを事前に考えてみることはかなり効果的だと思う。  </p>
 </div>
 
 
@@ -137,11 +126,11 @@ I googled and found solution.<br />
   
 
 
-<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
+<time datetime="2015-05-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
 	<div class="tags">
 
 
-	<a class='category' href='/blog/categories/leiningen/'>leiningen</a>
+	<a class='category' href='/blog/categories/logic/'>logic</a>
 
 
 </div>
@@ -157,7 +146,7 @@ I googled and found solution.<br />
 		
 
         
-        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2015/05/27/critical-thinking/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
         
         
         
