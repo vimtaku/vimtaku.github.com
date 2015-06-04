@@ -158,6 +158,88 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/">
+		
+			Create Staging Server Using Jvm With t2.micro</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
+
+<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
+<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
+I googled and found solution.<br />
+<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
+
+<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
+
+<p>something like this(picked up from history)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install leiningen
+</span><span class="line">wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+</span><span class="line">mkdir bin
+</span><span class="line">chmod a+x lein
+</span><span class="line">./lein
+</span><span class="line">ssh-keygen
+</span><span class="line">export MY_DATOMIC_USERNAME="moge@gmail.com"
+</span><span class="line">export MY_DATOMIC_PASSWORD="datomic_password"
+</span><span class="line">sudo yum install java-1.8.0-openjdk.x86_64
+</span><span class="line">ll /etc/alternatives/java
+</span><span class="line">cd /etc/alternatives/
+</span><span class="line">sudo mv /etc/alternatives/java{,.bak}
+</span><span class="line">ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">lein ring server</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/leiningen/'>leiningen</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2015/04/12/401k-for-engineer/">
 		
 			エンジニアのための 確定拠出年金</a>
@@ -968,109 +1050,6 @@ In web section, volumes is attached from boot2docker to web container.  </p>
 
 
 	<a class='category' href='/blog/categories/fig/'>fig</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/03/fig-rails/">
-		
-			Fig(docker Compose) で Rails する</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">追記</h1>
-<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
-フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
-おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
-localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
-現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
-参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
-
-<h1 id="section-1">メモ</h1>
-
-<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
-が、それに気づかず しばらく fig で進めた。  </p>
-
-<p>fig で rails は tutorial 通りでは動かなかった。<br />
-基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
-binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
-その辺を修正した。<br />
-ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
-
-<h3 id="figyml">fig.yml</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">db:
-</span><span class="line">  image: mysql:5.6
-</span><span class="line">  ports:
-</span><span class="line">    - "3306:3306"
-</span><span class="line">  environment:
-</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
-</span><span class="line">
-</span><span class="line">web:
-</span><span class="line">  build: .
-</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
-</span><span class="line">  volumes:
-</span><span class="line">    - .:/myapp
-</span><span class="line">  ports:
-</span><span class="line">    - "3000:3000"
-</span><span class="line">  links:
-</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>fig run web rake db:create db:migrate</code></p>
-
-<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
-docker images でだした image を docker rmi で全て消してやり直したり、<br />
-それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
-
-<h1 id="section-2">所感</h1>
-<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/docker/'>docker</a>
 
 
 </div>

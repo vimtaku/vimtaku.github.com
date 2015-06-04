@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-05-27T10:03:55+09:00</updated>
+  <updated>2015-06-04T22:16:11+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -49,6 +49,56 @@
 <p>イイタイコト、キキタイコトでブレストすると、本当に相手が求める質問に辿りつけた。<br />
 たとえばプレゼンや、面接でも、相手がどういうことを聞きたいか、などをある程度想定して、<br />
 それを事前に考えてみることはかなり効果的だと思う。  </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Create staging server using jvm with t2.micro]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/"/>
+    <updated>2015-04-12T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/04/12/datomic-lein-for-ec2-t2-micro</id>
+    <content type="html"><![CDATA[<h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
+
+<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
+<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
+I googled and found solution.<br />
+<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
+
+<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
+
+<p>something like this(picked up from history)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install leiningen
+</span><span class="line">wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+</span><span class="line">mkdir bin
+</span><span class="line">chmod a+x lein
+</span><span class="line">./lein
+</span><span class="line">ssh-keygen
+</span><span class="line">export MY_DATOMIC_USERNAME="moge@gmail.com"
+</span><span class="line">export MY_DATOMIC_PASSWORD="datomic_password"
+</span><span class="line">sudo yum install java-1.8.0-openjdk.x86_64
+</span><span class="line">ll /etc/alternatives/java
+</span><span class="line">cd /etc/alternatives/
+</span><span class="line">sudo mv /etc/alternatives/java{,.bak}
+</span><span class="line">ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">lein ring server</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 ]]></content>
   </entry>
   
@@ -1436,107 +1486,6 @@ The cost of studying it is quite high. but I don’t know how difficult coredata
   <li>自分を素晴らしいハッカーにすることができる方法があるとしたら、その方法とは、自分自身に対して次の契約を結ぶことだ。<br />
  – 「退屈なプロジェクトの仕事は一切しなくて良い、その代わりに、中途半端な仕事はしない。」  </li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift の promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/01/22/swift-promise-craft/"/>
-    <updated>2015-01-22T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/01/22/swift-promise-craft</id>
-    <content type="html"><![CDATA[
-<h1 id="toc">TOC</h1>
-
-<h1 id="section">はじめに</h1>
-<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
-なんか BrightFuture っていうやつが Star が多いように見えて<br />
-しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
-Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
-
-<h1 id="craft-">Craft 使用例</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let moge = "moge"
-</span><span class="line">let promise = Craft.promise({
-</span><span class="line">  (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">
-</span><span class="line">    // post の処理
-</span><span class="line">    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">        if (ticket != nil) {
-</span><span class="line">            resolve(value: ticket!.token!)
-</span><span class="line">        } else {
-</span><span class="line">            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">})
-</span><span class="line">promise.then({(value: Value) -&gt; Value in
-</span><span class="line">
-</span><span class="line">    println("promise 1 value 1 is ")
-</span><span class="line">    println(value) ; 1コメのやつ
-</span><span class="line">
-</span><span class="line">    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">            if (ticket != nil) {
-</span><span class="line">                resolve(value: "2komenoyatu!!!!!!!!!!!!")
-</span><span class="line">            } else {
-</span><span class="line">                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">            }
-</span><span class="line">        }
-</span><span class="line">    })
-</span><span class="line">    return promise
-</span><span class="line">}).then({(value: Value) -&gt; Value in
-</span><span class="line">    println("promise 2 value 2 is ")
-</span><span class="line">    println(value) ; 2コメのやつ
-</span><span class="line">    return "mogo"
-</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="section-1">幾つか気づいた点</h1>
-<ul>
-  <li>(2015/2/16追記) release build で最適化されるとうまく処理できず死ぬので注意 &gt; <a href="http://qiita.com/jumbOS5/items/d4941439a0b3a3534396">http://qiita.com/jumbOS5/items/d4941439a0b3a3534396</a></li>
-  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
-  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
- 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
-</ul>
-
-<h1 id="section-2">所感</h1>
-<p>やっと promise で楽に書けそう。  </p>
-
-<h1 id="url">参考URL</h1>
-<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
-<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
 
 ]]></content>
   </entry>

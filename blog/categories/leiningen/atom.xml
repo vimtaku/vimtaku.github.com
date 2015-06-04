@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: leiningen | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/leiningen/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-06-04T22:16:11+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Create staging server using jvm with t2.micro]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/"/>
+    <updated>2015-04-12T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/04/12/datomic-lein-for-ec2-t2-micro</id>
+    <content type="html"><![CDATA[<h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
+
+<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
+<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
+I googled and found solution.<br />
+<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
+
+<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
+
+<p>something like this(picked up from history)</p>
+
+<p><code>
+sudo yum install leiningen
+wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+mkdir bin
+chmod a+x lein
+./lein
+ssh-keygen
+export MY_DATOMIC_USERNAME="moge@gmail.com"
+export MY_DATOMIC_PASSWORD="datomic_password"
+sudo yum install java-1.8.0-openjdk.x86_64
+ll /etc/alternatives/java
+cd /etc/alternatives/
+sudo mv /etc/alternatives/java{,.bak}
+ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+lein ring server
+</code></p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -7,10 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content=" 楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない
-タイトルの通りであるのだが、電話で問い合わせたところ、
-システム的に翌月になるまで照会が出来ないとのこと。
-もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。 rakuten ">
+	<meta name="description" content="追記
+この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +80,109 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/03/fig-rails/">
+		
+			Fig(docker Compose) で Rails する</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">追記</h1>
+<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
+おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
+localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
+現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
+参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
+
+<h1 id="section-1">メモ</h1>
+
+<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
+が、それに気づかず しばらく fig で進めた。  </p>
+
+<p>fig で rails は tutorial 通りでは動かなかった。<br />
+基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
+binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
+その辺を修正した。<br />
+ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
+
+<h3 id="figyml">fig.yml</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  volumes:
+</span><span class="line">    - .:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>fig run web rake db:create db:migrate</code></p>
+
+<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
+docker images でだした image を docker rmi で全て消してやり直したり、<br />
+それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
+
+<h1 id="section-2">所感</h1>
+<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/docker/'>docker</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1115,139 +1217,6 @@ The cost of studying it is quite high. but I don’t know how difficult coredata
 
 
 	<a class='category' href='/blog/categories/book/'>book</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/01/22/swift-promise-craft/">
-		
-			Swift の Promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった</a>
-	</h2>
-	<div class="entry-content">
-		
-<h1 id="toc">TOC</h1>
-
-<h1 id="section">はじめに</h1>
-<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
-なんか BrightFuture っていうやつが Star が多いように見えて<br />
-しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
-Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
-
-<h1 id="craft-">Craft 使用例</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let moge = "moge"
-</span><span class="line">let promise = Craft.promise({
-</span><span class="line">  (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">
-</span><span class="line">    // post の処理
-</span><span class="line">    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">        if (ticket != nil) {
-</span><span class="line">            resolve(value: ticket!.token!)
-</span><span class="line">        } else {
-</span><span class="line">            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">})
-</span><span class="line">promise.then({(value: Value) -&gt; Value in
-</span><span class="line">
-</span><span class="line">    println("promise 1 value 1 is ")
-</span><span class="line">    println(value) ; 1コメのやつ
-</span><span class="line">
-</span><span class="line">    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">            if (ticket != nil) {
-</span><span class="line">                resolve(value: "2komenoyatu!!!!!!!!!!!!")
-</span><span class="line">            } else {
-</span><span class="line">                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">            }
-</span><span class="line">        }
-</span><span class="line">    })
-</span><span class="line">    return promise
-</span><span class="line">}).then({(value: Value) -&gt; Value in
-</span><span class="line">    println("promise 2 value 2 is ")
-</span><span class="line">    println(value) ; 2コメのやつ
-</span><span class="line">    return "mogo"
-</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="section-1">幾つか気づいた点</h1>
-<ul>
-  <li>(2015/2/16追記) release build で最適化されるとうまく処理できず死ぬので注意 &gt; <a href="http://qiita.com/jumbOS5/items/d4941439a0b3a3534396">http://qiita.com/jumbOS5/items/d4941439a0b3a3534396</a></li>
-  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
-  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
- 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
-</ul>
-
-<h1 id="section-2">所感</h1>
-<p>やっと promise で楽に書けそう。  </p>
-
-<h1 id="url">参考URL</h1>
-<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
-<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-22T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
