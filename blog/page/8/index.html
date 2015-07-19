@@ -7,9 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="現象
-iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、
-metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている( &hellip;">
+	<meta name="description" content="概要
+chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
+いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。 attribute の読み込み順について attributes/default.rb &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +80,83 @@ metadata な endpoint にアクセスして一時的な access_key と secret �
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/24/chef-memo/">
+		
+			Chef についてのメモ</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">概要</h2>
+<p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
+いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  </p>
+
+<h2 id="attribute-">attribute の読み込み順について</h2>
+<ul>
+  <li>attributes/default.rb が一番最初に読み込まれる</li>
+  <li>attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる</li>
+  <li>node の値は各ファイルで上書きをすることができる  </li>
+</ul>
+
+<h2 id="libraries-">libraries について</h2>
+<ul>
+  <li>libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
+    <ul>
+      <li>Hoge.fuga_method として recipe から使用可能。</li>
+    </ul>
+  </li>
+  <li>他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。</li>
+  <li>libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
+    <ul>
+      <li>自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。</li>
+      <li>他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="chef-">chef 実行時のレシピについて</h2>
+<ul>
+  <li>各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
+    <ul>
+      <li>chef 実行時に self をみればわかる</li>
+    </ul>
+  </li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/chef/'>chef</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1359,67 +1436,6 @@ end</code></pre>
 
 
 	<a class='category' href='/blog/categories/chef/'>chef</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/27/winter-vacation-todo/">
-		
-			Winter_vacation_todo</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">冬休みにやること</h2>
-
-<ul>
-  <li>MUST
-    <ul>
-      <li>chef-solo, vagrant の自分用まとめ blog を書く</li>
-      <li>rails tutorial 倒す</li>
-    </ul>
-  </li>
-  <li>WANNAAAABEEEEEEEEEEE
-    <ul>
-      <li>多分今年も VAC ずっとやるんだろうから plugin 作る</li>
-      <li>例の textobj</li>
-      <li>例の operator</li>
-      <li>ぼくのかんがえたさいきょうの メモ環境 を作る</li>
-      <li>Unity ゲーム途中のやつ一区切りさす</li>
-      <li>読書</li>
-    </ul>
-  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
 
 
 </div>

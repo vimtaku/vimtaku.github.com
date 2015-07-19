@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Category: ruby - vimtaku blog</title>
+	<title>model.update_attribute の罠 - vimtaku blog</title>
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="Category: ruby">
+	<meta name="description" content="model.update_attribute の罠">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,113 +77,77 @@
 	
 		
 	
-	<div id="content" class="inner">
-	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">model.update_attribute の罠</h2>
+	<div class="entry-content"><h2 id="section">背景</h2>
+<p>update_attribute で一つだけupdate しようと思ってたら他の属性も変わってて意味不明だった。  </p>
+
+<h2 id="section-1">ヌワー</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">user = User.first
+</span><span class="line">p user.name  ## "vimtaku"
+</span><span class="line">
+</span><span class="line">user.name = "hoge"
+</span><span class="line">user.update_attribute(:age, 100)
+</span><span class="line">##  UPDATE users SET `name` = 'hoge', `age` = 100 where `id` = 1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>結局 user.reload した。</p>
+</div>
 
 
-	
-	
-	<section class="archives"><h1 class="year">2015</h1>
+<div class="meta">
+	<div class="date">
 
-<article>
-	<h2 class="title"><a href="/blog/2015/07/14/update_attribute_trap/">model.update_attribute の罠</a></h2>
-	<div class="meta">
-		<div class="date">Jul 14</div>
-		<div class="tags">
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
 
 
 	<a class='category' href='/blog/categories/ruby/'>ruby</a>
 
 
 </div>
-	    
-	</div>
-</article>
 	
-
-	
-
-
-	
-	
-		</section>
-	
-	<section class="archives"><h1 class="year">2014</h1>
-
-<article>
-	<h2 class="title"><a href="/blog/2014/09/18/rubykaigi-firstday/">rubykaigi 2014/ 1日目</a></h2>
-	<div class="meta">
-		<div class="date">Sep 18</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
 </div>
-	    
-	</div>
 </article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+
+		
+		
+
+        
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2015/07/14/update_attribute_trap/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        
+        
+        
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        
+
+
+	</div>
 	
-
-	
-
-
-<article>
-	<h2 class="title"><a href="/blog/2014/04/10/jbuilder-tips/">jbuilder のフラグメントキャッシュで、配列で書きたい場合とハッシュで書きたい場合のキャッシュを共通化したい</a></h2>
-	<div class="meta">
-		<div class="date">Apr 10</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
 </div>
-	    
-	</div>
-</article>
-	
 
-	
-
-
-<article>
-	<h2 class="title"><a href="/blog/2014/03/10/ruby-webrick-onewriner/">Ruby の WEBRick のワンライナーでサーバが立つかすぐ確認する</a></h2>
-	<div class="meta">
-		<div class="date">Mar 10</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-	    
-	</div>
-</article>
-	
-
-	
-
-
-<article>
-	<h2 class="title"><a href="/blog/2014/03/02/warden/">devise を知るにはまず warden を知るが良い</a></h2>
-	<div class="meta">
-		<div class="date">Mar  2</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-	    
-	</div>
-</article>
-	
-	</section>
-	
 
 </div>
 	<footer id="footer" class="inner">Copyright &copy; 2015
