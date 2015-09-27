@@ -7,9 +7,13 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="現象
-iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、
-metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている( &hellip;">
+	<meta name="description" content="先週の振り返り
+先週は chef と格闘しっぱなしだった。
+まぁでも opsworks についての理解もかなり深まったし、
+chef の感覚はものすごくつかめたのでよかった。
+自分でも新しい recipe 複数かいたし。
+でもなんだか仕事が忙しかった気がする。
+あと、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +84,173 @@ metadata な endpoint にアクセスして一時的な access_key と secret �
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/26/life-jan-last/">
+		
+			一月ももう終わりそう</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">先週の振り返り</h2>
+<p>先週は chef と格闘しっぱなしだった。<br />
+まぁでも opsworks についての理解もかなり深まったし、<br />
+chef の感覚はものすごくつかめたのでよかった。<br />
+自分でも新しい recipe 複数かいたし。<br />
+でもなんだか仕事が忙しかった気がする。<br />
+あと、ブログのアウトプットも増えてきた。<br />
+だれに読まれようが関係ない気持ちで書くと案外かけるもんだ。<br />
+まぁ, Jekyll で書けるってのがかなり大きいんだけれども。  </p>
+
+<p>あ、あと ruby 書くために整理したかったので .vimrc を一新した。<br />
+そして今流行の homesick を使うようにした。<br />
+各環境で .zshrc とか違っている感があるので、徐々に改善していく。  </p>
+
+<h2 id="section-1">勉強途中経過</h2>
+
+<h3 id="section-2">進んだ</h3>
+<ul>
+  <li>rails tutorial 6 までやった</li>
+</ul>
+
+<h2 id="section-3">読書途中経過</h2>
+
+<h3 id="section-4">進んだ</h3>
+<ul>
+  <li>詳解UNIXプログラミング第6章まで読んだ</li>
+  <li>プログラマの数学 4章まで読んだ</li>
+  <li>パーフェクトルビー5章まで読んだ
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="section-5">積んでる</h3>
+<ul>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+</ul>
+
+<h3 id="section-6">読み終えた</h3>
+<ul>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-26T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/01/24/chef-memo/">
+		
+			Chef についてのメモ</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="section">概要</h2>
+<p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
+いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  </p>
+
+<h2 id="attribute-">attribute の読み込み順について</h2>
+<ul>
+  <li>attributes/default.rb が一番最初に読み込まれる</li>
+  <li>attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる</li>
+  <li>node の値は各ファイルで上書きをすることができる  </li>
+</ul>
+
+<h2 id="libraries-">libraries について</h2>
+<ul>
+  <li>libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
+    <ul>
+      <li>Hoge.fuga_method として recipe から使用可能。</li>
+    </ul>
+  </li>
+  <li>他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。</li>
+  <li>libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
+    <ul>
+      <li>自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。</li>
+      <li>他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="chef-">chef 実行時のレシピについて</h2>
+<ul>
+  <li>各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
+    <ul>
+      <li>chef 実行時に self をみればわかる</li>
+    </ul>
+  </li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/chef/'>chef</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -932,494 +1103,6 @@ opsworks-cli-agent show_log
 
 
 	<a class='category' href='/blog/categories/leverage-memo/'>leverage_memo</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/27/z_chef-for-me/">
-		
-			Chef_for_me</a>
-	</h2>
-	<div class="entry-content">
-		
-<h1 id="chef-solo-vagrant-">chef-solo, vagrant に慣れるためにそれっぽいチュートリアルをやる</h1>
-
-<h2 id="tutorial-">tutorial っぽいのがあったのでやってみる</h2>
-<p><a href="http://vialstudios.com/guide-authoring-cookbooks.html">http://vialstudios.com/guide-authoring-cookbooks.html</a></p>
-
-<h2 id="chef-chef-solo-">chef, chef-solo について</h2>
-<p>ここが詳しい。
-<a href="http://knowledge.sakura.ad.jp/tech/867/">http://knowledg.sakura.ad.jp/tech/867/</a></p>
-
-<h2 id="start">start</h2>
-
-<p>基本的に自分のメモなのであんまり参考にならないと思うけど残しておく。  </p>
-
-<ul>
-  <li>git install
-    <ul>
-      <li>すでにあったので省略</li>
-    </ul>
-  </li>
-  <li>Install rbenv and ruby-build
-    <ul>
-      <li>すでにあったので省略</li>
-    </ul>
-  </li>
-  <li>Install Ruby
-    <ul>
-      <li>すでにあったので省略</li>
-    </ul>
-  </li>
-  <li>Install Berkshelf
-    <ul>
-      <li>すでにあったので省略</li>
-    </ul>
-  </li>
-  <li>foodcritic を入れる。</li>
-</ul>
-
-<div>
-  <pre><code class="bash">$ gem install foodcritic</code></pre>
-</div>
-
-<ul>
-  <li>Install VirtualBox
-    <ul>
-      <li>すでにあったので省略</li>
-    </ul>
-  </li>
-  <li>Install Vagrant
-    <ul>
-      <li>すでにあったので省略</li>
-    </ul>
-  </li>
-  <li>Creating the Cookbook</li>
-</ul>
-
-<div>
-  <pre><code class="bash">/Users/vimtaku/vm/myface% berks cookbook myface --foodcritic
-      create  myface/files/default
-      create  myface/templates/default
-      create  myface/attributes
-      create  myface/definitions
-      create  myface/libraries
-      create  myface/providers
-      create  myface/recipes
-      create  myface/resources
-      create  myface/recipes/default.rb
-      create  myface/metadata.rb
-      create  myface/LICENSE
-      create  myface/README.md
-      create  myface/Berksfile
-      create  myface/Thorfile
-      create  myface/chefignore
-      create  myface/.gitignore
-         run  git init from &quot;./myface&quot;
-      create  myface/Gemfile
-      create  myface/Vagrantfile</code></pre>
-</div>
-
-<p>クックブックのスケルトンテンプレートを、 myface っていう名前で作成した。</p>
-
-<ul>
-  <li>Prepare your virtual environment
-    <ul>
-      <li>vendor/bundle にインストールする設定をやってなかったらやっておいたほうが良いかも
-        <ul>
-          <li><a href="http://qiita.com/toshiwo/items/4e7c82852f3e14bf5a1d">http://qiita.com/toshiwo/items/4e7c82852f3e14bf5a1d</a></li>
-        </ul>
-      </li>
-      <li>bundle install</li>
-    </ul>
-  </li>
-  <li>Starting your virtual machine
-    <ul>
-      <li>とりあえず言われたとおりにやってみろってことなのでやってみる</li>
-    </ul>
-  </li>
-</ul>
-
-<div>
-  <pre><code class="bash">/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
-   ringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
-   [default] Box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39; was not found. Fetching box from specified URL for
-   the provider &#39;virtualbox&#39;. Note that if the URL does not have
-   a box for this provider, you should interrupt Vagrant now and add
-   the box yourself. Otherwise Vagrant will attempt to download the
-   full box prior to discovering this error.
-   Downloading or copying the box...
-   Progress: 22% (Rate: 1045k/s, Estimated time remaining: 0:03:45)load: 1.56  cmd: curl 27613 waiting 0.84u 1.48s
-   Progress: 50% (Rate: 1068k/s, Estimated time remaining: 0:02:03)load: 1.47  cmd: curl 27613 waiting 1.76u 3.18s
-   Progress: 51% (Rate: 1147k/s, Estimated time remaining: 0:02:01)^U
-   Progress: 85% (Rate: 1061k/s, Estimated time remaining: 0:00:38)load: 1.27  cmd: curl 27613 waiting 2.72u 4.99s
-   Extracting box...te: 2251k/s, Estimated time remaining: 0:00:01)j
-   Successfully added box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39; with provider &#39;virtualbox&#39;!
-   There are errors in the configuration of this machine. Please fix
-   the following errors and try again:
-   
-   SSH:
-   * The following settings shouldn&#39;t exist: max_tries, timeout</code></pre>
-</div>
-
-<ul>
-  <li>エラー。 ssh
-    <ul>
-      <li>https://github.com/berkshelf/berkshelf/pull/856</li>
-      <li>vagrant バージョンの違いによるものっぽい、削除して try</li>
-    </ul>
-  </li>
-</ul>
-
-<div>
-  <pre><code class="bash">/Users/vimtaku/vm/myface/myface% bundle exec vagrant up
-Bringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
-[default] Importing base box &#39;Berkshelf-CentOS-6.3-x86_64-minimal&#39;...
-[default] Matching MAC address for NAT networking...
-[default] Setting the name of the VM...
-[default] Clearing any previously set forwarded ports...
-[Berkshelf] This version of the Berkshelf plugin has not been fully tested on this version of Vagrant.
-[Berkshelf] You should check for a newer version of vagrant-berkshelf.
-[Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
-[Berkshelf] You can also join the discussion in #berkshelf on Freenode.
-[Berkshelf] Updating Vagrant&#39;s berkshelf: &#39;/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default&#39;
-[Berkshelf] Using myface (0.1.0) from metadata
-[default] Creating shared folders metadata...
-[default] Clearing any previously set network interfaces...
-[default] Preparing network interfaces based on configuration...
-[default] Forwarding ports...
-[default] -- 22 =&gt; 2222 (adapter 1)
-[default] Booting VM...
-[default] Waiting for machine to boot. This may take a few minutes...
-[default] Machine booted and ready!
-[default] Setting hostname...
-[default] Configuring and enabling network interfaces...
-[default] Mounting shared folders...
-[default] -- /vagrant
-[default] -- /tmp/vagrant-chef-1/chef-solo-1/cookbooks
-[default] Running provisioner: chef_solo...
-Generating chef JSON and uploading...
-Running chef-solo...
-[2013-12-27T09:05:00+00:00] INFO: *** Chef 10.14.2 ***
-[2013-12-27T09:05:01+00:00] INFO: Setting the run_list to [&quot;recipe[myface::default]&quot;] from JSON
-[2013-12-27T09:05:01+00:00] INFO: Run List is [recipe[myface::default]]
-[2013-12-27T09:05:01+00:00] INFO: Run List expands to [myface::default]
-[2013-12-27T09:05:01+00:00] INFO: Starting Chef Run for myface-berkshelf
-[2013-12-27T09:05:01+00:00] INFO: Running start handlers
-[2013-12-27T09:05:01+00:00] INFO: Start handlers complete.
-[2013-12-27T09:05:01+00:00] INFO: Chef Run complete in 0.017946119 seconds
-[2013-12-27T09:05:01+00:00] INFO: Running report handlers
-[2013-12-27T09:05:01+00:00] INFO: Report handlers complete</code></pre>
-</div>
-
-<ul>
-  <li>実行されているのは Vagrantfile の中に含まれていた run_list のところのリストだった</li>
-  <li>cent os とか書いているところは自分の好きな感じで設定できるよとのこと</li>
-  <li>
-    <p>このへんは知ってるけど不安定とかになったら vagrant destroy とかで消せるよとのこと</p>
-  </li>
-  <li>Deploying with Artifact Deploy
-    <ul>
-      <li>myface っていうスーパークールな sns アプリ作ってやろうぜとのこと
-        <ul>
-          <li>Artifact Deploy は LWRP を deploy するためのもの!
-            <ul>
-              <li>LWRP はこちらを参照 -&gt; <a href="http://sssslide.com/speakerdeck.com/kentaro/chef-lwrp">http://sssslide.com/speakerdeck.com/kentaro/chef-lwrp</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>vim で編集. </li>
-    </ul>
-  </li>
-</ul>
-<div>
-  <pre><code class="bash">/Users/vimtaku/vm/myface/myface% vim recipes/default.rb
-
-artifact_deploy &quot;myface&quot; do
-  version &quot;1.0.0&quot;
-  artifact_location &quot;http://dl.dropbox.com/u/31081437/myface-1.0.0.tar.gz&quot;
-  deploy_to &quot;/srv/myface&quot;
-  owner &quot;myface&quot;
-  group &quot;myface&quot;
-  action :deploy
-end</code></pre>
-</div>
-
-<ul>
-  <li>provision command でもう一回 chef の provision を実行する。</li>
-  <li>berkshelf vagrant plugin の 魔法によって依存関係を勝手に解決してくれる!</li>
-</ul>
-
-<div>
-  <pre><code class="bash">[Berkshelf] This version of the Berkshelf plugin has not been fully tested on this version of Vagrant.
-[Berkshelf] You should check for a newer version of vagrant-berkshelf.
-[Berkshelf] If you encounter any errors with this version, please report them at https://github.com/RiotGames/vagrant-berkshelf/issues
-[Berkshelf] You can also join the discussion in #berkshelf on Freenode.
-[Berkshelf] Updating Vagrant&#39;s berkshelf: &#39;/Users/vimtaku/.berkshelf/default/vagrant/berkshelf-20131227-27600-dzfcmn-default&#39;
-[Berkshelf] Using myface (0.1.0)
-[default] Running provisioner: chef_solo...
-Generating chef JSON and uploading...
-Running chef-solo...
-[2013-12-27T09:36:54+00:00] INFO: *** Chef 10.14.2 ***
-[2013-12-27T09:36:54+00:00] INFO: Setting the run_list to [&quot;recipe[myface::default]&quot;] from JSON
-[2013-12-27T09:36:54+00:00] INFO: Run List is [recipe[myface::default]]
-[2013-12-27T09:36:54+00:00] INFO: Run List expands to [myface::default]
-[2013-12-27T09:36:54+00:00] INFO: Starting Chef Run for myface-berkshelf
-[2013-12-27T09:36:54+00:00] INFO: Running start handlers
-[2013-12-27T09:36:54+00:00] INFO: Start handlers complete.
-
-================================================================================
-Recipe Compile Error in /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb
-================================================================================
-
-NameError
----------
-Cannot find a resource for artifact_deploy on centos version 6.3
-
-Cookbook Trace:
----------------
-  /tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:9:in `from_file&#39;
-
-Relevant File Content:
-----------------------
-/tmp/vagrant-chef-1/chef-solo-1/cookbooks/myface/recipes/default.rb:
-
-  1:  #
-  2:  # Cookbook Name:: myface
-  3:  # Recipe:: default
-  4:  #
-  5:  # Copyright (C) 2013 YOUR_NAME
-  6:  # 
-  7:  # All rights reserved - Do Not Redistribute
-  8:  
-  9:  artifact_deploy &quot;myface&quot; do
-
-[2013-12-27T09:36:55+00:00] ERROR: Running exception handlers
-[2013-12-27T09:36:55+00:00] ERROR: Exception handlers complete
-[2013-12-27T09:36:55+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
-[2013-12-27T09:36:55+00:00] FATAL: NameError: Cannot find a resource for artifact_deploy on centos version 6.3</code></pre>
-</div>
-
-<ul>
-  <li>期待通りにエラッた
-    <ul>
-      <li>俺らは全然 artifact_deploy はいらない</li>
-      <li>chef client が必要としているだけ</li>
-      <li>俺らは LWRP が必要だっていうのを 俺らの cookbook に教えていないから教えてやる</li>
-    </ul>
-  </li>
-  <li>Working with cookbook metadata
-    <ul>
-      <li>metadata.rb に教えてやる必要がある。
-        <ul>
-          <li>このファイルは結構初心者が見落としがちなんだけど結構大事なんだぜ</li>
-          <li>metadata.rb は Rubygems で言う gemspec みたいなやつで依存関係を記述する奴で
-            <ul>
-              <li>name attribute で名前とか</li>
-              <li>version attribute でバージョンとか</li>
-              <li>depends 定義で 依存する cookbooks の記述とか</li>
-              <li>conflict 定義で conflict する奴とか</li>
-              <li>maintainer attribute で メンテナとか</li>
-              <li>maintainer email とか</li>
-              <li>license 情報 とか</li>
-              <li>long_description を使って description とか
-をかける!</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>全部の属性は必要ない</li>
-      <li>けど attribute を空にするのはやめておけとのこと</li>
-    </ul>
-  </li>
-  <li>
-    <p>追記してbundle exec vagrant provision を実行</p>
-  </li>
-  <li>
-    <p>ユーザ追記とかして</p>
-  </li>
-  <li>Using Berkshelf to gather dependencies</li>
-  <li>どっから dependencies を解決しているのか</li>
-  <li>metadata.rb をみていろいろやる</li>
-  <li>
-    <p>capistrano っぽいディレクトリ構成で deploy</p>
-  </li>
-  <li>Refactoring into attributes
-    <ul>
-      <li>attributes/default.rb に記入</li>
-    </ul>
-  </li>
-</ul>
-<div>
-  <pre><code class="bash">default[:myface][:user] = &quot;myface&quot;
-default[:myface][:group] = &quot;myface&quot;</code></pre>
-</div>
-
-<div>
-  <pre><code class="bash">group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
-
-user &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot; do
-  group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
-  system true
-  shell &quot;/bin/bash&quot;
-end
-
-artifact_deploy &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot; do
-  version &quot;1.0.0&quot;
-  artifact_location &quot;/tmp/myface-1.0.0.tar.gz&quot;
-  deploy_to &quot;/srv/myface&quot;
-  owner &quot;#{node[&#39;myface&#39;][&#39;user&#39;]}&quot;
-  group &quot;#{node[&#39;myface&#39;][&#39;group&#39;]}&quot;
-  action :deploy
-end</code></pre>
-</div>
-
-<ul>
-  <li>artifact_location に /tmp 指定してるのは回線事情があって wget したやつをおいておいた.</li>
-  <li>
-    <p>うまく行った。書き方をちゃんとしないと validation で引っかかるので注意。</p>
-  </li>
-  <li>Idempotent recipes
-    <ul>
-      <li>レシピの冪とう性について書かれている</li>
-      <li>not_if とかないと</li>
-    </ul>
-  </li>
-  <li>Configuring the application server
-    <ul>
-      <li>depends “tomcat”, “~&gt; 0.11.0” を metadata.rb に追加する</li>
-      <li>include_recipe “tomcat” を recipes/default.rb に追加する</li>
-      <li>provision</li>
-    </ul>
-  </li>
-  <li>include_recipe versus a Role with a run_list
-    <ul>
-      <li>スパイダーマンより、 大いなる力には、大いなる責任が伴う</li>
-      <li>ポートフォワーディングの設定
-        <ul>
-          <li>config.vm.network :forwarded_port, guest: 8080, host: 9090</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Configuring Tomcat users
-    <ul>
-      <li>したがってやったらできた。</li>
-      <li>/myapp はなぜか動かない</li>
-      <li>まぁでもとりあえず受けれるところまで行ければおkなのでここまでとする</li>
-    </ul>
-  </li>
-  <li>その下は
-    <ul>
-      <li>もっと attribute で可変にするところとか</li>
-      <li>database の LWRP を使う例とかi
- が書いてある</li>
-    </ul>
-  </li>
-  <li>これが便利</li>
-</ul>
-
-<div>
-  <pre><code class="bash">require &#39;json&#39;
-
-file &quot;/tmp/dna.json&quot; do
-  content JSON.pretty_generate(node)
-end</code></pre>
-</div>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/chef/'>chef</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/27/winter-vacation-todo/">
-		
-			Winter_vacation_todo</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">冬休みにやること</h2>
-
-<ul>
-  <li>MUST
-    <ul>
-      <li>chef-solo, vagrant の自分用まとめ blog を書く</li>
-      <li>rails tutorial 倒す</li>
-    </ul>
-  </li>
-  <li>WANNAAAABEEEEEEEEEEE
-    <ul>
-      <li>多分今年も VAC ずっとやるんだろうから plugin 作る</li>
-      <li>例の textobj</li>
-      <li>例の operator</li>
-      <li>ぼくのかんがえたさいきょうの メモ環境 を作る</li>
-      <li>Unity ゲーム途中のやつ一区切りさす</li>
-      <li>読書</li>
-    </ul>
-  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
 
 
 </div>

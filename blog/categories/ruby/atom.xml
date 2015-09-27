@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-06-04T22:16:11+09:00</updated>
+  <updated>2015-09-27T23:18:06+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[model.update_attribute の罠]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/07/14/update_attribute_trap/"/>
+    <updated>2015-07-14T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/07/14/update_attribute_trap</id>
+    <content type="html"><![CDATA[<h2 id="section">背景</h2>
+<p>update_attribute で一つだけupdate しようと思ってたら他の属性も変わってて意味不明だった。  </p>
+
+<h2 id="section-1">ヌワー</h2>
+
+<p>```
+user = User.first
+p user.name  ## “vimtaku”</p>
+
+<p>user.name = “hoge”
+user.update_attribute(:age, 100)
+##  UPDATE users SET <code>name</code> = ‘hoge’, <code>age</code> = 100 where <code>id</code> = 1</p>
+
+<p>```</p>
+
+<p>結局 user.reload した。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rubykaigi 2014/ 1日目]]></title>

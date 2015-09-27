@@ -7,12 +7,8 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="背景
-デザインが見づらいって言われたので辛くなったから、
-octopress にノリで移行してみた。
-当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので
-問題なく移行できると思ったら移行できた。 手順
-大体こんなかんじでいける。 &hellip;">
+	<meta name="description" content="TOC TOC 概要 Mysql workbench の SS 手順 1. mysql workbench rails exporter plugin をダウンロード 2. mysql workbench のインストール 3. プラグインのインストールと実行 所感 概要
+mysql &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -83,6 +79,192 @@ octopress にノリで移行してみた。
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/16/mysql-workbench-rails/">
+		
+			MySQL Workbench で Rails の Migration ファイルを吐き出す</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">概要</a></li>
+  <li><a href="#mysql-workbench--ss">Mysql workbench の SS</a></li>
+  <li><a href="#section-1">手順</a>    <ul>
+      <li><a href="#mysql-workbench-rails-exporter-plugin-">1. mysql workbench rails exporter plugin をダウンロード</a></li>
+      <li><a href="#mysql-workbench-">2. mysql workbench のインストール</a></li>
+      <li><a href="#section-2">3. プラグインのインストールと実行</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-3">所感</a></li>
+</ul>
+
+<h2 id="section">概要</h2>
+<p>mysql workbench っていう MySQL のER図を作るみたいなツールがある。<br />
+CUI硬派のため、いままでは使ったことなかったけど、<br />
+今回はじめて使ってみると結構いい感じだった。<br />
+それを rails のマイグレーションファイルに吐き出したいなぁと思っていたら、<br />
+それっぽいプラグインを見つけたので、その方法を書いておく。  </p>
+
+<h2 id="mysql-workbench--ss">Mysql workbench の SS</h2>
+<p><img src="http://gyazo.com/f15f8824bbfdd3bb3dccd514b697f5e5.png" /></p>
+
+<h2 id="section-1">手順</h2>
+
+<h3 id="mysql-workbench-rails-exporter-plugin-">1. mysql workbench rails exporter plugin をダウンロード</h3>
+<p><a href="http://sourceforge.net/projects/railsexporter/">http://sourceforge.net/projects/railsexporter/</a>
+ここから、 rails exporter を落としてくる。  </p>
+
+<h3 id="mysql-workbench-">2. mysql workbench のインストール</h3>
+<p>新しい workbench ツールに、上記プラグインが対応していなかったので、 ちょっと古いやつで試したら動作した。<br />
+<a href="http://dev.mysql.com/downloads/tools/workbench/">http://dev.mysql.com/downloads/tools/workbench/</a> から、
+Looking for previous GA versions? をたどると、 mysql-workbench-gpl-5.2.47-osx-i686.dmg  が落とせる。<br />
+これをインストールする。  </p>
+
+<h3 id="section-2">3. プラグインのインストールと実行</h3>
+<p>mysql workbench のタブから、 “SCRIPTING &gt; INSTALL PLUGIN/MODULE …” で、展開した 1 の zip の .lua ファイルを選択する。<br />
+mysql workbench を再起動して、 “PLUGINS &gt; CATALOG &gt; Rails Exporter 1.0.1” を選択すれば、あら不思議、<br />
+$HOME に Rails_Explorer ディレクトリが。<br />
+db と model が出来上がるので、あとはそれをよしなに利用すれば良い。  </p>
+
+<h2 id="section-3">所感</h2>
+<p>実際、このあとに、 mysql に接続して、ER図を吐き出すやつやってみたけど、<br />
+まぁ当然、テーブル的にリレーションしてないわけだから、ER図もリレーションしてなくて、見づらい。<br />
+raisl には ERD 生成ツールみたいなのがあるらしいので、<br />
+最初の一回くらいしか使えないかもしれないけど、ないよりはいいかなぁ。<br />
+ちなみに出来上がるファイルは若干修正が必要だと思う。<br />
+ちゃんと mwb のほうで書いていれば大丈夫かもだけど。。<br />
+mwb の方で、カラムに複数行のコメントを入れておくと、出力された時にダメなので、<br />
+コメントを1行にするか、複数行の場合は先頭に#を入れると良いかもしれない。<br />
+あと、 unsigned int を作りたいけど、うまいことやってくれなくて、<br />
+gem “activerecord-mysql-unsigned”, “~&gt; 0.0.1”
+これを入れて、手動で integer のカラムに :unsgined =&gt; true した。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/16/life-feb-16/">
+		
+			2/16</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">先週振り返り</h2>
+<p>先週も solr 力をかなり高める感じだった。<br />
+docker がリアルに流行り始めているので、本格的に勉強したいところ。<br />
+でも家のネットワークが遅くてちょっと厳しいんだよなぁ。<br />
+なんかお腹の調子がずっと悪くてしんどかった。<br />
+あと、雪の日に自宅待機したら迷惑かけてしまったので、今後は極力休まない。  </p>
+
+<p>あんまり本が読めなかったので、気合入れて読む。<br />
+あと、どうでもいいけど、 MBA の容量が 128GB で 94% とか言ってて積んでる感ある。  </p>
+
+<h2 id="section-1">土日振り返り</h2>
+<p>あんまり多く時間を取れなかったが、日経 linux 読んだのと、workbench の件をそこそこやった。  </p>
+
+<h2 id="section-2">勉強途中経過</h2>
+
+<h3 id="section-3">進んでない</h3>
+<ul>
+  <li>rails tutorial 6 までやった</li>
+</ul>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">進んだ</h3>
+<ul>
+  <li>詳解UNIXプログラミング第8章まで読んだ</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>オペレーティングシステム 6章まで読んだ</li>
+  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
+  <li>ネットワークはなぜつながるのか?</li>
+  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
+  <li>パーフェクトルビー15章まで読んだ
+    <ul>
+      <li>手を動かしながら ver</li>
+    </ul>
+  </li>
+  <li>論語入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1175,173 +1357,6 @@ Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/reposito
 
 
 <time datetime="2014-01-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/chef/'>chef</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/26/life-jan-last/">
-		
-			一月ももう終わりそう</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">先週の振り返り</h2>
-<p>先週は chef と格闘しっぱなしだった。<br />
-まぁでも opsworks についての理解もかなり深まったし、<br />
-chef の感覚はものすごくつかめたのでよかった。<br />
-自分でも新しい recipe 複数かいたし。<br />
-でもなんだか仕事が忙しかった気がする。<br />
-あと、ブログのアウトプットも増えてきた。<br />
-だれに読まれようが関係ない気持ちで書くと案外かけるもんだ。<br />
-まぁ, Jekyll で書けるってのがかなり大きいんだけれども。  </p>
-
-<p>あ、あと ruby 書くために整理したかったので .vimrc を一新した。<br />
-そして今流行の homesick を使うようにした。<br />
-各環境で .zshrc とか違っている感があるので、徐々に改善していく。  </p>
-
-<h2 id="section-1">勉強途中経過</h2>
-
-<h3 id="section-2">進んだ</h3>
-<ul>
-  <li>rails tutorial 6 までやった</li>
-</ul>
-
-<h2 id="section-3">読書途中経過</h2>
-
-<h3 id="section-4">進んだ</h3>
-<ul>
-  <li>詳解UNIXプログラミング第6章まで読んだ</li>
-  <li>プログラマの数学 4章まで読んだ</li>
-  <li>パーフェクトルビー5章まで読んだ
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="section-5">積んでる</h3>
-<ul>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>ネットワークはなぜつながるのか?</li>
-  <li>chef-solo 入門 #23 まで読んだ(どっかで手を動かしながらやる)</li>
-</ul>
-
-<h3 id="section-6">読み終えた</h3>
-<ul>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-26T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/24/chef-memo/">
-		
-			Chef についてのメモ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">概要</h2>
-<p>chef について、現時点でわかっている、知っておいたら役立ちそうなメモを書いておく。
-いわゆる実際ソース追えばわかるんだけど、まだソース追ってないので段階での現在わかっている挙動まとめ。  </p>
-
-<h2 id="attribute-">attribute の読み込み順について</h2>
-<ul>
-  <li>attributes/default.rb が一番最初に読み込まれる</li>
-  <li>attributes/hoge.rb などの、attributes ディレクトリの他のファイルが辞書順に読み込まれる</li>
-  <li>node の値は各ファイルで上書きをすることができる  </li>
-</ul>
-
-<h2 id="libraries-">libraries について</h2>
-<ul>
-  <li>libraries/hoge.rb などに、 Chef::Recipe::Hoge などのクラスを定義して、recipe から呼び出すことができる。
-    <ul>
-      <li>Hoge.fuga_method として recipe から使用可能。</li>
-    </ul>
-  </li>
-  <li>他のレシピを同時に実行するときでも、Hoge.fuga_method は使用可能。</li>
-  <li>libraries/mymodule.rb などに、 module MyModule などのモジュールを定義して、 recipe から呼び出すことができる。
-    <ul>
-      <li>自分がイマ実行しているレシピのみでモジュールを使用したい場合は、レシピに extend MyModule して特異メソッドとしてメソッドを生やす。</li>
-      <li>他のレシピでもモジュールを使用したい場合は、::Chef::Recipe.send(:include, MyModule) として Chef::Recipe クラスに include することで、my_module_method を呼び出せる。</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="chef-">chef 実行時のレシピについて</h2>
-<ul>
-  <li>各レシピ、例えば first, second っていうレシピがあったとすると、それらは Chef::Recipe インスタンスである。
-    <ul>
-      <li>chef 実行時に self をみればわかる</li>
-    </ul>
-  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
 	<div class="tags">
 
 

@@ -7,9 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="追記
-この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。
-フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。 &hellip;">
+	<meta name="description" content="やるべきこと
+人には、やるべきことが与えられていると、最近思うようになった。
+こういうと大層なことを言っているように聞こえるかもしれないけど、
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。 それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +81,275 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/14/yarubekikoto-poem/">
+		
+			やるべきこと、やるべき場所</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">やるべきこと</h1>
+<p>人には、やるべきことが与えられていると、最近思うようになった。<br />
+こういうと大層なことを言っているように聞こえるかもしれないけど、<br />
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。  </p>
+
+<p>それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、<br />
+楽しいことや辛いこともあるけど、仕事を通して影響を与えられるなら、<br />
+こんなに楽しいことはない。  </p>
+
+<p>自分が満足して、自分らしく生きられて、大きく社会に影響できる環境を、<br />
+創れるようにならなきゃダメだなぁと思う。  </p>
+
+<h1 id="section-1">やるべき場所</h1>
+<p>たぶん働くべき場所というか、自分がもっと輝く場所っていうのは<br />
+人それぞれにちゃんとあって、そのやるべき場所っていうのは答えが無いんだけど、<br />
+今いる場所が、自分がいるべき場所か? 自分がやるべきことをやってるのか?<br />
+という問いは、定期的に行ったほうがいいかもしれない。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/poem/'>poem</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/04/fig-so-slow/">
+		
+			Fig and Rails Env Is Too Heavy, I Found workaround(Mac OSX)</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="ps">(PS)</h2>
+<p>I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.<br />
+Firstly, this blog was quite good and effective for me.<br />
+Sync is working fine, but suddonly, rsync was getting weird.<br />
+Additionally, these rsync strategy is faster than sync folder,<br />
+ but it is definetly slow than localhost.<br />
+Localhost is super fast.<br />
+And I faced problems as follows. 
+ - rails console history or mysql history is gone away when fig restart.<br />
+ - rails console mysql connection has gone away because of restarting db.<br />
+For now, I think fig(docker compose) is not good as development environment.<br />
+If you have identical dev env, please message to me.  </p>
+
+<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>virtual box disk io is not good because of file sync. so turn off.<br />
+ – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
+  <li>use NFS, for sync your directories.  </li>
+</ul>
+
+<h2 id="environment">Environment</h2>
+<ul>
+  <li>fig 1.0.0  </li>
+  <li>boot2docker v1.3.1  </li>
+  <li>docker container(rails)  </li>
+  <li>docker container(mysql)  </li>
+</ul>
+
+<h2 id="background--problem">Background &amp; Problem</h2>
+<p>Recently, it is very easy to create development env because fig and docker.<br />
+But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
+
+<h2 id="workaround">Workaround</h2>
+
+<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
+<p>By default, /Users directory is synced with boot2docker.<br />
+This sync is very slow so I turned it off, response speed is up.  </p>
+
+<h3 id="use-nfs">Use NFS</h3>
+<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
+I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
+This thread is quite good for me.  </p>
+
+<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
+because I wanna use fig.  </p>
+
+<h4 id="syncsh">sync.sh</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">!/bin/bash
+</span><span class="line">
+</span><span class="line">set -u # prevent unbound variables
+</span><span class="line">set -e # terminate on error
+</span><span class="line">
+</span><span class="line">SSH_PORT=$(boot2docker config 2&gt;&amp;1 | awk '/SSHPort/ {print $3}')
+</span><span class="line">
+</span><span class="line"># load rsync
+</span><span class="line">boot2docker ssh tce-load -wi rsync
+</span><span class="line">
+</span><span class="line"># ensure existance of .rsyncignore
+</span><span class="line">touch .rsyncignore
+</span><span class="line">
+</span><span class="line">function sync {
+</span><span class="line">  # sync current directory to ~/share on the vm
+</span><span class="line">  rsync -rlz --exclude-from=.rsyncignore -e "ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT" --force --delete ./ docker@localhost:/home/docker/share
+</span><span class="line">  echo "sync: $(date)"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">sync
+</span><span class="line">#fswatch -o . | xargs -n1 -I{} sync</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
+so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
+I wrote .rsyncignore something like below.  </p>
+
+<h4 id="rsyncignore">.rsyncignore</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tmp/
+</span><span class="line">vendor/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>gem is installed global.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">FROM ruby
+</span><span class="line">RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
+</span><span class="line">RUN mkdir /myapp
+</span><span class="line">WORKDIR /myapp
+</span><span class="line">ADD Gemfile /myapp/Gemfile
+</span><span class="line">ADD . /myapp
+</span><span class="line">RUN bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="figyml">fig.yml</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hoge
+</span><span class="line">  # volumes:
+</span><span class="line">  #   - ./data:/var/lib/mysql
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  working_dir: /myapp
+</span><span class="line">  dns: localhost
+</span><span class="line">  volumes:
+</span><span class="line">    - /home/docker/share:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  expose:
+</span><span class="line">    - 3000
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In db section, volumes isn’t need.<br />
+In web section, volumes is attached from boot2docker to web container.  </p>
+
+<p>That’s it.  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-04T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/fig/'>fig</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -848,375 +1118,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 
 	<a class='category' href='/blog/categories/datomic/'>datomic</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/">
-		
-			If You Test Using realm.io Object, You Should Use RLMRealm.inMemoryRealmWithIdentifier</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="toc">TOC</h1>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
-      <li><a href="#about-realm">About realm</a></li>
-      <li><a href="#related-link">Related link</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
-<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
-I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
-The error is “swift_dynamicCastClassUnconditional”.<br />
-I struggled a lot, finally I got a solution.<br />
-First of all, below is my code.  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import Foundation
-</span><span class="line">
-</span><span class="line">class FMUserCredential: RLMObject {
-</span><span class="line">    dynamic var accessToken :String = ""
-</span><span class="line">    dynamic var refreshToken :String = ""
-</span><span class="line">    
-</span><span class="line">    // 代替案
-</span><span class="line">    private struct ClassProperty {
-</span><span class="line">        static var _realm:RLMRealm? = nil
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    // Computed Property
-</span><span class="line">    class var _realm: RLMRealm? {
-</span><span class="line">        get {
-</span><span class="line">            return ClassProperty._realm
-</span><span class="line">        }
-</span><span class="line">        set {
-</span><span class="line">            return ClassProperty._realm = newValue
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func realm() -&gt; RLMRealm {
-</span><span class="line">        if (FMUserCredential._realm == nil) {
-</span><span class="line">            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-</span><span class="line">            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
-</span><span class="line">            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
-</span><span class="line">            FMUserCredential._realm = realm
-</span><span class="line">        }
-</span><span class="line">        return FMUserCredential._realm!
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func findAll() -&gt; RLMResults {
-</span><span class="line">        return FMUserCredential.allObjectsInRealm(realm())
-</span><span class="line">    }
-</span><span class="line">    class func find() -&gt; FMUserCredential? {
-</span><span class="line">        if (findAll().count &gt;= 1) {
-</span><span class="line">            return findAll().firstObject() as FMUserCredential?
-</span><span class="line">        }
-</span><span class="line">        return nil
-</span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This class has static params realm, and when I test write, I set realm object.<br />
-But, I notice that I have to new realm object when I do test.<br />
-So, I changed my test code to use  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
-</span><span class="line">FMUserCredential._realm = realm</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This worked fine.  </p>
-
-<h2 id="about-realm">About realm</h2>
-<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
-Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
-The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
-
-<h2 id="related-link">Related link</h2>
-<ul>
-  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
-  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
-  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
-</ul>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/01/30/hackers-and-painters/">
-		
-			ハッカーと画家を読んだ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">ハッカーと画家を読んだ</a>    <ul>
-      <li><a href="#usa">0章 メイドインUSA</a></li>
-      <li><a href="#section-1">1章 なぜオタクはモテないのか</a></li>
-      <li><a href="#section-2">2章 ハッカーと画家</a></li>
-      <li><a href="#section-3">3章 口にできないこと</a></li>
-      <li><a href="#section-4">5章 もう一つの未来への道</a></li>
-      <li><a href="#section-5">6章 富の創り方</a></li>
-      <li><a href="#section-6">9章 ものづくりのセンス</a></li>
-      <li><a href="#section-7">10章 プログラミング言語入門</a></li>
-      <li><a href="#section-8">11章 100年後の言語</a></li>
-      <li><a href="#section-9">12章 普通のやつらの上を行け</a></li>
-      <li><a href="#section-10">14章 夢の言語</a></li>
-      <li><a href="#section-11">15章 デザインとリサーチ</a></li>
-      <li><a href="#section-12">16章 素晴らしきハッカー</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="section">ハッカーと画家を読んだ</h1>
-<p>ハッカーと画家はポール・グラハムによって書かれたエッセイ集で、<br />
-何か得られるかなぁとおもって読んでみた。  </p>
-
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4274065979" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<p>全体的には、  </p>
-
-<ul>
-  <li>スタートアップでしょ、普通  </li>
-  <li>lisp 最高  </li>
-  <li>プログラムは、人々がそれを読むために書かれるべきである. たまたま, それが計算機で実行できるに過ぎない.(by SICP)  </li>
-  <li>富はお金じゃない。富は作れる、コード書いて富を創ろう  </li>
-  <li>ハッカーとはどんなひとたちか  </li>
-  <li>誰かに喜ばれるものを作るのではなく、特定のユーザに喜ばれるものを作れ<br />
- – 仕事とかしてたらよく聞くよね、形を変えて。(ペルソナとかそういう  </li>
-</ul>
-
-<p>という感じだった。  </p>
-
-<p>今大企業にいるけど、再来月からスタートアップに join するにあたっては、結構背中を押してくれる内容だったと思う。  </p>
-
-<p>一応マインドマップに書いたメモがあるので、それを元に以下に記述する。<br />
-(飛ばしている章もある)  </p>
-
-<h2 id="usa">0章 メイドインUSA</h2>
-<ul>
-  <li>ipod  </li>
-  <li>デザイン  </li>
-</ul>
-
-<h2 id="section-1">1章 なぜオタクはモテないのか</h2>
-<ul>
-  <li>nerd であること(賢くありたい)  </li>
-  <li>学校は牢獄と同じで、若者たちが社会を邪魔しないためにあるもの<br />
- – 中にいる学生たちがそれを変えるしかない  </li>
-</ul>
-
-<h2 id="section-2">2章 ハッカーと画家</h2>
-<ul>
-  <li>数学者に憧れる必要はない。ハッカーはもっと画家のようであるべき。  </li>
-  <li>共感することの重要さ。これが良いものと偉大なものとを分ける。  </li>
-  <li>プログラムは、人々がそれを読むために書かれるべきである. たまたま, それが計算機で実行できるに過ぎない.(by SICP)  </li>
-</ul>
-
-<h2 id="section-3">3章 口にできないこと</h2>
-<ul>
-  <li>現代で自然と行われていることが、実は未来では当たり前に<em>やっていない</em>ようなことで、それが現代における「口にできないこと」  </li>
-  <li>それを見つけるにはいくつか方法がある<br />
- – 災難をみつける。批難を受けているものに対して、自分で「その主張は真実であるか?」と問うことが重要。<br />
- – 異端  </li>
-  <li>口にできないことを探す理由<br />
- – 好奇心<br />
- – 間違っていたくない<br />
- – 頭脳に良い  </li>
-  <li>自分の考えを口にだすことはいろいろマイナスがある<br />
- – どちらか意見を聞かれた時、まだ決めてない、と答えるのがベター  </li>
-  <li>もっとも重要なことは、「考えたいことを考えられること」  </li>
-</ul>
-
-<h2 id="section-4">5章 もう一つの未来への道</h2>
-<ul>
-  <li>スタートアップは大企業の十倍の生産性がある  </li>
-  <li>サーバサイドソフトウェアはめっちゃイイ<br />
- – 使い勝手はダメかもしれないが、とにかく動くということ<br />
- — (感想)今はスマホの時代、これからは IoT とか言われてるけどどうなっていくか。<br />
- — (感想)事実、2010年ころくらいまでは Web アプリ(ゲーム)が大半を占めていが、今はそうではないのでここは話半分で良いと思う  </li>
-  <li>サブスクリプションの課金がしっくり来るよねっていう話  </li>
-</ul>
-
-<h2 id="section-5">6章 富の創り方</h2>
-<ul>
-  <li>富は創れる  </li>
-  <li>富とお金は等しくない<br />
- – お金は交換媒体である  </li>
-  <li>富とは、ものやサービスなどを受けられること。  </li>
-</ul>
-
-<h2 id="section-6">9章 ものづくりのセンス</h2>
-<ul>
-  <li>良いデザインは<br />
- – 単純<br />
- – 永遠<br />
- – 正しい問題を解決する<br />
- – 想像力を換気する<br />
- – ちょっと滑稽<br />
- – 難しい<br />
- – 模倣する<br />
- — 正しい答え + オリジナリティ<br />
- – 奇妙である<br />
- — lisp とか<br />
- – 集団で生起する<br />
- – 大胆である  </li>
-  <li>「俺ならもっとうまく出来る」と考える事がとても重要  </li>
-</ul>
-
-<h2 id="section-7">10章 プログラミング言語入門</h2>
-<ul>
-  <li>静的型付言語と動的型付言語の決着はまだついてない<br />
- – ポールは動的のほうが好き<br />
- – (感想) swift のような、型推論があるものだったらいいとこ取りできてて最近は良いと感じている。<br />
- – (感想) clojure は明示的に型を書かないから nil チェックとか頻繁にしなきゃいけなくて、その点 swift は便利. (scala とかもそうらしい)  </li>
-</ul>
-
-<h2 id="section-8">11章 100年後の言語</h2>
-<ul>
-  <li>作りたくなったでしょ？  </li>
-</ul>
-
-<h2 id="section-9">12章 普通のやつらの上を行け</h2>
-<ul>
-  <li>ぶっちゃけプログラミング言語には力の差がある  </li>
-  <li>lisp 強い  </li>
-  <li>マクロがあることで何でもできる  </li>
-  <li>スタートアップとかで利用例が少なくても気にするな、むしろ差別化できて良い  </li>
-</ul>
-
-<h2 id="section-10">14章 夢の言語</h2>
-<ul>
-  <li>ハックしやすい  </li>
-  <li>簡潔である  </li>
-  <li>書捨てのプログラムを書きやすい  </li>
-  <li>ライブラリが豊富  </li>
-  <li>効率が良い  </li>
-  <li>時間<br />
- – 長く存在  </li>
-</ul>
-
-<h2 id="section-11">15章 デザインとリサーチ</h2>
-<ul>
-  <li>特定のユーザのために創ることが重要  </li>
-  <li>とにかく早くプロトタイプを出すこと  </li>
-  <li>士気。プロトタイプを出すことによって士気が上がる。  </li>
-</ul>
-
-<h2 id="section-12">16章 素晴らしきハッカー</h2>
-<ul>
-  <li>脳内に非常に大きいコンテキストを展開できる  </li>
-  <li>特殊な集中力  </li>
-  <li>最初はだれがいいハッカーかはわからない<br />
- – 一緒に働いてみるとわかる  </li>
-  <li>自分を素晴らしいハッカーにすることができる方法があるとしたら、その方法とは、自分自身に対して次の契約を結ぶことだ。<br />
- – 「退屈なプロジェクトの仕事は一切しなくて良い、その代わりに、中途半端な仕事はしない。」  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-30T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/book/'>book</a>
 
 
 </div>
