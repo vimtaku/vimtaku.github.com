@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-07-19T18:43:50+09:00</updated>
+  <updated>2015-11-08T13:30:41+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,175 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/11/08/activerecord_transaction_rescue/"/>
+    <updated>2015-11-08T13:04:14+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/11/08/activerecord_transaction_rescue</id>
+    <content type="html"><![CDATA[<h1 id="tldr">TL;DR</h1>
+<p>If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses.</p>
+
+<h1 id="detail">Detail</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class Hoge
+</span><span class="line">  def self.exec
+</span><span class="line">    raise "something is not good" if something_check
+</span><span class="line">
+</span><span class="line">    ActiveRecord::Base.transaction do
+</span><span class="line">      User.create(username:"moge")
+</span><span class="line">      User.create(username:"moge")
+</span><span class="line">    end
+</span><span class="line">
+</span><span class="line">    rescue StandardError =&gt; e
+</span><span class="line">      # if database transaction has occured, this statements will be called
+</span><span class="line">      p "duplicate error"
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This code looks good, but includes terrible problem.
+It’s definetly rescue clause. In this code, something_check return true, raise “something is not good” error,<br />
+<code>and shows "duplicate error"</code>. Terrible.</p>
+
+<p>so if you use ActiveRecord::Base, I strongly recommend use begin rescue clauses implicit.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class Hoge
+</span><span class="line">  def self.exec
+</span><span class="line">    raise "something is not good" if something_check
+</span><span class="line">
+</span><span class="line">    begin
+</span><span class="line">      ActiveRecord::Base.transaction do
+</span><span class="line">        User.create(username:"moge")
+</span><span class="line">        User.create(username:"moge")
+</span><span class="line">      end
+</span><span class="line">
+</span><span class="line">      rescue StandardError =&gt; e
+</span><span class="line">        # if database transaction has occured, this statements will be called
+</span><span class="line">        p "duplicate error"
+</span><span class="line">      end
+</span><span class="line">    end
+</span><span class="line">
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ruboty を github private で動かす]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/09/27/ruboty/"/>
+    <updated>2015-09-27T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/09/27/ruboty</id>
+    <content type="html"><![CDATA[<h2 id="section">何箇所かハマったので記録しておく</h2>
+<p><a href="http://kentana20.hatenablog.com/entry/2014/11/02/180812">http://kentana20.hatenablog.com/entry/2014/11/02/180812</a></p>
+
+<p>基本的には上記の記事にそって行けば大丈夫なんだけど、なんかしょかハマった。<br />
+具体的には、readme の deploy ボタンで連携できないことだ。<br />
+ただ、問題なく連携はできる。<br />
+heroku の deploy タブ の Github のところから private に clone した(fork は不可なので)やつを<br />
+指定すれば連携ができる。<br />
+あと、dotenv の設定が必要なので、環境変数の設定のために</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">heroku config:add SLACK_PASSWORD='' SLACK_ROOM="" SLACK_TEAM="" SLACK_USERNAME=""</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような感じで設定する。  </p>
+
+<p>あと、Add ons で Redis to go を検索して追加する。この時カードを登録してなければ、クレカ登録が促されるので、がんばる。  </p>
+
+<p>password の部分は xmpp の slack パスワードを使うことに注意する(https://xxx.slack.com/account/gateways) 。  </p>
+
+<p><code>bundle exec ruboty</code> を起動させるところ(heroku の resources free dyno で edit して 変更して保存する)。<br />
+fork した ruboty-template が依存している xrc の version が 0.1.4 で、  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+</span><span class="line">p/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:249:in `block in on_features_received': undefined method `name' for "   ":REXML::Text (NoMethodError)
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:247:in `on_features_received'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:176:in `on_received'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:217:in `block in connection'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `consume'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:49:in `end_element'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:26:in `block (2 levels) in bind'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `block in parse'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `parse'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `each'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:38:in `parse'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:34:in `start'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:14:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:45:in `adapt'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:24:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:81:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:14:in `run'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:22:in `run'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/bin/ruboty:6:in `&lt;top (required)&gt;'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/commands/run.rb:5:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `load'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>こんな感じのエラーがでたので、 xrc のバージョンが古いっぽかったので<br />
+Gemfile.lock の version を 0.1.8 に編集して commit したらいけた。  </p>
+
+<p>以上。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[model.update_attribute の罠]]></title>
@@ -1154,192 +1323,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 <p>英字キーボードを久しぶりに打ったけど慣れてないのでめちゃくちゃ辛かった。<br />
 何もはまらなければすぐできるとは思うけど、<br />
 普通にダウンロードとか調査とか考えたら1時間くらいかかると思う。  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/03/datomic-free-on-docker/"/>
-    <updated>2015-02-03T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/03/datomic-free-on-docker</id>
-    <content type="html"><![CDATA[<h2 id="boot2docker--datomic-transactor--peer-mac--lein-repl--datomic-">boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する</h2>
-
-<h3 id="docker-image-">下準備(docker image の作成)</h3>
-<p><a href="https://registry.hub.docker.com/u/colinrymer/docker-datomic-free/dockerfile/">ここに Datomic の Dockerfile があった</a><br />
-ので、datomic の version は違うが修正したら、使えるだろうと思ってたら、使えた。  </p>
-
-<p>最終的な Dockerfile は <a href="https://gist.github.com/vimtaku/94cef31a166921b9b7f2">こちら</a>。
-これを元に build する。  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker build -t datomicfree .</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker exec -ti {container_id} /bin/bash</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>などとして、デバッグしたりした。  </p>
-
-<h3 id="section">実行環境の説明</h3>
-<p>MacbookPro -&gt; boot2docker(vagrant) -&gt; docker container<br />
-という構成になっている。  </p>
-
-<h3 id="docker-container-">docker container 起動</h3>
-<p>最初、 boot2docker の vagrant の割り当てメモリが小さすぎて、 datomic が立たなかったので、<br />
-一度 vm を停止してから、割り当てを変更して</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker run -p 4334:4334 -p 4335:4335 -p 4336:4336 -m 512m -t-i datomicfree</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>などとすることで、うまく起動した。<br />
-結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ssh -L 4334:localhost:4334 -L 4335:localhost:4335 -L 4336:localhost:4336 docker@localhost -p 2022
-</span><span class="line">(password: tcuser)</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="lein-repl">lein repl</h3>
-<p>あとは repl から操作するだけ。  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(def uri "datomic:free://localhost:4334/test")
-</span><span class="line">(d/create-database uri)
-</span><span class="line">(def conn (d/connect uri))</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>あとは先ほどの Dockerfile のリンクにもあるので、そちらを参照のこと。</p>
-
-<h2 id="section-1">所感</h2>
-<p>ちょっとハマったけど、これができたのは大きい。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/"/>
-    <updated>2015-02-02T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm</id>
-    <content type="html"><![CDATA[<h1 id="toc">TOC</h1>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
-      <li><a href="#about-realm">About realm</a></li>
-      <li><a href="#related-link">Related link</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
-<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
-I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
-The error is “swift_dynamicCastClassUnconditional”.<br />
-I struggled a lot, finally I got a solution.<br />
-First of all, below is my code.  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import Foundation
-</span><span class="line">
-</span><span class="line">class FMUserCredential: RLMObject {
-</span><span class="line">    dynamic var accessToken :String = ""
-</span><span class="line">    dynamic var refreshToken :String = ""
-</span><span class="line">    
-</span><span class="line">    // 代替案
-</span><span class="line">    private struct ClassProperty {
-</span><span class="line">        static var _realm:RLMRealm? = nil
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    // Computed Property
-</span><span class="line">    class var _realm: RLMRealm? {
-</span><span class="line">        get {
-</span><span class="line">            return ClassProperty._realm
-</span><span class="line">        }
-</span><span class="line">        set {
-</span><span class="line">            return ClassProperty._realm = newValue
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func realm() -&gt; RLMRealm {
-</span><span class="line">        if (FMUserCredential._realm == nil) {
-</span><span class="line">            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-</span><span class="line">            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
-</span><span class="line">            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
-</span><span class="line">            FMUserCredential._realm = realm
-</span><span class="line">        }
-</span><span class="line">        return FMUserCredential._realm!
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func findAll() -&gt; RLMResults {
-</span><span class="line">        return FMUserCredential.allObjectsInRealm(realm())
-</span><span class="line">    }
-</span><span class="line">    class func find() -&gt; FMUserCredential? {
-</span><span class="line">        if (findAll().count &gt;= 1) {
-</span><span class="line">            return findAll().firstObject() as FMUserCredential?
-</span><span class="line">        }
-</span><span class="line">        return nil
-</span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This class has static params realm, and when I test write, I set realm object.<br />
-But, I notice that I have to new realm object when I do test.<br />
-So, I changed my test code to use  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
-</span><span class="line">FMUserCredential._realm = realm</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This worked fine.  </p>
-
-<h2 id="about-realm">About realm</h2>
-<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
-Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
-The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
-
-<h2 id="related-link">Related link</h2>
-<ul>
-  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
-  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
-  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
-</ul>
 ]]></content>
   </entry>
   

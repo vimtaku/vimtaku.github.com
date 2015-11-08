@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruboty | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/ruboty/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2015-11-08T13:30:41+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ruboty を github private で動かす]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/09/27/ruboty/"/>
+    <updated>2015-09-27T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/09/27/ruboty</id>
+    <content type="html"><![CDATA[<h2 id="section">何箇所かハマったので記録しておく</h2>
+<p><a href="http://kentana20.hatenablog.com/entry/2014/11/02/180812">http://kentana20.hatenablog.com/entry/2014/11/02/180812</a></p>
+
+<p>基本的には上記の記事にそって行けば大丈夫なんだけど、なんかしょかハマった。<br />
+具体的には、readme の deploy ボタンで連携できないことだ。<br />
+ただ、問題なく連携はできる。<br />
+heroku の deploy タブ の Github のところから private に clone した(fork は不可なので)やつを<br />
+指定すれば連携ができる。<br />
+あと、dotenv の設定が必要なので、環境変数の設定のために</p>
+
+<p><code>
+heroku config:add SLACK_PASSWORD='' SLACK_ROOM="" SLACK_TEAM="" SLACK_USERNAME=""
+</code></p>
+
+<p>というような感じで設定する。  </p>
+
+<p>あと、Add ons で Redis to go を検索して追加する。この時カードを登録してなければ、クレカ登録が促されるので、がんばる。  </p>
+
+<p>password の部分は xmpp の slack パスワードを使うことに注意する(https://xxx.slack.com/account/gateways) 。  </p>
+
+<p><code>bundle exec ruboty</code> を起動させるところ(heroku の resources free dyno で edit して 変更して保存する)。<br />
+fork した ruboty-template が依存している xrc の version が 0.1.4 で、  </p>
+
+<p><code>
+from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+p/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:249:in `block in on_features_received': undefined method `name' for "   ":REXML::Text (NoMethodError)
+from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:247:in `on_features_received'
+from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `call'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:176:in `on_received'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:217:in `block in connection'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `call'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `consume'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:49:in `end_element'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:26:in `block (2 levels) in bind'
+from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `block in parse'
+from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `parse'
+from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `each'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:38:in `parse'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:34:in `start'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:14:in `connect'
+from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:45:in `adapt'
+from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:24:in `connect'
+from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:81:in `connect'
+from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:14:in `run'
+from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:22:in `run'
+from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/bin/ruboty:6:in `&lt;top (required)&gt;'
+from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/commands/run.rb:5:in `call'
+from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `load'
+from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `&lt;main&gt;'
+</code></p>
+
+<p>こんな感じのエラーがでたので、 xrc のバージョンが古いっぽかったので<br />
+Gemfile.lock の version を 0.1.8 に編集して commit したらいけた。  </p>
+
+<p>以上。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -7,7 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TOC TOC ハッカーと画家を読んだ 0章 メイドインUSA 1章 なぜオタクはモテないのか 2章 ハッカーと画家 3章 口にできないこと 5章 もう一つの未来への道 6章 富の創り方 9章 ものづくりのセンス 10章 プログラミング言語入門 11章 100年後の言語 12章 &hellip;">
+	<meta name="description" content="boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する 下準備(docker image の作成)
+ここに Datomic の Dockerfile があった
+ので、datomic &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +80,256 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/03/datomic-free-on-docker/">
+		
+			Boot2docker 内に立てた Datomic Transactor + Peer のコンテナに対して、mac の Lein Repl で Datomic を操作する</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="boot2docker--datomic-transactor--peer-mac--lein-repl--datomic-">boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する</h2>
+
+<h3 id="docker-image-">下準備(docker image の作成)</h3>
+<p><a href="https://registry.hub.docker.com/u/colinrymer/docker-datomic-free/dockerfile/">ここに Datomic の Dockerfile があった</a><br />
+ので、datomic の version は違うが修正したら、使えるだろうと思ってたら、使えた。  </p>
+
+<p>最終的な Dockerfile は <a href="https://gist.github.com/vimtaku/94cef31a166921b9b7f2">こちら</a>。
+これを元に build する。  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker build -t datomicfree .</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker exec -ti {container_id} /bin/bash</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>などとして、デバッグしたりした。  </p>
+
+<h3 id="section">実行環境の説明</h3>
+<p>MacbookPro -&gt; boot2docker(vagrant) -&gt; docker container<br />
+という構成になっている。  </p>
+
+<h3 id="docker-container-">docker container 起動</h3>
+<p>最初、 boot2docker の vagrant の割り当てメモリが小さすぎて、 datomic が立たなかったので、<br />
+一度 vm を停止してから、割り当てを変更して</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">docker run -p 4334:4334 -p 4335:4335 -p 4336:4336 -m 512m -t-i datomicfree</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>などとすることで、うまく起動した。<br />
+結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ssh -L 4334:localhost:4334 -L 4335:localhost:4335 -L 4336:localhost:4336 docker@localhost -p 2022
+</span><span class="line">(password: tcuser)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="lein-repl">lein repl</h3>
+<p>あとは repl から操作するだけ。  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(def uri "datomic:free://localhost:4334/test")
+</span><span class="line">(d/create-database uri)
+</span><span class="line">(def conn (d/connect uri))</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>あとは先ほどの Dockerfile のリンクにもあるので、そちらを参照のこと。</p>
+
+<h2 id="section-1">所感</h2>
+<p>ちょっとハマったけど、これができたのは大きい。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/datomic/'>datomic</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/">
+		
+			If You Test Using realm.io Object, You Should Use RLMRealm.inMemoryRealmWithIdentifier</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="toc">TOC</h1>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
+      <li><a href="#about-realm">About realm</a></li>
+      <li><a href="#related-link">Related link</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
+<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
+I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
+The error is “swift_dynamicCastClassUnconditional”.<br />
+I struggled a lot, finally I got a solution.<br />
+First of all, below is my code.  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">import Foundation
+</span><span class="line">
+</span><span class="line">class FMUserCredential: RLMObject {
+</span><span class="line">    dynamic var accessToken :String = ""
+</span><span class="line">    dynamic var refreshToken :String = ""
+</span><span class="line">    
+</span><span class="line">    // 代替案
+</span><span class="line">    private struct ClassProperty {
+</span><span class="line">        static var _realm:RLMRealm? = nil
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    // Computed Property
+</span><span class="line">    class var _realm: RLMRealm? {
+</span><span class="line">        get {
+</span><span class="line">            return ClassProperty._realm
+</span><span class="line">        }
+</span><span class="line">        set {
+</span><span class="line">            return ClassProperty._realm = newValue
+</span><span class="line">        }
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    class func realm() -&gt; RLMRealm {
+</span><span class="line">        if (FMUserCredential._realm == nil) {
+</span><span class="line">            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+</span><span class="line">            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
+</span><span class="line">            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
+</span><span class="line">            FMUserCredential._realm = realm
+</span><span class="line">        }
+</span><span class="line">        return FMUserCredential._realm!
+</span><span class="line">    }
+</span><span class="line">    
+</span><span class="line">    class func findAll() -&gt; RLMResults {
+</span><span class="line">        return FMUserCredential.allObjectsInRealm(realm())
+</span><span class="line">    }
+</span><span class="line">    class func find() -&gt; FMUserCredential? {
+</span><span class="line">        if (findAll().count &gt;= 1) {
+</span><span class="line">            return findAll().firstObject() as FMUserCredential?
+</span><span class="line">        }
+</span><span class="line">        return nil
+</span><span class="line">    }
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This class has static params realm, and when I test write, I set realm object.<br />
+But, I notice that I have to new realm object when I do test.<br />
+So, I changed my test code to use  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
+</span><span class="line">FMUserCredential._realm = realm</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This worked fine.  </p>
+
+<h2 id="about-realm">About realm</h2>
+<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
+Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
+The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
+
+<h2 id="related-link">Related link</h2>
+<ul>
+  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
+  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
+  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
+</ul>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/swift/'>swift</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1183,200 +1435,6 @@ gem 作って共有する文化づくりのための工夫のお話。<br />
 
 
 	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/08/17/headphone-sennheiser-best/">
-		
-			俺が考える最強ヘッドフォンゼンハイザーHD25-1 Ⅱ のベストカスタマイズ(リケーブル)</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">はじめに</h2>
-<p>俺は音楽には結構こだわりがある(聞くほう)。<br />
-なので以下に現時点での最強だと考えたカスタマイズを記しておく。<br />
-だれかのためになれば幸いです。  </p>
-
-<h2 id="section-1">ひとまず結論</h2>
-
-<ul>
-  <li>
-    <p><a href="http://www.yodobashi.com/%E3%82%BC%E3%83%B3%E3%83%8F%E3%82%A4%E3%82%B6%E3%83%BC-SENNHEISER-HD25-1-II-%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%BA%E3%83%89%E5%9E%8B%E3%83%80%E3%82%A4%E3%83%8A%E3%83%9F%E3%83%83%E3%82%AF%E3%82%BF%E3%82%A4%E3%83%97-%E3%83%98%E3%83%83%E3%83%89%E3%83%9B%E3%83%B3/pd/100000001000898699/">基本の sennheiser HD25-1 Ⅱ</a>をまずひとつ<br />
-– 25700円(ヨドバシ・ドット・コム 8月17日時点)  </p>
-  </li>
-  <li>
-    <p>リケーブルは<a href="http://www.yodobashi.com/Oyaide-%E3%82%AA%E3%83%A4%E3%82%A4%E3%83%87-HPC-35HDX-Silver-1-3-HD650%E7%94%A8%E3%83%98%E3%83%83%E3%83%89%E3%83%9B%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89/pd/100000001001611601/">これ</a> 。HD25-1用じゃないけど刺さるし音はなる。レシートが手元に無いので要確認。<br />
-– 6940円(ヨドバシ・ドット・コム 8月17日時点)  </p>
-  </li>
-  <li>
-    <p><a href="http://www.yodobashi.com/%E3%82%BC%E3%83%B3%E3%83%8F%E3%82%A4%E3%82%B6%E3%83%BC-SENNHEISER-HD25-ALUMINIUM-EAR-PAD-%E4%BA%A4%E6%8F%9B%E7%94%A8%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%91%E3%83%83%E3%83%89-1%E3%83%9A%E3%82%A2/pd/100000001002133128/">イヤーパッドはHD25のアルミニウム用のやつを使用</a><br />
-– 3780円(ヨドバシ・ドット・コム 8月17日時点)  </p>
-  </li>
-</ul>
-
-<p>合計36420円なり。<br />
-ヨドバシの場合はポイントが10%つくので、大体最安値で揃えたら 33000円くらいまでは行けそうな予感。  </p>
-
-<p>ちなみに環境としては、 iPhone5 に直刺しって感じ。<br />
-よく聞くのは椿屋とかソノダバンドとか(ロック多め)。<br />
-一応ポタアンは持っているけど除外、というか上記そろえたらポタアン全然いらない。  </p>
-
-<h2 id="section-2">俺のリケーブルの歴史</h2>
-
-<h3 id="section-3">純正ケーブル満足期(星3)</h3>
-<p>実際リケーブルしなくても HD25-1 Ⅱ は本当に良い音を鳴らしてくれる。<br />
-コスパ重視なら実際ママイキで十分。<br />
-HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然現役で動いてくれるところ。  </p>
-
-<h3 id="hd25-4">オヤイデの黄色とか赤のHD25 専用ケーブル満足期(星4)</h3>
-<p><a href="http://www.yodobashi.com/Oyaide-%E3%82%AA%E3%83%A4%E3%82%A4%E3%83%87-HPC-HD25-Yellow-HD25%E7%94%A8%E3%83%AA%E3%83%BC%E3%83%89%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB/pd/100000001001642386/">オヤイデの黄色とか赤のHD25 専用ケーブル</a>とかもあるので、純正のケーブル断線を期に購入。<br />
-感想をいうと、単純にやっぱり音質は向上したように思う。<br />
-音質以外では、普通にカラフルでおしゃれだったりする点と、<br />
-純正よりプラグ部分が小さいので iPhone に直刺ししやすいあたりがよかった。<br />
-しかし、弱点があると思っていて、プラグ部分が小さい分、ものすごく断線しやすいと思う。<br />
-なんかに引っかかるとかはわりとありがちだけど、それでこれに 4回くらいリケーブルした。  </p>
-
-<h3 id="sigma-acoustics-sennheiser-upgrade-cable--2">最上級ライン Sigma Acoustics SENNHEISER UPGRADE CABLE 交換用アップグレードケーブル クソ太い期(星2)</h3>
-<p>一応<a href="http://www.amazon.co.jp/Sigma-Acoustics-SENNHEISER-UPGRADE-%E4%BA%A4%E6%8F%9B%E7%94%A8%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB/dp/B005LEY14Q">アマゾンリンク</a>。<br />
-これは音質に関しては中高音が得意というとおり、本当にものすごく出てくる。<br />
-ギターが超好きみたいなひとはこれがかなりいいんじゃないだろうか。<br />
-ただしデメリットがたくさんある。  </p>
-
-<p>まず、ケーブルが家用だと思われるのでクソ太い。<br />
-写真から見た感じだとミニプラグに見えるのに、実は普通のプラグなので変換アダプタが必要。<br />
-さらにケーブル自体が太いし、ざらざらしてるし、見た目もむっちゃ青いのでクソ目立つ。<br />
-歩き(外)で使うには相当の苦労は覚悟しなければならない。<br />
-ただ、 HD25 を外でつかう人たちはあんまり見た目は気にしないから大丈夫だとは思う(偏見)。  </p>
-
-<p>あといい忘れてたけど中高音が得意なのをいいことに低音がザルになって HD25 感がまったくなくなるのでやばい。<br />
-しかも値段が高いという、いま振り返ってみたら相当ダメな買い物だった。。<br />
-値段が高かったのである程度信じこんでいたが。。笑。</p>
-
-<h3 id="oyaide-hpc-35hdx-black25-hd6505">Oyaide(オヤイデ) HPC-35HDX Black/2.5 [HD650用ヘッドホンコード]最強期(星5)</h3>
-<p><a href="http://www.yodobashi.com/Oyaide-%E3%82%AA%E3%83%A4%E3%82%A4%E3%83%87-HPC-35HDX-Silver-1-3-HD650%E7%94%A8%E3%83%98%E3%83%83%E3%83%89%E3%83%9B%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89/pd/100000001001611601/">ヨドバシリンク(もしかしたら違うかもしれないので要確認)</a>。
-これがたぶん今のところ最強。明らかに音質がよくなった実感があった。好みもあるだろうけどね。  </p>
-
-<h2 id="section-4">結論に関する詳細</h2>
-
-<h3 id="hd25-1-2-">ゼンハイザーHD25-1 2 について</h3>
-<p>やっぱり優秀だと思う。<br />
-でもいまもし初めて買うなら HD25-1のアルミニウム買うのがいいと思う。  </p>
-
-<h3 id="section-5">リケーブルについて</h3>
-<p>実際上でちょっと書いた通り、これは一番良く感じる。<br />
-この先断線したら、ちょっともう冒険は出来ないなぁと思う(これ買えばいいから)。  </p>
-
-<h3 id="section-6">イヤーパッドについて</h3>
-<p>実際あんま変わらんだろとか思ってたら、遮音性が圧倒的に違うことに気づく。<br />
-幸運にもアルミニウムの変えパッドが売っているのでそれを買って装着すればいいだけ。<br />
-オーディオマニアにとっての4000円などゴミのようなもんだろう?(煽り)  </p>
-
-<h2 id="section-7">所感</h2>
-<p>実際やっぱ最強感というか、HD25 に慣れると他のヘッドフォンがカス過ぎてヤバイみたいな感じになる(視聴コーナーでの個人の感想です)。<br />
-イヤホンにも絶対戻れないし。<br />
-俺の中の、この誰にも伝えられないこだわりが、インターネットを通して誰かに伝われば嬉しい。  </p>
-
-<p>この記事にアフィはありません。念のため。  </p>
-
-<p>音を楽しむのは本当に良い。人生が豊かになる。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-17T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/headphone/'>headphone</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/07/25/docker-and-cisco-connection/">
-		
-			Docker と CiscoVpnConnection の相性が悪くて辛みがあった件の対処</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">起きていたこと</a></li>
-  <li><a href="#section-1">解法</a></li>
-</ul>
-
-<h2 id="section">起きていたこと</h2>
-<p>docker info とか docker ps とかしても  </p>
-
-<blockquote><p>Post http://192.168.59.103:2375/v1.13/containers/create: dial tcp 192.168.59.103:2375: operation timed out</p></blockquote>
-
-<p>とか出まくってマジ辛い感じになった。</p>
-
-<p><a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0CB4QFjAA&amp;url=https%3A%2F%2Fbotbot.me%2Ffreenode%2Fdocker%2F2014-07-21%2F%3Ftz%3DAmerica%2FLos_Angeles&amp;ei=zjfSU9nvO9bp8AXYloL4CA&amp;usg=AFQjCNFIh-SOKA95uGKggfe5WGwUVf2NTA&amp;sig2=3_Zk6QOd_8nSzsp0S4lW5g&amp;bvm=bv.71667212,d.dGc">これ</a>とかみると definetly routing problem て感じだった。  </p>
-
-<p>とりあえずしんどかったので、いつもの port fowarding で対応。  </p>
-
-<h2 id="section-1">解法</h2>
-
-<blockquote><p>ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -p 2022 -i /Users/vimtaku/.ssh/id_boot2docker docker@localhost -L2375:localhost:2375</p></blockquote>
-
-<p>docker ps, docker info できた。  </p>
-
-<p>以上。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-25T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/docker/'>docker</a>
 
 
 </div>

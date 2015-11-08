@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-07-19T18:43:50+09:00</updated>
+  <updated>2015-11-08T13:30:41+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/11/08/activerecord_transaction_rescue/"/>
+    <updated>2015-11-08T13:04:14+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/11/08/activerecord_transaction_rescue</id>
+    <content type="html"><![CDATA[<h1 id="tldr">TL;DR</h1>
+<p>If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses.</p>
+
+<h1 id="detail">Detail</h1>
+
+<p>```
+class Hoge
+  def self.exec
+    raise “something is not good” if something_check</p>
+
+<pre><code>ActiveRecord::Base.transaction do
+  User.create(username:"moge")
+  User.create(username:"moge")
+end
+
+rescue StandardError =&gt; e
+  # if database transaction has occured, this statements will be called
+  p "duplicate error"   end ```
+</code></pre>
+
+<p>This code looks good, but includes terrible problem.
+It’s definetly rescue clause. In this code, something_check return true, raise “something is not good” error,<br />
+<code>and shows "duplicate error"</code>. Terrible.</p>
+
+<p>so if you use ActiveRecord::Base, I strongly recommend use begin rescue clauses implicit.</p>
+
+<p>```
+class Hoge
+  def self.exec
+    raise “something is not good” if something_check</p>
+
+<pre><code>begin
+  ActiveRecord::Base.transaction do
+    User.create(username:"moge")
+    User.create(username:"moge")
+  end
+
+  rescue StandardError =&gt; e
+    # if database transaction has occured, this statements will be called
+    p "duplicate error"
+  end
+end
+</code></pre>
+
+<p>end
+```</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出るときの解決法]]></title>

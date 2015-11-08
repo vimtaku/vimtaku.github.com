@@ -7,16 +7,21 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="背景
-update_attribute で一つだけupdate しようと思ってたら他の属性も変わってて意味不明だった。 ヌワー 1
+	<meta name="description" content="TL;DR
+If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses. Detail 1
 2
 3
 4
 5
 6
-user = User.first
-p user.name ## "vimtaku" user.name = "hoge"
-user. &hellip;">
+7
+8
+9
+10
+11
+12
+13
+class Hoge &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -87,6 +92,239 @@ user. &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/11/08/activerecord_transaction_rescue/">
+		
+			If You Use ActiveRecord::Base.transaction Syntax, You Shoud Surround It Begin Rescue Clauses</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="tldr">TL;DR</h1>
+<p>If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses.</p>
+
+<h1 id="detail">Detail</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class Hoge
+</span><span class="line">  def self.exec
+</span><span class="line">    raise "something is not good" if something_check
+</span><span class="line">
+</span><span class="line">    ActiveRecord::Base.transaction do
+</span><span class="line">      User.create(username:"moge")
+</span><span class="line">      User.create(username:"moge")
+</span><span class="line">    end
+</span><span class="line">
+</span><span class="line">    rescue StandardError =&gt; e
+</span><span class="line">      # if database transaction has occured, this statements will be called
+</span><span class="line">      p "duplicate error"
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This code looks good, but includes terrible problem.
+It’s definetly rescue clause. In this code, something_check return true, raise “something is not good” error,<br />
+<code>and shows "duplicate error"</code>. Terrible.</p>
+
+<p>so if you use ActiveRecord::Base, I strongly recommend use begin rescue clauses implicit.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class Hoge
+</span><span class="line">  def self.exec
+</span><span class="line">    raise "something is not good" if something_check
+</span><span class="line">
+</span><span class="line">    begin
+</span><span class="line">      ActiveRecord::Base.transaction do
+</span><span class="line">        User.create(username:"moge")
+</span><span class="line">        User.create(username:"moge")
+</span><span class="line">      end
+</span><span class="line">
+</span><span class="line">      rescue StandardError =&gt; e
+</span><span class="line">        # if database transaction has occured, this statements will be called
+</span><span class="line">        p "duplicate error"
+</span><span class="line">      end
+</span><span class="line">    end
+</span><span class="line">
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-11-08T13:04:14+09:00" pubdate data-updated="true">Nov 8<span>th</span>, 2015</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/09/27/ruboty/">
+		
+			Ruboty を Github Private で動かす</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">何箇所かハマったので記録しておく</h2>
+<p><a href="http://kentana20.hatenablog.com/entry/2014/11/02/180812">http://kentana20.hatenablog.com/entry/2014/11/02/180812</a></p>
+
+<p>基本的には上記の記事にそって行けば大丈夫なんだけど、なんかしょかハマった。<br />
+具体的には、readme の deploy ボタンで連携できないことだ。<br />
+ただ、問題なく連携はできる。<br />
+heroku の deploy タブ の Github のところから private に clone した(fork は不可なので)やつを<br />
+指定すれば連携ができる。<br />
+あと、dotenv の設定が必要なので、環境変数の設定のために</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">heroku config:add SLACK_PASSWORD='' SLACK_ROOM="" SLACK_TEAM="" SLACK_USERNAME=""</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような感じで設定する。  </p>
+
+<p>あと、Add ons で Redis to go を検索して追加する。この時カードを登録してなければ、クレカ登録が促されるので、がんばる。  </p>
+
+<p>password の部分は xmpp の slack パスワードを使うことに注意する(https://xxx.slack.com/account/gateways) 。  </p>
+
+<p><code>bundle exec ruboty</code> を起動させるところ(heroku の resources free dyno で edit して 変更して保存する)。<br />
+fork した ruboty-template が依存している xrc の version が 0.1.4 で、  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+</span><span class="line">p/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:249:in `block in on_features_received': undefined method `name' for "   ":REXML::Text (NoMethodError)
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:247:in `on_features_received'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:176:in `on_received'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:217:in `block in connection'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `consume'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:49:in `end_element'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:26:in `block (2 levels) in bind'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `block in parse'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `parse'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `each'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:38:in `parse'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:34:in `start'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:14:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:45:in `adapt'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:24:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:81:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:14:in `run'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:22:in `run'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/bin/ruboty:6:in `&lt;top (required)&gt;'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/commands/run.rb:5:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `load'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>こんな感じのエラーがでたので、 xrc のバージョンが古いっぽかったので<br />
+Gemfile.lock の version を 0.1.8 に編集して commit したらいけた。  </p>
+
+<p>以上。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruboty/'>ruboty</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -802,108 +1040,6 @@ Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
 
 
 	<a class='category' href='/blog/categories/cooking/'>cooking</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/19/vue-js-error/">
-		
-			vue.js ではまったこと</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="typeerror-thiselremoveattribute-is-not-a-function">TypeError: this.el.removeAttribute is not a function</h2>
-<p>とかいうエラーが出た。
-いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-19T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/vuejs/'>vuejs</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/14/yarubekikoto-poem/">
-		
-			やるべきこと、やるべき場所</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">やるべきこと</h1>
-<p>人には、やるべきことが与えられていると、最近思うようになった。<br />
-こういうと大層なことを言っているように聞こえるかもしれないけど、<br />
-一つ一つの仕事が社会に影響して、人々の生活が回ってる。  </p>
-
-<p>それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、<br />
-楽しいことや辛いこともあるけど、仕事を通して影響を与えられるなら、<br />
-こんなに楽しいことはない。  </p>
-
-<p>自分が満足して、自分らしく生きられて、大きく社会に影響できる環境を、<br />
-創れるようにならなきゃダメだなぁと思う。  </p>
-
-<h1 id="section-1">やるべき場所</h1>
-<p>たぶん働くべき場所というか、自分がもっと輝く場所っていうのは<br />
-人それぞれにちゃんとあって、そのやるべき場所っていうのは答えが無いんだけど、<br />
-今いる場所が、自分がいるべき場所か? 自分がやるべきことをやってるのか?<br />
-という問いは、定期的に行ったほうがいいかもしれない。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/poem/'>poem</a>
 
 
 </div>

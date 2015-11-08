@@ -1,0 +1,244 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ruboty を github private で動かす - vimtaku blog</title>
+	<meta name="author" content="vimtaku">
+
+	
+	<meta name="description" content="ruboty を github private で動かす">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="vimtaku blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="http://vimtakublog.qolwu.com/favicon.ico" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">vimtaku blog</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vimtaku.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/vimtaku" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/vimtaku" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vimtaku.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Ruboty を Github Private で動かす</h2>
+	<div class="entry-content"><h2 id="section">何箇所かハマったので記録しておく</h2>
+<p><a href="http://kentana20.hatenablog.com/entry/2014/11/02/180812">http://kentana20.hatenablog.com/entry/2014/11/02/180812</a></p>
+
+<p>基本的には上記の記事にそって行けば大丈夫なんだけど、なんかしょかハマった。<br />
+具体的には、readme の deploy ボタンで連携できないことだ。<br />
+ただ、問題なく連携はできる。<br />
+heroku の deploy タブ の Github のところから private に clone した(fork は不可なので)やつを<br />
+指定すれば連携ができる。<br />
+あと、dotenv の設定が必要なので、環境変数の設定のために</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">heroku config:add SLACK_PASSWORD='' SLACK_ROOM="" SLACK_TEAM="" SLACK_USERNAME=""</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>というような感じで設定する。  </p>
+
+<p>あと、Add ons で Redis to go を検索して追加する。この時カードを登録してなければ、クレカ登録が促されるので、がんばる。  </p>
+
+<p>password の部分は xmpp の slack パスワードを使うことに注意する(https://xxx.slack.com/account/gateways) 。  </p>
+
+<p><code>bundle exec ruboty</code> を起動させるところ(heroku の resources free dyno で edit して 変更して保存する)。<br />
+fork した ruboty-template が依存している xrc の version が 0.1.4 で、  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+</span><span class="line">p/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:249:in `block in on_features_received': undefined method `name' for "   ":REXML::Text (NoMethodError)
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parent.rb:41:in `each'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:247:in `on_features_received'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:176:in `on_received'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:217:in `block in connection'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:78:in `consume'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:49:in `end_element'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/parser.rb:26:in `block (2 levels) in bind'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `block in parse'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `parse'
+</span><span class="line">from /app/vendor/ruby-2.0.0/lib/ruby/2.0.0/rexml/parsers/sax2parser.rb:142:in `each'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:38:in `parse'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:34:in `start'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/connection.rb:14:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:45:in `adapt'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/xrc-0.1.4/lib/xrc/client.rb:24:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:81:in `connect'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-slack-0.1.7/lib/ruboty/adapters/slack.rb:14:in `run'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/robot.rb:22:in `run'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/bin/ruboty:6:in `&lt;top (required)&gt;'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/gems/ruboty-1.0.4/lib/ruboty/commands/run.rb:5:in `call'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `load'
+</span><span class="line">from /app/vendor/bundle/ruby/2.0.0/bin/ruboty:23:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>こんな感じのエラーがでたので、 xrc のバージョンが古いっぽかったので<br />
+Gemfile.lock の version を 0.1.8 に編集して commit したらいけた。  </p>
+
+<p>以上。</p>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruboty/'>ruboty</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+
+		
+		
+
+        
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2015/09/27/ruboty/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        
+        
+        
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="vimtaku" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        
+
+
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2015
+
+    vimtaku
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-30103097-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

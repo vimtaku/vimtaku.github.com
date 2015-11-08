@@ -7,10 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="先週振り返り
-仕事は相変わらず忙しいが一区切りつきそうである。 今日振り返り とある本8章まで読んだ 作って学ぶプログラミング言語(Ruby による Scheme の実装)読破 偉大な目標
-全く進んでない 完成してないゲーム
-全く進んでない 読書途中経過 読んでる とある本8章まで読んだ &hellip;">
+	<meta name="description" content="GW 後半振り返り macmlh について
+というか昨日だけど、 ずっとやってみたかった vim-mlh の mac IME 移植を試みた。
+が、結論から言うとそう簡単ではないことがわかった。 基本的に、 mlh で必要なもの、 と言うか必要なパーツってのは、 - カーソルの移動 - &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +80,186 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/06/life-may-6/">
+		
+			Life_may_6</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="gw-">GW 後半振り返り</h2>
+
+<h3 id="macmlh-">macmlh について</h3>
+<p>というか昨日だけど、 ずっとやってみたかった vim-mlh の mac IME 移植を試みた。<br />
+が、結論から言うとそう簡単ではないことがわかった。  </p>
+
+<p>基本的に、 mlh で必要なもの、 と言うか必要なパーツってのは、<br />
+ - カーソルの移動<br />
+ - 文字列の削除<br />
+ - 選択候補の表示<br />
+ などである。<br />
+mac の Input Method Kit という cocoa アプリを作成するときに<br />
+非常に便利なライブラリがあったが、 それがサポートしているのは<br />
+クライアントとサーバ形式での変換のやり取りなので基本的には<br />
+文字列の削除、 カーソルの移動などはできなかった。<br />
+割とこれが致命傷で、 mlh の場合は, というよりも俺が考える mlh では、<br />
+入力中に候補が出るたぐいのものではない。<br />
+入力中に候補が出るようにするのは全然造作なく作れるんだけど、<br />
+俺が考える、半角英数入力が終わったあとに / + <space> が入力されて初めて  
+変換されるようなものにするにはできなかった。  </space></p>
+
+<p>NSString に ^H(Ctrl+V,Ctrl+H) を送っても、 iTerm2 ではうまく動くけど、<br />
+xcode とか firefox ではうまく動かなかったり..<br />
+とにかく、 vimscript でかく上では上記に上げた必要なパーツは全て揃っていたが、<br />
+Input Method Kit 及びそれを書く cocoa アプリ作成では見つけられなかった。  </p>
+
+<p>ゴールデンウィークらしいモラトリアム期間の中でやってみたチャレンジだったが<br />
+非常に残念な結果になったので、 また平常運転で本を消化していこうと思う。  </p>
+
+<p>Input Method Kit に詳しい人いたら教えてほしいです。<br />
+@vimtaku までぜひご一報ください。  </p>
+
+<h3 id="section">本を買った</h3>
+<ul>
+  <li>アルゴリズムクイックリファレンス  </li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界  </li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h2 id="section-1">今日の目標</h2>
+<ul>
+  <li>詳解UNIXプログラミング(第3版) 4章 まで読む</li>
+</ul>
+
+<h2 id="section-2">偉大な目標</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-3">完成してないゲーム</h2>
+<p>全く進んでない</p>
+
+<h2 id="section-4">読書途中経過</h2>
+
+<h3 id="section-5">読んでる</h3>
+<ul>
+  <li>とある本8章まで読んだ</li>
+  <li>SICP-問題1.1.5 まで</li>
+  <li>DDD ショートバージョン(P40まで</li>
+</ul>
+
+<h3 id="section-6">積んでる</h3>
+<ul>
+  <li>作って学ぶプログラミング言語(Ruby による Scheme の実装)</li>
+  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
+  <li>論語入門</li>
+  <li>アルゴリズムクイックリファレンス</li>
+  <li>プロセッサを支える技術- 果てしなくスピードを追求する世界</li>
+  <li>ハイパフォーマンスHTTP サーバ nginx 入門</li>
+</ul>
+
+<h3 id="section-7">読み終えた</h3>
+<ul>
+  <li>(2014/5/4)作って学ぶプログラミング言語(Ruby による Scheme の実装)読破</li>
+  <li>(2014/4/29)ネットワークはなぜつながるのか?</li>
+  <li>(2014/4/29)オペレーティングシステム</li>
+  <li>(2014/4/28)Webエンジニアのためのデータベース技術［実践］入門</li>
+  <li>(2014/3/1)chef-solo 入門</li>
+  <li>(2014/3/1)パーフェクトルビー</li>
+  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
+  <li>(2014/2/8)プログラマの数学</li>
+  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
+  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
+  <li>(2014/1/13)読む筋トレ</li>
+  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
+</ul>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-06T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>life</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/04/tokikake/">
+		
+			時をかける少女の感想</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="dvd-">時をかける少女の DVD をレンタルしてみた</h2>
+<p>面白かった。<br />
+いままでは、金曜ロードショーだけ見て楽しい映画だなぁと思っていたけど<br />
+改めて DVD でみたらとても楽しめた。<br />
+自分史上映画ランキングでもかなり上位だと思う。  </p>
+
+<h2 id="section">最後のクライマックスシーンの解釈について</h2>
+<p>「未来で待ってる」「すぐ行く、走って行く」の解釈は、<br />
+いかにも映画らしく読者解釈に任せようというかんじだったけど、<br />
+エンディング曲の歌詞から察すると、自分の解釈としては、  </p>
+
+<p>もう逢えない関係性のなかでの、<br />
+「いつまでも忘れない」と「わたしも」<br />
+っていうやりとりなんだろう。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-04T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/movie/'>movie</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -845,318 +1024,6 @@ json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
 
 
 	<a class='category' href='/blog/categories/rails/'>rails</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/16/life-march-16/">
-		
-			3月ももう半ば</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">先週振り返り</h2>
-<p>引き続き、ものすごく仕事が忙しくてやばかった。<br />
-でも進んできた感があるので、この調子でがんばろう。  </p>
-
-<h2 id="section-1">不摂生</h2>
-<p>不摂生がたたってついに体に異常をきたし始めたのでそろそろ<br />
-控えようと思う。  </p>
-
-<h2 id="section-2">週末振り返り</h2>
-
-<h3 id="section-3">プチ旅行</h3>
-<p>三浦半島の先にある三浦海岸というところで河津桜の祭りがあるとのことで<br />
-春を先取りしてきた。<br />
-おどろくべきことに、すでに桜は散り始めていて、ピークは2週間前くらいのように感じた。<br />
-もちろん桜だけではもったいないので、三崎口というつぎの駅辺りでよくとれるらしい  </p>
-
-<p><a href="http://tabelog.com/kanagawa/A1406/A140603/14002818/">紀川さんで</a> マグロを寿司でいただいてきた。<br />
-そこで頼んだ特上ずしは、すごく美味しかった。<br />
-トロがうますぎて別でさらに注文してしまった。<br />
-そして、梅酒がとても美味しかった。ある種、梅酒目当てでも寄れるくらいおいしかった。  </p>
-
-<h3 id="section-4">クライアント認証について再び勉強</h3>
-<p>あとで書くけど、クライアント認証やサーバのオレオレ認証局などについて再勉強した。<br />
-すごく理解が深まった感がある。  </p>
-
-<h2 id="section-5">来週は</h2>
-<p>4日しかないし、不摂生しないように頑張る。  </p>
-
-<h2 id="section-6">勉強途中経過</h2>
-
-<h3 id="section-7">進んでない</h3>
-<ul>
-  <li>rails tutorial 6 まで</li>
-</ul>
-
-<h2 id="section-8">読書途中経過</h2>
-
-<h3 id="section-9">進んだ</h3>
-<ul>
-  <li>ネットワークはなぜつながるのか?(2章)</li>
-</ul>
-
-<h3 id="section-10">積んでる</h3>
-<ul>
-  <li>詳解UNIXプログラミング第8章まで読んだ</li>
-  <li>オペレーティングシステム 6章まで読んだ</li>
-  <li>Webエンジニアのためのデータベース技術［実践］入門 7章まで読んだ</li>
-  <li>DDD ショートバージョン</li>
-  <li><a href="http://www.infoq.com/jp/minibooks/domain-driven-design-quickly">http://www.infoq.com/jp/minibooks/domain-driven-design-quickly</a></li>
-  <li>ミクシィ公認 スマホアプリ開発実践ガイド［iOS/Android両対応］ [Kindle版]</li>
-  <li>論語入門</li>
-</ul>
-
-<h3 id="section-11">まだ積んでないけど読む</h3>
-<ul>
-  <li>nginxの本</li>
-</ul>
-
-<h3 id="section-12">読み終えた</h3>
-<ul>
-  <li>(2014/3/1)chef-solo 入門
-    <ul>
-      <li>ザーッと目を通し直したらほぼ理解出来てたので読み終えたことにする</li>
-    </ul>
-  </li>
-  <li>(2014/3/1)パーフェクトルビー
-    <ul>
-      <li>手を動かしながら ver</li>
-    </ul>
-  </li>
-  <li>(2014/2/16)(さらっと)日経Linux 2月号</li>
-  <li>(2014/2/8)プログラマの数学</li>
-  <li>(2014/2/6)(一周目、さらっと)[改訂新版] Apache Solr入門 ~オープンソース全文検索エンジン</li>
-  <li>(2014/1/26)マスタリングTCP/IP 入門第5版 とりあえず読み切った</li>
-  <li>(2014/1/13)読む筋トレ</li>
-  <li>(2014/1/8)ザ・コーチ 最高の自分に出会える「目標の達人ノート」</li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>life</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/16/apache-nginx-client-certificate/">
-		
-			クライアント認証をもう一度やる@nginx</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">概要</a></li>
-  <li><a href="#section-1">やったこと</a>    <ul>
-      <li><a href="#section-2">補足</a>        <ul>
-          <li><a href="#config-">config による直接的な制限</a></li>
-          <li><a href="#revoke-">revoke による証明書の失効</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><a href="#nginx-ssl-">nginx による、SSL 設定とクライアント認証</a>    <ul>
-      <li><a href="#section-3">ちなみに</a></li>
-    </ul>
-  </li>
-  <li><a href="#section-4">所感</a></li>
-</ul>
-
-<h2 id="section">概要</h2>
-<p>前回は、資料のようにやればできるって感じだったけど、<br />
-理解して一つづつもう一度やってみたかったのでもう一度やってみた。  </p>
-
-<h2 id="section-1">やったこと</h2>
-<p>基本的には以下のサイトにしたがってすすめた。<br />
-<a href="http://server-setting.info/centos/private-ca-cert.html">こちらのサイト</a><br />
-基本的に前回の記事では、CA(.sh) という、<br />
-openssl の ca を扱うのに便利な付属スクリプトは使っていなかったんだけど、<br />
-今回のは CA(.sh) を使ってすすめた。<br />
-というか、ほとんどやったことは上記のサイト通りなので、上記のサイト通りやると良いとおもう。<br />
-解説もものすごく丁寧にされているので。<br />
-なので、自分がやったことの補足だけ書いていく。  </p>
-
-<h3 id="section-2">補足</h3>
-
-<h4 id="config-">config による直接的な制限</h4>
-<p>まず、背景として、vimtaku, hogetaku というユーザにそれぞれクライアント認証したい。<br />
-それで、それぞれのクライアントの鍵はサーバで作成する。  </p>
-
-<p>なので、サーバ側で  </p>
-
-<ul>
-  <li>クライアント用(vimtaku,hogetaku二人別々)の公開鍵と秘密鍵を作り、  </li>
-  <li>csr をだし、</li>
-  <li>それを ca が 署名して、</li>
-  <li>pfx に変換して</li>
-</ul>
-
-<p>最終的に、配りたい対象ユーザのブラウザに渡すかんじになった。</p>
-
-<p>client認証はしていて、さらに config レベルで、アクセスを制限したい場合には、
-ssl.conf に</p>
-<div>
-  <pre><code class="apache">&lt;Location /&gt;
-SSLRequire (    %{SSL_CIPHER} !~ m/^(EXP|NULL)/ \
-            and ( \
-                  %{SSL_CLIENT_S_DN_CN} eq &quot;vimtaku&quot; \
-                  or %{SSL_CLIENT_S_DN_CN} eq &quot;hogetaku&quot; \
-                ) \
-            )
-&lt;/Location&gt;</code></pre>
-</div>
-
-<p>などと書けば設定できる。  </p>
-
-<p>他にも条件は書けそうなので、パラメータに関しては<a href="http://httpd.apache.org/docs/2.4/mod/mod_ssl.html">こちらを参考</a>に。  </p>
-
-<p>デバッグとしては</p>
-<div>
-  <pre><code class="apache">CustomLog logs/ssl_request_log \
-  &quot;%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x %{SSL_CLIENT_S_DN_O}x %{SSL_CLIENT_S_DN_CN}x %{SSL_CLIENT_S_DN}x \&quot;%r\&quot; %b&quot;</code></pre>
-</div>
-
-<p>としてログだすとよいかもしれない。</p>
-
-<h4 id="revoke-">revoke による証明書の失効</h4>
-<p>config ではなく、 revoke で、たとえば hogetaku が会社辞めたとかで配った証明書を失効させる方法として、  </p>
-
-<div>
-  <pre><code class="bash">cd /etc/pki/CA
-cp serial crlnumber
-openssl ca -gencrl -revoke  /etc/pki/CA/certs/hogetaku.ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt -config /etc/pki/tls/openssl-client.cnf
-cd /etc/pki/CA/crl/
-openssl ca -gencrl -out crl.pem</code></pre>
-</div>
-
-<p>として、</p>
-
-<p>そして<br />
-/etc/httpd/conf.d/ssl.conf に、</p>
-<div>
-  <pre><code class="apache">SLCACertificateFile /etc/pki/CA/cacert.pem</code></pre>
-</div>
-
-<p>の下くらいに  </p>
-<div>
-  <pre><code class="apache">SSLCARevocationCheck chain
-SSLCARevocationFile /etc/pki/CA/crl/crl.pem</code></pre>
-</div>
-
-<p>を追加した。  </p>
-
-<p>それで、サーバを再起動すれば、revoke した証明書を持つクライアントはアクセスできなくなる(400)。</p>
-
-<p>ちなみに revoke は
-/etc/pki/CA/newcerts/内のファイル か /etc/pki/CA/newcerts/certs 内のファイルのどちらでもよさそう。  </p>
-
-<h2 id="nginx-ssl-">nginx による、SSL 設定とクライアント認証</h2>
-<p>はっきり言ってなんの問題もない</p>
-
-<div>
-  <pre><code class="bash">sudo yum -y install nginx</code></pre>
-</div>
-
-<p>/etc/nginx/conf を編集。  </p>
-
-<div>
-  <pre><code class="nginx">server {
-        listen       443;
-        server_name  localhost;
-
-        ssl                  on;
-        ssl_certificate      /etc/pki/CA/certs/ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.crt.pem;
-        ssl_certificate_key  /etc/pki/CA/private/ec2-xxxxxxxxxxxxx.ap-northeast-1.compute.amazonaws.com.key;
-        ssl_verify_client on;
-        ssl_client_certificate /etc/pki/CA/cacert.pem;
-        ssl_crl /etc/pki/CA/crl/crl.pem;
-
-        ssl_session_timeout  5m;
-
-        ssl_protocols  SSLv2 SSLv3 TLSv1; 
-        ssl_ciphers  HIGH:!aNULL:!MD5; 
-        ssl_prefer_server_ciphers   on;
-
-        location / {
-            root   html;
-            index  index.html index.htm;
-        }
-    }</code></pre>
-</div>
-
-<p>大体、 apache と同じような設定を行えば使用できる。  </p>
-
-<h3 id="section-3">ちなみに</h3>
-<p>revoke したのをやっぱ辞めたいって場合は<br />
-/etc/pki/CA/index.txt の<br />
-R の行の R を V にして、 その次の次のカラムの 時間を 消してから、<br />
-openssl ca -gencrl -out crl.pem<br />
-してやればよい。  </p>
-
-<h2 id="section-4">所感</h2>
-<p>複雑だけど、さすがに2週連続で日曜日使えばだいたいわかる。<br />
-でももっと奥深く知るにはちゃんと本を読むべきだと思う。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/dev/'>dev</a>
 
 
 </div>
