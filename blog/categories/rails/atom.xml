@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-11-08T13:30:41+09:00</updated>
+  <updated>2015-12-09T21:53:11+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[rails4 で utf8mb4 にしたい話]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/12/09/utf8mb4/"/>
+    <updated>2015-12-09T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/12/09/utf8mb4</id>
+    <content type="html"><![CDATA[<p>自分用のメモ</p>
+
+<h2 id="etcmycnf">/etc/my.cnf</h2>
+
+<p>```
+[client]
+default-character-set=utf8mb4</p>
+
+<p>[mysqld]
+character-set-server=utf8mb4
+innodb_file_per_table
+innodb_file_format=barracuda
+innodb_large_prefix = 1
+```</p>
+
+<h2 id="railsrootconfigdatabaseyml">$RAILS_ROOT/config/database.yml</h2>
+<p>default に追加</p>
+
+<p><code>
+charset: utf8mb4
+encoding: utf8mb4
+collation: utf8mb4_general_ci
+</code></p>
+
+<h2 id="ridgepole--schemafile">ridgepole の Schemafile</h2>
+<p>create_table :news, force: true, id: :bigint, options: “ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC” do |t|
+    blahblah…
+end</p>
+
+<h2 id="section">参考</h2>
+<p><a href="http://blog.arith-metic.jp/category/rails">http://blog.arith-metic.jp/category/rails</a>
+<a href="http://yamacent.hatenablog.com/entry/2015/06/06/235900">http://yamacent.hatenablog.com/entry/2015/06/06/235900</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses]]></title>
@@ -181,69 +221,6 @@ json.render JSON.parse(yield)  だとうまく行かなかった。  </p>
     <id>http://vimtaku.github.io/blog/2014/03/17/memo-before-migrate</id>
     <content type="html"><![CDATA[<h2 id="memo">memo</h2>
 <p>before_migrate は、migrate しようがしまいが呼ばれる。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL Workbench で Rails の migration ファイルを吐き出す]]></title>
-    <link href="http://vimtaku.github.io/blog/2014/02/16/mysql-workbench-rails/"/>
-    <updated>2014-02-16T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2014/02/16/mysql-workbench-rails</id>
-    <content type="html"><![CDATA[<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">概要</a></li>
-  <li><a href="#mysql-workbench--ss">Mysql workbench の SS</a></li>
-  <li><a href="#section-1">手順</a>    <ul>
-      <li><a href="#mysql-workbench-rails-exporter-plugin-">1. mysql workbench rails exporter plugin をダウンロード</a></li>
-      <li><a href="#mysql-workbench-">2. mysql workbench のインストール</a></li>
-      <li><a href="#section-2">3. プラグインのインストールと実行</a></li>
-    </ul>
-  </li>
-  <li><a href="#section-3">所感</a></li>
-</ul>
-
-<h2 id="section">概要</h2>
-<p>mysql workbench っていう MySQL のER図を作るみたいなツールがある。<br />
-CUI硬派のため、いままでは使ったことなかったけど、<br />
-今回はじめて使ってみると結構いい感じだった。<br />
-それを rails のマイグレーションファイルに吐き出したいなぁと思っていたら、<br />
-それっぽいプラグインを見つけたので、その方法を書いておく。  </p>
-
-<h2 id="mysql-workbench--ss">Mysql workbench の SS</h2>
-<p><img src="http://gyazo.com/f15f8824bbfdd3bb3dccd514b697f5e5.png" /></p>
-
-<h2 id="section-1">手順</h2>
-
-<h3 id="mysql-workbench-rails-exporter-plugin-">1. mysql workbench rails exporter plugin をダウンロード</h3>
-<p><a href="http://sourceforge.net/projects/railsexporter/">http://sourceforge.net/projects/railsexporter/</a>
-ここから、 rails exporter を落としてくる。  </p>
-
-<h3 id="mysql-workbench-">2. mysql workbench のインストール</h3>
-<p>新しい workbench ツールに、上記プラグインが対応していなかったので、 ちょっと古いやつで試したら動作した。<br />
-<a href="http://dev.mysql.com/downloads/tools/workbench/">http://dev.mysql.com/downloads/tools/workbench/</a> から、
-Looking for previous GA versions? をたどると、 mysql-workbench-gpl-5.2.47-osx-i686.dmg  が落とせる。<br />
-これをインストールする。  </p>
-
-<h3 id="section-2">3. プラグインのインストールと実行</h3>
-<p>mysql workbench のタブから、 “SCRIPTING &gt; INSTALL PLUGIN/MODULE …” で、展開した 1 の zip の .lua ファイルを選択する。<br />
-mysql workbench を再起動して、 “PLUGINS &gt; CATALOG &gt; Rails Exporter 1.0.1” を選択すれば、あら不思議、<br />
-$HOME に Rails_Explorer ディレクトリが。<br />
-db と model が出来上がるので、あとはそれをよしなに利用すれば良い。  </p>
-
-<h2 id="section-3">所感</h2>
-<p>実際、このあとに、 mysql に接続して、ER図を吐き出すやつやってみたけど、<br />
-まぁ当然、テーブル的にリレーションしてないわけだから、ER図もリレーションしてなくて、見づらい。<br />
-raisl には ERD 生成ツールみたいなのがあるらしいので、<br />
-最初の一回くらいしか使えないかもしれないけど、ないよりはいいかなぁ。<br />
-ちなみに出来上がるファイルは若干修正が必要だと思う。<br />
-ちゃんと mwb のほうで書いていれば大丈夫かもだけど。。<br />
-mwb の方で、カラムに複数行のコメントを入れておくと、出力された時にダメなので、<br />
-コメントを1行にするか、複数行の場合は先頭に#を入れると良いかもしれない。<br />
-あと、 unsigned int を作りたいけど、うまいことやってくれなくて、<br />
-gem “activerecord-mysql-unsigned”, “~&gt; 0.0.1”
-これを入れて、手動で integer のカラムに :unsgined =&gt; true した。  </p>
 
 ]]></content>
   </entry>

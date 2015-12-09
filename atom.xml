@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-11-08T13:30:41+09:00</updated>
+  <updated>2015-12-09T21:53:11+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[rails4 で utf8mb4 にしたい話]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/12/09/utf8mb4/"/>
+    <updated>2015-12-09T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/12/09/utf8mb4</id>
+    <content type="html"><![CDATA[<p>自分用のメモ</p>
+
+<h2 id="etcmycnf">/etc/my.cnf</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[client]
+</span><span class="line">default-character-set=utf8mb4
+</span><span class="line">
+</span><span class="line">[mysqld]
+</span><span class="line">character-set-server=utf8mb4
+</span><span class="line">innodb_file_per_table
+</span><span class="line">innodb_file_format=barracuda
+</span><span class="line">innodb_large_prefix = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="railsrootconfigdatabaseyml">$RAILS_ROOT/config/database.yml</h2>
+<p>default に追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">charset: utf8mb4
+</span><span class="line">encoding: utf8mb4
+</span><span class="line">collation: utf8mb4_general_ci</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ridgepole--schemafile">ridgepole の Schemafile</h2>
+<p>create_table :news, force: true, id: :bigint, options: “ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC” do |t|
+    blahblah…
+end</p>
+
+<h2 id="section">参考</h2>
+<p><a href="http://blog.arith-metic.jp/category/rails">http://blog.arith-metic.jp/category/rails</a>
+<a href="http://yamacent.hatenablog.com/entry/2015/06/06/235900">http://yamacent.hatenablog.com/entry/2015/06/06/235900</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses]]></title>
@@ -1295,34 +1342,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 <p>ふとどうでもよいことを思ったが、仏教をロックと割り切るなら、この文章もロックであるはずだ。  </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[さくらvps に CoreOS を入れる]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/07/sakuravps_coreos/"/>
-    <updated>2015-02-07T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/07/sakuravps_coreos</id>
-    <content type="html"><![CDATA[<h1 id="vps--coreos-">さくらvps に CoreOS を入れる</h1>
-<p>基本的には
-<a href="http://qiita.com/yujiod/items/dc154120c4df2e938111">http://qiita.com/yujiod/items/dc154120c4df2e938111</a>
-に従ってやれば行ける。  </p>
-
-<p>ただ、自分は VirtIO を ON にしたせいか、<br />
-ネットワークの設定のところで、</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[Match]
-</span><span class="line">Name=ens3</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>となっているところの ens3 は eth0 にしないと繋がらなかった。<br />
-(cloud-config も同様)</p>
-
-<h1 id="section">所感</h1>
-<p>英字キーボードを久しぶりに打ったけど慣れてないのでめちゃくちゃ辛かった。<br />
-何もはまらなければすぐできるとは思うけど、<br />
-普通にダウンロードとか調査とか考えたら1時間くらいかかると思う。  </p>
 ]]></content>
   </entry>
   
