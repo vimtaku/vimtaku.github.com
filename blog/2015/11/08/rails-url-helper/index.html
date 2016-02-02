@@ -3,11 +3,17 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>rails4 で utf8mb4 にしたい話 - vimtaku blog</title>
+	<title>I wanna test view *_path on my rails console(pry), so what should i do? - vimtaku blog</title>
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="rails4 で utf8mb4 にしたい話">
+	<meta name="description" content="Just do 1
+2
+3
+4
+5
+pry(main)&gt; include Rails.application.routes.url_helpers pry(main)&gt; admin_customer_path(User.first)
+User Load (0.3ms) SELECT ` &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,46 +84,21 @@
 		
 	
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Rails4 で Utf8mb4 にしたい話</h2>
-	<div class="entry-content"><p>自分用のメモ</p>
-
-<h2 id="etcmycnf">/etc/my.cnf</h2>
+	<h2 class="title">I Wanna Test View *_path on My Rails Console(pry), So What Should I Do?</h2>
+	<div class="entry-content"><h2 id="just-do">Just do</h2>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
 <span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">[client]
-</span><span class="line">default-character-set=utf8mb4
+</pre></td><td class="code"><pre><code class=""><span class="line">pry(main)&gt; include Rails.application.routes.url_helpers
 </span><span class="line">
-</span><span class="line">[mysqld]
-</span><span class="line">character-set-server=utf8mb4
-</span><span class="line">innodb_file_per_table
-</span><span class="line">innodb_file_format=barracuda
-</span><span class="line">innodb_large_prefix = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+</span><span class="line">pry(main)&gt; admin_customer_path(User.first)
+</span><span class="line">User Load (0.3ms)  SELECT  `users`.* FROM `users`  ORDER BY `users`.`id` ASC LIMIT 1
+</span><span class="line">=&gt; "/admin/customers/1"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h2 id="railsrootconfigdatabaseyml">$RAILS_ROOT/config/database.yml</h2>
-<p>default に追加</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">charset: utf8mb4
-</span><span class="line">encoding: utf8mb4
-</span><span class="line">collation: utf8mb4_general_ci</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="ridgepole--schemafile">ridgepole の Schemafile</h2>
-<p>create_table :news, force: true, id: :bigint, options: “ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC” do |t|
-    blahblah…
-end</p>
-
-<h2 id="section">参考</h2>
-<p><a href="http://blog.arith-metic.jp/category/rails">http://blog.arith-metic.jp/category/rails</a>
-<a href="http://yamacent.hatenablog.com/entry/2015/06/06/235900">http://yamacent.hatenablog.com/entry/2015/06/06/235900</a></p>
+<p>enjoy!</p>
 </div>
 
 
@@ -134,7 +115,7 @@ end</p>
   
 
 
-<time datetime="2015-12-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
+<time datetime="2015-11-08T13:04:14+09:00" pubdate data-updated="true">Nov 8<span>th</span>, 2015</time></div>
 	<div class="tags">
 
 
@@ -154,7 +135,7 @@ end</p>
 		
 
         
-        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2015/12/09/utf8mb4/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        <a href="http://b.hatena.ne.jp/entry/http://vimtaku.github.io/blog/2015/11/08/rails-url-helper/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
         
         
         
@@ -169,7 +150,7 @@ end</p>
 
 
 </div>
-	<footer id="footer" class="inner">Copyright &copy; 2015
+	<footer id="footer" class="inner">Copyright &copy; 2016
 
     vimtaku
 

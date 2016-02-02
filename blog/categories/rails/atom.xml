@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2015-12-09T21:53:11+09:00</updated>
+  <updated>2016-02-02T16:51:44+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -14,42 +14,21 @@
 
   
   <entry>
-    <title type="html"><![CDATA[rails4 で utf8mb4 にしたい話]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/12/09/utf8mb4/"/>
-    <updated>2015-12-09T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/12/09/utf8mb4</id>
-    <content type="html"><![CDATA[<p>自分用のメモ</p>
-
-<h2 id="etcmycnf">/etc/my.cnf</h2>
+    <title type="html"><![CDATA[I wanna test view *_path on my rails console(pry), so what should i do?]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/11/08/rails-url-helper/"/>
+    <updated>2015-11-08T13:04:14+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/11/08/rails-url-helper</id>
+    <content type="html"><![CDATA[<h2 id="just-do">Just do</h2>
 
 <p>```
-[client]
-default-character-set=utf8mb4</p>
+pry(main)&gt; include Rails.application.routes.url_helpers</p>
 
-<p>[mysqld]
-character-set-server=utf8mb4
-innodb_file_per_table
-innodb_file_format=barracuda
-innodb_large_prefix = 1
+<p>pry(main)&gt; admin_customer_path(User.first)
+User Load (0.3ms)  SELECT  <code>users</code>.* FROM <code>users</code>  ORDER BY <code>users</code>.<code>id</code> ASC LIMIT 1
+=&gt; “/admin/customers/1”
 ```</p>
 
-<h2 id="railsrootconfigdatabaseyml">$RAILS_ROOT/config/database.yml</h2>
-<p>default に追加</p>
-
-<p><code>
-charset: utf8mb4
-encoding: utf8mb4
-collation: utf8mb4_general_ci
-</code></p>
-
-<h2 id="ridgepole--schemafile">ridgepole の Schemafile</h2>
-<p>create_table :news, force: true, id: :bigint, options: “ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC” do |t|
-    blahblah…
-end</p>
-
-<h2 id="section">参考</h2>
-<p><a href="http://blog.arith-metic.jp/category/rails">http://blog.arith-metic.jp/category/rails</a>
-<a href="http://yamacent.hatenablog.com/entry/2015/06/06/235900">http://yamacent.hatenablog.com/entry/2015/06/06/235900</a></p>
+<p>enjoy!</p>
 ]]></content>
   </entry>
   
