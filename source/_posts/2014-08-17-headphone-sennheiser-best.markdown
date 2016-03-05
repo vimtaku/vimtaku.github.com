@@ -91,4 +91,10 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
   
 音を楽しむのは本当に良い。人生が豊かになる。  
 
+## 参考
+
+<a  href="http://www.amazon.co.jp/gp/product/B000TDZOXG/ref=as_li_ss_tl?ie=UTF8&camp=247&creative=7399&creativeASIN=B000TDZOXG&linkCode=as2&tag=vimtaku-22">【国内正規品】ゼンハイザー 密閉型ヘッドホン HD25-1 II</a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=vimtaku-22&l=as2&o=9&a=B000TDZOXG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+
+<a  href="http://www.amazon.co.jp/gp/product/B009QV14MC/ref=as_li_ss_tl?ie=UTF8&camp=247&creative=7399&creativeASIN=B009QV14MC&linkCode=as2&tag=vimtaku-22">【国内正規品】ゼンハイザー AMPERIOR 密閉型ヘッドホン シルバー AMPERIOR Silver</a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=vimtaku-22&l=as2&o=9&a=B009QV14MC" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+
 
