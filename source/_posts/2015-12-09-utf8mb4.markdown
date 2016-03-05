@@ -1,0 +1,40 @@
+---
+layout: post
+title: "rails4 で utf8mb4 にしたい話"
+description: "rails4 で utf8mb4 にしたい話"
+category: "rails"
+tags: [rails]
+---
+
+自分用のメモ
+
+## /etc/my.cnf
+
+```
+[client]
+default-character-set=utf8mb4
+
+[mysqld]
+character-set-server=utf8mb4
+innodb_file_per_table
+innodb_file_format=barracuda
+innodb_large_prefix = 1
+```
+
+## $RAILS_ROOT/config/database.yml
+default に追加
+
+```
+charset: utf8mb4
+encoding: utf8mb4
+collation: utf8mb4_general_ci
+```
+
+## ridgepole の Schemafile
+create_table :news, force: true, id: :bigint, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+    blahblah...
+end
+
+## 参考
+[http://blog.arith-metic.jp/category/rails](http://blog.arith-metic.jp/category/rails)
+[http://yamacent.hatenablog.com/entry/2015/06/06/235900](http://yamacent.hatenablog.com/entry/2015/06/06/235900)
