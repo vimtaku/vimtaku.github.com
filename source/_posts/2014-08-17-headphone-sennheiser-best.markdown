@@ -91,6 +91,9 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
   
 音を楽しむのは本当に良い。人生が豊かになる。  
 
+(追記)HD25-1 2 を超えたと思われるヘッドフォンの記事を書きました。 >
+[http://vimtaku.github.io/blog/2016/03/05/2016-03-05-headphone-sennheiser-hd25-amperior/](http://vimtaku.github.io/blog/2016/03/05/2016-03-05-headphone-sennheiser-hd25-amperior/)
+
 ## 参考
 
 <a  href="http://www.amazon.co.jp/gp/product/B000TDZOXG/ref=as_li_ss_tl?ie=UTF8&camp=247&creative=7399&creativeASIN=B000TDZOXG&linkCode=as2&tag=vimtaku-22">【国内正規品】ゼンハイザー 密閉型ヘッドホン HD25-1 II</a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=vimtaku-22&l=as2&o=9&a=B000TDZOXG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
