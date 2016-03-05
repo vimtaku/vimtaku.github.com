@@ -7,9 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="こんなエラーが出ていた
-The operation couldn’t be completed. No such file or directory. pods の dependencies に alamofire と swiftyjson をたしてあげよう
-たぶんそれで行けるはず。 &hellip;">
+	<meta name="description" content="概要
+rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出る。
+原因は
+参考のQiita 参照。 自分の場合はうまくいかなかったので、ソースおったらここ直せば良さそうだったので
+ここを上書きする感じにした。 config/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +82,95 @@ The operation couldn’t be completed. No such file or directory. pods の depen
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/04/02/rails_admin_ja_datepicker/">
+		
+			Rails_admin の日付のピッカーで日本語が使われて Argument Out of Range エラーが出るときの解決法</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">概要</h1>
+<p>rails_admin の日付のピッカーで日本語が使われて argument out of range エラーが出る。<br />
+原因は
+<a href="http://qiita.com/kuboon/items/1d009e2f89729fe5db78">参考のQiita</a> 参照。  </p>
+
+<p>自分の場合はうまくいかなかったので、ソースおったらここ直せば良さそうだったので<br />
+ここを上書きする感じにした。  </p>
+
+<h4 id="configinitializersrailsadminrb">config/initializers/rails_admin.rb</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line"># Fix for bug when specified japanese datetime string
+</span><span class="line"># http://qiita.com/kuboon/items/1d009e2f89729fe5db78
+</span><span class="line">module RailsAdmin
+</span><span class="line">  module Config
+</span><span class="line">    module Fields
+</span><span class="line">      module Types
+</span><span class="line">        class Datetime &lt; RailsAdmin::Config::Fields::Base
+</span><span class="line">          ## こいつを入れないと変更ない時にダメだった
+</span><span class="line">          def form_value
+</span><span class="line">            I18n.l(self.value, format:localized_date_format)
+</span><span class="line">          end
+</span><span class="line">          def localized_date_format
+</span><span class="line">            "%Y-%m-%d"
+</span><span class="line">          end
+</span><span class="line">        end
+</span><span class="line">      end
+</span><span class="line">    end
+</span><span class="line">  end
+</span><span class="line">end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以上。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -905,80 +996,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 </span><span class="line">## プロジェクトの参考情報
 </span><span class="line">## 創造的、かつ大胆に考える
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-18T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/gtd/'>gtd</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/18/gtd/">
-		
-			GTD の本を読んだ</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="gtd-">GTD の本を読んだ</h1>
-
-<h2 id="section">この本</h2>
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4576082116" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<h2 id="section-1">本の内容</h2>
-<p>大体読んだらわかることなんだが、<br />
- - <a href="http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/">http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/</a><br />
- - <a href="http://postd.cc/gtd-in-15-minutes/">http://postd.cc/gtd-in-15-minutes/</a><br />
-この辺によくまとまっているのでそちらを参照してもらうと良いかも。  </p>
-
-<h2 id="section-2">所感</h2>
-<p>僕の尊敬するとある人が、GTD やってますと言っていて、それから何年も経つがやってみたいと思ったので、<br />
-本を買って読んでみたがとても良さそうに感じた。<br />
-頭のなかを一つのシステムに書き出すことによって、それについて考える時間が増えた実感があるし、<br />
-やるべきことが可視化されることは非常に良いと思った。あとは週次レビューをどう組み込むかかなぁと思った。  </p>
-
-<h1 id="section-3">自分の場合どのような方法で実践するか</h1>
-
-<h2 id="section-4">ツール</h2>
-
-<h3 id="vimqfixhowm---dropbox-">vim(qfixhowm のメモ) + dropbox でやる</h3>
-<p>これについては基本的に markdown で見るのが一番自分らしく、わかりやすいので markdown で管理する。<br />
-週次レビューについては、毎週金曜か土曜日に時間をとってやるのが良いと思った。  </p>
-
-<h3 id="section-5">紙とマインドマップ</h3>
-<p>基本的には IT の仕事なので紙とマインドマップと vim があれば大丈夫かと。  </p>
-
-<h3 id="qfixhowm--dropbox--iphone-">qfixhowm のメモを dropbox のやつで見た時 iphone から見れるようにするやつ</h3>
-<p>がほしいのでどっかでつくる。  </p>
-
-<h3 id="section-6">とりあえずでテンプレート作ってみた</h3>
-<p><a href="http://vimtaku.github.io/blog/2015/02/18/gtd_template">http://vimtaku.github.io/blog/2015/02/18/gtd_template</a></p>
 
 
 		
