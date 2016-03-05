@@ -7,13 +7,18 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="Just do 1
+	<meta name="description" content="自分用のメモ /etc/my.cnf 1
 2
 3
 4
 5
-pry(main)&gt; include Rails.application.routes.url_helpers pry(main)&gt; admin_customer_path(User.first)
-User Load (0.3ms) SELECT &hellip;">
+6
+7
+8
+[client]
+default-character-set=utf8mb4 [mysqld]
+character-set-server=utf8mb4
+innodb_file_per_table &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -84,6 +89,85 @@ User Load (0.3ms) SELECT &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/12/09/utf8mb4/">
+		
+			Rails4 で Utf8mb4 にしたい話</a>
+	</h2>
+	<div class="entry-content">
+		<p>自分用のメモ</p>
+
+<h2 id="etcmycnf">/etc/my.cnf</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[client]
+</span><span class="line">default-character-set=utf8mb4
+</span><span class="line">
+</span><span class="line">[mysqld]
+</span><span class="line">character-set-server=utf8mb4
+</span><span class="line">innodb_file_per_table
+</span><span class="line">innodb_file_format=barracuda
+</span><span class="line">innodb_large_prefix = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="railsrootconfigdatabaseyml">$RAILS_ROOT/config/database.yml</h2>
+<p>default に追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">charset: utf8mb4
+</span><span class="line">encoding: utf8mb4
+</span><span class="line">collation: utf8mb4_general_ci</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ridgepole--schemafile">ridgepole の Schemafile</h2>
+<p>create_table :news, force: true, id: :bigint, options: “ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC” do |t|
+    blahblah…
+end</p>
+
+<h2 id="section">参考</h2>
+<p><a href="http://blog.arith-metic.jp/category/rails">http://blog.arith-metic.jp/category/rails</a>
+<a href="http://yamacent.hatenablog.com/entry/2015/06/06/235900">http://yamacent.hatenablog.com/entry/2015/06/06/235900</a></p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -967,57 +1051,6 @@ backlog と比べて出来ないことが多すぎて、それ以上のメリッ
 
 
 	<a class='category' href='/blog/categories/rails/'>rails</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/30/swiftyjson-alamofire/">
-		
-			Alamofire_SwiftyJSON でビルドエラーが出るとき</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">こんなエラーが出ていた</h1>
-<p>The operation couldn’t be completed. No such file or directory.  </p>
-
-<h1 id="pods--dependencies--alamofire--swiftyjson-">pods の dependencies に alamofire と swiftyjson をたしてあげよう</h1>
-<p>たぶんそれで行けるはず。  </p>
-
-<h1 id="section-1">他のマシーンでなぜか動かない場合</h1>
-<p><a href="http://stackoverflow.com/questions/26834293/swift-could-not-build-objective-c-module-alamofire">この stack overflow の</a>
-Dependencies を 削除する、でうまく行った。<br />
-Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-30T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
 
 
 </div>
