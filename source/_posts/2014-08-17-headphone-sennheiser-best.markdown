@@ -88,9 +88,10 @@ HD25-1 Ⅱ のいいところは、断線してもケーブル変えれば全然
 俺の中の、この誰にも伝えられないこだわりが、インターネットを通して誰かに伝われば嬉しい。  
   
 音を楽しむのは本当に良い。人生が豊かになる。  
+  
+*(追記)HD25-1 2 を超えたと思われるヘッドフォンの記事を書きました。* >
+[http://vimtaku.github.io/blog/2016/03/05/headphone-sennheiser-hd25-amperior/](http://vimtaku.github.io/blog/2016/03/05/headphone-sennheiser-hd25-amperior/)
 
-(追記)HD25-1 2 を超えたと思われるヘッドフォンの記事を書きました。 >
-[http://vimtaku.github.io/blog/2016/03/05/2016-03-05-headphone-sennheiser-hd25-amperior/](http://vimtaku.github.io/blog/2016/03/05/2016-03-05-headphone-sennheiser-hd25-amperior/)
 
 ## 参考
 
