@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "俺が考える最強ヘッドフォンゼンハイザーHD25-1 Ⅱ を超えた Amperior"
+title: "俺が考える最強ヘッドフォンゼンハイザーHD25-1 Ⅱ を超えた Amperior with リケーブル"
 date: 2016-03-05 16:53:16 +0900
 comments: true
 category: "headphone"
