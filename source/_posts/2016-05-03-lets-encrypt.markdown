@@ -16,8 +16,8 @@ Let's encrypt を導入するには主に以下をやる必要があるだろう
 3. 90日で切れるので、証明書の自動更新をつける
 
 以下では、  
- - force SSL 的な設定は今のところ nginx などではやらない。
- - クライアント側のアプリなどで対応する。
+ - force SSL 的な設定は今のところ nginx などではやらない。  
+ - クライアント側のアプリなどで対応する。  
 
 ## 1. 証明書を作成
 ```
@@ -45,6 +45,7 @@ cd /opt/letsencrypt
 ## 3. 自動更新
 
 su で crontab -e
+
 ```
 00 05 01 * * /etc/init.d/nginx stop; /opt/letsencrypt/letsencrypt-auto certonly --standalone -d your.domain.name --renew-by-default --debug ; /etc/init.d/nginx start;
 ```
