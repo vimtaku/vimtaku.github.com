@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2016-04-02T09:43:45+09:00</updated>
+  <updated>2016-05-03T16:26:01+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[let's encrypt で ec2 で単独で動いているサービスを https 化する]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/05/03/lets-encrypt/"/>
+    <updated>2016-05-03T16:19:17+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/05/03/lets-encrypt</id>
+    <content type="html"><![CDATA[<h2 id="section">はじめに</h2>
+<p>前提として、 EC2 に passanger + nginx でサービスを動かしている。<br />
+Let’s encrypt を導入するには主に以下をやる必要があるだろう。</p>
+
+<ol>
+  <li>サーバにログインして letsencrypt-auto スクリプトを使用して証明書を作成</li>
+  <li>nginx に設定し、再起動</li>
+  <li>90日で切れるので、証明書の自動更新をつける</li>
+</ol>
+
+<p>以下では、<br />
+ - force SSL 的な設定は今のところ nginx などではやらない。
+ - クライアント側のアプリなどで対応する。</p>
+
+<h2 id="section-1">1. 証明書を作成</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd /opt
+</span><span class="line">git clone https://github.com/letsencrypt/letsencrypt
+</span><span class="line">cd /opt/letsencrypt
+</span><span class="line"># ec2 のセキュリティグループで 443 を開けておく
+</span><span class="line">./letsencrypt-auto certonly --standalone</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="nginx-">2. nginx に設定し、再起動</h2>
+
+<p>以下をいい感じに追加する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   listen 443 ssl;
+</span><span class="line">
+</span><span class="line">   ssl_certificate /etc/letsencrypt/live/your.domain.name/fullchain.pem;
+</span><span class="line">   ssl_certificate_key /etc/letsencrypt/live/your.domain.name/privkey.pem;
+</span><span class="line">   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+</span><span class="line">   ssl_prefer_server_ciphers on;
+</span><span class="line">   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">3. 自動更新</h2>
+
+<p>su で crontab -e
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">00 05 01 * * /etc/init.d/nginx stop; /opt/letsencrypt/letsencrypt-auto certonly --standalone -d your.domain.name --renew-by-default --debug ; /etc/init.d/nginx start;</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<h2 id="section-3">所感</h2>
+<p>https 化が簡単にできて最高な時代だなぁと思った。</p>
+
+<h2 id="section-4">参考</h2>
+<p><a href="https://www.mitchcanter.com/lets-encrypt-ssl-amazon-aws/">https://www.mitchcanter.com/lets-encrypt-ssl-amazon-aws/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[俺が考える最強ヘッドフォンゼンハイザーHD25-1 Ⅱ を超えた Amperior with リケーブル]]></title>
@@ -1146,152 +1210,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 </span><span class="line">rbenv rehash
 </span><span class="line">homesick clone vimtaku/dotfiles
 </span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GTD テンプレート]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/18/gtd_template/"/>
-    <updated>2015-02-18T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/18/gtd_template</id>
-    <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-<span class="line-number">49</span>
-<span class="line-number">50</span>
-<span class="line-number">51</span>
-<span class="line-number">52</span>
-<span class="line-number">53</span>
-<span class="line-number">54</span>
-<span class="line-number">55</span>
-<span class="line-number">56</span>
-<span class="line-number">57</span>
-<span class="line-number">58</span>
-<span class="line-number">59</span>
-<span class="line-number">60</span>
-<span class="line-number">61</span>
-<span class="line-number">62</span>
-<span class="line-number">63</span>
-<span class="line-number">64</span>
-<span class="line-number">65</span>
-<span class="line-number">66</span>
-<span class="line-number">67</span>
-<span class="line-number">68</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">
-</span><span class="line"># Inbox
-</span><span class="line">
-</span><span class="line">----
-</span><span class="line"># 行動を起こす必要があるもの
-</span><span class="line">
-</span><span class="line">## カレンダー
-</span><span class="line">Google カレンダー参照
-</span><span class="line">
-</span><span class="line">## 次に取るべき行動のリスト
-</span><span class="line">### @会社
-</span><span class="line">### @自宅
-</span><span class="line">### @電車
-</span><span class="line">### @暇
-</span><span class="line">
-</span><span class="line">## 連絡待ちリスト
-</span><span class="line">
-</span><span class="line">## プロジェクトリスト
-</span><span class="line">### プロジェクトA
-</span><span class="line">### プロジェクトB
-</span><span class="line">
-</span><span class="line">## プロジェクトの参考情報
-</span><span class="line">
-</span><span class="line">----
-</span><span class="line"># 行動を起こす必要がないもの
-</span><span class="line">
-</span><span class="line">## ゴミ箱
-</span><span class="line">
-</span><span class="line">## 保留
-</span><span class="line">### いつかやる・多分やるリスト
-</span><span class="line">
-</span><span class="line">## 資料
-</span><span class="line">
-</span><span class="line">----------------------------------------
-</span><span class="line"># GTD の処理方法
-</span><span class="line">1. 収集
-</span><span class="line">-- トリガーリスト
-</span><span class="line">2. 処理
-</span><span class="line">-- ワークフローにしたがって振り分ける
-</span><span class="line">3. 上記の行動を起こす必要があるもの(カレンダー、次に取るべき行動のリスト、連絡待ちリスト、プロジェクトリスト、プロジェクトの参考情報)と行動を起こす必要がないもの(ゴミ箱、保留、資料)
-</span><span class="line">4. レビュー
-</span><span class="line">5. 実行
-</span><span class="line">
-</span><span class="line"># プロジェクトプランニング
-</span><span class="line">プランニングについては、考える必要がないもの以外では、以下のとおりに進めると良い。
-</span><span class="line">## 目的と価値観を見極める
-</span><span class="line">## 結果をイメージする
-</span><span class="line">## ブレインストーミング
-</span><span class="line">## 整理
-</span><span class="line">## 会議
-</span><span class="line">## 情報収集
-</span><span class="line">## 次に取るべき行動を判断
-</span><span class="line">
-</span><span class="line"># 週次レビューの方法
-</span><span class="line">基本的なレビューは随時行う。週次レビューは週に一度時間をとって行う。  
-</span><span class="line">以下にそのまま項目を引用しておく。
-</span><span class="line">## 雑多な紙類を集める。
-</span><span class="line">## 処理を行う
-</span><span class="line">## カレンダーのチェック(過去)
-</span><span class="line">## カレンダーのチェック(未来)
-</span><span class="line">## 頭のなかにあるものを出す
-</span><span class="line">## プロジェクトリスト及び大きな目標のレビュー
-</span><span class="line">## 「次に取るべき行動リスト」のレビュー
-</span><span class="line">## 連絡待ちリストのレビュー
-</span><span class="line">## プロジェクト候補のチェックリストのレビュー
-</span><span class="line">## いつかやる・多分やるリストのレビュー
-</span><span class="line">## プロジェクトの参考情報
-</span><span class="line">## 創造的、かつ大胆に考える
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 ]]></content>
   </entry>
