@@ -7,8 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TL;DR backlog はかなり緑だけど、よく出来てた gollum は backlog と比べると、今の組織ではまだ早い 気合があれば gollum を修正して使うといいんじゃないの 背景 1
-【緩募】シンプルな wiki で無料で markdown &hellip;">
+	<meta name="description" content="クリティカル・シンキング ベネフィット
+相手によってベネフィットは変わる。
+どのようにベネフィットを聞き出すのかが問題。
+また、ベネフィットに答えるために、有効な実績があるのは強い。 難しさ
+何かを提案、説得するためには、ベネフィットに答えることを意識すると良いと思う。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -79,6 +82,283 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/05/27/critical-thinking/">
+		
+			クリティカル・シンキング</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">クリティカル・シンキング</h1>
+
+<h2 id="section-1">ベネフィット</h2>
+<p>相手によってベネフィットは変わる。<br />
+どのようにベネフィットを聞き出すのかが問題。<br />
+また、ベネフィットに答えるために、有効な実績があるのは強い。  </p>
+
+<h2 id="section-2">難しさ</h2>
+<p>何かを提案、説得するためには、ベネフィットに答えることを意識すると良いと思う。<br />
+実績を作るための努力はいつも怠らないことが重要なのだと思う。<br />
+また、実績がない場合も、それに準ずる実績を提示することで、その可能性を示すことができる。  </p>
+
+<h2 id="section-3">提案における顧客のベネフィットの共通項</h2>
+<ul>
+  <li>お前は誰なのか。信用できるのか。  </li>
+  <li>困っていることを解決できるのか。  </li>
+  <li>実際に効果があるのか。  </li>
+  <li>コスト感<br />
+    <ul>
+      <li>導入しやすさ  </li>
+      <li>値段  </li>
+    </ul>
+  </li>
+</ul>
+
+<p>面接でも、何かの商品を売る場合でも、上記は必要なのだと思った。  </p>
+
+<h2 id="section-4">所感</h2>
+<p>イイタイコト、キキタイコトでブレストすると、本当に相手が求める質問に辿りつけた。<br />
+たとえばプレゼンや、面接でも、相手がどういうことを聞きたいか、などをある程度想定して、<br />
+それを事前に考えてみることはかなり効果的だと思う。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/logic/'>logic</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/">
+		
+			Create Staging Server Using Jvm With t2.micro</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
+
+<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
+<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
+I googled and found solution.<br />
+<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
+
+<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
+
+<p>something like this(picked up from history)</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install leiningen
+</span><span class="line">wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+</span><span class="line">mkdir bin
+</span><span class="line">chmod a+x lein
+</span><span class="line">./lein
+</span><span class="line">ssh-keygen
+</span><span class="line">export MY_DATOMIC_USERNAME="moge@gmail.com"
+</span><span class="line">export MY_DATOMIC_PASSWORD="datomic_password"
+</span><span class="line">sudo yum install java-1.8.0-openjdk.x86_64
+</span><span class="line">ll /etc/alternatives/java
+</span><span class="line">cd /etc/alternatives/
+</span><span class="line">sudo mv /etc/alternatives/java{,.bak}
+</span><span class="line">ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
+</span><span class="line">lein ring server</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/leiningen/'>leiningen</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/04/12/401k-for-engineer/">
+		
+			エンジニアのための 確定拠出年金</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">エンジニアのための 確定拠出年金</h1>
+
+<h2 id="section-1">はじめに</h2>
+<p>俺だ、 vimtax だ。<br />
+今日は確定拠出年金について調べてみるぞ。  </p>
+
+<h1 id="section-2">確定拠出年金について</h1>
+
+<h2 id="section-3">確定拠出年金とは</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">確定拠出年金は、公的年金に上乗せするための選択肢として作られた年金制度です。  
+</span><span class="line">60歳未満の自営業者（国民年金加入者）や企業等にお勤めの方（厚生年金保険加入者）を対象とし、  
+</span><span class="line">公的年金等に確定拠出年金を上乗せすることで、老後の資産形成に役立てることができます。</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>引用:<a href="http://www.jp-bank.japanpost.jp/kojin/sonaeru/kakutei/kj_sn_kt_what.html">http://www.jp-bank.japanpost.jp/kojin/sonaeru/kakutei/kj_sn_kt_what.html</a>  </p>
+
+<p>と書いてあるが、60歳まで下ろせない貯金で、そのままためておくこともできるし、<br />
+資産運用することもできる、っていうかんじのものだ。  </p>
+
+<h2 id="section-4">対象</h2>
+<p>確定拠出年金には 個人型と、企業型がある。<br />
+個人型にもパターンがあるが、この記事では、<br />
+大抵のサラリーマンが該当するであろう個人型の第2号被保険者を扱うものとする。<br />
+自分が何型なのかとかは、上記の ゆうちょのページを読んで、判別して欲しい。  </p>
+
+<h2 id="section-5">メリット</h2>
+
+<h3 id="section-6">所得税、住民税の控除</h3>
+<p><a href="http://iitoushi-tanken-nisshi.hateblo.jp/entry/2013/12/26/022333" title="このリンク">このリンク</a>によると、<br />
+年収が396万円以上695万円未満の人だと仮定すると(所得税が20%)、<br />
+月額2万3千円(これが最大)を12ヶ月払い、年末調整で申告すると、 23,000 * 12 = 276000 の 20% = 4万6千円 が<br />
+返ってくるらしい。これは馬鹿にできない。<br />
+さらに、来年の住民税も 10%分(2万3千円) やすくなるらしい。<br />
+合計6万9千円も得するようだ。<br />
+これはやらない手はないのではないか、と思わせる。  </p>
+
+<h3 id="section-7">資産運用による利益に対する非課税</h3>
+<p><a href="https://www.toushin.or.jp/dc/labo/vol2_yamasaki/">https://www.toushin.or.jp/dc/labo/vol2_yamasaki/</a><br />
+とかを見ればわかるように、資産運用で得られた利益が非課税であるのは大きい。  </p>
+
+<h2 id="section-8">デメリット</h2>
+
+<h3 id="section-9">手数料</h3>
+<p><a href="http://shacho-radio.com/?p=1680">http://shacho-radio.com/?p=1680</a><br />
+個人型の場合は手数料がかかるらしい。  </p>
+
+<h4 id="sbi">SBI証券の例</h4>
+<p>SBI証券の例を見てみる。<br />
+[http://ad401k.sbisec.co.jp/kojin/01<em>04.html](http://ad401k.sbisec.co.jp/kojin/01</em>04.html)  </p>
+
+<h4 id="section-10">最初だけかかる額</h4>
+<p>加入時に 3,857円</p>
+
+<h4 id="section-11">月額課金</h4>
+<p>50万円になるまでは、324円 + 167円 = 491円(月額)かかる。<br />
+50万円以上になると、 167円(月額)かかる。  </p>
+
+<p>なので、初年度だと、<br />
+491 * 12 + 3857 = 9749 円かかる。<br />
+ただ、4万6千円の税制メリットと比べれば、良さそうに見える。  </p>
+
+<h3 id="section-12">60歳まで下ろせない</h3>
+<p>最大で預けたと仮定すると、基本的に 276000円(年額) が下ろせないということになる。<br />
+276000円をつかって個人的に運用だったり、なにかの活動資金に割り当てて、儲けが出たときに、
+課税された上での額が5万9千円以上なら、やる価値はあるように見える。  </p>
+
+<p>ただ、急にお金が必要になる場合ってたぶんあるので、そこんところは考えなきゃダメだと思う。<br />
+といっておきながらも、 SBI 証券のを見ていると年1回、額の変更は可能なのであまり考えなくてもいいかも。  </p>
+
+<h1 id="section-13">所感</h1>
+<p>急にお金が必要になるって、結婚式挙げるか、家買うか、病気なおすか、そのくらいじゃないのかな。<br />
+お金(貯金)に余裕があるか、老後のための貯金に自信がない人は、是非やったらいいように見える。<br />
+手元にお金があることのほうがメリットだろ！っていう人には向かないと思う。<br />
+自分の場合は奨学金とかもまだあるから、その辺を繰り上げ返済したほうがメリットあるんじゃねぇかっていうのもある。<br />
+とりあえず直近ではお金必要ないので、上限突っ込んでもいい気がするなぁ。<br />
+だけど、年取ってから使うお金と、今使うべきお金って割りと違う気もするんだよなぁ。<br />
+そういう意味で、手元にお金があるメリットっていうのは、額面通りじゃあないように思う。  </p>
+
+<p>こういうお金の話って向き合うのスーパーめんどいけど、休みの日とか、時間があるときに少しずつまとめていくのは、<br />
+結局得になるかもしれないとおもうと、今後もたまにはこういうのを調べていきたい。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/money/'>money</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -777,252 +1057,6 @@ In web section, volumes is attached from boot2docker to web container.  </p>
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/03/fig-rails/">
-		
-			Fig(docker Compose) で Rails する</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">追記</h1>
-<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
-フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
-おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
-localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
-現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
-参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
-
-<h1 id="section-1">メモ</h1>
-
-<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
-が、それに気づかず しばらく fig で進めた。  </p>
-
-<p>fig で rails は tutorial 通りでは動かなかった。<br />
-基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
-binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
-その辺を修正した。<br />
-ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
-
-<h3 id="figyml">fig.yml</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">db:
-</span><span class="line">  image: mysql:5.6
-</span><span class="line">  ports:
-</span><span class="line">    - "3306:3306"
-</span><span class="line">  environment:
-</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
-</span><span class="line">
-</span><span class="line">web:
-</span><span class="line">  build: .
-</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
-</span><span class="line">  volumes:
-</span><span class="line">    - .:/myapp
-</span><span class="line">  ports:
-</span><span class="line">    - "3000:3000"
-</span><span class="line">  links:
-</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>fig run web rake db:create db:migrate</code></p>
-
-<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
-docker images でだした image を docker rmi で全て消してやり直したり、<br />
-それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
-
-<h1 id="section-2">所感</h1>
-<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/docker/'>docker</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/23/rakuten-kard/">
-		
-			楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
-<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
-システム的に翌月になるまで照会が出来ないとのこと。<br />
-もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rakuten/'>rakuten</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/21/mac-setup-2015/">
-		
-			Mac 開発環境 Setup 2015</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
-<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
-なので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">気をつけるべきこと</h2>
-<ul>
-  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
-  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
-</ul>
-
-<h2 id="section-1">準備</h2>
-
-<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
-<ul>
-  <li>brew install rcmdnk/file/brew-file  </li>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
-– sudo easy_install pip<br />
-– pip install requests<br />
-– brew file init vimtaku/Brewfile<br />
-– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
-</ul>
-
-<h2 id="section-2">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="homebrew-">homebrew のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="brewfile--1">Brewfile からインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
-</span><span class="line">cd Brewfile
-</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="homesick-">homesick のインストール</h3>
-<p>ちょっと違うかも。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
-</span><span class="line">gem install homesick
-</span><span class="line">rbenv rehash
-</span><span class="line">homesick clone vimtaku/dotfiles
-</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/mac/'>mac</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
         <a href="/" class="prev">Prev</a>
@@ -1032,7 +1066,7 @@ docker images でだした image を docker rmi で全て消してやり直し�
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2016
+	<footer id="footer" class="inner">Copyright &copy; 2017
 
     vimtaku
 

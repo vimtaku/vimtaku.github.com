@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2016-05-03T16:29:42+09:00</updated>
+  <updated>2017-01-29T11:23:57+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,168 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS Sierra で Karabiner-elements がない場合に keyrepeat を早く適切にする方法]]></title>
+    <link href="http://vimtaku.github.io/blog/2017/01/29/keyrepeat/"/>
+    <updated>2017-01-29T11:15:34+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2017/01/29/keyrepeat</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">defaults write -g InitialKeyRepeat -int 9
+</span><span class="line">defaults write -g KeyRepeat -int 2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">背景</h2>
+<p>Mac OS Sierra にしてから karabiner elements になって、キーリピートの設定ができなくなった。
+mac の system preferences からできる最速ではもちろん物足りないので、一旦目安としての数値がなかったので記述する。</p>
+
+<h2 id="section-1">概要</h2>
+<p>iterm から</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">defaults write -g InitialKeyRepeat -int 9
+</span><span class="line">defaults write -g KeyRepeat -int 2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>の各コマンドを実行して再起動したら反映された。若干はやいきもするが、慣れの問題かと思っている。</p>
+
+<h2 id="section-2">所感</h2>
+<p>最初1,1 とかにしたら大変なことになったので、誰かのためになればさいわいです。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone6 + au(誰でも割+LTEフラット) 運用を、 iPhoneSE と格安SIM(mineo Dプラン) の運用にする]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/09/18/au_mineo_iphonese/"/>
+    <updated>2016-09-18T12:02:17+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/09/18/au_mineo_iphonese</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>iPhone6 を iPhoneSE に変更(大体30分)
+    <ul>
+      <li>約3万</li>
+      <li>アップルストアで30分(バックアップ戻す時間込み)</li>
+    </ul>
+  </li>
+  <li>2016年11月1日(あたり)に mineo Dプランを、エントリーパッケージ経由で契約する
+    <ul>
+      <li>その後自動でau が解約される(解約更新月なので9800円くらいがかからない)。</li>
+      <li>au は月末解約扱いになるらしいが、システムの対応が間に合ってないせいでまだそうなってないっぽい。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">背景</h2>
+<p>iPhone6 が日本にて発売されたのが 2014年9月で、おそらくそのときに購入した。<br />
+その流れで、 au の「誰でも割」「LTEフラット」を契約して、約2年間運用してきた。<br />
+そもそもパケットの料金が高すぎるので不満をいだいて居たので、<br />
+格安シムのほうが安くなるのはおそらく確実だろうということで、<br />
+どのようにすればよいか調べたのでココに記しておく。  </p>
+
+<h3 id="section-1">自分の要求</h3>
+<ul>
+  <li>もちろん速度が出ると良い。  </li>
+  <li>テザリングは必須。  </li>
+  <li>電話はあまりしない。(するときは実家になど、たまに長くなるとお金がかかる)  </li>
+  <li>大体実績値がパケット使用量 7GB/月 程度。もうちょっとあっていいと思っている。  </li>
+</ul>
+
+<h2 id="section-2">概要</h2>
+<ul>
+  <li>端末を何にすればよいか?  </li>
+  <li>MVNO をどこにすればよいか？  </li>
+  <li>au の契約更新月について  </li>
+</ul>
+
+<h2 id="section-3">端末を何にすればよいか?</h2>
+<p>iPhoneSE とした。<br />
+iPhone7 発売に伴い, iPhoneSE 64GB が 49800円(税別)なので、これにした。<br />
+iPhone7 は、今の自分には必要ないと思ったからだ。  </p>
+
+<p>Android はOS的に好きでないのでやめた。  </p>
+
+<p>銀座アップルストアに行って、iPhone6 が24,000円で下どってくれたので、実質3万くらいで購入できた。<br />
+mac の iTunes でフルバックアップを取って行かないと無駄足になるので注意。  </p>
+
+<h2 id="mvno-">MVNO をどこにすればよいか？</h2>
+<p>mineo にした。<br />
+iPhoneSE でのテザリングでの前提だと IIJmio と mineo が良いらしい。<br />
+<a href="http://cospahack.com/life/iphone-se-sim">出典はこちら。</a><br />
+自分は、ちょっとググッた結果通信速度の安定的に mineo のほうが良さそうだと判断したのと、<br />
+通信料を最大2GBシェアリングできる概念みたいなものがあるようなので、こちらにした。  </p>
+
+<p>自分が調べた結果だと、Y!mobile とか UQ mobile とかはテザリングNG だったりする。<br />
+テザリング使いたい人は前提をテザリングに考えたほうが良いと思う。  </p>
+
+<h2 id="au-">au の契約更新月について</h2>
+<p>au の契約更新月は、誰でも割とかだと 25ヶ月、26ヶ月目くらいらしい。<br />
+au の人なら多分入れているであろう、auお客様サポートアプリの「ご契約情報」 「料金割引サービス」に、  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">誰でも割
+</span><span class="line">(次回更新年月 2016年11月~2016年12月)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などと書いてあるのが確認できるのでご確認を。  </p>
+
+<p>ちなみに、解約についてであるが、au は月末解約扱いになると宣言しているが、<br />
+システムの対応が間に合ってないせいでまだそうなってないっぽい。  </p>
+
+<h2 id="mineo-">mineo にするならこれを買うと安くなる模様。</h2>
+<p>普通にmineo公式サイトを見ればわかるけど、プロモコードを入れるところがある。<br />
+申し込み時の方法が主に3つあるけど、下記を購入して登録すると、新規登録手数料がおよそ 2000円安くなるらしいので、<br />
+これを買ったらイイんじゃないかなと思う。  </p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="http://vimtaku.github.io//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B00UT26M0Q&amp;linkId=727145ea31131a6c5654ff0141c682df"></iframe>
+
+<h2 id="section-4">お得感見積もり</h2>
+
+<h3 id="before">BEFORE</h3>
+<p>auのもろもろ(7GB制限):月平均1万円</p>
+
+<h3 id="after">AFTER</h3>
+<p>10GB(音声+データSIM): 3220円<br />
+通話料大体:400~600円<br />
+4000円くらい  </p>
+
+<p>月6000円お得。電話の具合によってはもうちょっとお得具合がへるがそれでも月6000円はでかい気がする。  </p>
+
+<p>3万の端末代金は 6000 * 5ヶ月あればもとが取れる予定。  </p>
+
+<h2 id="section-5">所感</h2>
+<p>大体3時間くらいいろいろ調べた結果なので、誰かのために慣れば幸いです。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ridgepole command gets [ERROR] undefined method index]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/08/05/ridgepole-version-index-error/"/>
+    <updated>2016-08-05T16:53:16+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/08/05/ridgepole-version-index-error</id>
+    <content type="html"><![CDATA[<h2 id="tldl">TL;DL</h2>
+<p>You should use newest version of gem definetly.</p>
+
+<h2 id="i-faced-this-error">I faced this error</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ERROR] undefined method `index' for #&lt;Ridgepole::DSLParser::Context::TableDefinition:0x007fae9aa1b850&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="solved">Solved</h2>
+<p>This is version problem.</p>
+
+<p>I simply write as follows,</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem 'ridgepole'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>but it seems downloads version is 0.5.0.</p>
+
+<p>I finally found 0.6.4 is newest ver for now, so I used it, problem disappeared.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[let's encrypt で ec2 で単独で動いているサービスを https 化する]]></title>
@@ -1062,156 +1224,6 @@ I wrote .rsyncignore something like below.  </p>
 In web section, volumes is attached from boot2docker to web container.  </p>
 
 <p>That’s it.  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[fig(docker compose) で rails する]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/03/03/fig-rails/"/>
-    <updated>2015-03-03T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/03/03/fig-rails</id>
-    <content type="html"><![CDATA[<h1 id="section">追記</h1>
-<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
-フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
-おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
-localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
-現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
-参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
-
-<h1 id="section-1">メモ</h1>
-
-<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
-が、それに気づかず しばらく fig で進めた。  </p>
-
-<p>fig で rails は tutorial 通りでは動かなかった。<br />
-基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
-binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
-その辺を修正した。<br />
-ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
-
-<h3 id="figyml">fig.yml</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">db:
-</span><span class="line">  image: mysql:5.6
-</span><span class="line">  ports:
-</span><span class="line">    - "3306:3306"
-</span><span class="line">  environment:
-</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
-</span><span class="line">
-</span><span class="line">web:
-</span><span class="line">  build: .
-</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
-</span><span class="line">  volumes:
-</span><span class="line">    - .:/myapp
-</span><span class="line">  ports:
-</span><span class="line">    - "3000:3000"
-</span><span class="line">  links:
-</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>fig run web rake db:create db:migrate</code></p>
-
-<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
-docker images でだした image を docker rmi で全て消してやり直したり、<br />
-それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
-
-<h1 id="section-2">所感</h1>
-<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/23/rakuten-kard/"/>
-    <updated>2015-02-23T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/23/rakuten-kard</id>
-    <content type="html"><![CDATA[<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
-<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
-システム的に翌月になるまで照会が出来ないとのこと。<br />
-もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[mac 開発環境 setup 2015]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015/"/>
-    <updated>2015-02-21T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015</id>
-    <content type="html"><![CDATA[<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
-<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
-なので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">気をつけるべきこと</h2>
-<ul>
-  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
-  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
-</ul>
-
-<h2 id="section-1">準備</h2>
-
-<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
-<ul>
-  <li>brew install rcmdnk/file/brew-file  </li>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
-– sudo easy_install pip<br />
-– pip install requests<br />
-– brew file init vimtaku/Brewfile<br />
-– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
-</ul>
-
-<h2 id="section-2">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="homebrew-">homebrew のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="brewfile--1">Brewfile からインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
-</span><span class="line">cd Brewfile
-</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="homesick-">homesick のインストール</h3>
-<p>ちょっと違うかも。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
-</span><span class="line">gem install homesick
-</span><span class="line">rbenv rehash
-</span><span class="line">homesick clone vimtaku/dotfiles
-</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
-
 ]]></content>
   </entry>
   

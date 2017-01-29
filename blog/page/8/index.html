@@ -7,9 +7,12 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="土日振り返り
-雪うざい。地味に perfect ruby を進めた。
-ruby 力が2くらい上がった。気がする。 勉強途中経過 進んでない rails tutorial 6 までやった 読書途中経過 進んだ パーフェクトルビー15章まで読んだ 手を動かしながら ver 積んでる &hellip;">
+	<meta name="description" content="背景
+デザインが見づらいって言われたので辛くなったから、
+octopress にノリで移行してみた。
+当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので
+問題なく移行できると思ったら移行できた。 手順
+大体こんなかんじでいける。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +83,604 @@ ruby 力が2くらい上がった。気がする。 勉強途中経過 進んで
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/14/octopress/">
+		
+			Jekyll から Octopress に10 分で移行する</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">背景</h2>
+<p>デザインが見づらいって言われたので辛くなったから、<br />
+octopress にノリで移行してみた。<br />
+当方、 jekyll-bootstrap を使っていて、 octopress も普通に jekyll 使っているので<br />
+問題なく移行できると思ったら移行できた。  </p>
+
+<h2 id="section-1">手順</h2>
+<p>大体こんなかんじでいける。空気さえ読めれば行ける感じ。  </p>
+
+<div>
+  <pre><code class="bash">git clone git://github.com/imathis/octopress.git octopress
+cd octopress/
+bundle install
+rake install
+rake preview
+rake -T
+vim config.rb
+rake preview
+rake setup_github_pages
+
+## Rakefile の L269 の git push を -f するようにした。すでにレポジトリがあったから。
+vim Rakefile
+
+rake deploy
+
+cp -a $HOME/jekyll-bootstrap/_posts/* .
+
+## JB setup を記事に埋め込んでいるのがあったのでそれをケア(互換性のため)
+mkdir $HOME/octopress/source/includes/JB
+cp -a $HOME/jekyll-bootstrap/_includes/JB/setup $HOME/octopress/source/includes/JB</code></pre>
+</div>
+
+<h2 id="section-2">ちなみに</h2>
+<p>テーマはコチラを使わせてもらった。<br />
+<a href="http://zespia.tw/Octopress-Theme-Slash/">http://zespia.tw/Octopress-Theme-Slash/</a><br />
+how to install 通りにやれば適用できる。  </p>
+
+<p>Octopress テーマ集みたいなのはコチラ。<br />
+<a href="http://opthemes.com/">http://opthemes.com/</a>  </p>
+
+<h2 id="section-3">参考資料</h2>
+
+<p><a href="http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/">http://joelmccracken.github.io/entries/octopress-is-pretty-sweet/</a></p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/octopress/'>octopress</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/13/solr-sample/">
+		
+			今更 Solr 入門</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">この記事について</a></li>
+  <li><a href="#section-1">予備知識</a>    <ul>
+      <li><a href="#apache-solr-">Apache Solr とは</a></li>
+      <li><a href="#lucene-">Lucene とは</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-2">スキーマを作ってみよう</a>    <ul>
+      <li><a href="#section-3">フィールドタイプについて</a></li>
+      <li><a href="#section-4">フィールドについて</a>        <ul>
+          <li><a href="#section-5">テキストフィールドの定義</a></li>
+          <li><a href="#section-6">ダイナミックフィールド</a></li>
+          <li><a href="#section-7">ユニークキーフィールド</a></li>
+          <li><a href="#section-8">コピーフィールド</a></li>
+        </ul>
+      </li>
+      <li><a href="#core-admin--core-">core admin で core を作成</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-9">サンプルデータを入れてみよう</a></li>
+  <li><a href="#dihdataimporthandler-">DIH(DataImportHandler) について</a>    <ul>
+      <li><a href="#solr-config-">solr config に記述する</a></li>
+      <li><a href="#mysql--connector-">mysql の connector をダウンロードして設置</a></li>
+      <li><a href="#mysql--db-data-configxml-">mysql の設定, db-data-config.xml の設定など</a></li>
+    </ul>
+  </li>
+  <li><a href="#deltaquery-">deltaQuery について</a>    <ul>
+      <li><a href="#deltaquery--parentdeltaquery-">deltaQuery と parentDeltaQuery の関係</a></li>
+    </ul>
+  </li>
+  <li><a href="#deletedpkquery-">(2014/5/12追記) deletedPkQuery について</a></li>
+  <li><a href="#timezone-">(2014/5/12追記) Timezone の扱い</a></li>
+  <li><a href="#dih--javascript-">DIH の直前で Javascript でデータを加工する</a>    <ul>
+      <li><a href="#updatehandler--updatechain">UpdateHandler と UpdateChain</a></li>
+      <li><a href="#section-10">なんかうまくいかない場合</a></li>
+    </ul>
+  </li>
+  <li><a href="#url">参考URL</a></li>
+</ul>
+
+<h2 id="section">この記事について</h2>
+<p>今更ながら Solr に興味が出てきたので、自分用にまとめてみる。<br />
+あくまで自分用なので、ある程度わかっている人じゃないと本記事は無意味です。恐縮ながら。<br />
+前提として、 この記事は <a href="http://www.amazon.co.jp/Apache-Solr%E5%85%A5%E9%96%80-~%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%82%BD%E3%83%BC%E3%82%B9%E5%85%A8%E6%96%87%E6%A4%9C%E7%B4%A2%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3-Software-Design/dp/4774161632">改訂新版 Apache Solr入門 ~オープンソース全文検索エンジン</a> を読みながら進めた。   </p>
+
+<p>まずは、予備知識として Apache Solr とはなにか、 Lucene とはなにかについて書く。<br />
+次に、スキーマを作って、サンプルデータ を 手動でのデータインポートで index に登録する手順について書く。<br />
+手動でのデータインポートは大変なので、mysql からデータをインポートするクローラ(DIH)について書く。
+最後に、 MySQL にある json を保存するカラムのデータを、 Javascript を使って整形し、 index に保存することについて書く。  </p>
+
+<h2 id="section-1">予備知識</h2>
+
+<h3 id="apache-solr-">Apache Solr とは</h3>
+<p>全文検索システムである。<br />
+全文検索エンジン Lucene をベースに、管理画面やキャッシュ、クラスタリングなどの機能がある。<br />
+ちなみに Java で書かれている。<br />
+<a href="http://ja.wikipedia.org/wiki/Apache_Solr">http://ja.wikipedia.org/wiki/Apache_Solr</a></p>
+
+<h3 id="lucene-">Lucene とは</h3>
+<blockquote><p>Lucene（ルシーン）は、Javaで記述された全文検索ソフトウェアである。<br />あらかじめ蓄積した大量のデータから、指定したキーワードを探し出す機能を持つ。Javaのクラスライブラリとして提供される。</p></blockquote>
+<p><a href="http://ja.wikipedia.org/wiki/Lucene">http://ja.wikipedia.org/wiki/Lucene</a>
+なるほど。</p>
+
+<h2 id="section-2">スキーマを作ってみよう</h2>
+<p>スキーマを作って、サンプルデータを入れてみる。<br />
+ここでは、 料理人が複数いて、自分の料理をうるみたいなものを想定する。<br />
+Solr の schema.xml で、スキーマを定義することができる。  </p>
+
+<p>以下に、 schema.xml の fileds の設定例を載せる。  </p>
+<div>
+  <pre><code class="xml">&lt;fields&gt;
+    &lt;field name=&quot;recipe_id&quot;   type=&quot;int&quot;     indexed=&quot;true&quot; stored=&quot;true&quot; required=&quot;true&quot;/&gt;
+    &lt;field name=&quot;chef&quot;        type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
+    &lt;field name=&quot;recipe_name&quot; type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
+    &lt;field name=&quot;genre&quot;       type=&quot;text_ja&quot; indexed=&quot;true&quot; stored=&quot;true&quot; multiValued=&quot;true&quot;/&gt;
+    &lt;field name=&quot;price&quot;       type=&quot;int&quot;     indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
+    &lt;field name=&quot;_version_&quot;   type=&quot;long&quot;    indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;
+  &lt;/fields&gt;</code></pre>
+</div>
+
+<h3 id="section-3">フィールドタイプについて</h3>
+<ul>
+  <li>fieldType は自分で xml を用いて定義することができる</li>
+  <li>それらの名前付けとかには習慣がある</li>
+  <li>基本的な型については定義されているので、それを利用する</li>
+</ul>
+
+<h3 id="section-4">フィールドについて</h3>
+
+<h4 id="section-5">テキストフィールドの定義</h4>
+<ul>
+  <li>name は filed 名</li>
+  <li>type は filedType</li>
+  <li>indexed は、 このフィールドを検索対象、ソート対象、 ファセット対象にするか(true:する)</li>
+  <li>stored は、 このフィールドの値をそのまま index するか(true:する)</li>
+  <li>required は、 必須かどうか</li>
+  <li>multivalued は、 複数値を持てるかどうか</li>
+  <li>omitNorms は、 検索したドキュメントの長さによる重み付け
+    <ul>
+      <li>(短ければ当然、見つけるものに近いのでポイントが高く、逆に長ければ、それにヒットする確率が高いので値は低い。)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="section-6">ダイナミックフィールド</h4>
+<ul>
+  <li>動的にフィールド名が決定するもの</li>
+  <li>schema.xml を変更しなくても、そのフィールド名を登録したり検索したりすることができるようになる</li>
+</ul>
+
+<h4 id="section-7">ユニークキーフィールド</h4>
+<ul>
+  <li>文書内で unique に特定できるようにするフィールド</li>
+  <li>差分更新したい場合には必須</li>
+  <li>指定はオプション</li>
+  <li>
+    <uniquekey>url</uniquekey>
+  </li>
+</ul>
+
+<h4 id="section-8">コピーフィールド</h4>
+<ul>
+  <li>ドキュメントへのインデックス登録時に copyField の source から dest へコピーする</li>
+  <li>dest に同じものを複数指定する場合は multiValued が true である必要がある</li>
+</ul>
+
+<h3 id="core-admin--core-">core admin で core を作成</h3>
+<p>collection1 をコピーして, schema.xml を編集。<br />
+elevate が評価されてダメっぽかったのでコメントアウト。<br />
+すると、うまく load できた。</p>
+
+<h2 id="section-9">サンプルデータを入れてみよう</h2>
+<p>だいたいこんなかんじの data.json を用意して</p>
+<div>
+  <pre><code class="json">[                                                                              
+{                                                                              
+    &quot;recipe_id&quot;:&quot;1&quot;,                                                           
+    &quot;chef&quot;:&quot;vimtaku&quot;,                                                          
+    &quot;recipe_name&quot;:&quot;vim の炒めもの&quot;,                                            
+    &quot;genre&quot;:[&quot;和食&quot;, &quot;洋食&quot;],                                                  
+    &quot;price&quot;:980                                                                
+},                                                                             
+{                                                                              
+    &quot;recipe_id&quot;:&quot;2&quot;,                                                           
+    &quot;chef&quot;:&quot;noro&quot;,                                                             
+    &quot;recipe_name&quot;:&quot;emacs 焼き&quot;,                                                
+    &quot;genre&quot;:[&quot;和食&quot;, &quot;中華&quot;],                                                  
+    &quot;price&quot;:500                                                                
+},                                                                             
+{                                                                              
+    &quot;recipe_id&quot;:&quot;3&quot;,                                                           
+    &quot;chef&quot;:&quot;sublime&quot;,                                                          
+    &quot;recipe_name&quot;:&quot;sublime 揚げ&quot;,                                              
+    &quot;genre&quot;:[&quot;洋食&quot;],                                                          
+    &quot;price&quot;:250                                                                
+}                                                                              
+]</code></pre>
+</div>
+
+<div>
+  <pre><code class="bash">curl &#39;http://localhost:8983/solr/vimtaku/update/json?commit=true&#39; --data-binary @data.json -H &#39;Content-type:application/json;charset:utf-8&#39;</code></pre>
+</div>
+
+<p>これで データ登録が完了する。  </p>
+
+<h2 id="dihdataimporthandler-">DIH(DataImportHandler) について</h2>
+<p>DIH は DataSource, EntityProccssor, そして設定ファイル(data‐config.xml) から成る。<br />
+DIH を使うための設定は、 solrconfig.xml と DIHの設定ファイル data―config にある。  </p>
+
+<h3 id="solr-config-">solr config に記述する</h3>
+<div>
+  <pre><code class="xml">&lt;requestHandler name=&quot;/dataimport&quot; class=&quot;org.apache.solr.handler.dataimport.DatalmportHandler&quot;&gt;
+&lt;lst name=&quot;defaults&quot;&gt;
+  &lt;str name=&quot;config&quot;&gt;db-data-config.xml&lt;/str&gt;
+&lt;/lst&gt;
+&lt;/requestHandler&gt;</code></pre>
+</div>
+
+<h3 id="mysql--connector-">mysql の connector をダウンロードして設置</h3>
+<p>mysql-connector-java-5.1.29-bin.jar を <a href="http://dev.mysql.com/downloads/connector/j/">http://dev.mysql.com/downloads/connector/j/</a>から落としてきて
+dist 以下に設置する。</p>
+
+<h3 id="mysql--db-data-configxml-">mysql の設定, db-data-config.xml の設定など</h3>
+<p>そしてだいたいこんなかんじに設置する。 mysql は localhost の 3306 番で動いているものとし、<br />
+solrsample っていう database があるものとする。 password は hogehoge とする。  </p>
+
+<div>
+  <pre><code class="bash">diff --git a/conf/db-data-config.xml b/conf/db-data-config.xml
+new file mode 100644
+index 0000000..c758319
+--- /dev/null
++++ b/conf/db-data-config.xml
+@@ -0,0 +1,24 @@
++&lt;dataConfig&gt;
++    &lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;
++        url=&quot;jdbc:mysql://localhost:3306/solrsample&quot;
++        user=&quot;vimtaku&quot; password=&quot;hogehoge&quot;/&gt;
++    &lt;document&gt;
++        &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
++            query=&quot;select * from recipe_mst&quot;
++            deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
++            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= &#39;${dataimporter.last_index_time}&#39;&quot;&gt;
++            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
++            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
++            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
++            &lt;entity name=&quot;recipe_genre_rel&quot;
++                query=&quot;select * from recipe_genre_rel where recipe_id = &#39;${recipe_mst.recipe_id}&#39;&quot;&gt;
++                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = &#39;${recipe_genre_rel.genre_id}&#39;&quot;&gt;
++                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
++                &lt;/entity&gt;
++            &lt;/entity&gt;
++            &lt;entity name=&quot;chef_mst&quot; query=&quot;select * from chef_mst where chef_id = &#39;${recipe_mst.chef_id}&#39;&quot;&gt;
++                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
++            &lt;/entity&gt;
++        &lt;/entity&gt;
++    &lt;/document&gt;
++&lt;/dataConfig&gt;
+diff --git a/conf/solrconfig.xml b/conf/solrconfig.xml
+index 00b7555..2d19133 100644
+--- a/conf/solrconfig.xml
++++ b/conf/solrconfig.xml
+@@ -84,6 +84,9 @@
+   &lt;lib dir=&quot;../../../contrib/velocity/lib&quot; regex=&quot;.*\.jar&quot; /&gt;
+   &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-velocity-\d.*\.jar&quot; /&gt;
+
++  &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-dataimporthandler-.*\.jar&quot; /&gt;
++  &lt;lib dir=&quot;../../../dist/&quot; regex=&quot;mysql.*\.jar&quot; /&gt;
++
+   &lt;!-- an exact &#39;path&#39; can be used instead of a &#39;dir&#39; to specify a
+        specific jar file.  This will cause a serious error to be logged
+        if it can&#39;t be loaded.
+@@ -1513,6 +1516,15 @@
+   &lt;/requestHandler&gt;
+
+
++  &lt;requestHandler name=&quot;/dataimport&quot;
++      class=&quot;org.apache.solr.handler.dataimport.DataImportHandler&quot;&gt;
++      &lt;lst name=&quot;defaults&quot;&gt;
++          &lt;str name=&quot;config&quot;&gt;db-data-config.xml&lt;/str&gt;</code></pre>
+</div>
+
+<p>だいたいこんなかんじで、管理画面から /dataimport で full-import するといける。</p>
+
+<h2 id="deltaquery-">deltaQuery について</h2>
+<p>差分 update(delta-import) のとき、deltaQuery がまず、実行される。
+deltaQuery は どんなに nest が深くても実行される(たぶん)。</p>
+
+<h3 id="deltaquery--parentdeltaquery-">deltaQuery と parentDeltaQuery の関係</h3>
+<ul>
+  <li>deltaQuery で mysql のレコードがヒットした場合に、 parentDeltaQuery が呼び出される</li>
+  <li>parentDeltaQuery では ${chef_mst.chef_id} のように、 deltaQuery でヒットしたものが使える</li>
+  <li>parentDeltaQuery で、 pk の 値を select するようにしておく。</li>
+  <li>pk のある entity に、
+    <ul>
+      <li>deltaImportQuery 属性がなくて query 属性がある場合には where pk = ‘’ としてクエリが実行され再登録される模様</li>
+      <li>deltaImportQuery 属性がある場合にはそのクエリが実行される。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>例えば</p>
+
+<div>
+  <pre><code class="xml">&lt;dataConfig&gt;
+    &lt;dataSource type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot;
+        url=&quot;jdbc:mysql://localhost:3306/solrsample&quot;
+        user=&quot;vimtaku&quot; password=&quot;hogehoge&quot;/&gt;
+    &lt;document&gt;
+        &lt;entity name=&quot;recipe_mst&quot; pk=&quot;recipe_id&quot;
+            query=&quot;select * from recipe_mst&quot;
+            deltaImportQuery=&quot;SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}&quot;
+            deltaQuery=&quot;select recipe_id from recipe_mst WHERE updated_at &gt;= &#39;${dataimporter.last_index_time}&#39;&quot;
+            &gt;
+            &lt;field column=&quot;recipe_id&quot; name=&quot;recipe_id&quot; /&gt;
+            &lt;field column=&quot;recipe_name&quot; name=&quot;recipe_name&quot; /&gt;
+            &lt;field column=&quot;price&quot; name=&quot;price&quot; /&gt;
+            &lt;entity name=&quot;recipe_genre_rel&quot;
+                query=&quot;select * from recipe_genre_rel where recipe_id = &#39;${recipe_mst.recipe_id}&#39;&quot;&gt;
+                &lt;entity name=&quot;genre_mst&quot; query=&quot;select * from genre_mst where genre_id = &#39;${recipe_genre_rel.genre_id}&#39;&quot;&gt;
+                    &lt;field column=&quot;name&quot; name=&quot;genre&quot; /&gt;
+                &lt;/entity&gt;
+            &lt;/entity&gt;
+            &lt;entity name=&quot;chef_mst&quot; pk=&quot;chef_id&quot;
+                query=&quot;select * from chef_mst where chef_id = &#39;${recipe_mst.chef_id}&#39;&quot;
+                deltaQuery=&quot;select chef_id from chef_mst where chef_id = 1&quot;
+                parentDeltaQuery=&quot;select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1&quot;
+                &gt;
+                &lt;field column=&quot;name&quot; name=&quot;chef&quot; /&gt;
+            &lt;/entity&gt;
+        &lt;/entity&gt;
+    &lt;/document&gt;
+&lt;/dataConfig&gt;</code></pre>
+</div>
+
+<p>こうなっていた場合、<br />
+deltaQuery=”select chef_id from chef_mst where chef_id = 1”<br />
+これでヒットした chef_id を元に<br />
+parentDeltaQuery=”select recipe_id from chef_mst where chef_id = ${chef_mst.chef_id} limit 1”<br />
+が実行されて、<br />
+deltaImportQuery=”SELECT * FROM recipe_mst WHERE recipe_id = ${dataimporter.delta.recipe_id}”<br />
+これが実行される。  </p>
+
+<h2 id="deletedpkquery-">(2014/5/12追記) deletedPkQuery について</h2>
+<p>deltaImportQuery では、インデックスにのったデータの削除はされない。<br />
+なので、データを削除する場合は deletedPkQuery を使用する。<br />
+deletedPkQuery=”SELECT * FROM chef_mst WHERE status = 0”<br />
+のようにしておけば status = 0 の chef が削除できる。  </p>
+
+<h2 id="timezone-">(2014/5/12追記) Timezone の扱い</h2>
+<p>Solr のクラスタを動かすマシンによると思うが、マシンの timezone が JST, mysql の timezone が UTC などの場合も<br />
+普通にあると思う。なので<br />
+CONVERT_TZ(‘${dataimporter.last_index_time}’, ‘Asia/Tokyo’, ‘GMT’)<br />
+などとして変換してあげるといろいろ捗るかもしれない。  </p>
+
+<h2 id="dih--javascript-">DIH の直前で Javascript でデータを加工する</h2>
+
+<h3 id="updatehandler--updatechain">UpdateHandler と UpdateChain</h3>
+<p>UpdateHandler と DIH の仕組みはこの図のようになっている。  </p>
+
+<p><img src="http://gyazo.com/47cc999c6d1a7a31ed9c2bdd0080ce59.png" />
+(改訂版 Apache Solr 入門より引用。)</p>
+
+<p>DIH とは疎になっていて、 UpdateHandler はどの requestHandler でも使えるように見える。  </p>
+
+<p>設定には<a href="https://github.com/vimtaku/solr_sample/commit/85c7439d239d55e3344cc20a32461536c3201eb8">この差分</a>
+を参照。  </p>
+
+<p>これを使えば、json のカラムからとった json を parse して multiValue なカラムに登録などができる。  </p>
+
+<h3 id="section-10">なんかうまくいかない場合</h3>
+<p>キャッシュされたデータを更新するとたまに更新されない。<br />
+自分は一回 core を削除、 $SOLR_HOME の data ディレクトリを rm -rf している。<br />
+もっといい、データ削除(もしくはいれかえ)の方法知っている人は教えて下さい。。  </p>
+
+<h2 id="url">参考URL</h2>
+<p><a href="http://ja.wikipedia.org/wiki/Lucene">http://ja.wikipedia.org/wiki/Lucene</a><br />
+<a href="http://wiki.apache.org/solr/DataImportHandler">http://wiki.apache.org/solr/DataImportHandler</a><br />
+<a href="http://ochien.seesaa.net/article/153191074.html">http://ochien.seesaa.net/article/153191074.html</a><br />
+<a href="http://d.hatena.ne.jp/kudzu/20110513/1305313247">http://d.hatena.ne.jp/kudzu/20110513/1305313247</a><br />
+<a href="http://d.hatena.ne.jp/bowez/20100405#p2">http://d.hatena.ne.jp/bowez/20100405#p2</a>  </p>
+
+<p>_</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-13T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/solr/'>solr</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/10/docker-boot2docker-port-foward/">
+		
+			Docker_boot2docker_port_foward</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="os-x-108--docker">OS X 10.8 公式サポートで話題の Docker</h2>
+
+<p><a href="http://qiita.com/kanekoa/items/cf3cabb23da69c609002">これ</a>をもとにとりあえず docker client を準備,<br />
+docker server を建てた。  </p>
+
+<h2 id="mac--localhost--telnet-11211--memcached-">mac の localhost に telnet 11211 したら memcached につながるようにしたい</h2>
+
+<p><a href="https://www.docker.io/learn/dockerfile/level2/">https://www.docker.io/learn/dockerfile/level2/</a>
+これをもとに Dockerfile を作った。 ここでは ubuntu を元にした vimtaku/memcached_1 とした。  </p>
+
+<p>Dockefile</p>
+<div>
+  <pre><code class="bash"># Memcached
+#
+# VERSION       2.2
+
+# use the ubuntu base image provided by dotCloud
+FROM ubuntu
+
+MAINTAINER Victor Coisne victor.coisne@dotcloud.com
+
+# make sure the package repository is up to date
+RUN echo &quot;deb http://archive.ubuntu.com/ubuntu precise main universe&quot; &gt; /etc/apt/sources.list
+RUN apt-get update
+
+# install memcached
+RUN apt-get install -y memcached
+
+# Launch memcached when launching the container
+ENTRYPOINT [&quot;memcached&quot;]
+
+# run memcached as the daemon user
+USER daemon
+
+# expose memcached port
+EXPOSE 11211</code></pre>
+</div>
+
+<div>
+  <pre><code class="bash">docker build -t vimtaku/memcached_1 - &lt; Dockerfile</code></pre>
+</div>
+
+<p>これでとりあえず memcached な image を作れる。  </p>
+
+<div>
+  <pre><code class="bash">docker run -p 11211:11211 vimtaku/memcached_1</code></pre>
+</div>
+
+<p>これで boot2docker -&gt; ubuntu が立つ。  </p>
+
+<h2 id="section">追記(2014/02/13)</h2>
+<p>成功法っぽいのを発見した。<br />
+恥ずかしながら ssh port fowarding が -L オプションで できるっていうのを
+<a href="http://motemen.hatenablog.com/entry/2014/02/11/Dockerfile_%E3%82%92%E5%85%83%E3%81%AB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%82%92%E8%B5%B0%E3%82%89%E3%81%9B%E3%81%A6%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%81%AB%E3%83%9D%E3%83%BC%E3%83%88%E3%82%92">このブログ記事</a>
+で初めて知った。  </p>
+
+<p>まだ、やってないけど  </p>
+<div>
+  <pre><code class="bash">ssh -L 11211:localhost:11211 -p 2022 root@localhost</code></pre>
+</div>
+
+<p>とかすれば、 ssh port fowarding できるので、以下の手順は不要。</p>
+
+<p>追記終わり。</p>
+
+<h2 id="section-1">とりあえず確認するには</h2>
+
+<p>とりあえず確認するには<br />
+boot2docker ssh して ifconfig | grep -A4 docker0 すると<br />
+172…. のような IP が見える。<br />
+そこに対して telnet すると ちゃんと疎通できてる。<br />
+ちなみに telnet localhost 11211 しても同様。  </p>
+
+<p>あとは mac -&gt; boot2docker に 11211 疎通できればよい。<br />
+ぐぐったら
+<a href="http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/">http://fogstack.wordpress.com/2014/02/09/docker-on-osx-port-forwarding/</a> の記事が見つかったのでほぼこれの通りに、</p>
+
+<div>
+  <pre><code class="bash">boot2docker down
+したあと
+VBoxManage modifyvm &quot;boot2docker-vm&quot; --natpf1 &quot;guestmemcached,tcp,,11211,,11211&quot;
+boot2docker up
+docker run -d -p 11211:11211 vimtaku/memcached_1</code></pre>
+</div>
+
+<p>これで mac から telnet localhost 11211 で行けた。たぶん。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-10T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/docker/'>docker</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -752,348 +1353,6 @@ chef の感覚はものすごくつかめたのでよかった。<br />
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/21/fog-iam-profile/">
-		
-			Fog っていう Gem で Use_iam_profile があんまうまく行かない件</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">現象</h2>
-<p>iam_profile を使うことで、 aws_access_key や aws_access_secret を具体的に指定しなくても、<br />
-metadata な endpoint にアクセスして一時的な access_key と secret を取得できるようになっている(できたのは割と最近らしい)。<br />
-それなら、iam を使いたいわけなんだけど、 fog v1.18.0 と v1.19.0 で試しても use_iam_profile がうまくいかない。  </p>
-
-<p>呼び出しているクライアントライブラリは asset_sync v1.0.0 と elasticsearch v0.3.4 。<br />
-どちらも aws_credential fetcher で credential を取得してるみたいだけど、それを使ってないようにみえた。  </p>
-
-<h2 id="section-1">対処</h2>
-<p>全部読んでないからわからないけど、俺の予想が合っていれば<br />
-credential を撮ってきたものを使用していないので ここが怪しかった。  </p>
-
-<p>lib/fog/core/service.rb</p>
-<div>
-  <pre><code class="bash">-options = options.merge(fetch_credentials(options))
-+options = fetch_credentials(options).merge(options)</code></pre>
-</div>
-
-<p>とりあえずもっと調べなきゃよくわからない。<br />
-これがうまくいっていそうなら pull req だしてみよう。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/aws/'>aws</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/20/cloud-watch-alarm/">
-		
-			Chef で Opsworks のインスタンス起動時に Cloudwatch の Alarm を作成するためにしたこと</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">大まかな流れ</a></li>
-  <li><a href="#iam-">1. IAM の設定</a></li>
-  <li><a href="#sns-">2. SNS のトピックの作成</a></li>
-  <li><a href="#cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</a>    <ul>
-      <li><a href="#from-cli">メトリックの作成 from cli</a></li>
-    </ul>
-  </li>
-  <li><a href="#cloud-watch-">4. cloud watch での作成確認</a></li>
-  <li><a href="#chef-recipe-">5. chef recipe を書く</a></li>
-  <li><a href="#opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</a>    <ul>
-      <li><a href="#section-1">おまけ</a>        <ul>
-          <li><a href="#section-2">気をつけること要点</a></li>
-          <li><a href="#section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="section">大まかな流れ</h2>
-<ol>
-  <li>IAM の設定</li>
-  <li>SNS のトピックの作成(メール送る用)</li>
-  <li>cloud watch の API を cli から叩いてみる</li>
-  <li>cloud watch の手動確認</li>
-  <li>chef recipe を書く</li>
-  <li>opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</li>
-</ol>
-
-<p>ではさっそく。  </p>
-
-<h2 id="iam-">1. IAM の設定</h2>
-<p>opsworks ではインスタンス生成時に デフォルトで Default IAM instance profile を設定できる。<br />
-ここの IAM Role に権限がないと、 aws cli から操作ができないので注意する。
-この記事では、IAMの設定については詳細に明記しない。  </p>
-
-<h2 id="sns-">2. SNS のトピックの作成</h2>
-<p>コマンドラインか AWS Console から、メール送る用に トピックを作成する。<br />
-監視しているインスタンスの異常時にメールを受け取るため。<br />
-CLI ではこちらが参考になる。<br />
-<a href="http://exploreaws.doorblog.jp/archives/24701093.html">http://exploreaws.doorblog.jp/archives/24701093.html</a><br />
-サブスクリプションを許可しておくと後々のチェックで捗る。<br />
-ちなみにこれは、あとで alarm-actions に指定する。  </p>
-
-<p>ここではできた topic が、仮に arn:aws:sns:ap-northeast-1:99999999:mogemoga としておく。  </p>
-
-<h2 id="cloud-watch--api--cli-">3. cloud watch の API を cli から叩いてみる</h2>
-
-<h3 id="from-cli">メトリックの作成 from cli</h3>
-
-<div>
-  <pre><code class="bash">aws cloudwatch put-metric-alarm
---alarm-name=&#39;disk-usage&#39; \
-             --alarm-description &#39;Disk usage alert&#39; \
-             --alarm-actions=&#39;arn:aws:sns:ap-northeast-1:99999999:mogemoga&#39;   \
-             --namespace  &#39;System/Linux&#39;  \
-             --metric-name  &#39;DiskSpaceUtilization&#39;   \
-             --dimensions=&#39;[{&quot;Name&quot;: &quot;InstanceId&quot;,&quot;Value&quot;: &quot;i-deadbeaf&quot;},{&quot;Name&quot;:&quot;Filesystem&quot;,&quot;Value&quot;: &quot;/dev/xvda1&quot;},{&quot;Name&quot;:&quot;MountPath&quot;,&quot;Value&quot;:&quot;/&quot;}]&#39; \
-             --statistic  &#39;Average&#39; \
-             --period  &#39;300&#39;   \
-             --unit &#39;Percent&#39;
-             --threshold  &#39;50&#39;
-             --evaluation-periods  &#39;1&#39;
-             --region &#39;ap-northeast-1&#39;
-             --comparison-operator &#39;GreaterThanOrEqualToThreshold&#39;</code></pre>
-</div>
-
-<p>ここですんなりうまくいくかどうかが別れると思う。<br />
-IAM role を使う場合は、権限が許可されていれば問題なく通ると思う。<br />
-権限がない場合は、 cli の credential 設定が必要になるかもしれない。<br />
-<a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html">http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/SettingUp_CommandLine.html</a>  </p>
-
-<h2 id="cloud-watch-">4. cloud watch での作成確認</h2>
-<p>上記のコマンドで成功していれば AWS Console から cloud watch のアラームができているはずなので確認する。  </p>
-
-<h2 id="chef-recipe-">5. chef recipe を書く</h2>
-
-<p>あとは、上記 3 を実行する chef のレシピを書いて、 opsworks が取ってくる custom chef recipe のレポジトリに配置すればおｋ．<br />
-今回は load average もとりたかったので、<br />
-<a href="http://aws.amazon.com/code/8720044071969977">http://aws.amazon.com/code/8720044071969977</a><br />
-のスクリプトを改変して使用することにした。<br />
-ソースはこちら -&gt; <a href="https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git">https://github.com/FumihikoSHIROYAMA/cloud_watch_script.git</a><br />
-disk space をとったりすることができる pl なのですごく便利。  </p>
-
-<p>下記の repository は crontab に 上記の pl (load average は別) のものを登録するものだ。<br />
-<a href="https://github.com/alexism/cloudwatch_monitoring">https://github.com/alexism/cloudwatch_monitoring</a>  </p>
-
-<p>これをフォークして、 load average とれる cron を作る機能と、 アラーム登録する奴を書いた。<br />
-<a href="https://github.com/vimtaku/cloudwatch_monitoring.git">https://github.com/vimtaku/cloudwatch_monitoring.git</a><br />
-chef 力低めで申し訳なので、アドバイス、pull req など大歓迎。  </p>
-
-<h2 id="opsworks--setup-">6. opsworks のレイヤー設定で、 setup ライフサイクルイベントで設定</h2>
-<p>これはもう、 opsworks に慣れているひとなら問題無いと思う。<br />
-5 で作ったものがうまくいっていれば(というか試すときに deploy かどっかで試すと思うんだけど)<br />
-それを setup に移動してやるだけだ。  </p>
-
-<h3 id="section-1">おまけ</h3>
-
-<h4 id="section-2">気をつけること要点</h4>
-<ul>
-  <li>IAM Role に権限がない場合があるので気をつける
-    <ul>
-      <li>参考
-        <ul>
-          <li><a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html">http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html</a></li>
-          <li><a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html">http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>opsworks では chef の data_bags が使えないのを頭に入れておく
-    <ul>
-      <li>自分はあとから気づいたパターン
-        <ul>
-          <li>詳細は <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html">http://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-chef11.html</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>mon-put-metric-alarm の代わりに aws cloudwatch put-metric-aaerm を使用する
-    <ul>
-      <li>role の設定ができていても credential エラーとかいっぱい言われるため。</li>
-    </ul>
-  </li>
-  <li>alert と alarm が似ているので alerm ってタイポに気をつける</li>
-</ul>
-
-<h4 id="section-3">標準出力から入力をし続けるからメモリに確保し続けるコマンド</h4>
-<div>
-  <pre><code class="bash">/dev/null &lt; $(yes)
-cat - &lt; $(yes)</code></pre>
-</div>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-20T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/aws/'>aws</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/19/jisui-best-practice/">
-		
-			俺なりの自炊セットをそろえた</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="section">背景</h2>
-<p>覚悟を決めたので自炊セットを買うことにした。<br />
-電子書籍は最近出てくることが多くなったとはいえ、<br />
-すべてが電子書籍で販売されている訳ではないからだ。<br />
-Nexus7 を存分に生かすために買った自炊セットの<br />
-俺なりのベストプラクティスをここに記載する。  </p>
-
-<p>とはいえ、家にある本の数は100冊程度なので、<br />
-もしかしたら裁断サービスのほうが安く上がるかもしれないが<br />
-安値で自炊セットをそろえれば、家の雑多な書類とかも処理できるし<br />
-楽なのでそろえることにした。  </p>
-
-<p>とにかく安くそろえることを前提とした。</p>
-
-<h2 id="section-1">俺なりの結論</h2>
-<ul>
-  <li>スキャナ
-    <ul>
-      <li>image FORMULA DR-C125</li>
-    </ul>
-  </li>
-  <li>裁断機
-    <ul>
-      <li>カール事務器 ディスクカッターA4サイズ対応 丸刃40枚裁断(2往復) ブラック DC-210N</li>
-    </ul>
-  </li>
-</ul>
-
-<p>計、約3万円也。。</p>
-
-<h2 id="section-2">スキャナの選定</h2>
-<p>スキャナは実際すごくまよったが、とにかく安くそろえたかったので、<br />
-ScanSnap1500 の中古か image FORMULA DR-C125 にしようと思っていた。<br />
-結構比較記事があるので、ググってもらえばわかると思うけど、<br />
-SS1500は重送とかが結構おこるといわれていたのと、Amazon のレビューの評判が<br />
-そこそこよさげだったので、 image FORMULA DR-C125 にした。<br />
-安さの観点から、比較対象として SS1300 とか、ハンディスキャナとかがあったけど<br />
-SS1500 とのスキャンスピード比較動画が結構えげつない差だったので SS1300 はやめた。<br />
-ちなみに、 SS1500 よりも DR-C125 のほうが早い感じらしい。<br />
-ScanSnap1500 マジ良いみたいな話で、実際に使ったこと無いから比較できないけど、<br />
-DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万円で中古を買った。<br />
-なんていうか、Mac 用のドライバを普通にインストールして、<br />
-すぐにスキャンできた。OCR も効いている。<br />
-新品も Amazon で2.7万くらいなので、新品でも良いかもしれない。<br />
-アフィは張らない。  </p>
-
-<h2 id="section-3">裁断機の選定</h2>
-<p>ローラーカッター(1000円)とカッターマット、定規で行けるかと思っていたんだけど、<br />
-分厚い本とか、マジ無理です。絶対無理。<br />
-いや、無理ではない、正確には。<br />
-でも、自炊とか効率的なことを考える人がやることではない。<br />
-カッターでもいい人は、新書とかばかりのひと。<br />
-それなら余裕。技術書はたぶん相当に厳しい。<br />
-なので、ちょうど今さっき、評判が割と良い DC-210N の裁断機を買った。<br />
-約1万円也。<br />
-どうなるかわからないが、絶対手動よりはマシだと思う。<br />
-それくらい、非現実的だと思う。行けると思っていた俺浅はか。  </p>
-
-<h2 id="section-4">あとは読むだけ</h2>
-<p>自炊しっぱなしで読まないみたいなのがありそうだけど、必ず読むよ。<br />
-学習し続けることは、尊い。<br />
-たゆまぬ努力を続けよう。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-19T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/zi-chui/'>自炊</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/7/" class="prev">Prev</a>
@@ -1103,7 +1362,7 @@ DR-C125 はとても良いものだった。ちなみにヤフオクで 約2万�
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2016
+	<footer id="footer" class="inner">Copyright &copy; 2017
 
     vimtaku
 

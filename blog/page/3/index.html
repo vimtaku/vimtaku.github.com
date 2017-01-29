@@ -7,58 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52 &hellip;">
+	<meta name="description" content="追記
+この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -129,6 +80,252 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/03/fig-rails/">
+		
+			Fig(docker Compose) で Rails する</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">追記</h1>
+<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
+おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
+localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
+現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
+参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
+
+<h1 id="section-1">メモ</h1>
+
+<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
+が、それに気づかず しばらく fig で進めた。  </p>
+
+<p>fig で rails は tutorial 通りでは動かなかった。<br />
+基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
+binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
+その辺を修正した。<br />
+ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
+
+<h3 id="figyml">fig.yml</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  volumes:
+</span><span class="line">    - .:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>fig run web rake db:create db:migrate</code></p>
+
+<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
+docker images でだした image を docker rmi で全て消してやり直したり、<br />
+それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
+
+<h1 id="section-2">所感</h1>
+<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/docker/'>docker</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/23/rakuten-kard/">
+		
+			楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
+<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
+システム的に翌月になるまで照会が出来ないとのこと。<br />
+もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rakuten/'>rakuten</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/21/mac-setup-2015/">
+		
+			Mac 開発環境 Setup 2015</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
+<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
+なので、一旦自分用に考えてみる。  </p>
+
+<h2 id="section">気をつけるべきこと</h2>
+<ul>
+  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
+  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
+</ul>
+
+<h2 id="section-1">準備</h2>
+
+<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
+<ul>
+  <li>brew install rcmdnk/file/brew-file  </li>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
+– sudo easy_install pip<br />
+– pip install requests<br />
+– brew file init vimtaku/Brewfile<br />
+– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
+</ul>
+
+<h2 id="section-2">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homebrew-">homebrew のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="brewfile--1">Brewfile からインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
+</span><span class="line">cd Brewfile
+</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homesick-">homesick のインストール</h3>
+<p>ちょっと違うかも。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
+</span><span class="line">gem install homesick
+</span><span class="line">rbenv rehash
+</span><span class="line">homesick clone vimtaku/dotfiles
+</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/mac/'>mac</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1027,436 +1224,6 @@ The cost of studying it is quite high. but I don’t know how difficult coredata
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/01/22/swift-promise-craft/">
-		
-			Swift の Promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった</a>
-	</h2>
-	<div class="entry-content">
-		
-<h1 id="toc">TOC</h1>
-
-<h1 id="section">はじめに</h1>
-<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
-なんか BrightFuture っていうやつが Star が多いように見えて<br />
-しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
-Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
-
-<h1 id="craft-">Craft 使用例</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let moge = "moge"
-</span><span class="line">let promise = Craft.promise({
-</span><span class="line">  (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">
-</span><span class="line">    // post の処理
-</span><span class="line">    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">        if (ticket != nil) {
-</span><span class="line">            resolve(value: ticket!.token!)
-</span><span class="line">        } else {
-</span><span class="line">            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">})
-</span><span class="line">promise.then({(value: Value) -&gt; Value in
-</span><span class="line">
-</span><span class="line">    println("promise 1 value 1 is ")
-</span><span class="line">    println(value) ; 1コメのやつ
-</span><span class="line">
-</span><span class="line">    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">            if (ticket != nil) {
-</span><span class="line">                resolve(value: "2komenoyatu!!!!!!!!!!!!")
-</span><span class="line">            } else {
-</span><span class="line">                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">            }
-</span><span class="line">        }
-</span><span class="line">    })
-</span><span class="line">    return promise
-</span><span class="line">}).then({(value: Value) -&gt; Value in
-</span><span class="line">    println("promise 2 value 2 is ")
-</span><span class="line">    println(value) ; 2コメのやつ
-</span><span class="line">    return "mogo"
-</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="section-1">幾つか気づいた点</h1>
-<ul>
-  <li>(2015/2/16追記) release build で最適化されるとうまく処理できず死ぬので注意 &gt; <a href="http://qiita.com/jumbOS5/items/d4941439a0b3a3534396">http://qiita.com/jumbOS5/items/d4941439a0b3a3534396</a></li>
-  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
-  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
- 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
-</ul>
-
-<h1 id="section-2">所感</h1>
-<p>やっと promise で楽に書けそう。  </p>
-
-<h1 id="url">参考URL</h1>
-<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
-<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-22T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/15/clojure-midje-filter-test/">
-		
-			Clojure で 一部分だけテストがしたい Using Midje</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
-  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
-  <li><a href="#repl-">repl で最初に定義されていてほしい</a></li>
-  <li><a href="#section">注意点</a></li>
-  <li><a href="#section-1">所感</a></li>
-</ul>
-
-<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
-<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
-比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
-基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
-さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
-filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
-
-<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
-
-<div>
-  <pre><code class="clojure">; in repl.clj
-(defn filter-autotest []
-(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-)
-
-(defn all-autotest []
-(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-)
-
-; in test
-(fact :filter &quot;do something great test&quot;
- (is true)
-)</code></pre>
-</div>
-
-<p>上記をrepl 内で定義しておき、<br />
-(filter-autotest) か (all-autotest) かを評価する。<br />
-そうすると、 filter-autotest の場合は filter つきだけが、<br />
-all-autotest の場合は全てが実行される。  </p>
-
-<h2 id="repl-">repl で最初に定義されていてほしい</h2>
-<p>repl を起動するたびにいちいち定義するのは面倒くさいので,<br />
-<a href="http://dev.solita.fi/2014/03/18/pimp-my-repl.html">こちら</a><br />
-を参考にして設定することで, 起動時に load するようにした。</p>
-
-<div>
-  <pre><code class="diff">+++ b/dev/user.clj
-@@ -0,0 +1,29 @@
-+(ns user
-+  (:require
-+    [clojure.repl :refer :all]
-+    [clojure.tools.namespace.repl :refer [refresh]]
-+    [midje.sweet :refer :all]
-+    [midje.repl :refer :all]
-+    )
-+  )
-+
-+(defn filter-autotest []
-+  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-+)
-+
-+(defn all-autotest []
-+  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-+)
-+
-+(defn start
-+  &quot;Start the application&quot;
-+  []
-+  )
-+
-+(defn stop
-+  &quot;Stop the application&quot;
-+  []
-+  )
-+
-+(defn reset []
-+  (stop)
-+  (refresh :after &#39;user/start))
-
-+++ b/project.clj
-@@ -20,7 +20,8 @@
--  {:dev {:dependencies [
-+  {:dev {:source-paths [&quot;dev&quot;]
-+         :dependencies [</code></pre>
-</div>
-
-<h2 id="section">注意点</h2>
-<div>
-  <pre><code class="clojure">(fact &quot;do something&quot;
- (fact &quot;do2&quot;
-  ....</code></pre>
-</div>
-
-<p>のように、 fact でネストした場合は filter に引っかからないので、<br />
-この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
-
-<h2 id="section-1">所感</h2>
-
-<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/midje/'>midje</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/12/datomic-matome/">
-		
-			Datomic まとめ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#datomic-">datomic まとめ(追記していく)</a>    <ul>
-      <li><a href="#datomic--1">datomic 自体の説明</a></li>
-    </ul>
-  </li>
-  <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
-      <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
-      <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
-      <li><a href="#datomic--3">個人的に datomic を立てている設定</a></li>
-      <li><a href="#datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</a></li>
-      <li><a href="#section">参考資料(便利)</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="datomic-">datomic まとめ(追記していく)</h1>
-
-<h2 id="datomic--1">datomic 自体の説明</h2>
-<p>省略。<br />
-いつか書くかも。
-他に良い記事がたくさんあるので。  </p>
-
-<h1 id="datomic--2">datomic 本当のところ(使いながら追記していく)</h1>
-
-<h2 id="createdat-updatedat-">created_at, updated_at は持つ必要がない</h2>
-<p>rails で mysql とかつかって作るときだと当たり前のように created_at とか updated_at を持っているけど、<br />
-datomic を使う場合は必要ない。<br />
-stack over flow に、持ってた方が良い？などの質問に対して、
-おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
-
-<div>
-  <pre><code class="clojure">; -------- 一応コピペしとく
-(def db-url (ref &quot;&quot;))
-(dosync
-  (ref-set db-url  &quot;datomic:free://localhost:4334/hoge&quot;))
-
-(defn setup-db [db-url]
-  (d/create-database db-url)
-  (d/transact
-    (d/connect db-url)
-    (concat
-      (ds/generate-parts d/tempid (dbparts))
-      (ds/generate-schema d/tempid (dbschema)))))
-(defn setup-testdb []
-  (dosync
-    (ref-set db-url (str &quot;datomic:mem:&quot; (d/squuid))))
-  (setup-db @db-url)
-)
-
-(defn connect-db []
-  (d/connect @db-url)
-)
-
-; -------- ここが本質
-(defn history [eid]
-  (d/q
-    &#39;[:find ?e ?a ?v ?tx ?added
-      :in $ ?e
-      :where
-      [?e ?a ?v ?tx ?added]]
-    (d/history (d/db (connect-db)))
-    eid
-    )
-)</code></pre>
-</div>
-
-<p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
-で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
-
-<blockquote><p>#&lt;HashSet [<br /> [17592186045436 74 this is new emotion. 13194139534331 true],<br /> [17592186045436 73 0 13194139534331 true],<br /> [17592186045436 72 17592186045423 13194139534331 true],<br /> [17592186045436 71 17592186045421 13194139534331 true],<br /> [17592186045436 75 17592186045432 13194139534331 true],<br /> [17592186045436 70 #inst &#8220;2014-12-12T00:11:51.228-00:00&#8221; 13194139534331 true],<br /> [17592186045436 71 17592186045422 13194139534333 true],<br /> [17592186045436 71 17592186045421 13194139534333 false],<br /> [17592186045436 74 hogera! 13194139534333 true],<br /> [17592186045436 74 this is new emotion. 13194139534333 false]<br />]&gt;</p></blockquote>
-<p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
-これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
-71, 74 の属性が 変更されたことなどが読み取れる。  </p>
-
-<h2 id="where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(d/q '[:find ?token ?arn
-</span><span class="line">     :in $ ?uid
-</span><span class="line">     :where
-</span><span class="line">      [?dt :device_token/user ?uid]
-</span><span class="line">      [?dt :device_token/endpoint_arn ?arn]</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
-filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
-ちょっと困った。  </p>
-
-<h2 id="datomic--3">個人的に datomic を立てている設定</h2>
-<p><a href="https://github.com/pointslope/docker-datomic-example.git">https://github.com/pointslope/docker-datomic-example.git</a>
-を使って、 fig で up している。<br />
-datomic console 付きで立つ。  </p>
-
-<h2 id="datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</h2>
-<p>unable to validate user が出た。<br />
-これは、 transactor に対して 3つ以上の接続をした時に出る模様。<br />
-いったん接続している peer を落としてみたら、無事に接続できた。<br />
-そういう意味では、datomic console を使って本番DB をみたいなら、必然的に 待ち受けている peer は 1つになる。<br />
-まぁ基本的にはそれでいいのかな。  </p>
-
-<h2 id="section">参考資料(便利)</h2>
-<ul>
-  <li><a href="http://sunday-programming.hatenablog.com/category/datomic">http://sunday-programming.hatenablog.com/category/datomic</a><br />
-– めっちゃ参考にさせていただいております。  </li>
-  <li><a href="http://www.learndatalogtoday.org/">http://www.learndatalogtoday.org/</a><br />
-– datomic の query language である datalog のチュートリアル。datomic をやる前にこれを触っておくのオススメ。  </li>
-  <li><a href="https://github.com/Datomic/day-of-datomic">https://github.com/Datomic/day-of-datomic</a>  </li>
-  <li><a href="https://github.com/Yuppiechef/datomic-schema">https://github.com/Yuppiechef/datomic-schema</a><br />
-– datomic のスキーマを書くのマジしんどいけどこれがあればいい感じでつくってくれて嬉しいやつ。  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/datomic/'>datomic</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/2/" class="prev">Prev</a>
@@ -1466,7 +1233,7 @@ datomic console 付きで立つ。  </p>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2016
+	<footer id="footer" class="inner">Copyright &copy; 2017
 
     vimtaku
 

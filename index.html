@@ -7,9 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="はじめに
-前提として、 EC2 に passanger + nginx でサービスを動かしている。
-Let’s encrypt を導入するには主に以下をやる必要があるだろう。 サーバにログインして letsencrypt-auto スクリプトを使用して証明書を作成 nginx に設定し、再起動 &hellip;">
+	<meta name="description" content="TL;DR 1
+2
+defaults write -g InitialKeyRepeat -int 9
+defaults write -g KeyRepeat -int 2 背景
+Mac OS Sierra にしてから karabiner elements になって、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +82,264 @@ Let’s encrypt を導入するには主に以下をやる必要があるだろ�
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2017/01/29/keyrepeat/">
+		
+			Mac OS Sierra で Karabiner-elements がない場合に Keyrepeat を早く適切にする方法</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="tldr">TL;DR</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">defaults write -g InitialKeyRepeat -int 9
+</span><span class="line">defaults write -g KeyRepeat -int 2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">背景</h2>
+<p>Mac OS Sierra にしてから karabiner elements になって、キーリピートの設定ができなくなった。
+mac の system preferences からできる最速ではもちろん物足りないので、一旦目安としての数値がなかったので記述する。</p>
+
+<h2 id="section-1">概要</h2>
+<p>iterm から</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">defaults write -g InitialKeyRepeat -int 9
+</span><span class="line">defaults write -g KeyRepeat -int 2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>の各コマンドを実行して再起動したら反映された。若干はやいきもするが、慣れの問題かと思っている。</p>
+
+<h2 id="section-2">所感</h2>
+<p>最初1,1 とかにしたら大変なことになったので、誰かのためになればさいわいです。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-01-29T11:15:34+09:00" pubdate data-updated="true">Jan 29<span>th</span>, 2017</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/karabiner/'>karabiner</a>, <a class='category' href='/blog/categories/karabiner-elements/'>karabiner-elements</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2016/09/18/au_mineo_iphonese/">
+		
+			iPhone6 + au(誰でも割+LTEフラット) 運用を、 iPhoneSE と格安SIM(mineo Dプラン) の運用にする</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>iPhone6 を iPhoneSE に変更(大体30分)
+    <ul>
+      <li>約3万</li>
+      <li>アップルストアで30分(バックアップ戻す時間込み)</li>
+    </ul>
+  </li>
+  <li>2016年11月1日(あたり)に mineo Dプランを、エントリーパッケージ経由で契約する
+    <ul>
+      <li>その後自動でau が解約される(解約更新月なので9800円くらいがかからない)。</li>
+      <li>au は月末解約扱いになるらしいが、システムの対応が間に合ってないせいでまだそうなってないっぽい。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">背景</h2>
+<p>iPhone6 が日本にて発売されたのが 2014年9月で、おそらくそのときに購入した。<br />
+その流れで、 au の「誰でも割」「LTEフラット」を契約して、約2年間運用してきた。<br />
+そもそもパケットの料金が高すぎるので不満をいだいて居たので、<br />
+格安シムのほうが安くなるのはおそらく確実だろうということで、<br />
+どのようにすればよいか調べたのでココに記しておく。  </p>
+
+<h3 id="section-1">自分の要求</h3>
+<ul>
+  <li>もちろん速度が出ると良い。  </li>
+  <li>テザリングは必須。  </li>
+  <li>電話はあまりしない。(するときは実家になど、たまに長くなるとお金がかかる)  </li>
+  <li>大体実績値がパケット使用量 7GB/月 程度。もうちょっとあっていいと思っている。  </li>
+</ul>
+
+<h2 id="section-2">概要</h2>
+<ul>
+  <li>端末を何にすればよいか?  </li>
+  <li>MVNO をどこにすればよいか？  </li>
+  <li>au の契約更新月について  </li>
+</ul>
+
+<h2 id="section-3">端末を何にすればよいか?</h2>
+<p>iPhoneSE とした。<br />
+iPhone7 発売に伴い, iPhoneSE 64GB が 49800円(税別)なので、これにした。<br />
+iPhone7 は、今の自分には必要ないと思ったからだ。  </p>
+
+<p>Android はOS的に好きでないのでやめた。  </p>
+
+<p>銀座アップルストアに行って、iPhone6 が24,000円で下どってくれたので、実質3万くらいで購入できた。<br />
+mac の iTunes でフルバックアップを取って行かないと無駄足になるので注意。  </p>
+
+<h2 id="mvno-">MVNO をどこにすればよいか？</h2>
+<p>mineo にした。<br />
+iPhoneSE でのテザリングでの前提だと IIJmio と mineo が良いらしい。<br />
+<a href="http://cospahack.com/life/iphone-se-sim">出典はこちら。</a><br />
+自分は、ちょっとググッた結果通信速度の安定的に mineo のほうが良さそうだと判断したのと、<br />
+通信料を最大2GBシェアリングできる概念みたいなものがあるようなので、こちらにした。  </p>
+
+<p>自分が調べた結果だと、Y!mobile とか UQ mobile とかはテザリングNG だったりする。<br />
+テザリング使いたい人は前提をテザリングに考えたほうが良いと思う。  </p>
+
+<h2 id="au-">au の契約更新月について</h2>
+<p>au の契約更新月は、誰でも割とかだと 25ヶ月、26ヶ月目くらいらしい。<br />
+au の人なら多分入れているであろう、auお客様サポートアプリの「ご契約情報」 「料金割引サービス」に、  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">誰でも割
+</span><span class="line">(次回更新年月 2016年11月~2016年12月)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などと書いてあるのが確認できるのでご確認を。  </p>
+
+<p>ちなみに、解約についてであるが、au は月末解約扱いになると宣言しているが、<br />
+システムの対応が間に合ってないせいでまだそうなってないっぽい。  </p>
+
+<h2 id="mineo-">mineo にするならこれを買うと安くなる模様。</h2>
+<p>普通にmineo公式サイトを見ればわかるけど、プロモコードを入れるところがある。<br />
+申し込み時の方法が主に3つあるけど、下記を購入して登録すると、新規登録手数料がおよそ 2000円安くなるらしいので、<br />
+これを買ったらイイんじゃないかなと思う。  </p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B00UT26M0Q&amp;linkId=727145ea31131a6c5654ff0141c682df"></iframe>
+
+<h2 id="section-4">お得感見積もり</h2>
+
+<h3 id="before">BEFORE</h3>
+<p>auのもろもろ(7GB制限):月平均1万円</p>
+
+<h3 id="after">AFTER</h3>
+<p>10GB(音声+データSIM): 3220円<br />
+通話料大体:400~600円<br />
+4000円くらい  </p>
+
+<p>月6000円お得。電話の具合によってはもうちょっとお得具合がへるがそれでも月6000円はでかい気がする。  </p>
+
+<p>3万の端末代金は 6000 * 5ヶ月あればもとが取れる予定。  </p>
+
+<h2 id="section-5">所感</h2>
+<p>大体3時間くらいいろいろ調べた結果なので、誰かのために慣れば幸いです。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-09-18T12:02:17+09:00" pubdate data-updated="true">Sep 18<span>th</span>, 2016</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/iphone/'>iPhone</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2016/08/05/ridgepole-version-index-error/">
+		
+			Ridgepole Command Gets [ERROR] Undefined Method Index</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="tldl">TL;DL</h2>
+<p>You should use newest version of gem definetly.</p>
+
+<h2 id="i-faced-this-error">I faced this error</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ERROR] undefined method `index' for #&lt;Ridgepole::DSLParser::Context::TableDefinition:0x007fae9aa1b850&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="solved">Solved</h2>
+<p>This is version problem.</p>
+
+<p>I simply write as follows,</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem 'ridgepole'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>but it seems downloads version is 0.5.0.</p>
+
+<p>I finally found 0.6.4 is newest ver for now, so I used it, problem disappeared.</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-05T16:53:16+09:00" pubdate data-updated="true">Aug 5<span>th</span>, 2016</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -703,283 +963,6 @@ Gemfile.lock の version を 0.1.8 に編集して commit したらいけた。 
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/05/27/critical-thinking/">
-		
-			クリティカル・シンキング</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">クリティカル・シンキング</h1>
-
-<h2 id="section-1">ベネフィット</h2>
-<p>相手によってベネフィットは変わる。<br />
-どのようにベネフィットを聞き出すのかが問題。<br />
-また、ベネフィットに答えるために、有効な実績があるのは強い。  </p>
-
-<h2 id="section-2">難しさ</h2>
-<p>何かを提案、説得するためには、ベネフィットに答えることを意識すると良いと思う。<br />
-実績を作るための努力はいつも怠らないことが重要なのだと思う。<br />
-また、実績がない場合も、それに準ずる実績を提示することで、その可能性を示すことができる。  </p>
-
-<h2 id="section-3">提案における顧客のベネフィットの共通項</h2>
-<ul>
-  <li>お前は誰なのか。信用できるのか。  </li>
-  <li>困っていることを解決できるのか。  </li>
-  <li>実際に効果があるのか。  </li>
-  <li>コスト感<br />
-    <ul>
-      <li>導入しやすさ  </li>
-      <li>値段  </li>
-    </ul>
-  </li>
-</ul>
-
-<p>面接でも、何かの商品を売る場合でも、上記は必要なのだと思った。  </p>
-
-<h2 id="section-4">所感</h2>
-<p>イイタイコト、キキタイコトでブレストすると、本当に相手が求める質問に辿りつけた。<br />
-たとえばプレゼンや、面接でも、相手がどういうことを聞きたいか、などをある程度想定して、<br />
-それを事前に考えてみることはかなり効果的だと思う。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-27T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/logic/'>logic</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/04/12/datomic-lein-for-ec2-t2-micro/">
-		
-			Create Staging Server Using Jvm With t2.micro</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="create-staging-server-using-jvm-with-t2micro">Create staging server using jvm with t2.micro</h1>
-
-<h2 id="jvm-is-required-many-memories">jvm is required many memories</h2>
-<p>I ran command <code>lein ring server</code>, not-enough-memory error has raised.<br />
-I googled and found solution.<br />
-<a href="https://github.com/omcljs/om/issues/101">https://github.com/omcljs/om/issues/101</a>  </p>
-
-<h2 id="memo-for-create-staging-on-ec2-instanceamazon-linux">memo for create staging on ec2 instance(amazon linux)</h2>
-
-<p>something like this(picked up from history)</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">sudo yum install leiningen
-</span><span class="line">wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
-</span><span class="line">mkdir bin
-</span><span class="line">chmod a+x lein
-</span><span class="line">./lein
-</span><span class="line">ssh-keygen
-</span><span class="line">export MY_DATOMIC_USERNAME="moge@gmail.com"
-</span><span class="line">export MY_DATOMIC_PASSWORD="datomic_password"
-</span><span class="line">sudo yum install java-1.8.0-openjdk.x86_64
-</span><span class="line">ll /etc/alternatives/java
-</span><span class="line">cd /etc/alternatives/
-</span><span class="line">sudo mv /etc/alternatives/java{,.bak}
-</span><span class="line">ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
-</span><span class="line">sudo ln -s /usr/lib/jvm/jre-1.8.0/bin/java /etc/alternatives/java
-</span><span class="line">lein ring server</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/leiningen/'>leiningen</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/04/12/401k-for-engineer/">
-		
-			エンジニアのための 確定拠出年金</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="section">エンジニアのための 確定拠出年金</h1>
-
-<h2 id="section-1">はじめに</h2>
-<p>俺だ、 vimtax だ。<br />
-今日は確定拠出年金について調べてみるぞ。  </p>
-
-<h1 id="section-2">確定拠出年金について</h1>
-
-<h2 id="section-3">確定拠出年金とは</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">確定拠出年金は、公的年金に上乗せするための選択肢として作られた年金制度です。  
-</span><span class="line">60歳未満の自営業者（国民年金加入者）や企業等にお勤めの方（厚生年金保険加入者）を対象とし、  
-</span><span class="line">公的年金等に確定拠出年金を上乗せすることで、老後の資産形成に役立てることができます。</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>引用:<a href="http://www.jp-bank.japanpost.jp/kojin/sonaeru/kakutei/kj_sn_kt_what.html">http://www.jp-bank.japanpost.jp/kojin/sonaeru/kakutei/kj_sn_kt_what.html</a>  </p>
-
-<p>と書いてあるが、60歳まで下ろせない貯金で、そのままためておくこともできるし、<br />
-資産運用することもできる、っていうかんじのものだ。  </p>
-
-<h2 id="section-4">対象</h2>
-<p>確定拠出年金には 個人型と、企業型がある。<br />
-個人型にもパターンがあるが、この記事では、<br />
-大抵のサラリーマンが該当するであろう個人型の第2号被保険者を扱うものとする。<br />
-自分が何型なのかとかは、上記の ゆうちょのページを読んで、判別して欲しい。  </p>
-
-<h2 id="section-5">メリット</h2>
-
-<h3 id="section-6">所得税、住民税の控除</h3>
-<p><a href="http://iitoushi-tanken-nisshi.hateblo.jp/entry/2013/12/26/022333" title="このリンク">このリンク</a>によると、<br />
-年収が396万円以上695万円未満の人だと仮定すると(所得税が20%)、<br />
-月額2万3千円(これが最大)を12ヶ月払い、年末調整で申告すると、 23,000 * 12 = 276000 の 20% = 4万6千円 が<br />
-返ってくるらしい。これは馬鹿にできない。<br />
-さらに、来年の住民税も 10%分(2万3千円) やすくなるらしい。<br />
-合計6万9千円も得するようだ。<br />
-これはやらない手はないのではないか、と思わせる。  </p>
-
-<h3 id="section-7">資産運用による利益に対する非課税</h3>
-<p><a href="https://www.toushin.or.jp/dc/labo/vol2_yamasaki/">https://www.toushin.or.jp/dc/labo/vol2_yamasaki/</a><br />
-とかを見ればわかるように、資産運用で得られた利益が非課税であるのは大きい。  </p>
-
-<h2 id="section-8">デメリット</h2>
-
-<h3 id="section-9">手数料</h3>
-<p><a href="http://shacho-radio.com/?p=1680">http://shacho-radio.com/?p=1680</a><br />
-個人型の場合は手数料がかかるらしい。  </p>
-
-<h4 id="sbi">SBI証券の例</h4>
-<p>SBI証券の例を見てみる。<br />
-[http://ad401k.sbisec.co.jp/kojin/01<em>04.html](http://ad401k.sbisec.co.jp/kojin/01</em>04.html)  </p>
-
-<h4 id="section-10">最初だけかかる額</h4>
-<p>加入時に 3,857円</p>
-
-<h4 id="section-11">月額課金</h4>
-<p>50万円になるまでは、324円 + 167円 = 491円(月額)かかる。<br />
-50万円以上になると、 167円(月額)かかる。  </p>
-
-<p>なので、初年度だと、<br />
-491 * 12 + 3857 = 9749 円かかる。<br />
-ただ、4万6千円の税制メリットと比べれば、良さそうに見える。  </p>
-
-<h3 id="section-12">60歳まで下ろせない</h3>
-<p>最大で預けたと仮定すると、基本的に 276000円(年額) が下ろせないということになる。<br />
-276000円をつかって個人的に運用だったり、なにかの活動資金に割り当てて、儲けが出たときに、
-課税された上での額が5万9千円以上なら、やる価値はあるように見える。  </p>
-
-<p>ただ、急にお金が必要になる場合ってたぶんあるので、そこんところは考えなきゃダメだと思う。<br />
-といっておきながらも、 SBI 証券のを見ていると年1回、額の変更は可能なのであまり考えなくてもいいかも。  </p>
-
-<h1 id="section-13">所感</h1>
-<p>急にお金が必要になるって、結婚式挙げるか、家買うか、病気なおすか、そのくらいじゃないのかな。<br />
-お金(貯金)に余裕があるか、老後のための貯金に自信がない人は、是非やったらいいように見える。<br />
-手元にお金があることのほうがメリットだろ！っていう人には向かないと思う。<br />
-自分の場合は奨学金とかもまだあるから、その辺を繰り上げ返済したほうがメリットあるんじゃねぇかっていうのもある。<br />
-とりあえず直近ではお金必要ないので、上限突っ込んでもいい気がするなぁ。<br />
-だけど、年取ってから使うお金と、今使うべきお金って割りと違う気もするんだよなぁ。<br />
-そういう意味で、手元にお金があるメリットっていうのは、額面通りじゃあないように思う。  </p>
-
-<p>こういうお金の話って向き合うのスーパーめんどいけど、休みの日とか、時間があるときに少しずつまとめていくのは、<br />
-結局得になるかもしれないとおもうと、今後もたまにはこういうのを調べていきたい。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/money/'>money</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
     
@@ -987,7 +970,7 @@ I googled and found solution.<br />
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2016
+	<footer id="footer" class="inner">Copyright &copy; 2017
 
     vimtaku
 

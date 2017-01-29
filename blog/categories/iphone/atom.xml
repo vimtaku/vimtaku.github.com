@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iPhone | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/iphone/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2017-01-29T11:23:57+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone6 + au(誰でも割+LTEフラット) 運用を、 iPhoneSE と格安SIM(mineo Dプラン) の運用にする]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/09/18/au_mineo_iphonese/"/>
+    <updated>2016-09-18T12:02:17+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/09/18/au_mineo_iphonese</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>iPhone6 を iPhoneSE に変更(大体30分)
+    <ul>
+      <li>約3万</li>
+      <li>アップルストアで30分(バックアップ戻す時間込み)</li>
+    </ul>
+  </li>
+  <li>2016年11月1日(あたり)に mineo Dプランを、エントリーパッケージ経由で契約する
+    <ul>
+      <li>その後自動でau が解約される(解約更新月なので9800円くらいがかからない)。</li>
+      <li>au は月末解約扱いになるらしいが、システムの対応が間に合ってないせいでまだそうなってないっぽい。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">背景</h2>
+<p>iPhone6 が日本にて発売されたのが 2014年9月で、おそらくそのときに購入した。<br />
+その流れで、 au の「誰でも割」「LTEフラット」を契約して、約2年間運用してきた。<br />
+そもそもパケットの料金が高すぎるので不満をいだいて居たので、<br />
+格安シムのほうが安くなるのはおそらく確実だろうということで、<br />
+どのようにすればよいか調べたのでココに記しておく。  </p>
+
+<h3 id="section-1">自分の要求</h3>
+<ul>
+  <li>もちろん速度が出ると良い。  </li>
+  <li>テザリングは必須。  </li>
+  <li>電話はあまりしない。(するときは実家になど、たまに長くなるとお金がかかる)  </li>
+  <li>大体実績値がパケット使用量 7GB/月 程度。もうちょっとあっていいと思っている。  </li>
+</ul>
+
+<h2 id="section-2">概要</h2>
+<ul>
+  <li>端末を何にすればよいか?  </li>
+  <li>MVNO をどこにすればよいか？  </li>
+  <li>au の契約更新月について  </li>
+</ul>
+
+<h2 id="section-3">端末を何にすればよいか?</h2>
+<p>iPhoneSE とした。<br />
+iPhone7 発売に伴い, iPhoneSE 64GB が 49800円(税別)なので、これにした。<br />
+iPhone7 は、今の自分には必要ないと思ったからだ。  </p>
+
+<p>Android はOS的に好きでないのでやめた。  </p>
+
+<p>銀座アップルストアに行って、iPhone6 が24,000円で下どってくれたので、実質3万くらいで購入できた。<br />
+mac の iTunes でフルバックアップを取って行かないと無駄足になるので注意。  </p>
+
+<h2 id="mvno-">MVNO をどこにすればよいか？</h2>
+<p>mineo にした。<br />
+iPhoneSE でのテザリングでの前提だと IIJmio と mineo が良いらしい。<br />
+<a href="http://cospahack.com/life/iphone-se-sim">出典はこちら。</a><br />
+自分は、ちょっとググッた結果通信速度の安定的に mineo のほうが良さそうだと判断したのと、<br />
+通信料を最大2GBシェアリングできる概念みたいなものがあるようなので、こちらにした。  </p>
+
+<p>自分が調べた結果だと、Y!mobile とか UQ mobile とかはテザリングNG だったりする。<br />
+テザリング使いたい人は前提をテザリングに考えたほうが良いと思う。  </p>
+
+<h2 id="au-">au の契約更新月について</h2>
+<p>au の契約更新月は、誰でも割とかだと 25ヶ月、26ヶ月目くらいらしい。<br />
+au の人なら多分入れているであろう、auお客様サポートアプリの「ご契約情報」 「料金割引サービス」に、  </p>
+
+<p><code>
+誰でも割
+(次回更新年月 2016年11月~2016年12月)
+</code></p>
+
+<p>などと書いてあるのが確認できるのでご確認を。  </p>
+
+<p>ちなみに、解約についてであるが、au は月末解約扱いになると宣言しているが、<br />
+システムの対応が間に合ってないせいでまだそうなってないっぽい。  </p>
+
+<h2 id="mineo-">mineo にするならこれを買うと安くなる模様。</h2>
+<p>普通にmineo公式サイトを見ればわかるけど、プロモコードを入れるところがある。<br />
+申し込み時の方法が主に3つあるけど、下記を購入して登録すると、新規登録手数料がおよそ 2000円安くなるらしいので、<br />
+これを買ったらイイんじゃないかなと思う。  </p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="http://vimtaku.github.io//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B00UT26M0Q&amp;linkId=727145ea31131a6c5654ff0141c682df"></iframe>
+
+<h2 id="section-4">お得感見積もり</h2>
+
+<h3 id="before">BEFORE</h3>
+<p>auのもろもろ(7GB制限):月平均1万円</p>
+
+<h3 id="after">AFTER</h3>
+<p>10GB(音声+データSIM): 3220円<br />
+通話料大体:400~600円<br />
+4000円くらい  </p>
+
+<p>月6000円お得。電話の具合によってはもうちょっとお得具合がへるがそれでも月6000円はでかい気がする。  </p>
+
+<p>3万の端末代金は 6000 * 5ヶ月あればもとが取れる予定。  </p>
+
+<h2 id="section-5">所感</h2>
+<p>大体3時間くらいいろいろ調べた結果なので、誰かのために慣れば幸いです。  </p>
+
+]]></content>
+  </entry>
+  
+</feed>
