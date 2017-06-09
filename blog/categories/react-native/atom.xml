@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: react-native | vimtaku blog]]></title>
+  <link href="http://vimtaku.github.io/blog/categories/react-native/atom.xml" rel="self"/>
+  <link href="http://vimtaku.github.io/"/>
+  <updated>2017-06-09T21:52:01+09:00</updated>
+  <id>http://vimtaku.github.io/</id>
+  <author>
+    <name><![CDATA[vimtaku]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[react_native_fcm_undeclaired_identifier]]></title>
+    <link href="http://vimtaku.github.io/blog/2017/06/09/react-native-fcm-undeclaired-identifier/"/>
+    <updated>2017-06-09T21:48:23+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2017/06/09/react-native-fcm-undeclaired-identifier</id>
+    <content type="html"><![CDATA[<h1 id="i-got-these-message-when-start-to-use-react-native-fcm">I got these message when start to use react-native-fcm</h1>
+
+<p><code>
+error: use of undeclared identifier 'FIRMessagingConnectionStateChangedNotification'
+   name:FIRMessagingConnectionStateChangedNotification object:nil];
+</code></p>
+
+<p>I lot of time consumed, but I found that Firebase version is weired for me.</p>
+
+<p><code>
+pod install --repo-update
+</code></p>
+
+<p>save me.</p>
+
+<p>that’s it.</p>
+]]></content>
+  </entry>
+  
+</feed>

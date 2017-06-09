@@ -7,11 +7,16 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="クリティカル・シンキング ベネフィット
-相手によってベネフィットは変わる。
-どのようにベネフィットを聞き出すのかが問題。
-また、ベネフィットに答えるために、有効な実績があるのは強い。 難しさ
-何かを提案、説得するためには、ベネフィットに答えることを意識すると良いと思う。 &hellip;">
+	<meta name="description" content="背景
+update_attribute で一つだけupdate しようと思ってたら他の属性も変わってて意味不明だった。 ヌワー 1
+2
+3
+4
+5
+6
+user = User.first
+p user.name ## "vimtaku" user.name = "hoge"
+user. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +87,66 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/07/14/update_attribute_trap/">
+		
+			model.update_attribute の罠</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="section">背景</h2>
+<p>update_attribute で一つだけupdate しようと思ってたら他の属性も変わってて意味不明だった。  </p>
+
+<h2 id="section-1">ヌワー</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">user = User.first
+</span><span class="line">p user.name  ## "vimtaku"
+</span><span class="line">
+</span><span class="line">user.name = "hoge"
+</span><span class="line">user.update_attribute(:age, 100)
+</span><span class="line">##  UPDATE users SET `name` = 'hoge', `age` = 100 where `id` = 1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>結局 user.reload した。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -839,217 +904,6 @@ Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
 
 
 	<a class='category' href='/blog/categories/poem/'>poem</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/04/fig-so-slow/">
-		
-			Fig and Rails Env Is Too Heavy, I Found workaround(Mac OSX)</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="ps">(PS)</h2>
-<p>I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.<br />
-Firstly, this blog was quite good and effective for me.<br />
-Sync is working fine, but suddonly, rsync was getting weird.<br />
-Additionally, these rsync strategy is faster than sync folder,<br />
- but it is definetly slow than localhost.<br />
-Localhost is super fast.<br />
-And I faced problems as follows. 
- - rails console history or mysql history is gone away when fig restart.<br />
- - rails console mysql connection has gone away because of restarting db.<br />
-For now, I think fig(docker compose) is not good as development environment.<br />
-If you have identical dev env, please message to me.  </p>
-
-<h2 id="tldr">TL;DR</h2>
-<ul>
-  <li>virtual box disk io is not good because of file sync. so turn off.<br />
- – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
-  <li>use NFS, for sync your directories.  </li>
-</ul>
-
-<h2 id="environment">Environment</h2>
-<ul>
-  <li>fig 1.0.0  </li>
-  <li>boot2docker v1.3.1  </li>
-  <li>docker container(rails)  </li>
-  <li>docker container(mysql)  </li>
-</ul>
-
-<h2 id="background--problem">Background &amp; Problem</h2>
-<p>Recently, it is very easy to create development env because fig and docker.<br />
-But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
-
-<h2 id="workaround">Workaround</h2>
-
-<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
-<p>By default, /Users directory is synced with boot2docker.<br />
-This sync is very slow so I turned it off, response speed is up.  </p>
-
-<h3 id="use-nfs">Use NFS</h3>
-<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
-I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
-This thread is quite good for me.  </p>
-
-<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
-because I wanna use fig.  </p>
-
-<h4 id="syncsh">sync.sh</h4>
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">!/bin/bash
-</span><span class="line">
-</span><span class="line">set -u # prevent unbound variables
-</span><span class="line">set -e # terminate on error
-</span><span class="line">
-</span><span class="line">SSH_PORT=$(boot2docker config 2&gt;&amp;1 | awk '/SSHPort/ {print $3}')
-</span><span class="line">
-</span><span class="line"># load rsync
-</span><span class="line">boot2docker ssh tce-load -wi rsync
-</span><span class="line">
-</span><span class="line"># ensure existance of .rsyncignore
-</span><span class="line">touch .rsyncignore
-</span><span class="line">
-</span><span class="line">function sync {
-</span><span class="line">  # sync current directory to ~/share on the vm
-</span><span class="line">  rsync -rlz --exclude-from=.rsyncignore -e "ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT" --force --delete ./ docker@localhost:/home/docker/share
-</span><span class="line">  echo "sync: $(date)"
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">sync
-</span><span class="line">#fswatch -o . | xargs -n1 -I{} sync</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
-so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
-I wrote .rsyncignore something like below.  </p>
-
-<h4 id="rsyncignore">.rsyncignore</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">tmp/
-</span><span class="line">vendor/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="dockerfile">Dockerfile</h4>
-
-<p>gem is installed global.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">FROM ruby
-</span><span class="line">RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
-</span><span class="line">RUN mkdir /myapp
-</span><span class="line">WORKDIR /myapp
-</span><span class="line">ADD Gemfile /myapp/Gemfile
-</span><span class="line">ADD . /myapp
-</span><span class="line">RUN bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="figyml">fig.yml</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">db:
-</span><span class="line">  image: mysql:5.6
-</span><span class="line">  ports:
-</span><span class="line">    - "3306:3306"
-</span><span class="line">  environment:
-</span><span class="line">    - MYSQL_ROOT_PASSWORD=hoge
-</span><span class="line">  # volumes:
-</span><span class="line">  #   - ./data:/var/lib/mysql
-</span><span class="line">
-</span><span class="line">web:
-</span><span class="line">  build: .
-</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
-</span><span class="line">  working_dir: /myapp
-</span><span class="line">  dns: localhost
-</span><span class="line">  volumes:
-</span><span class="line">    - /home/docker/share:/myapp
-</span><span class="line">  ports:
-</span><span class="line">    - "3000:3000"
-</span><span class="line">  expose:
-</span><span class="line">    - 3000
-</span><span class="line">  links:
-</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>In db section, volumes isn’t need.<br />
-In web section, volumes is attached from boot2docker to web container.  </p>
-
-<p>That’s it.  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-04T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/fig/'>fig</a>
 
 
 </div>

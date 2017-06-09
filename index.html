@@ -7,11 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="TL;DR 1
+	<meta name="description" content="I got these message when start to use react-native-fcm 1
 2
-defaults write -g InitialKeyRepeat -int 9
-defaults write -g KeyRepeat -int 2 背景
-Mac OS Sierra にしてから karabiner elements になって、 &hellip;">
+error: use of undeclared identifier 'FIRMessagingConnectionStateChangedNotification' name &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +80,61 @@ Mac OS Sierra にしてから karabiner elements になって、 &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2017/06/09/react-native-fcm-undeclaired-identifier/">
+		
+			React_native_fcm_undeclaired_identifier</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="i-got-these-message-when-start-to-use-react-native-fcm">I got these message when start to use react-native-fcm</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">error: use of undeclared identifier 'FIRMessagingConnectionStateChangedNotification'
+</span><span class="line">   name:FIRMessagingConnectionStateChangedNotification object:nil];</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I lot of time consumed, but I found that Firebase version is weired for me.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">pod install --repo-update</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>save me.</p>
+
+<p>that’s it.</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-09T21:48:23+09:00" pubdate data-updated="true">Jun 9<span>th</span>, 2017</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/react-native/'>react-native</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -896,66 +949,6 @@ Gemfile.lock の version を 0.1.8 に編集して commit したらいけた。 
 
 
 	<a class='category' href='/blog/categories/ruboty/'>ruboty</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/07/14/update_attribute_trap/">
-		
-			model.update_attribute の罠</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">背景</h2>
-<p>update_attribute で一つだけupdate しようと思ってたら他の属性も変わってて意味不明だった。  </p>
-
-<h2 id="section-1">ヌワー</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">user = User.first
-</span><span class="line">p user.name  ## "vimtaku"
-</span><span class="line">
-</span><span class="line">user.name = "hoge"
-</span><span class="line">user.update_attribute(:age, 100)
-</span><span class="line">##  UPDATE users SET `name` = 'hoge', `age` = 100 where `id` = 1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>結局 user.reload した。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
 
 
 </div>

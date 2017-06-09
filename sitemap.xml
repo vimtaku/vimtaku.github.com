@@ -403,12 +403,18 @@
         <lastmod>2017-01-29T11:21:21+09:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vimtaku.github.io/blog/2017/06/09/react-native-fcm-undeclaired-identifier/
+        </loc>
+        <lastmod>2017-06-09T21:50:52+09:00</lastmod>
+    </url>
+    <url>
         <loc>http://vimtaku.github.io/blog/archives/</loc>
-        <lastmod>2017-01-29T11:21:21+09:00</lastmod>
+        <lastmod>2017-06-09T21:50:52+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/</loc>
-        <lastmod>2017-01-29T11:21:21+09:00</lastmod>
+        <lastmod>2017-06-09T21:50:52+09:00</lastmod>
     </url>
     <url>
         <loc>http://vimtaku.github.io/robots.txt</loc>
