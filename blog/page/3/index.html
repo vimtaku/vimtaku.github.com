@@ -7,13 +7,10 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="さくらvps に CoreOS を入れる
-基本的には
-http://qiita.com/yujiod/items/dc154120c4df2e938111
-に従ってやれば行ける。 ただ、自分は VirtIO を ON にしたせいか、
-ネットワークの設定のところで、 1
-2
-[Match] &hellip;">
+	<meta name="description" content="やるべきこと
+人には、やるべきことが与えられていると、最近思うようになった。
+こういうと大層なことを言っているように聞こえるかもしれないけど、
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。 それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -84,6 +81,901 @@ http://qiita.com/yujiod/items/dc154120c4df2e938111
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/14/yarubekikoto-poem/">
+		
+			やるべきこと、やるべき場所</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">やるべきこと</h1>
+<p>人には、やるべきことが与えられていると、最近思うようになった。<br />
+こういうと大層なことを言っているように聞こえるかもしれないけど、<br />
+一つ一つの仕事が社会に影響して、人々の生活が回ってる。  </p>
+
+<p>それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、<br />
+楽しいことや辛いこともあるけど、仕事を通して影響を与えられるなら、<br />
+こんなに楽しいことはない。  </p>
+
+<p>自分が満足して、自分らしく生きられて、大きく社会に影響できる環境を、<br />
+創れるようにならなきゃダメだなぁと思う。  </p>
+
+<h1 id="section-1">やるべき場所</h1>
+<p>たぶん働くべき場所というか、自分がもっと輝く場所っていうのは<br />
+人それぞれにちゃんとあって、そのやるべき場所っていうのは答えが無いんだけど、<br />
+今いる場所が、自分がいるべき場所か? 自分がやるべきことをやってるのか?<br />
+という問いは、定期的に行ったほうがいいかもしれない。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-14T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/poem/'>poem</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/04/fig-so-slow/">
+		
+			Fig and Rails Env Is Too Heavy, I Found workaround(Mac OSX)</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="ps">(PS)</h2>
+<p>I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.<br />
+Firstly, this blog was quite good and effective for me.<br />
+Sync is working fine, but suddonly, rsync was getting weird.<br />
+Additionally, these rsync strategy is faster than sync folder,<br />
+ but it is definetly slow than localhost.<br />
+Localhost is super fast.<br />
+And I faced problems as follows. 
+ - rails console history or mysql history is gone away when fig restart.<br />
+ - rails console mysql connection has gone away because of restarting db.<br />
+For now, I think fig(docker compose) is not good as development environment.<br />
+If you have identical dev env, please message to me.  </p>
+
+<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>virtual box disk io is not good because of file sync. so turn off.<br />
+ – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
+  <li>use NFS, for sync your directories.  </li>
+</ul>
+
+<h2 id="environment">Environment</h2>
+<ul>
+  <li>fig 1.0.0  </li>
+  <li>boot2docker v1.3.1  </li>
+  <li>docker container(rails)  </li>
+  <li>docker container(mysql)  </li>
+</ul>
+
+<h2 id="background--problem">Background &amp; Problem</h2>
+<p>Recently, it is very easy to create development env because fig and docker.<br />
+But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
+
+<h2 id="workaround">Workaround</h2>
+
+<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
+<p>By default, /Users directory is synced with boot2docker.<br />
+This sync is very slow so I turned it off, response speed is up.  </p>
+
+<h3 id="use-nfs">Use NFS</h3>
+<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
+I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
+This thread is quite good for me.  </p>
+
+<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
+because I wanna use fig.  </p>
+
+<h4 id="syncsh">sync.sh</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">!/bin/bash
+</span><span class="line">
+</span><span class="line">set -u # prevent unbound variables
+</span><span class="line">set -e # terminate on error
+</span><span class="line">
+</span><span class="line">SSH_PORT=$(boot2docker config 2&gt;&amp;1 | awk '/SSHPort/ {print $3}')
+</span><span class="line">
+</span><span class="line"># load rsync
+</span><span class="line">boot2docker ssh tce-load -wi rsync
+</span><span class="line">
+</span><span class="line"># ensure existance of .rsyncignore
+</span><span class="line">touch .rsyncignore
+</span><span class="line">
+</span><span class="line">function sync {
+</span><span class="line">  # sync current directory to ~/share on the vm
+</span><span class="line">  rsync -rlz --exclude-from=.rsyncignore -e "ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT" --force --delete ./ docker@localhost:/home/docker/share
+</span><span class="line">  echo "sync: $(date)"
+</span><span class="line">}
+</span><span class="line">
+</span><span class="line">sync
+</span><span class="line">#fswatch -o . | xargs -n1 -I{} sync</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
+so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
+I wrote .rsyncignore something like below.  </p>
+
+<h4 id="rsyncignore">.rsyncignore</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">tmp/
+</span><span class="line">vendor/</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>gem is installed global.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">FROM ruby
+</span><span class="line">RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
+</span><span class="line">RUN mkdir /myapp
+</span><span class="line">WORKDIR /myapp
+</span><span class="line">ADD Gemfile /myapp/Gemfile
+</span><span class="line">ADD . /myapp
+</span><span class="line">RUN bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="figyml">fig.yml</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hoge
+</span><span class="line">  # volumes:
+</span><span class="line">  #   - ./data:/var/lib/mysql
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  working_dir: /myapp
+</span><span class="line">  dns: localhost
+</span><span class="line">  volumes:
+</span><span class="line">    - /home/docker/share:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  expose:
+</span><span class="line">    - 3000
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In db section, volumes isn’t need.<br />
+In web section, volumes is attached from boot2docker to web container.  </p>
+
+<p>That’s it.  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-04T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/fig/'>fig</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/03/fig-rails/">
+		
+			Fig(docker Compose) で Rails する</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">追記</h1>
+<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
+フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
+おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
+localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
+現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
+参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
+
+<h1 id="section-1">メモ</h1>
+
+<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
+が、それに気づかず しばらく fig で進めた。  </p>
+
+<p>fig で rails は tutorial 通りでは動かなかった。<br />
+基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
+binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
+その辺を修正した。<br />
+ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
+
+<h3 id="figyml">fig.yml</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">db:
+</span><span class="line">  image: mysql:5.6
+</span><span class="line">  ports:
+</span><span class="line">    - "3306:3306"
+</span><span class="line">  environment:
+</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
+</span><span class="line">
+</span><span class="line">web:
+</span><span class="line">  build: .
+</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
+</span><span class="line">  volumes:
+</span><span class="line">    - .:/myapp
+</span><span class="line">  ports:
+</span><span class="line">    - "3000:3000"
+</span><span class="line">  links:
+</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>fig run web rake db:create db:migrate</code></p>
+
+<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
+docker images でだした image を docker rmi で全て消してやり直したり、<br />
+それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
+
+<h1 id="section-2">所感</h1>
+<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/docker/'>docker</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/23/rakuten-kard/">
+		
+			楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
+<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
+システム的に翌月になるまで照会が出来ないとのこと。<br />
+もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-23T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rakuten/'>rakuten</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/21/mac-setup-2015/">
+		
+			Mac 開発環境 Setup 2015</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
+<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
+なので、一旦自分用に考えてみる。  </p>
+
+<h2 id="section">気をつけるべきこと</h2>
+<ul>
+  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
+  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
+</ul>
+
+<h2 id="section-1">準備</h2>
+
+<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
+<ul>
+  <li>brew install rcmdnk/file/brew-file  </li>
+  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
+– sudo easy_install pip<br />
+– pip install requests<br />
+– brew file init vimtaku/Brewfile<br />
+– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
+</ul>
+
+<h2 id="section-2">手順</h2>
+
+<h3 id="xcode-">xcode のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homebrew-">homebrew のインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="brewfile--1">Brewfile からインストール</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
+</span><span class="line">cd Brewfile
+</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="homesick-">homesick のインストール</h3>
+<p>ちょっと違うかも。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
+</span><span class="line">gem install homesick
+</span><span class="line">rbenv rehash
+</span><span class="line">homesick clone vimtaku/dotfiles
+</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-21T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/mac/'>mac</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/18/gtd_template/">
+		
+			GTD テンプレート</a>
+	</h2>
+	<div class="entry-content">
+		<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">
+</span><span class="line"># Inbox
+</span><span class="line">
+</span><span class="line">----
+</span><span class="line"># 行動を起こす必要があるもの
+</span><span class="line">
+</span><span class="line">## カレンダー
+</span><span class="line">Google カレンダー参照
+</span><span class="line">
+</span><span class="line">## 次に取るべき行動のリスト
+</span><span class="line">### @会社
+</span><span class="line">### @自宅
+</span><span class="line">### @電車
+</span><span class="line">### @暇
+</span><span class="line">
+</span><span class="line">## 連絡待ちリスト
+</span><span class="line">
+</span><span class="line">## プロジェクトリスト
+</span><span class="line">### プロジェクトA
+</span><span class="line">### プロジェクトB
+</span><span class="line">
+</span><span class="line">## プロジェクトの参考情報
+</span><span class="line">
+</span><span class="line">----
+</span><span class="line"># 行動を起こす必要がないもの
+</span><span class="line">
+</span><span class="line">## ゴミ箱
+</span><span class="line">
+</span><span class="line">## 保留
+</span><span class="line">### いつかやる・多分やるリスト
+</span><span class="line">
+</span><span class="line">## 資料
+</span><span class="line">
+</span><span class="line">----------------------------------------
+</span><span class="line"># GTD の処理方法
+</span><span class="line">1. 収集
+</span><span class="line">-- トリガーリスト
+</span><span class="line">2. 処理
+</span><span class="line">-- ワークフローにしたがって振り分ける
+</span><span class="line">3. 上記の行動を起こす必要があるもの(カレンダー、次に取るべき行動のリスト、連絡待ちリスト、プロジェクトリスト、プロジェクトの参考情報)と行動を起こす必要がないもの(ゴミ箱、保留、資料)
+</span><span class="line">4. レビュー
+</span><span class="line">5. 実行
+</span><span class="line">
+</span><span class="line"># プロジェクトプランニング
+</span><span class="line">プランニングについては、考える必要がないもの以外では、以下のとおりに進めると良い。
+</span><span class="line">## 目的と価値観を見極める
+</span><span class="line">## 結果をイメージする
+</span><span class="line">## ブレインストーミング
+</span><span class="line">## 整理
+</span><span class="line">## 会議
+</span><span class="line">## 情報収集
+</span><span class="line">## 次に取るべき行動を判断
+</span><span class="line">
+</span><span class="line"># 週次レビューの方法
+</span><span class="line">基本的なレビューは随時行う。週次レビューは週に一度時間をとって行う。  
+</span><span class="line">以下にそのまま項目を引用しておく。
+</span><span class="line">## 雑多な紙類を集める。
+</span><span class="line">## 処理を行う
+</span><span class="line">## カレンダーのチェック(過去)
+</span><span class="line">## カレンダーのチェック(未来)
+</span><span class="line">## 頭のなかにあるものを出す
+</span><span class="line">## プロジェクトリスト及び大きな目標のレビュー
+</span><span class="line">## 「次に取るべき行動リスト」のレビュー
+</span><span class="line">## 連絡待ちリストのレビュー
+</span><span class="line">## プロジェクト候補のチェックリストのレビュー
+</span><span class="line">## いつかやる・多分やるリストのレビュー
+</span><span class="line">## プロジェクトの参考情報
+</span><span class="line">## 創造的、かつ大胆に考える
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-18T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/gtd/'>gtd</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/18/gtd/">
+		
+			GTD の本を読んだ</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="gtd-">GTD の本を読んだ</h1>
+
+<h2 id="section">この本</h2>
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4576082116" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<h2 id="section-1">本の内容</h2>
+<p>大体読んだらわかることなんだが、<br />
+ - <a href="http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/">http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/</a><br />
+ - <a href="http://postd.cc/gtd-in-15-minutes/">http://postd.cc/gtd-in-15-minutes/</a><br />
+この辺によくまとまっているのでそちらを参照してもらうと良いかも。  </p>
+
+<h2 id="section-2">所感</h2>
+<p>僕の尊敬するとある人が、GTD やってますと言っていて、それから何年も経つがやってみたいと思ったので、<br />
+本を買って読んでみたがとても良さそうに感じた。<br />
+頭のなかを一つのシステムに書き出すことによって、それについて考える時間が増えた実感があるし、<br />
+やるべきことが可視化されることは非常に良いと思った。あとは週次レビューをどう組み込むかかなぁと思った。  </p>
+
+<h1 id="section-3">自分の場合どのような方法で実践するか</h1>
+
+<h2 id="section-4">ツール</h2>
+
+<h3 id="vimqfixhowm---dropbox-">vim(qfixhowm のメモ) + dropbox でやる</h3>
+<p>これについては基本的に markdown で見るのが一番自分らしく、わかりやすいので markdown で管理する。<br />
+週次レビューについては、毎週金曜か土曜日に時間をとってやるのが良いと思った。  </p>
+
+<h3 id="section-5">紙とマインドマップ</h3>
+<p>基本的には IT の仕事なので紙とマインドマップと vim があれば大丈夫かと。  </p>
+
+<h3 id="qfixhowm--dropbox--iphone-">qfixhowm のメモを dropbox のやつで見た時 iphone から見れるようにするやつ</h3>
+<p>がほしいのでどっかでつくる。  </p>
+
+<h3 id="section-6">とりあえずでテンプレート作ってみた</h3>
+<p><a href="http://vimtaku.github.io/blog/2015/02/18/gtd_template">http://vimtaku.github.io/blog/2015/02/18/gtd_template</a></p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-18T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/gtd/'>gtd</a>
+
+
+</div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/02/16/money-is-nani/">
+		
+			金はチケットである</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="section">金はチケットである</h1>
+<p>金はチケットだ。<br />
+美味しいものを食べたり、サービスを受けるための交換手段である。<br />
+金はあればあるほどよい。より良いサービスを受けられるからだ。<br />
+ただ、金がそこにあるだけで幸せなのかというと、たぶんそうじゃあないと思う。  </p>
+
+<h1 id="section-1">金の入力</h1>
+<p>金はどこからくるのだろう。<br />
+今日食べたご飯や、受けたサービスは、金を使って得られたものだ。<br />
+自分の場合、基本的には、金は会社から得られたものである。<br />
+会社はなぜ自分に金を払うのだろうか。<br />
+それは自分が、会社にサービスを提供した(もしくはするという契約を結んだ)からである。<br />
+富を創りだせるからこそ、金を払うのである。  </p>
+
+<p>金を手にすることは困難だろうか。<br />
+確かにそれは難しいことではある。<br />
+ただ、価値を提供できれば、それ相応の金を得られるはずだ。  </p>
+
+<p>単純に、金を稼ぐことは楽しい。<br />
+サラリーマンをやる上でも、給料が上がらないというのは面白くない。  </p>
+
+<p>富を創ること、が、完全に金に結びつくかはわからないが、<br />
+富を創ることで、お金をいくらでも得られるのだとかんがえると、<br />
+人生はいかに楽しいものかと思う。  </p>
+
+<p>現状の金の入力に満足出来ないなら、<br />
+自分が価値を提供できていないのだと振り返ることができるはずだ。<br />
+価値を生み出せるはずだと信じて、富を創る行動を始めたら良いと思う。  </p>
+
+<h1 id="section-2">金の出力</h1>
+<p>金を使うのは簡単だ。<br />
+金は使えばすぐに無くなる。<br />
+サービスは、その相互の関係において値段が付けられる。  </p>
+
+<p>そういう意味で、納得出来ないサービス(買い物)はすべきでない。<br />
+そしてまた、納得出来ない価格(給料)でサービス(仕事)すべきでもないはずだ。  </p>
+
+<h1 id="section-3">金とサービス</h1>
+<p>単純に、金を使うのは楽しい。<br />
+一般的に、良いサービスほどお金がかかる。<br />
+そういう意味で、金はチケットだと思う。  </p>
+
+<p>いつも行っている美容室で、普段髪を切るのに 3000 円かかるとしよう。<br />
+たまたまその美容室が混んでいて、どうしても髪を切りたいあなたが<br />
+たまたま入ったおしゃれな美容室は、すぐに髪を切ってくれて、 6000 円だったとしよう。<br />
+それでいつもよりクールな髪型になるんだ。  </p>
+
+<p>より良いサービスにはお金がかかる。<br />
+あなたはより良いサービスを受けたいと思う。<br />
+それにはチケットが必要なのだ。<br />
+(蛇足ではあるが、普段のサービスを受けるためにもチケットは必要である。)</p>
+
+<h1 id="section-4">金と価値感</h1>
+<p>一度良いサービスを受けてしまうと、元のサービスに戻るのが耐えられないと言うのは真実だと思う。<br />
+自分が富を創ることでお金を入力し、自分が良いと思うものにお金を出力する。<br />
+すごく自分勝手に聞こえるかもしれないが、日常の支出をメタに書いただけである。  </p>
+
+<p>金をどう使うかは、その人の価値観に依存する。<br />
+良いサービスを知らない、受ける必要がないなら、お金を稼ぐ必要がない。<br />
+断捨離というやつかもしれない。<br />
+仏教的に、ただ生かされているんだというロックで生きるならそれで良い。<br />
+自分は仏教的な考え方にはある種賛成だけど、それを楽しむなら人生長すぎると思う。<br />
+だから現時点では、仏教的考え方もあるなぁと思いつつも、<br />
+精一杯富を創る(サービスを提供する)ことに全力を注ぎたい。  </p>
+
+<h1 id="section-5">自分が金を出力して受けたいサービス</h1>
+<p>振り返ってみると、基本的に自分が受けたいサービスは、音楽と勉強と食事と服と程よい住まいだ。<br />
+より良い音楽を楽しむ方法にはお金をかけてみたいし、<br />
+より自分がよく価値を提供できるように勉強(主により良い本をよんだり)したいし、
+より美味しいものを食べて(いたい|みたい)し、<br />
+自分が着たいと思った服を着たいし、<br />
+自分が便利だ！、と感じるところに住みたい。<br />
+逆にいうと、ちょっと考えたくらいだったらこんなもんなのかと思う。  </p>
+
+<h1 id="section-6">富として生み出したい、金以外の価値</h1>
+<p>金はチケットであればあるほどよいが、富を創ることで金以外に得られるものは、本質的には金より重要だ。<br />
+富を創るために時間を使うのは、自分の価値観では、とても有意義なことである。  </p>
+
+<h1 id="section-7">所感</h1>
+<p>ふとポエムを書きたくなったので書いた。<br />
+ハッカーと画家を読んだせいで、最近のポエム熱がやばい。<br />
+おそらくこの文章も富である。<br />
+ただこの文章にお金を払う人がいないだけだ。<br />
+そういう意味で、文章を書き続ける(ブログ他)ことは、<br />
+富を生み出す行為だと思う。  </p>
+
+<p>ふとどうでもよいことを思ったが、仏教をロックと割り切るなら、この文章もロックであるはずだ。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-16T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/poem/'>poem</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -233,1186 +1125,6 @@ http://qiita.com/yujiod/items/dc154120c4df2e938111
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/02/swift-dynamic-cast-class-unconditional-by-realm/">
-		
-			If You Test Using realm.io Object, You Should Use RLMRealm.inMemoryRealmWithIdentifier</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="toc">TOC</h1>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</a>    <ul>
-      <li><a href="#about-realm">About realm</a></li>
-      <li><a href="#related-link">Related link</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="in-test-you-should-use-inmemoryrealmwithidentifier">In test, You should use inMemoryRealmWithIdentifier</h1>
-<p>If you test using realm.io object, you should use RLMRealm.inMemoryRealmWithIdentifier.<br />
-I don’t know why, but I got error many times when I wrote some unit test by using realm.<br />
-The error is “swift_dynamicCastClassUnconditional”.<br />
-I struggled a lot, finally I got a solution.<br />
-First of all, below is my code.  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import Foundation
-</span><span class="line">
-</span><span class="line">class FMUserCredential: RLMObject {
-</span><span class="line">    dynamic var accessToken :String = ""
-</span><span class="line">    dynamic var refreshToken :String = ""
-</span><span class="line">    
-</span><span class="line">    // 代替案
-</span><span class="line">    private struct ClassProperty {
-</span><span class="line">        static var _realm:RLMRealm? = nil
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    // Computed Property
-</span><span class="line">    class var _realm: RLMRealm? {
-</span><span class="line">        get {
-</span><span class="line">            return ClassProperty._realm
-</span><span class="line">        }
-</span><span class="line">        set {
-</span><span class="line">            return ClassProperty._realm = newValue
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func realm() -&gt; RLMRealm {
-</span><span class="line">        if (FMUserCredential._realm == nil) {
-</span><span class="line">            let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-</span><span class="line">            let realmPath = documentsPath.stringByAppendingPathComponent("db25.realm")
-</span><span class="line">            let realm = RLMRealm(path:realmPath, readOnly:false, error:nil)
-</span><span class="line">            FMUserCredential._realm = realm
-</span><span class="line">        }
-</span><span class="line">        return FMUserCredential._realm!
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    class func findAll() -&gt; RLMResults {
-</span><span class="line">        return FMUserCredential.allObjectsInRealm(realm())
-</span><span class="line">    }
-</span><span class="line">    class func find() -&gt; FMUserCredential? {
-</span><span class="line">        if (findAll().count &gt;= 1) {
-</span><span class="line">            return findAll().firstObject() as FMUserCredential?
-</span><span class="line">        }
-</span><span class="line">        return nil
-</span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This class has static params realm, and when I test write, I set realm object.<br />
-But, I notice that I have to new realm object when I do test.<br />
-So, I changed my test code to use  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let realm = RLMRealm.inMemoryRealmWithIdentifier("MyInMemoryRealm")
-</span><span class="line">FMUserCredential._realm = realm</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This worked fine.  </p>
-
-<h2 id="about-realm">About realm</h2>
-<p>Realm is maybe so fast but I think this is quite difficult to use.<br />
-Because I already had a lot of time to use it, actually I’m a cocoa beginner.<br />
-The cost of studying it is quite high. but I don’t know how difficult coredata is, so I cannot judge which one is better.  </p>
-
-<h2 id="related-link">Related link</h2>
-<ul>
-  <li><a href="http://realm.io/docs/cocoa/0.90.4/">http://realm.io/docs/cocoa/0.90.4/</a></li>
-  <li><a href="http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1">http://stackoverflow.com/questions/24956956/swift-dynamic-cast-failed-with-http-get-request?rq=1</a></li>
-  <li><a href="http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library">http://stackoverflow.com/questions/24841856/swift-breakpoint-in-coredata-library</a></li>
-</ul>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/01/30/hackers-and-painters/">
-		
-			ハッカーと画家を読んだ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#section">ハッカーと画家を読んだ</a>    <ul>
-      <li><a href="#usa">0章 メイドインUSA</a></li>
-      <li><a href="#section-1">1章 なぜオタクはモテないのか</a></li>
-      <li><a href="#section-2">2章 ハッカーと画家</a></li>
-      <li><a href="#section-3">3章 口にできないこと</a></li>
-      <li><a href="#section-4">5章 もう一つの未来への道</a></li>
-      <li><a href="#section-5">6章 富の創り方</a></li>
-      <li><a href="#section-6">9章 ものづくりのセンス</a></li>
-      <li><a href="#section-7">10章 プログラミング言語入門</a></li>
-      <li><a href="#section-8">11章 100年後の言語</a></li>
-      <li><a href="#section-9">12章 普通のやつらの上を行け</a></li>
-      <li><a href="#section-10">14章 夢の言語</a></li>
-      <li><a href="#section-11">15章 デザインとリサーチ</a></li>
-      <li><a href="#section-12">16章 素晴らしきハッカー</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="section">ハッカーと画家を読んだ</h1>
-<p>ハッカーと画家はポール・グラハムによって書かれたエッセイ集で、<br />
-何か得られるかなぁとおもって読んでみた。  </p>
-
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4274065979" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<p>全体的には、  </p>
-
-<ul>
-  <li>スタートアップでしょ、普通  </li>
-  <li>lisp 最高  </li>
-  <li>プログラムは、人々がそれを読むために書かれるべきである. たまたま, それが計算機で実行できるに過ぎない.(by SICP)  </li>
-  <li>富はお金じゃない。富は作れる、コード書いて富を創ろう  </li>
-  <li>ハッカーとはどんなひとたちか  </li>
-  <li>誰かに喜ばれるものを作るのではなく、特定のユーザに喜ばれるものを作れ<br />
- – 仕事とかしてたらよく聞くよね、形を変えて。(ペルソナとかそういう  </li>
-</ul>
-
-<p>という感じだった。  </p>
-
-<p>今大企業にいるけど、再来月からスタートアップに join するにあたっては、結構背中を押してくれる内容だったと思う。  </p>
-
-<p>一応マインドマップに書いたメモがあるので、それを元に以下に記述する。<br />
-(飛ばしている章もある)  </p>
-
-<h2 id="usa">0章 メイドインUSA</h2>
-<ul>
-  <li>ipod  </li>
-  <li>デザイン  </li>
-</ul>
-
-<h2 id="section-1">1章 なぜオタクはモテないのか</h2>
-<ul>
-  <li>nerd であること(賢くありたい)  </li>
-  <li>学校は牢獄と同じで、若者たちが社会を邪魔しないためにあるもの<br />
- – 中にいる学生たちがそれを変えるしかない  </li>
-</ul>
-
-<h2 id="section-2">2章 ハッカーと画家</h2>
-<ul>
-  <li>数学者に憧れる必要はない。ハッカーはもっと画家のようであるべき。  </li>
-  <li>共感することの重要さ。これが良いものと偉大なものとを分ける。  </li>
-  <li>プログラムは、人々がそれを読むために書かれるべきである. たまたま, それが計算機で実行できるに過ぎない.(by SICP)  </li>
-</ul>
-
-<h2 id="section-3">3章 口にできないこと</h2>
-<ul>
-  <li>現代で自然と行われていることが、実は未来では当たり前に<em>やっていない</em>ようなことで、それが現代における「口にできないこと」  </li>
-  <li>それを見つけるにはいくつか方法がある<br />
- – 災難をみつける。批難を受けているものに対して、自分で「その主張は真実であるか?」と問うことが重要。<br />
- – 異端  </li>
-  <li>口にできないことを探す理由<br />
- – 好奇心<br />
- – 間違っていたくない<br />
- – 頭脳に良い  </li>
-  <li>自分の考えを口にだすことはいろいろマイナスがある<br />
- – どちらか意見を聞かれた時、まだ決めてない、と答えるのがベター  </li>
-  <li>もっとも重要なことは、「考えたいことを考えられること」  </li>
-</ul>
-
-<h2 id="section-4">5章 もう一つの未来への道</h2>
-<ul>
-  <li>スタートアップは大企業の十倍の生産性がある  </li>
-  <li>サーバサイドソフトウェアはめっちゃイイ<br />
- – 使い勝手はダメかもしれないが、とにかく動くということ<br />
- — (感想)今はスマホの時代、これからは IoT とか言われてるけどどうなっていくか。<br />
- — (感想)事実、2010年ころくらいまでは Web アプリ(ゲーム)が大半を占めていが、今はそうではないのでここは話半分で良いと思う  </li>
-  <li>サブスクリプションの課金がしっくり来るよねっていう話  </li>
-</ul>
-
-<h2 id="section-5">6章 富の創り方</h2>
-<ul>
-  <li>富は創れる  </li>
-  <li>富とお金は等しくない<br />
- – お金は交換媒体である  </li>
-  <li>富とは、ものやサービスなどを受けられること。  </li>
-</ul>
-
-<h2 id="section-6">9章 ものづくりのセンス</h2>
-<ul>
-  <li>良いデザインは<br />
- – 単純<br />
- – 永遠<br />
- – 正しい問題を解決する<br />
- – 想像力を換気する<br />
- – ちょっと滑稽<br />
- – 難しい<br />
- – 模倣する<br />
- — 正しい答え + オリジナリティ<br />
- – 奇妙である<br />
- — lisp とか<br />
- – 集団で生起する<br />
- – 大胆である  </li>
-  <li>「俺ならもっとうまく出来る」と考える事がとても重要  </li>
-</ul>
-
-<h2 id="section-7">10章 プログラミング言語入門</h2>
-<ul>
-  <li>静的型付言語と動的型付言語の決着はまだついてない<br />
- – ポールは動的のほうが好き<br />
- – (感想) swift のような、型推論があるものだったらいいとこ取りできてて最近は良いと感じている。<br />
- – (感想) clojure は明示的に型を書かないから nil チェックとか頻繁にしなきゃいけなくて、その点 swift は便利. (scala とかもそうらしい)  </li>
-</ul>
-
-<h2 id="section-8">11章 100年後の言語</h2>
-<ul>
-  <li>作りたくなったでしょ？  </li>
-</ul>
-
-<h2 id="section-9">12章 普通のやつらの上を行け</h2>
-<ul>
-  <li>ぶっちゃけプログラミング言語には力の差がある  </li>
-  <li>lisp 強い  </li>
-  <li>マクロがあることで何でもできる  </li>
-  <li>スタートアップとかで利用例が少なくても気にするな、むしろ差別化できて良い  </li>
-</ul>
-
-<h2 id="section-10">14章 夢の言語</h2>
-<ul>
-  <li>ハックしやすい  </li>
-  <li>簡潔である  </li>
-  <li>書捨てのプログラムを書きやすい  </li>
-  <li>ライブラリが豊富  </li>
-  <li>効率が良い  </li>
-  <li>時間<br />
- – 長く存在  </li>
-</ul>
-
-<h2 id="section-11">15章 デザインとリサーチ</h2>
-<ul>
-  <li>特定のユーザのために創ることが重要  </li>
-  <li>とにかく早くプロトタイプを出すこと  </li>
-  <li>士気。プロトタイプを出すことによって士気が上がる。  </li>
-</ul>
-
-<h2 id="section-12">16章 素晴らしきハッカー</h2>
-<ul>
-  <li>脳内に非常に大きいコンテキストを展開できる  </li>
-  <li>特殊な集中力  </li>
-  <li>最初はだれがいいハッカーかはわからない<br />
- – 一緒に働いてみるとわかる  </li>
-  <li>自分を素晴らしいハッカーにすることができる方法があるとしたら、その方法とは、自分自身に対して次の契約を結ぶことだ。<br />
- – 「退屈なプロジェクトの仕事は一切しなくて良い、その代わりに、中途半端な仕事はしない。」  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-30T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/book/'>book</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/01/22/swift-promise-craft/">
-		
-			Swift の Promise ライブラリの BrightFuture と Craft を使ってみたら Craft のほうが良かった</a>
-	</h2>
-	<div class="entry-content">
-		
-<h1 id="toc">TOC</h1>
-
-<h1 id="section">はじめに</h1>
-<p>最近 Swift でアプリを書いているんだけど、 promise のライブラリをどうしても使いたくて色々見ていたら、<br />
-なんか BrightFuture っていうやつが Star が多いように見えて<br />
-しばらくつかってみたけど、then でつなげた結果を次に返すみたいなのができそうになかった。<br />
-Craft は js の promise と同じように使えて、 chainable なので便利だった。  </p>
-
-<h1 id="craft-">Craft 使用例</h1>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let moge = "moge"
-</span><span class="line">let promise = Craft.promise({
-</span><span class="line">  (resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">
-</span><span class="line">    // post の処理
-</span><span class="line">    Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">        if (ticket != nil) {
-</span><span class="line">            resolve(value: ticket!.token!)
-</span><span class="line">        } else {
-</span><span class="line">            reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">        }
-</span><span class="line">    }
-</span><span class="line">})
-</span><span class="line">promise.then({(value: Value) -&gt; Value in
-</span><span class="line">
-</span><span class="line">    println("promise 1 value 1 is ")
-</span><span class="line">    println(value) ; 1コメのやつ
-</span><span class="line">
-</span><span class="line">    let promise = Craft.promise({(resolve: (value: Value) -&gt; (), reject: (value: Value) -&gt; ()) -&gt; () in
-</span><span class="line">        Alamofire.request(Router.Ticket).responseObject { (request, response, ticket:Ticket?, error) in
-</span><span class="line">            if (ticket != nil) {
-</span><span class="line">                resolve(value: "2komenoyatu!!!!!!!!!!!!")
-</span><span class="line">            } else {
-</span><span class="line">                reject(value: NSError(domain:"error occured", code:404, userInfo:nil))
-</span><span class="line">            }
-</span><span class="line">        }
-</span><span class="line">    })
-</span><span class="line">    return promise
-</span><span class="line">}).then({(value: Value) -&gt; Value in
-</span><span class="line">    println("promise 2 value 2 is ")
-</span><span class="line">    println(value) ; 2コメのやつ
-</span><span class="line">    return "mogo"
-</span><span class="line">})</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h1 id="section-1">幾つか気づいた点</h1>
-<ul>
-  <li>(2015/2/16追記) release build で最適化されるとうまく処理できず死ぬので注意 &gt; <a href="http://qiita.com/jumbOS5/items/d4941439a0b3a3534396">http://qiita.com/jumbOS5/items/d4941439a0b3a3534396</a></li>
-  <li>promise.then のところは続けて書かないとダメ。つまり( ).then({ … っていう感じ。  </li>
-  <li>swift のコンパイラがダメなのかわからないけど、 responseObject がねぇよって言われてて、<br />
- 意味分かんないから println とか入れるとコンパイラが通る。 甚だ謎。  </li>
-</ul>
-
-<h1 id="section-2">所感</h1>
-<p>やっと promise で楽に書けそう。  </p>
-
-<h1 id="url">参考URL</h1>
-<p><a href="https://github.com/Thomvis/BrightFutures">https://github.com/Thomvis/BrightFutures</a><br />
-<a href="https://github.com/supertommy/craft">https://github.com/supertommy/craft</a>  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-22T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/swift/'>swift</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/15/clojure-midje-filter-test/">
-		
-			Clojure で 一部分だけテストがしたい Using Midje</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#ruby--clojure-">ruby と比べて、 clojure のテスト</a></li>
-  <li><a href="#test--filter-">test のメソッド filter をどうやるか？</a></li>
-  <li><a href="#repl-">repl で最初に定義されていてほしい</a></li>
-  <li><a href="#section">注意点</a></li>
-  <li><a href="#section-1">所感</a></li>
-</ul>
-
-<h2 id="ruby--clojure-">ruby と比べて、 clojure のテスト</h2>
-<p>普段書いている ruby と比べて、圧倒的に clojure の方が良いところはテストの実行速度だ。<br />
-比べ物にならないくらい早い。DB にデータとか入れてないからかもしれないけど。<br />
-基本的に保存したら結果が出ている。 repl の立ち上がりとか、最初のテスト読み込みとかはクソ重いけども。<br />
-さて、普段は rspec でテストを書いているが、 describe “hoge test “, filter:true do … とかすると<br />
-filter ができるのだが、 clojure ではどうやるのだろうか。調査してみた。  </p>
-
-<h2 id="test--filter-">test のメソッド filter をどうやるか？</h2>
-
-<div>
-  <pre><code class="clojure">; in repl.clj
-(defn filter-autotest []
-(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-)
-
-(defn all-autotest []
-(require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-)
-
-; in test
-(fact :filter &quot;do something great test&quot;
- (is true)
-)</code></pre>
-</div>
-
-<p>上記をrepl 内で定義しておき、<br />
-(filter-autotest) か (all-autotest) かを評価する。<br />
-そうすると、 filter-autotest の場合は filter つきだけが、<br />
-all-autotest の場合は全てが実行される。  </p>
-
-<h2 id="repl-">repl で最初に定義されていてほしい</h2>
-<p>repl を起動するたびにいちいち定義するのは面倒くさいので,<br />
-<a href="http://dev.solita.fi/2014/03/18/pimp-my-repl.html">こちら</a><br />
-を参考にして設定することで, 起動時に load するようにした。</p>
-
-<div>
-  <pre><code class="diff">+++ b/dev/user.clj
-@@ -0,0 +1,29 @@
-+(ns user
-+  (:require
-+    [clojure.repl :refer :all]
-+    [clojure.tools.namespace.repl :refer [refresh]]
-+    [midje.sweet :refer :all]
-+    [midje.repl :refer :all]
-+    )
-+  )
-+
-+(defn filter-autotest []
-+  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] (:filter fact) ))
-+)
-+
-+(defn all-autotest []
-+  (require &#39;midje.repl) (midje.repl/autotest :filter (fn [fact] true))
-+)
-+
-+(defn start
-+  &quot;Start the application&quot;
-+  []
-+  )
-+
-+(defn stop
-+  &quot;Stop the application&quot;
-+  []
-+  )
-+
-+(defn reset []
-+  (stop)
-+  (refresh :after &#39;user/start))
-
-+++ b/project.clj
-@@ -20,7 +20,8 @@
--  {:dev {:dependencies [
-+  {:dev {:source-paths [&quot;dev&quot;]
-+         :dependencies [</code></pre>
-</div>
-
-<h2 id="section">注意点</h2>
-<div>
-  <pre><code class="clojure">(fact &quot;do something&quot;
- (fact &quot;do2&quot;
-  ....</code></pre>
-</div>
-
-<p>のように、 fact でネストした場合は filter に引っかからないので、<br />
-この場合は 最初の fact を fact-group に修正してあげましょう。  </p>
-
-<h2 id="section-1">所感</h2>
-
-<p>これがわかってよかった。開発効率が ちょっと上がった。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-15T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/midje/'>midje</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/12/datomic-matome/">
-		
-			Datomic まとめ</a>
-	</h2>
-	<div class="entry-content">
-		
-<h2 id="toc">TOC</h2>
-<ul id="markdown-toc">
-  <li><a href="#toc">TOC</a></li>
-  <li><a href="#datomic-">datomic まとめ(追記していく)</a>    <ul>
-      <li><a href="#datomic--1">datomic 自体の説明</a></li>
-    </ul>
-  </li>
-  <li><a href="#datomic--2">datomic 本当のところ(使いながら追記していく)</a>    <ul>
-      <li><a href="#createdat-updatedat-">created_at, updated_at は持つ必要がない</a></li>
-      <li><a href="#where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</a></li>
-      <li><a href="#datomic--3">個人的に datomic を立てている設定</a></li>
-      <li><a href="#datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</a></li>
-      <li><a href="#section">参考資料(便利)</a></li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="datomic-">datomic まとめ(追記していく)</h1>
-
-<h2 id="datomic--1">datomic 自体の説明</h2>
-<p>省略。<br />
-いつか書くかも。
-他に良い記事がたくさんあるので。  </p>
-
-<h1 id="datomic--2">datomic 本当のところ(使いながら追記していく)</h1>
-
-<h2 id="createdat-updatedat-">created_at, updated_at は持つ必要がない</h2>
-<p>rails で mysql とかつかって作るときだと当たり前のように created_at とか updated_at を持っているけど、<br />
-datomic を使う場合は必要ない。<br />
-stack over flow に、持ってた方が良い？などの質問に対して、
-おれは created_at 入れているみたいな意見があったけど、別にいらないと思う。  </p>
-
-<div>
-  <pre><code class="clojure">; -------- 一応コピペしとく
-(def db-url (ref &quot;&quot;))
-(dosync
-  (ref-set db-url  &quot;datomic:free://localhost:4334/hoge&quot;))
-
-(defn setup-db [db-url]
-  (d/create-database db-url)
-  (d/transact
-    (d/connect db-url)
-    (concat
-      (ds/generate-parts d/tempid (dbparts))
-      (ds/generate-schema d/tempid (dbschema)))))
-(defn setup-testdb []
-  (dosync
-    (ref-set db-url (str &quot;datomic:mem:&quot; (d/squuid))))
-  (setup-db @db-url)
-)
-
-(defn connect-db []
-  (d/connect @db-url)
-)
-
-; -------- ここが本質
-(defn history [eid]
-  (d/q
-    &#39;[:find ?e ?a ?v ?tx ?added
-      :in $ ?e
-      :where
-      [?e ?a ?v ?tx ?added]]
-    (d/history (d/db (connect-db)))
-    eid
-    )
-)</code></pre>
-</div>
-
-<p>これで帰ってくる値は [entity_id, attribute_id, value, transaction_id, added?]<br />
-で、これらが引けるということは created_at, updated_at をあえて持たなくて良い。  </p>
-
-<blockquote><p>#&lt;HashSet [<br /> [17592186045436 74 this is new emotion. 13194139534331 true],<br /> [17592186045436 73 0 13194139534331 true],<br /> [17592186045436 72 17592186045423 13194139534331 true],<br /> [17592186045436 71 17592186045421 13194139534331 true],<br /> [17592186045436 75 17592186045432 13194139534331 true],<br /> [17592186045436 70 #inst &#8220;2014-12-12T00:11:51.228-00:00&#8221; 13194139534331 true],<br /> [17592186045436 71 17592186045422 13194139534333 true],<br /> [17592186045436 71 17592186045421 13194139534333 false],<br /> [17592186045436 74 hogera! 13194139534333 true],<br /> [17592186045436 74 this is new emotion. 13194139534333 false]<br />]&gt;</p></blockquote>
-<p>サンプルをはるとこんな感じで帰ってきている。(手動で sort 済み)<br />
-これは 13194139534331 と 13194139534333 のトランザクションでインサートされたこと、<br />
-71, 74 の属性が 変更されたことなどが読み取れる。  </p>
-
-<h2 id="where-nil-datomic--datalog">where での絞込みでは、nil のものは消えてしまう(datomic というより datalog)</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(d/q '[:find ?token ?arn
-</span><span class="line">     :in $ ?uid
-</span><span class="line">     :where
-</span><span class="line">      [?dt :device_token/user ?uid]
-</span><span class="line">      [?dt :device_token/endpoint_arn ?arn]</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>などとしたとき、 device_token のレコードに、 arn をもともと空文字列か何かを入れておかないと、<br />
-filter されてしまう。endpoint_arn がないときに、それを作って格納みたいなコードを書こうとしたとき<br />
-ちょっと困った。  </p>
-
-<h2 id="datomic--3">個人的に datomic を立てている設定</h2>
-<p><a href="https://github.com/pointslope/docker-datomic-example.git">https://github.com/pointslope/docker-datomic-example.git</a>
-を使って、 fig で up している。<br />
-datomic console 付きで立つ。  </p>
-
-<h2 id="datomic-console--hornetqexception-errortypesecurityexception-messagehq119031-unable-to-validate-user-vzk3d3j04arqgpmxi6zwfypxagoeawz1vedir5gdwte">datomic console から接続するときに HornetQException errorType=SECURITY_EXCEPTION message=HQ119031: Unable to validate user: vzk3d3j04aRQgPmXi6zwfYPxAGOeaWZ1vEdir5GdwtE=</h2>
-<p>unable to validate user が出た。<br />
-これは、 transactor に対して 3つ以上の接続をした時に出る模様。<br />
-いったん接続している peer を落としてみたら、無事に接続できた。<br />
-そういう意味では、datomic console を使って本番DB をみたいなら、必然的に 待ち受けている peer は 1つになる。<br />
-まぁ基本的にはそれでいいのかな。  </p>
-
-<h2 id="section">参考資料(便利)</h2>
-<ul>
-  <li><a href="http://sunday-programming.hatenablog.com/category/datomic">http://sunday-programming.hatenablog.com/category/datomic</a><br />
-– めっちゃ参考にさせていただいております。  </li>
-  <li><a href="http://www.learndatalogtoday.org/">http://www.learndatalogtoday.org/</a><br />
-– datomic の query language である datalog のチュートリアル。datomic をやる前にこれを触っておくのオススメ。  </li>
-  <li><a href="https://github.com/Datomic/day-of-datomic">https://github.com/Datomic/day-of-datomic</a>  </li>
-  <li><a href="https://github.com/Yuppiechef/datomic-schema">https://github.com/Yuppiechef/datomic-schema</a><br />
-– datomic のスキーマを書くのマジしんどいけどこれがあればいい感じでつくってくれて嬉しいやつ。  </li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-12T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/datomic/'>datomic</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/12/09/mac-wiress-keyboard-scroll/">
-		
-			Mac で Wirelss な Lenovo の Keyboard を使う</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="section">無線キーボードを買った</h2>
-<p><a href="http://www.amazon.co.jp/%E3%83%AC%E3%83%8E%E3%83%9C%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%91%E3%83%B3-ThinkPad-Bluetooth-%E3%83%AF%E3%82%A4%E3%83%A4%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89-0B47181/dp/B00DLK4GQA/ref=sr_1_1?ie=UTF8&amp;qid=1418113086&amp;sr=8-1&amp;keywords=thinkpad+%E3%82%AD%E3%83%BC%E3%83%9C%E3%83%BC%E3%83%89">thinkpad の無線キーボードを買った</a> のだけど, firefox で使うスクロールが、 middle click が暴発してそもそも使えなすぎだった。<br />
-具体的にはスクロールして欲しいところが、中クリックをおしたことになっていた。  </p>
-
-<h2 id="section-1">解決</h2>
-<ul>
-  <li>karabiner である程度設定は基本  </li>
-  <li>seil で変換、無変換を使用できるようにする  </li>
-  <li>firefox 中クリック問題、および iTerm2 で中クリックコピペされちゃう問題は<a href="http://www.marcmoini.com/sx_en.html">Smart Scroll を使う</a> とすべてが解決した。  </li>
-</ul>
-
-<h2 id="section-2">所感</h2>
-<p>結構はまったけど解法が見つかって嬉しい。<br />
-危うく1万ドブに捨てるとこだった。<br />
-有料アプリになるかもだけど、評価が終わった場合これは買ってしまっていいだろう。</p>
-
-<h2 id="section-3">参考資料</h2>
-<ul>
-  <li><a href="http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x">http://computers.findincity.net/view/635399295212048058280964/middle-click-using-ibmlenovo-keyboard-with-trackpoint-to-scroll-on-mac-os-x</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-09T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/devenv/'>devenv</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/09/18/rubykaigi-firstday/">
-		
-			Rubykaigi 2014/ 1日目</a>
-	</h2>
-	<div class="entry-content">
-		<h1 id="rubykaigi-first-day">RubyKaigi first day</h1>
-
-<p>とりあえずまとめてみた。  </p>
-
-<h2 id="key-note-building-the-ruby-interpreter----what-is-easy-and-what-is-difficulthttprubykaigiorg2014presentations-koichisasada"><a href="http://rubykaigi.org/2014/presentation/S-KoichiSasada">(key note) Building the Ruby interpreter – What is easy and what is difficult?</a></h2>
-
-<p>何が簡単で、何が難しいのかという話。  </p>
-
-<h3 id="section">メモ</h3>
-
-<h4 id="section-1">パフォーマンス</h4>
-<p>パフォーマンスを単純に上げるのは簡単だが、メンテし易さなどとトレードオフの関係にあるので、<br />
-メンテしやすく、さらにパフォーマンスを上げるのは簡単ではない。  </p>
-
-<h4 id="vm">VM</h4>
-<p>VM や JIT コンパイルの仕組みなどを作るのはそんなに難しくない。<br />
-しかし reliability を保ちながら作るのは難しい。  </p>
-
-<h4 id="section-2">メンテしやすさ</h4>
-<p>Ruby の実装を Ruby で実装すればわかりやすいしメンテしやすい。<br />
-ruby のコードをいじったあとでは、 テストとか全部通ればまだ良い方(ダメだったら全部通らないから)。  </p>
-
-<h4 id="section-3">並列性</h4>
-<p>単純にカーネルレベルスレッドの仕組みを作るのは簡単だが、 ruby のユーザに残念体験を与えないためにあえてそうしてない。<br />
-また、スレッドを適切に扱える技術者(ウィザード)は数少ない。という説明もされていた。<br />
-同時実行性があり、バグの再現実効性が低いのも大変である。  </p>
-
-<h4 id="gc">GCアルゴリズム</h4>
-<p>ライトバリアを実装するのは簡単だが、拡張ライブラリなどにも実装するのは大変。  </p>
-
-<h4 id="section-4">性能評価</h4>
-<p>仮想のサーバでは性能評価が難しいので、物理サーバが必要。<br />
-実行時間とはなにか。メモリ使用量とは結局なんだろう(平均?最大?)。  </p>
-
-<h4 id="section-5">コミッターになるには</h4>
-<p>ただコミッターになるのは、matzにコミッター権限貰えばよい。<br />
-しかし、デベロッパーとして参加するのは大変。  </p>
-
-<h4 id="ruby">Ruby(処理系)をもっと知るために</h4>
-<p>Rubyソースコード完全解説<br />
-<a href="http://i.loveruby.net/ja/rhg/book/">http://i.loveruby.net/ja/rhg/book/</a><br />
-Ruby Under a microscope<br />
-<a href="http://shop.oreilly.com/product/9781593275273.do">http://shop.oreilly.com/product/9781593275273.do</a><br />
-(日本語翻訳中らしい)  </p>
-
-<h4 id="section-6">もっと良い技術者になるために</h4>
-<p>新しい技術を調べて<br />
- - ブログを書いて<br />
- - 議論をし<br />
- - sns でチャットして<br />
- - 会議に参加して<br />
- - カンファレンスで発表<br />
-していきましょう。</p>
-
-<h3 id="section-7">所感</h3>
-<p>さすが ruby コミッターという凄さがあった。<br />
-普段 GC とかあまり意識しないけど、知識としてきちんと知っておかなきゃダメだなと思った。  </p>
-
-<h2 id="controller-testing-youre-doing-it-wronghttprubykaigiorg2014presentations-jonathanmukai-heidt"><a href="http://rubykaigi.org/2014/presentation/S-JonathanMukai-Heidt">Controller Testing: You’re Doing It Wrong</a></h2>
-
-<p>やりかた間違ってるよ的な煽りタイトル。</p>
-
-<h3 id="section-8">メモ</h3>
-
-<h4 id="section-9">ダメなことあるある</h4>
-<ul>
-  <li>いろんなことをテストしようとしちゃっている  </li>
-  <li>全部スタブしちゃってる  </li>
-</ul>
-
-<h4 id="section-10">コントローラのテストでやるべきこと</h4>
-<ul>
-  <li>authorization  </li>
-  <li>リソースの存在  </li>
-  <li>レスポンスの形式  </li>
-</ul>
-
-<h4 id="section-11">命令的ではなく、宣言的に</h4>
-<ul>
-  <li>チェックリストのようにテストを書こう  </li>
-</ul>
-
-<h4 id="section-12">実際問題</h4>
-<ul>
-  <li>5/6 の、今年やったプロジェクトでは、コントローラベタ書きｗｗｗ</li>
-</ul>
-
-<h4 id="section-13">なぜファットモデルのほうが良いのか</h4>
-<ul>
-  <li>ActiveModel で作っておくと良い  </li>
-  <li>すごく簡単なロジックでもコントローラに書いていて, それが変更による変更.. となるとすぐ太ってしまう。<br />
- – モデルにしておくほうが良い  </li>
-</ul>
-
-<h4 id="section-14">まとめ</h4>
-<ul>
-  <li>テストは宣言的に、シンプルにかけ  </li>
-  <li>コントローラにロジックかくな、モデルにかけ  </li>
-</ul>
-
-<h3 id="section-15">所感</h3>
-<p>英語のセッションだったけどそこそこ聞き取りやすい英語でよかった。<br />
-それでも完全に内容を把握できたわけじゃあないけど。  </p>
-
-<h2 id="continuous-delivery-at-githubhttprubykaigiorg2014presentations-robertsanheim"><a href="http://rubykaigi.org/2014/presentation/S-RobertSanheim">Continuous Delivery at GitHub</a></h2>
-
-<p>ギッハブ社で行っている継続的デリバリについて<br />
-(普段会社で行っていることはメモってなかった)</p>
-
-<h3 id="section-16">メモ</h3>
-
-<h4 id="feature-flags">feature flags</h4>
-<p>ある機能を入れるときには、  </p>
-<div>
-  <pre><code class="ruby">def some_new_feature_enable?
-  something and user.is_stuff?
-end</code></pre>
-</div>
-
-<p>的なものを書いて、それが良さそうなら true に書き換えるなどして切り替えできるようにしていた。<br />
-(そういえば前職でもそういう仕組みがあった。)  </p>
-
-<h4 id="section-17">ブランチコントロールの話</h4>
-<ul>
-  <li>長いことブランチを活かしておくと臭ってくるやん？  </li>
-  <li>たとえば rails2 から rails3 に上げるみたいなプロジェクトがあった(実際に)。
- – RAILS3=true てきな環境変数で rails3? みたいなコードを書いて条件分岐して master につけていった。</li>
-</ul>
-
-<h4 id="section-18">フィードバック可視化</h4>
-<p>ちゃんとしててすごく良かった</p>
-
-<h3 id="section-19">所感</h3>
-<p>機能をフラグで管理する( redis とか使ってもいいかも) のは確かに良い物かもなぁと思った。<br />
-ただ、ゆうてもこういう仕組みはものすごく大きい変更に関してはやっていけない気もした。<br />
-ブランチコントロールの話は、twitter では、うちは無理だ、とか出来そうにないとか、怖いとか<br />
-そういう反応が散見された。<br />
-確かに怖いは怖いし、実際、まとまった機能をつける場合は,<br />
-mediuamfeature/master みたいに master からきって、<br />
-mediuamfeature/feature_branch で mediuamfeature/master に pull req だしつつ<br />
-ある程度育ったら mediuamfeature/master で master を pull rebase で差分を取り込む感じでやっていた。<br />
-これは議論の余地はあるなぁ。  </p>
-
-<h2 id="whats-wrong-with-your-apphttprubykaigiorg2014presentations-keikooda"><a href="http://rubykaigi.org/2014/presentation/S-KeikoOda">What’s wrong with your app?</a></h2>
-<p>これも割りと釣りタイトルっぽくて聞いたけど、内容は heroku チームと、heroku 使ってるヒトの H12 とかいう<br />
-エラーの原因がなんなのか？みたいな話だった。<br />
-heroku に特化した感じであんまりだったので省略。  </p>
-
-<h2 id="non-linear-pattern-matching-against-unfree-data-types-in-ruby-egison-pattern-matching-in-ruby-httprubykaigiorg2014presentations-satoshiegi"><a href="http://rubykaigi.org/2014/presentation/S-SatoshiEgi">Non-Linear Pattern Matching against Unfree Data Types in Ruby (Egison Pattern Matching in Ruby) </a></h2>
-
-<p>egison っていうパターンマッチのプログラミング言語と、その ruby gem の話。<br />
-あんまり直接メモはしてなかった。</p>
-
-<h3 id="section-20">メモ</h3>
-<ul>
-  <li>様々なパターンマッチがあって、圧倒的な少ない記述量で、たとえばポーカーの役判定などができる。  </li>
-  <li>麻雀の役判定も！(これはすごいことだ!!!!)<br />
- – 複数の判定もできるとのことなので工夫すれば全部役を本当にだせる？  </li>
-  <li>今注目されているプログラミング言語にも選出  </li>
-  <li>東京大学のカリキュラムにも!  </li>
-</ul>
-
-<h3 id="section-21">所感</h3>
-<p>めっちゃすごい。<br />
-通常のコードでも綺麗に簡潔に書けそうだ。<br />
-とりあえず試しに使ってみると良いかも。<br />
-すげぇどうでもいいけどググらビリティ低すぎる。  </p>
-
-<h2 id="hypermedia-the-missing-element-to-building-adaptable-web-apis-in-railshttprubykaigiorg2014presentations-torukawamura"><a href="http://rubykaigi.org/2014/presentation/S-ToruKawamura">Hypermedia: the Missing Element to Building Adaptable Web APIs in Rails</a></h2>
-
-<p>とりあえずこの日一番ヒットというか、一番驚いたのがこのセッション。</p>
-
-<h3 id="section-22">メモ</h3>
-
-<h4 id="api-">API の変更</h4>
-<p>変更マジしんどい。<br />
-/v1/hogehoge を /v2/hogehoge とかにすると必ず api の変更が必要</p>
-
-<h4 id="fizzbuzzaas-">FizzBuzzaaS の話</h4>
-<p>fizzbuzz を返す api サーバ。<br />
-100までの数値に対応している。  </p>
-
-<p>この api にテストを書こうとすると<br />
-/fizzbuzz/endpoint/1<br />
-/fizzbuzz/endpoint/2<br />
-/fizzbuzz/endpoint/100<br />
-…<br />
-となって、/fizzbuzz/endpoint のところはハードコードだし、<br />
-最後の値は数値を for とかで回すことになる。<br />
-それを、最初のレスポンスが nextUrl 的に、次の値を渡してくれれば<br />
-iterator で問題なくテストできる(当然最後もわかるし、100が変わっても大丈夫)。  </p>
-
-<h4 id="hypermedia">そこで hypermedia</h4>
-<p>HTML もそうだけど、次へのリンクや、前へのリンクなどはちゃんと付いている！<br />
-ブラウザのバージョンがかわっても全然大丈夫！  </p>
-
-<h4 id="json--link-">json + link などの情報フォーマット</h4>
-<p>じつはそういう規格がある。
-Uber, HAL, JSON-LD など..</p>
-
-<h4 id="html--web--api-">HTML で web の API が表現可能!</h4>
-<p>それで作ったのが<a href="https://github.com/tkawa/hypermicrodata">これ</a></p>
-
-<h4 id="section-23">使い方としては</h4>
-<p>設計順かいてあったけど、メモれてない..<br />
-状態遷移を書く、はすごく重要だと説明されていた。  </p>
-
-<h4 id="section-24">まとめ</h4>
-<p><a href="http://qiita.com/tkawa/items/0efd49ad07d39531a520">ここの qiita でほぼ書いてある</a></p>
-
-<h3 id="section-25">所感</h3>
-<p>正直言ってこの発想はなかった！と思った。<br />
-会場も、なるほどそうきたか！みたいな感じだった。<br />
-ただ、実際つかっている HTML の構造変えたくなったりしないのかなぁとか、<br />
-疑問はあったりする。<br />
-あ、というか api 用の HTML(view) を書いておけばいいのかな。<br />
-まぁ一つの手段としてこれはすごくあるなぁと思った。<br />
-API から web を作るのは、すごく手間ではないけど、二度手間であることに変わりはないし。  </p>
-
-<h2 id="gem-of-this-week---building-culture-and-making-gemhttprubykaigiorg2014presentations-takumimiura"><a href="http://rubykaigi.org/2014/presentation/S-TakumiMiura">“Gem of this Week” - building culture and making gem</a></h2>
-<p>ドリコムのヒトの話。<br />
-gem 作って共有する文化づくりのための工夫のお話。<br />
-今週のgem(媒体がチャットなのかメールなのかは不明)を作って、 gem を作る週間を作った。<br />
-社内用の rubygems 的なものを作った (drecom gem)。<br />
-これで gem publish みたいなことができた。<br />
-ヒアリングして不安を潰すことでそういう文化を作った、っていう話だった。  </p>
-
-<h2 id="section-26">最後に</h2>
-<p>すごくいろいろいい話をきいた。<br />
-どうでもいいけど、たったこれだけまとめるのに 2時間くらいかかってる。  </p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-18T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/08/24/uilayout-sizetofit/">
-		
-			UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not Autolayout)</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="uitableviewcell--uilabel--cell-not-autolayout">UITableViewCell の中の UILabel の内容によって動的に Cell の高さを変える(not autolayout)</h2>
-<ol>
-  <li>基本的には<a href="http://qiita.com/kotaroito/items/8bd2f10833e07f7a5809">こちらの記事にそっておこなった</a> が、自分のやり方がわるいのか、 selected 時しかうまくいかなかった。  </li>
-  <li><a href="http://stackoverflow.com/questions/17823581/custom-cell-not-resizing-uilabels">このstackoverflow によると</a> sizeToFit は layoutSubviews に入れよ。とのこと。  </li>
-</ol>
-
-<blockquote><p>override func layoutSubviews() {<br />    super.layoutSubviews()<br />        self.body.sizeToFit()<br />}</p></blockquote>
-
-<h2 id="section">その他の参考</h2>
-<p><a href="http://qiita.com/yuch_i/items/b4612fae110254c816f4">http://qiita.com/yuch_i/items/b4612fae110254c816f4</a></p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-24T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/2/" class="prev">Prev</a>
@@ -1422,7 +1134,7 @@ gem 作って共有する文化づくりのための工夫のお話。<br />
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2016
+	<footer id="footer" class="inner">Copyright &copy; 2017
 
     vimtaku
 

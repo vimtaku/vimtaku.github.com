@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2016-02-02T16:51:44+09:00</updated>
+  <updated>2017-08-30T12:33:24+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,418 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[thor_for_rails_scaffold_generate_path]]></title>
+    <link href="http://vimtaku.github.io/blog/2017/08/30/thor-for-rails-scaffold-generate-path/"/>
+    <updated>2017-08-30T12:15:08+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2017/08/30/thor-for-rails-scaffold-generate-path</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<p>If you want to override jbuilder generator when scaffolding, put it <code>Rails.root + lib/templates/rails/jbuilder/index.json.jbuilder</code></p>
+
+<p><code>vim /Users/vimtaku/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/thor-0.19.1/lib/thor/actions.rb</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">def find_in_source_paths(file) # rubocop:disable MethodLength
+</span><span class="line">  possible_files = [file, file + TEMPLATE_EXTNAME]
+</span><span class="line">  relative_root = relative_to_original_destination_root(destination_root, false)
+</span><span class="line">  binding.pry
+</span><span class="line">
+</span><span class="line">  source_paths.each do |source|
+</span><span class="line">    possible_files.each do |f|
+</span><span class="line">      source_file = File.expand_path(f, File.join(source, relative_root))
+</span><span class="line">      return source_file if File.exist?(source_file)
+</span><span class="line">    end
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="background">Background</h2>
+<p>I searched pathes for used generator, but I cant find where template is used.
+I’m using jbuilder.</p>
+
+<h2 id="libtemplates">lib/templates</h2>
+<p><code>Rails.root + lib/templates</code> dir is used as tempaltes path by default.<br />
+if you want to override jbuilder templates, you can put<br />
+<code>Rails.root + lib/templates/rails/jbuilder/index.json.jbuilder</code>.</p>
+
+<h2 id="see-also">see also</h2>
+<p><code>thor-0.19.1/lib/thor/actions/file_manipulation.rb</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[react_native_fcm_undeclaired_identifier]]></title>
+    <link href="http://vimtaku.github.io/blog/2017/06/09/react-native-fcm-undeclaired-identifier/"/>
+    <updated>2017-06-09T21:48:23+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2017/06/09/react-native-fcm-undeclaired-identifier</id>
+    <content type="html"><![CDATA[<h1 id="i-got-these-message-when-start-to-use-react-native-fcm">I got these message when start to use react-native-fcm</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">error: use of undeclared identifier 'FIRMessagingConnectionStateChangedNotification'
+</span><span class="line">   name:FIRMessagingConnectionStateChangedNotification object:nil];</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I lot of time consumed, but I found that Firebase version is weired for me.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">pod install --repo-update</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>save me.</p>
+
+<p>that’s it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS Sierra で Karabiner-elements がない場合に keyrepeat を早く適切にする方法]]></title>
+    <link href="http://vimtaku.github.io/blog/2017/01/29/keyrepeat/"/>
+    <updated>2017-01-29T11:15:34+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2017/01/29/keyrepeat</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">defaults write -g InitialKeyRepeat -int 9
+</span><span class="line">defaults write -g KeyRepeat -int 2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section">背景</h2>
+<p>Mac OS Sierra にしてから karabiner elements になって、キーリピートの設定ができなくなった。
+mac の system preferences からできる最速ではもちろん物足りないので、一旦目安としての数値がなかったので記述する。</p>
+
+<h2 id="section-1">概要</h2>
+<p>iterm から</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">defaults write -g InitialKeyRepeat -int 9
+</span><span class="line">defaults write -g KeyRepeat -int 2</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>の各コマンドを実行して再起動したら反映された。若干はやいきもするが、慣れの問題かと思っている。</p>
+
+<h2 id="section-2">所感</h2>
+<p>最初1,1 とかにしたら大変なことになったので、誰かのためになればさいわいです。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone6 + au(誰でも割+LTEフラット) 運用を、 iPhoneSE と格安SIM(mineo Dプラン) の運用にする]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/09/18/au_mineo_iphonese/"/>
+    <updated>2016-09-18T12:02:17+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/09/18/au_mineo_iphonese</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li>iPhone6 を iPhoneSE に変更(大体30分)
+    <ul>
+      <li>約3万</li>
+      <li>アップルストアで30分(バックアップ戻す時間込み)</li>
+    </ul>
+  </li>
+  <li>2016年11月1日(あたり)に mineo Dプランを、エントリーパッケージ経由で契約する
+    <ul>
+      <li>その後自動でau が解約される(解約更新月なので9800円くらいがかからない)。</li>
+      <li>au は月末解約扱いになるらしいが、システムの対応が間に合ってないせいでまだそうなってないっぽい。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section">背景</h2>
+<p>iPhone6 が日本にて発売されたのが 2014年9月で、おそらくそのときに購入した。<br />
+その流れで、 au の「誰でも割」「LTEフラット」を契約して、約2年間運用してきた。<br />
+そもそもパケットの料金が高すぎるので不満をいだいて居たので、<br />
+格安シムのほうが安くなるのはおそらく確実だろうということで、<br />
+どのようにすればよいか調べたのでココに記しておく。  </p>
+
+<h3 id="section-1">自分の要求</h3>
+<ul>
+  <li>もちろん速度が出ると良い。  </li>
+  <li>テザリングは必須。  </li>
+  <li>電話はあまりしない。(するときは実家になど、たまに長くなるとお金がかかる)  </li>
+  <li>大体実績値がパケット使用量 7GB/月 程度。もうちょっとあっていいと思っている。  </li>
+</ul>
+
+<h2 id="section-2">概要</h2>
+<ul>
+  <li>端末を何にすればよいか?  </li>
+  <li>MVNO をどこにすればよいか？  </li>
+  <li>au の契約更新月について  </li>
+</ul>
+
+<h2 id="section-3">端末を何にすればよいか?</h2>
+<p>iPhoneSE とした。<br />
+iPhone7 発売に伴い, iPhoneSE 64GB が 49800円(税別)なので、これにした。<br />
+iPhone7 は、今の自分には必要ないと思ったからだ。  </p>
+
+<p>Android はOS的に好きでないのでやめた。  </p>
+
+<p>銀座アップルストアに行って、iPhone6 が24,000円で下どってくれたので、実質3万くらいで購入できた。<br />
+mac の iTunes でフルバックアップを取って行かないと無駄足になるので注意。  </p>
+
+<h2 id="mvno-">MVNO をどこにすればよいか？</h2>
+<p>mineo にした。<br />
+iPhoneSE でのテザリングでの前提だと IIJmio と mineo が良いらしい。<br />
+<a href="http://cospahack.com/life/iphone-se-sim">出典はこちら。</a><br />
+自分は、ちょっとググッた結果通信速度の安定的に mineo のほうが良さそうだと判断したのと、<br />
+通信料を最大2GBシェアリングできる概念みたいなものがあるようなので、こちらにした。  </p>
+
+<p>自分が調べた結果だと、Y!mobile とか UQ mobile とかはテザリングNG だったりする。<br />
+テザリング使いたい人は前提をテザリングに考えたほうが良いと思う。  </p>
+
+<h2 id="au-">au の契約更新月について</h2>
+<p>au の契約更新月は、誰でも割とかだと 25ヶ月、26ヶ月目くらいらしい。<br />
+au の人なら多分入れているであろう、auお客様サポートアプリの「ご契約情報」 「料金割引サービス」に、  </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">誰でも割
+</span><span class="line">(次回更新年月 2016年11月~2016年12月)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>などと書いてあるのが確認できるのでご確認を。  </p>
+
+<p>ちなみに、解約についてであるが、au は月末解約扱いになると宣言しているが、<br />
+システムの対応が間に合ってないせいでまだそうなってないっぽい。  </p>
+
+<h2 id="mineo-">mineo にするならこれを買うと安くなる模様。</h2>
+<p>普通にmineo公式サイトを見ればわかるけど、プロモコードを入れるところがある。<br />
+申し込み時の方法が主に3つあるけど、下記を購入して登録すると、新規登録手数料がおよそ 2000円安くなるらしいので、<br />
+これを買ったらイイんじゃないかなと思う。  </p>
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="http://vimtaku.github.io//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B00UT26M0Q&amp;linkId=727145ea31131a6c5654ff0141c682df"></iframe>
+
+<h2 id="section-4">お得感見積もり</h2>
+
+<h3 id="before">BEFORE</h3>
+<p>auのもろもろ(7GB制限):月平均1万円</p>
+
+<h3 id="after">AFTER</h3>
+<p>10GB(音声+データSIM): 3220円<br />
+通話料大体:400~600円<br />
+4000円くらい  </p>
+
+<p>月6000円お得。電話の具合によってはもうちょっとお得具合がへるがそれでも月6000円はでかい気がする。  </p>
+
+<p>3万の端末代金は 6000 * 5ヶ月あればもとが取れる予定。  </p>
+
+<h2 id="section-5">所感</h2>
+<p>大体3時間くらいいろいろ調べた結果なので、誰かのために慣れば幸いです。  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ridgepole command gets [ERROR] undefined method index]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/08/05/ridgepole-version-index-error/"/>
+    <updated>2016-08-05T16:53:16+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/08/05/ridgepole-version-index-error</id>
+    <content type="html"><![CDATA[<h2 id="tldl">TL;DL</h2>
+<p>You should use newest version of gem definetly.</p>
+
+<h2 id="i-faced-this-error">I faced this error</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[ERROR] undefined method `index' for #&lt;Ridgepole::DSLParser::Context::TableDefinition:0x007fae9aa1b850&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="solved">Solved</h2>
+<p>This is version problem.</p>
+
+<p>I simply write as follows,</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gem 'ridgepole'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>but it seems downloads version is 0.5.0.</p>
+
+<p>I finally found 0.6.4 is newest ver for now, so I used it, problem disappeared.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[let's encrypt で ec2 で単独で動いているサービスを https 化する]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/05/03/lets-encrypt/"/>
+    <updated>2016-05-03T16:19:17+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/05/03/lets-encrypt</id>
+    <content type="html"><![CDATA[<h2 id="section">はじめに</h2>
+<p>前提として、 EC2 に passanger + nginx でサービスを動かしている。<br />
+Let’s encrypt を導入するには主に以下をやる必要があるだろう。</p>
+
+<ol>
+  <li>サーバにログインして letsencrypt-auto スクリプトを使用して証明書を作成</li>
+  <li>nginx に設定し、再起動</li>
+  <li>90日で切れるので、証明書の自動更新をつける</li>
+</ol>
+
+<p>以下では、<br />
+ - force SSL 的な設定は今のところ nginx などではやらない。<br />
+ - クライアント側のアプリなどで対応する。  </p>
+
+<h2 id="section-1">1. 証明書を作成</h2>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd /opt
+</span><span class="line">git clone https://github.com/letsencrypt/letsencrypt
+</span><span class="line">cd /opt/letsencrypt
+</span><span class="line"># ec2 のセキュリティグループで 443 を開けておく
+</span><span class="line">./letsencrypt-auto certonly --standalone</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="nginx-">2. nginx に設定し、再起動</h2>
+
+<p>以下をいい感じに追加する。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">   listen 443 ssl;
+</span><span class="line">
+</span><span class="line">   ssl_certificate /etc/letsencrypt/live/your.domain.name/fullchain.pem;
+</span><span class="line">   ssl_certificate_key /etc/letsencrypt/live/your.domain.name/privkey.pem;
+</span><span class="line">   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+</span><span class="line">   ssl_prefer_server_ciphers on;
+</span><span class="line">   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-2">3. 自動更新</h2>
+
+<p>su で crontab -e</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">00 05 01 * * /etc/init.d/nginx stop; /opt/letsencrypt/letsencrypt-auto certonly --standalone -d your.domain.name --renew-by-default --debug ; /etc/init.d/nginx start;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="section-3">所感</h2>
+<p>https 化が簡単にできて最高な時代だなぁと思った。</p>
+
+<h2 id="section-4">参考</h2>
+<p><a href="https://www.mitchcanter.com/lets-encrypt-ssl-amazon-aws/">https://www.mitchcanter.com/lets-encrypt-ssl-amazon-aws/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[俺が考える最強ヘッドフォンゼンハイザーHD25-1 Ⅱ を超えた Amperior with リケーブル]]></title>
+    <link href="http://vimtaku.github.io/blog/2016/03/05/headphone-sennheiser-hd25-amperior/"/>
+    <updated>2016-03-05T16:53:16+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2016/03/05/headphone-sennheiser-hd25-amperior</id>
+    <content type="html"><![CDATA[<h2 id="section">はじめに</h2>
+
+<p><a href="http://vimtaku.github.io/blog/2014/08/17/headphone-sennheiser-best/">過去の記事</a>で書いたとおり、ゼンハイザーHD25-1 は俺が考える最強ヘッドフォンだった。<br />
+しかし、 Amperior はさらにそれを超えている。しかも現在では Amazon だと HD25-1 より安い。<br />
+本記事ではこのヘッドフォンについてレビューをする。  </p>
+
+<h2 id="section-1">いまのベストを書く</h2>
+
+<ul>
+  <li>
+    <p>2万5千円あるならこれを買おう。
+<a href="http://www.amazon.co.jp/gp/product/B009QV14MC/ref=as_li_ss_il?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=B009QV14MC&amp;linkCode=as2&amp;tag=vimtaku-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&amp;ASIN=B009QV14MC&amp;Format=_SL110_&amp;ID=AsinImage&amp;MarketPlace=JP&amp;ServiceVersion=20070822&amp;WS=1&amp;tag=vimtaku-22" /></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=vimtaku-22&amp;l=as2&amp;o=9&amp;a=B009QV14MC" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+  </li>
+  <li>
+    <p>リケーブルはこれ。
+<a href="http://hb.afl.rakuten.co.jp/hgc/14c7dd20.11028942.14c7dd22.8f5ec1f7/?pc=http%3a%2f%2fitem.rakuten.co.jp%2fneowing-r%2fneoacs-55378%2f%3fscid%3daf_link_txt&amp;m=http%3a%2f%2fm.rakuten.co.jp%2fneowing-r%2fn%2fneoacs-55378" target="_blank">FURUTECH(フルテック) / ADL ヘッドホンリケーブル SENNHEISER HD25-1 / HD25-1 II向け（ケーブルの長さ1.3M） iHP-35S HD25 1.3m[グッズ]</a></p>
+  </li>
+</ul>
+
+<p>これらで至高の環境が手に入る。  </p>
+
+<h2 id="section-2">詳細</h2>
+
+<h3 id="amperior-">Amperior について</h3>
+<p>HD25-1 と比べてずっしりとした重さをかんじるが、別に装着してて疲れるわけではない。<br />
+HD25-1 とくらべて、音質が一つづつクリアになっているように感じる。<br />
+HD25-1 の音のでかたや音圧は、初めてした時は圧倒的に感じるが、Amperior とくらべてしまうと<br />
+どこかぼやっとしてしまうように思う。<br />
+Amperior は音圧もすごく、特にロックのサビなどにおけるベースラインのクリアさは驚きがある。<br />
+中高音はやはり得意な領域で、低音もやはり得意だろうと思う。<br />
+ドラムのシンバルのような音や、シャリッとした音は少し弱めに思うだろう。<br />
+それにしても、全体的にクリアで、ゼンハイザーが好きな人なら絶対満足するだろう。  </p>
+
+<p>イヤーパッドはベロアで、しかもしっかりとしていて良い。<br />
+HD25-1 とくらべて締りはそんなに強くないと思う。  </p>
+
+<h3 id="section-3">リケーブルについて</h3>
+<p>純正のケーブルは、数ヶ月で断線する。<br />
+HD25-1 を使っている方はもうおなじみだと思うが、これは確実に起こるだろう。<br />
+普通に生きていてこうなるのだ。もう諦めよう。<br />
+ただ、そのたびに新しいリケーブルを試せる。<br />
+前回までイイと思ってたやつがあったんだけど、今回のリケーブルはそれを超えてきた。  </p>
+
+<p>基本的にはギターが得意なケーブルだと思う。HD25-1 にしばらくさして聞いていたが、<br />
+シールド?コネクタ部もとてもぶっとくて断線しにくそうだし、かなりクリアに中高音が聞こえる。<br />
+これからどれくらい持つかで評価が変わると思うが、長持ちするならこれは素晴らしい。<br />
+まぁ値段も普通に 8000円とかするからそうじゃなきゃこまるんだけど。</p>
+
+<p>ちなみにリケーブルは、もともとのケーブルと クランプ部分が別途が接着してるので、こういうのが必要らしい、約1000円。<br />
+<a href="http://hb.afl.rakuten.co.jp/hgc/14c806de.4979485e.14c806df.b0d67e71/?pc=http%3a%2f%2fitem.rakuten.co.jp%2fe-earphone%2f4012418444334%2f%3fscid%3daf_link_txt&amp;m=http%3a%2f%2fm.rakuten.co.jp%2fe-earphone%2fn%2f4012418444334" target="_blank">SENNHEISER(ゼンハイザー) ケーブルクランプセット Cable Clamp Set For HD25【044433】</a></p>
+
+<p>しかも、このクランプのネジが精密ネジとからしく、この特殊ドライバーの H6 っていうやつを使う必要があった、約2000円。<br />
+<a href="http://www.amazon.co.jp/gp/product/B002HVMFRG/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=B002HVMFRG&amp;linkCode=as2&amp;tag=vimtaku-22">アネックス(ANEX) スーパーフィット精密両頭差替ヘクスローブドライバービット3本組セット ケース付 No.3602</a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=vimtaku-22&amp;l=as2&amp;o=9&amp;a=B002HVMFRG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<h2 id="section-4">所感</h2>
+<p>ゼンハイザーの MOMENTUM シリーズとかも、便利だし音もいい感じなんだけど、<br />
+結局 HD25-1 の方が良いと思った。<br />
+それよりも素晴らしい Amperior は、本当にいいヘッドフォンだと思う。<br />
+みんな買えばいいんじゃないかな、損はしないと、俺は言い切れるよ。  </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rails4 で utf8mb4 にしたい話]]></title>
+    <link href="http://vimtaku.github.io/blog/2015/12/09/utf8mb4/"/>
+    <updated>2015-12-09T00:00:00+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2015/12/09/utf8mb4</id>
+    <content type="html"><![CDATA[<p>自分用のメモ</p>
+
+<h2 id="etcmycnf">/etc/my.cnf</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">[client]
+</span><span class="line">default-character-set=utf8mb4
+</span><span class="line">
+</span><span class="line">[mysqld]
+</span><span class="line">character-set-server=utf8mb4
+</span><span class="line">innodb_file_per_table
+</span><span class="line">innodb_file_format=barracuda
+</span><span class="line">innodb_large_prefix = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="railsrootconfigdatabaseyml">$RAILS_ROOT/config/database.yml</h2>
+<p>default に追加</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">charset: utf8mb4
+</span><span class="line">encoding: utf8mb4
+</span><span class="line">collation: utf8mb4_general_ci</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="ridgepole--schemafile">ridgepole の Schemafile</h2>
+<p>create_table :news, force: true, id: :bigint, options: “ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC” do |t|
+    blahblah…
+end</p>
+
+<h2 id="section">参考</h2>
+<p><a href="http://blog.arith-metic.jp/category/rails">http://blog.arith-metic.jp/category/rails</a>
+<a href="http://yamacent.hatenablog.com/entry/2015/06/06/235900">http://yamacent.hatenablog.com/entry/2015/06/06/235900</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[I wanna test view *_path on my rails console(pry), so what should i do?]]></title>
@@ -677,645 +1089,6 @@ Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
     <content type="html"><![CDATA[<h2 id="typeerror-thiselremoveattribute-is-not-a-function">TypeError: this.el.removeAttribute is not a function</h2>
 <p>とかいうエラーが出た。
 いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[やるべきこと、やるべき場所]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/03/14/yarubekikoto-poem/"/>
-    <updated>2015-03-14T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/03/14/yarubekikoto-poem</id>
-    <content type="html"><![CDATA[<h1 id="section">やるべきこと</h1>
-<p>人には、やるべきことが与えられていると、最近思うようになった。<br />
-こういうと大層なことを言っているように聞こえるかもしれないけど、<br />
-一つ一つの仕事が社会に影響して、人々の生活が回ってる。  </p>
-
-<p>それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、<br />
-楽しいことや辛いこともあるけど、仕事を通して影響を与えられるなら、<br />
-こんなに楽しいことはない。  </p>
-
-<p>自分が満足して、自分らしく生きられて、大きく社会に影響できる環境を、<br />
-創れるようにならなきゃダメだなぁと思う。  </p>
-
-<h1 id="section-1">やるべき場所</h1>
-<p>たぶん働くべき場所というか、自分がもっと輝く場所っていうのは<br />
-人それぞれにちゃんとあって、そのやるべき場所っていうのは答えが無いんだけど、<br />
-今いる場所が、自分がいるべき場所か? 自分がやるべきことをやってるのか?<br />
-という問いは、定期的に行ったほうがいいかもしれない。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[fig and rails env is too heavy, I found workaround(Mac OSX)]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/"/>
-    <updated>2015-03-04T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/03/04/fig-so-slow</id>
-    <content type="html"><![CDATA[<h2 id="ps">(PS)</h2>
-<p>I quit use fig so I decieded to develop localhost. because I have no time to construct devenv.<br />
-Firstly, this blog was quite good and effective for me.<br />
-Sync is working fine, but suddonly, rsync was getting weird.<br />
-Additionally, these rsync strategy is faster than sync folder,<br />
- but it is definetly slow than localhost.<br />
-Localhost is super fast.<br />
-And I faced problems as follows. 
- - rails console history or mysql history is gone away when fig restart.<br />
- - rails console mysql connection has gone away because of restarting db.<br />
-For now, I think fig(docker compose) is not good as development environment.<br />
-If you have identical dev env, please message to me.  </p>
-
-<h2 id="tldr">TL;DR</h2>
-<ul>
-  <li>virtual box disk io is not good because of file sync. so turn off.<br />
- – <img src="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776.png" alt="http://gyazo.com/f02f61fea1a6f2d306c37d08b6553776" />  </li>
-  <li>use NFS, for sync your directories.  </li>
-</ul>
-
-<h2 id="environment">Environment</h2>
-<ul>
-  <li>fig 1.0.0  </li>
-  <li>boot2docker v1.3.1  </li>
-  <li>docker container(rails)  </li>
-  <li>docker container(mysql)  </li>
-</ul>
-
-<h2 id="background--problem">Background &amp; Problem</h2>
-<p>Recently, it is very easy to create development env because fig and docker.<br />
-But I was starting development, I noticed it is verrrry slow… It’s so annoying.  </p>
-
-<h2 id="workaround">Workaround</h2>
-
-<h3 id="turn-off-users-directory-sync">Turn off /Users directory sync</h3>
-<p>By default, /Users directory is synced with boot2docker.<br />
-This sync is very slow so I turned it off, response speed is up.  </p>
-
-<h3 id="use-nfs">Use NFS</h3>
-<p>I turn off sync, so I have to another method to sync my host’s source code.<br />
-I googled, and found <a href="https://github.com/boot2docker/boot2docker/issues/64"> this thread </a>.<br />
-This thread is quite good for me.  </p>
-
-<p>I used <a href="https://gist.github.com/Jupiterrr/5348f7f95df7de2888f0">this solution</a>
-because I wanna use fig.  </p>
-
-<h4 id="syncsh">sync.sh</h4>
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">!/bin/bash
-</span><span class="line">
-</span><span class="line">set -u # prevent unbound variables
-</span><span class="line">set -e # terminate on error
-</span><span class="line">
-</span><span class="line">SSH_PORT=$(boot2docker config 2&gt;&amp;1 | awk '/SSHPort/ {print $3}')
-</span><span class="line">
-</span><span class="line"># load rsync
-</span><span class="line">boot2docker ssh tce-load -wi rsync
-</span><span class="line">
-</span><span class="line"># ensure existance of .rsyncignore
-</span><span class="line">touch .rsyncignore
-</span><span class="line">
-</span><span class="line">function sync {
-</span><span class="line">  # sync current directory to ~/share on the vm
-</span><span class="line">  rsync -rlz --exclude-from=.rsyncignore -e "ssh -i $HOME/.ssh/id_boot2docker -p $SSH_PORT" --force --delete ./ docker@localhost:/home/docker/share
-</span><span class="line">  echo "sync: $(date)"
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">sync
-</span><span class="line">#fswatch -o . | xargs -n1 -I{} sync</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>This script is almost good, but in my case, the last command fswatch is don’t affect.<br />
-so I used simple command <code>watch -n 2 sh sync.sh</code>. it works for me.<br />
-I wrote .rsyncignore something like below.  </p>
-
-<h4 id="rsyncignore">.rsyncignore</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">tmp/
-</span><span class="line">vendor/</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="dockerfile">Dockerfile</h4>
-
-<p>gem is installed global.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">FROM ruby
-</span><span class="line">RUN apt-get update -qq &amp;&amp; apt-get install -y build-essential libpq-dev ruby-nokogiri vim
-</span><span class="line">RUN mkdir /myapp
-</span><span class="line">WORKDIR /myapp
-</span><span class="line">ADD Gemfile /myapp/Gemfile
-</span><span class="line">ADD . /myapp
-</span><span class="line">RUN bundle install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h4 id="figyml">fig.yml</h4>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">db:
-</span><span class="line">  image: mysql:5.6
-</span><span class="line">  ports:
-</span><span class="line">    - "3306:3306"
-</span><span class="line">  environment:
-</span><span class="line">    - MYSQL_ROOT_PASSWORD=hoge
-</span><span class="line">  # volumes:
-</span><span class="line">  #   - ./data:/var/lib/mysql
-</span><span class="line">
-</span><span class="line">web:
-</span><span class="line">  build: .
-</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
-</span><span class="line">  working_dir: /myapp
-</span><span class="line">  dns: localhost
-</span><span class="line">  volumes:
-</span><span class="line">    - /home/docker/share:/myapp
-</span><span class="line">  ports:
-</span><span class="line">    - "3000:3000"
-</span><span class="line">  expose:
-</span><span class="line">    - 3000
-</span><span class="line">  links:
-</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>In db section, volumes isn’t need.<br />
-In web section, volumes is attached from boot2docker to web container.  </p>
-
-<p>That’s it.  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[fig(docker compose) で rails する]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/03/03/fig-rails/"/>
-    <updated>2015-03-03T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/03/03/fig-rails</id>
-    <content type="html"><![CDATA[<h1 id="section">追記</h1>
-<p>この内容は古いです、というか fig で建てるところまではコレでイケルと思いますが、実際には自分で fig で開発してないです。<br />
-フォルダの同期が以上に重たく、そのせいで rails console や server とかしても実用に耐えられないレベルのパフォーマンスしか出ないからです。<br />
-おそらく sync ディレクトリを変える、 rsync で送る、 イイ感じに出来たら pull する仕組みを創るなどすれば、うまくいくとは思いますが、<br />
-localhost での開発に慣れている場合、それはただの時間の浪費としか思えないと思います。<br />
-現在では開発環境として扱うのは難しいという判断に至りました(当然個人の感想です)。<br />
-参考までに<a href="http://vimtaku.github.io/blog/2015/03/04/fig-so-slow/">rsync の記事も参照される</a>と良いかもです。  </p>
-
-<h1 id="section-1">メモ</h1>
-
-<p>ちなみに、 現在では、 fig は  <a href="https://github.com/docker/compose">docker-compose</a> になっている。<br />
-が、それに気づかず しばらく fig で進めた。  </p>
-
-<p>fig で rails は tutorial 通りでは動かなかった。<br />
-基本は tutorial にそってやったが、boot2docker 経由でやる場合に、<br />
-binding のあたりで、container 内からは呼べるけど、 boot2docker の中から呼べなくて、<br />
-その辺を修正した。<br />
-ちなみに、 postgresql がサンプルになっていたが、 mysql でやりたかったので適宜変更した。  </p>
-
-<h3 id="figyml">fig.yml</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">db:
-</span><span class="line">  image: mysql:5.6
-</span><span class="line">  ports:
-</span><span class="line">    - "3306:3306"
-</span><span class="line">  environment:
-</span><span class="line">    - MYSQL_ROOT_PASSWORD=hogehoge
-</span><span class="line">
-</span><span class="line">web:
-</span><span class="line">  build: .
-</span><span class="line">  command: bundle exec rails server --port=3000 --binding=0.0.0.0
-</span><span class="line">  volumes:
-</span><span class="line">    - .:/myapp
-</span><span class="line">  ports:
-</span><span class="line">    - "3000:3000"
-</span><span class="line">  links:
-</span><span class="line">    - db</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p><code>fig run web rake db:create db:migrate</code></p>
-
-<p>なぜか mysql に繋げなくなるパターンがあったが、<br />
-docker images でだした image を docker rmi で全て消してやり直したり、<br />
-それでも微妙だったので、 fig run db mysqld  とかするといい感じになった。  </p>
-
-<h1 id="section-2">所感</h1>
-<p>fig でやれたらよかったと思ったので、ちょっと時間がかかったけど、うまくできそうでよかった(小並感)</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/23/rakuten-kard/"/>
-    <updated>2015-02-23T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/23/rakuten-kard</id>
-    <content type="html"><![CDATA[<h2 id="e-navi12">楽天カード(e-NAVI)の現地利用額(為替レート)は翌月12日まで照会できない</h2>
-<p>タイトルの通りであるのだが、電話で問い合わせたところ、<br />
-システム的に翌月になるまで照会が出来ないとのこと。<br />
-もし同じ要求がある人がいたら、翌月12日まで待つしかないので諦めよう。  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[mac 開発環境 setup 2015]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015/"/>
-    <updated>2015-02-21T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/21/mac-setup-2015</id>
-    <content type="html"><![CDATA[<h1 id="mac-">新しい mac を手に入れた時にすること</h1>
-<p><a href="http://www.d-wood.com/blog/2014/03/12_5808.html">これが非常に良さそう</a>
-なので、一旦自分用に考えてみる。  </p>
-
-<h2 id="section">気をつけるべきこと</h2>
-<ul>
-  <li>一番最初のセットアップ時に、 firevalut にチェックを入れるかどうか  </li>
-  <li>入れないほうがセキュリティ的にはどうかと思うけど、なんか変なハマり方しなくて良さそう  </li>
-</ul>
-
-<h2 id="section-1">準備</h2>
-
-<h3 id="brewfile-">あらかじめ Brewfile を作っておく</h3>
-<ul>
-  <li>brew install rcmdnk/file/brew-file  </li>
-  <li>この後使用するコマンドが依存している python ライブラリを入れる必要がある<br />
-– sudo easy_install pip<br />
-– pip install requests<br />
-– brew file init vimtaku/Brewfile<br />
-– あとは手順にしたがってすすめると push とかいろいろやってくれる  </li>
-</ul>
-
-<h2 id="section-2">手順</h2>
-
-<h3 id="xcode-">xcode のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">xcode-select —install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="homebrew-">homebrew のインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-</span><span class="line">brew doctor</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="brewfile--1">Brewfile からインストール</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/vimtaku/Brewfile.git
-</span><span class="line">cd Brewfile
-</span><span class="line">brew file -f Brewfile install</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="homesick-">homesick のインストール</h3>
-<p>ちょっと違うかも。</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">/usr/local/bin/zsh
-</span><span class="line">gem install homesick
-</span><span class="line">rbenv rehash
-</span><span class="line">homesick clone vimtaku/dotfiles
-</span><span class="line">homesick link</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GTD テンプレート]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/18/gtd_template/"/>
-    <updated>2015-02-18T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/18/gtd_template</id>
-    <content type="html"><![CDATA[<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-<span class="line-number">49</span>
-<span class="line-number">50</span>
-<span class="line-number">51</span>
-<span class="line-number">52</span>
-<span class="line-number">53</span>
-<span class="line-number">54</span>
-<span class="line-number">55</span>
-<span class="line-number">56</span>
-<span class="line-number">57</span>
-<span class="line-number">58</span>
-<span class="line-number">59</span>
-<span class="line-number">60</span>
-<span class="line-number">61</span>
-<span class="line-number">62</span>
-<span class="line-number">63</span>
-<span class="line-number">64</span>
-<span class="line-number">65</span>
-<span class="line-number">66</span>
-<span class="line-number">67</span>
-<span class="line-number">68</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">
-</span><span class="line"># Inbox
-</span><span class="line">
-</span><span class="line">----
-</span><span class="line"># 行動を起こす必要があるもの
-</span><span class="line">
-</span><span class="line">## カレンダー
-</span><span class="line">Google カレンダー参照
-</span><span class="line">
-</span><span class="line">## 次に取るべき行動のリスト
-</span><span class="line">### @会社
-</span><span class="line">### @自宅
-</span><span class="line">### @電車
-</span><span class="line">### @暇
-</span><span class="line">
-</span><span class="line">## 連絡待ちリスト
-</span><span class="line">
-</span><span class="line">## プロジェクトリスト
-</span><span class="line">### プロジェクトA
-</span><span class="line">### プロジェクトB
-</span><span class="line">
-</span><span class="line">## プロジェクトの参考情報
-</span><span class="line">
-</span><span class="line">----
-</span><span class="line"># 行動を起こす必要がないもの
-</span><span class="line">
-</span><span class="line">## ゴミ箱
-</span><span class="line">
-</span><span class="line">## 保留
-</span><span class="line">### いつかやる・多分やるリスト
-</span><span class="line">
-</span><span class="line">## 資料
-</span><span class="line">
-</span><span class="line">----------------------------------------
-</span><span class="line"># GTD の処理方法
-</span><span class="line">1. 収集
-</span><span class="line">-- トリガーリスト
-</span><span class="line">2. 処理
-</span><span class="line">-- ワークフローにしたがって振り分ける
-</span><span class="line">3. 上記の行動を起こす必要があるもの(カレンダー、次に取るべき行動のリスト、連絡待ちリスト、プロジェクトリスト、プロジェクトの参考情報)と行動を起こす必要がないもの(ゴミ箱、保留、資料)
-</span><span class="line">4. レビュー
-</span><span class="line">5. 実行
-</span><span class="line">
-</span><span class="line"># プロジェクトプランニング
-</span><span class="line">プランニングについては、考える必要がないもの以外では、以下のとおりに進めると良い。
-</span><span class="line">## 目的と価値観を見極める
-</span><span class="line">## 結果をイメージする
-</span><span class="line">## ブレインストーミング
-</span><span class="line">## 整理
-</span><span class="line">## 会議
-</span><span class="line">## 情報収集
-</span><span class="line">## 次に取るべき行動を判断
-</span><span class="line">
-</span><span class="line"># 週次レビューの方法
-</span><span class="line">基本的なレビューは随時行う。週次レビューは週に一度時間をとって行う。  
-</span><span class="line">以下にそのまま項目を引用しておく。
-</span><span class="line">## 雑多な紙類を集める。
-</span><span class="line">## 処理を行う
-</span><span class="line">## カレンダーのチェック(過去)
-</span><span class="line">## カレンダーのチェック(未来)
-</span><span class="line">## 頭のなかにあるものを出す
-</span><span class="line">## プロジェクトリスト及び大きな目標のレビュー
-</span><span class="line">## 「次に取るべき行動リスト」のレビュー
-</span><span class="line">## 連絡待ちリストのレビュー
-</span><span class="line">## プロジェクト候補のチェックリストのレビュー
-</span><span class="line">## いつかやる・多分やるリストのレビュー
-</span><span class="line">## プロジェクトの参考情報
-</span><span class="line">## 創造的、かつ大胆に考える
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GTD の本を読んだ]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/18/gtd/"/>
-    <updated>2015-02-18T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/18/gtd</id>
-    <content type="html"><![CDATA[<h1 id="gtd-">GTD の本を読んだ</h1>
-
-<h2 id="section">この本</h2>
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=vimtaku-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=ss_til&amp;asins=4576082116" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-
-<h2 id="section-1">本の内容</h2>
-<p>大体読んだらわかることなんだが、<br />
- - <a href="http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/">http://w.browndots.net/20131008/task-management/gtd/restarttogtd12/</a><br />
- - <a href="http://postd.cc/gtd-in-15-minutes/">http://postd.cc/gtd-in-15-minutes/</a><br />
-この辺によくまとまっているのでそちらを参照してもらうと良いかも。  </p>
-
-<h2 id="section-2">所感</h2>
-<p>僕の尊敬するとある人が、GTD やってますと言っていて、それから何年も経つがやってみたいと思ったので、<br />
-本を買って読んでみたがとても良さそうに感じた。<br />
-頭のなかを一つのシステムに書き出すことによって、それについて考える時間が増えた実感があるし、<br />
-やるべきことが可視化されることは非常に良いと思った。あとは週次レビューをどう組み込むかかなぁと思った。  </p>
-
-<h1 id="section-3">自分の場合どのような方法で実践するか</h1>
-
-<h2 id="section-4">ツール</h2>
-
-<h3 id="vimqfixhowm---dropbox-">vim(qfixhowm のメモ) + dropbox でやる</h3>
-<p>これについては基本的に markdown で見るのが一番自分らしく、わかりやすいので markdown で管理する。<br />
-週次レビューについては、毎週金曜か土曜日に時間をとってやるのが良いと思った。  </p>
-
-<h3 id="section-5">紙とマインドマップ</h3>
-<p>基本的には IT の仕事なので紙とマインドマップと vim があれば大丈夫かと。  </p>
-
-<h3 id="qfixhowm--dropbox--iphone-">qfixhowm のメモを dropbox のやつで見た時 iphone から見れるようにするやつ</h3>
-<p>がほしいのでどっかでつくる。  </p>
-
-<h3 id="section-6">とりあえずでテンプレート作ってみた</h3>
-<p><a href="http://vimtaku.github.io/blog/2015/02/18/gtd_template">http://vimtaku.github.io/blog/2015/02/18/gtd_template</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[金はチケットである]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/02/16/money-is-nani/"/>
-    <updated>2015-02-16T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/02/16/money-is-nani</id>
-    <content type="html"><![CDATA[<h1 id="section">金はチケットである</h1>
-<p>金はチケットだ。<br />
-美味しいものを食べたり、サービスを受けるための交換手段である。<br />
-金はあればあるほどよい。より良いサービスを受けられるからだ。<br />
-ただ、金がそこにあるだけで幸せなのかというと、たぶんそうじゃあないと思う。  </p>
-
-<h1 id="section-1">金の入力</h1>
-<p>金はどこからくるのだろう。<br />
-今日食べたご飯や、受けたサービスは、金を使って得られたものだ。<br />
-自分の場合、基本的には、金は会社から得られたものである。<br />
-会社はなぜ自分に金を払うのだろうか。<br />
-それは自分が、会社にサービスを提供した(もしくはするという契約を結んだ)からである。<br />
-富を創りだせるからこそ、金を払うのである。  </p>
-
-<p>金を手にすることは困難だろうか。<br />
-確かにそれは難しいことではある。<br />
-ただ、価値を提供できれば、それ相応の金を得られるはずだ。  </p>
-
-<p>単純に、金を稼ぐことは楽しい。<br />
-サラリーマンをやる上でも、給料が上がらないというのは面白くない。  </p>
-
-<p>富を創ること、が、完全に金に結びつくかはわからないが、<br />
-富を創ることで、お金をいくらでも得られるのだとかんがえると、<br />
-人生はいかに楽しいものかと思う。  </p>
-
-<p>現状の金の入力に満足出来ないなら、<br />
-自分が価値を提供できていないのだと振り返ることができるはずだ。<br />
-価値を生み出せるはずだと信じて、富を創る行動を始めたら良いと思う。  </p>
-
-<h1 id="section-2">金の出力</h1>
-<p>金を使うのは簡単だ。<br />
-金は使えばすぐに無くなる。<br />
-サービスは、その相互の関係において値段が付けられる。  </p>
-
-<p>そういう意味で、納得出来ないサービス(買い物)はすべきでない。<br />
-そしてまた、納得出来ない価格(給料)でサービス(仕事)すべきでもないはずだ。  </p>
-
-<h1 id="section-3">金とサービス</h1>
-<p>単純に、金を使うのは楽しい。<br />
-一般的に、良いサービスほどお金がかかる。<br />
-そういう意味で、金はチケットだと思う。  </p>
-
-<p>いつも行っている美容室で、普段髪を切るのに 3000 円かかるとしよう。<br />
-たまたまその美容室が混んでいて、どうしても髪を切りたいあなたが<br />
-たまたま入ったおしゃれな美容室は、すぐに髪を切ってくれて、 6000 円だったとしよう。<br />
-それでいつもよりクールな髪型になるんだ。  </p>
-
-<p>より良いサービスにはお金がかかる。<br />
-あなたはより良いサービスを受けたいと思う。<br />
-それにはチケットが必要なのだ。<br />
-(蛇足ではあるが、普段のサービスを受けるためにもチケットは必要である。)</p>
-
-<h1 id="section-4">金と価値感</h1>
-<p>一度良いサービスを受けてしまうと、元のサービスに戻るのが耐えられないと言うのは真実だと思う。<br />
-自分が富を創ることでお金を入力し、自分が良いと思うものにお金を出力する。<br />
-すごく自分勝手に聞こえるかもしれないが、日常の支出をメタに書いただけである。  </p>
-
-<p>金をどう使うかは、その人の価値観に依存する。<br />
-良いサービスを知らない、受ける必要がないなら、お金を稼ぐ必要がない。<br />
-断捨離というやつかもしれない。<br />
-仏教的に、ただ生かされているんだというロックで生きるならそれで良い。<br />
-自分は仏教的な考え方にはある種賛成だけど、それを楽しむなら人生長すぎると思う。<br />
-だから現時点では、仏教的考え方もあるなぁと思いつつも、<br />
-精一杯富を創る(サービスを提供する)ことに全力を注ぎたい。  </p>
-
-<h1 id="section-5">自分が金を出力して受けたいサービス</h1>
-<p>振り返ってみると、基本的に自分が受けたいサービスは、音楽と勉強と食事と服と程よい住まいだ。<br />
-より良い音楽を楽しむ方法にはお金をかけてみたいし、<br />
-より自分がよく価値を提供できるように勉強(主により良い本をよんだり)したいし、
-より美味しいものを食べて(いたい|みたい)し、<br />
-自分が着たいと思った服を着たいし、<br />
-自分が便利だ！、と感じるところに住みたい。<br />
-逆にいうと、ちょっと考えたくらいだったらこんなもんなのかと思う。  </p>
-
-<h1 id="section-6">富として生み出したい、金以外の価値</h1>
-<p>金はチケットであればあるほどよいが、富を創ることで金以外に得られるものは、本質的には金より重要だ。<br />
-富を創るために時間を使うのは、自分の価値観では、とても有意義なことである。  </p>
-
-<h1 id="section-7">所感</h1>
-<p>ふとポエムを書きたくなったので書いた。<br />
-ハッカーと画家を読んだせいで、最近のポエム熱がやばい。<br />
-おそらくこの文章も富である。<br />
-ただこの文章にお金を払う人がいないだけだ。<br />
-そういう意味で、文章を書き続ける(ブログ他)ことは、<br />
-富を生み出す行為だと思う。  </p>
-
-<p>ふとどうでもよいことを思ったが、仏教をロックと割り切るなら、この文章もロックであるはずだ。  </p>
 
 ]]></content>
   </entry>
