@@ -7,9 +7,21 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="何箇所かハマったので記録しておく
-http://kentana20.hatenablog.com/entry/2014/11/02/180812 基本的には上記の記事にそって行けば大丈夫なんだけど、なんかしょかハマった。
-具体的には、readme の deploy ボタンで連携できないことだ。 &hellip;">
+	<meta name="description" content="TL;DR
+If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses. Detail 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+class Hoge &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +92,119 @@ http://kentana20.hatenablog.com/entry/2014/11/02/180812 基本的には上記の
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/11/08/activerecord_transaction_rescue/">
+		
+			If You Use ActiveRecord::Base.transaction Syntax, You Shoud Surround It Begin Rescue Clauses</a>
+	</h2>
+	<div class="entry-content">
+		<h1 id="tldr">TL;DR</h1>
+<p>If you use ActiveRecord::Base.transaction syntax, you shoud surround it begin rescue clauses.</p>
+
+<h1 id="detail">Detail</h1>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class Hoge
+</span><span class="line">  def self.exec
+</span><span class="line">    raise "something is not good" if something_check
+</span><span class="line">
+</span><span class="line">    ActiveRecord::Base.transaction do
+</span><span class="line">      User.create(username:"moge")
+</span><span class="line">      User.create(username:"moge")
+</span><span class="line">    end
+</span><span class="line">
+</span><span class="line">    rescue StandardError =&gt; e
+</span><span class="line">      # if database transaction has occured, this statements will be called
+</span><span class="line">      p "duplicate error"
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This code looks good, but includes terrible problem.
+It’s definetly rescue clause. In this code, something_check return true, raise “something is not good” error,<br />
+<code>and shows "duplicate error"</code>. Terrible.</p>
+
+<p>so if you use ActiveRecord::Base, I strongly recommend use begin rescue clauses implicit.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">class Hoge
+</span><span class="line">  def self.exec
+</span><span class="line">    raise "something is not good" if something_check
+</span><span class="line">
+</span><span class="line">    begin
+</span><span class="line">      ActiveRecord::Base.transaction do
+</span><span class="line">        User.create(username:"moge")
+</span><span class="line">        User.create(username:"moge")
+</span><span class="line">      end
+</span><span class="line">
+</span><span class="line">      rescue StandardError =&gt; e
+</span><span class="line">        # if database transaction has occured, this statements will be called
+</span><span class="line">        p "duplicate error"
+</span><span class="line">      end
+</span><span class="line">    end
+</span><span class="line">
+</span><span class="line">  end</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-11-08T13:04:14+09:00" pubdate data-updated="true">Nov 8<span>th</span>, 2015</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -915,50 +1040,6 @@ Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
 
 
 	<a class='category' href='/blog/categories/cooking/'>cooking</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/03/19/vue-js-error/">
-		
-			vue.js ではまったこと</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="typeerror-thiselremoveattribute-is-not-a-function">TypeError: this.el.removeAttribute is not a function</h2>
-<p>とかいうエラーが出た。
-いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。</p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-19T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/vuejs/'>vuejs</a>
 
 
 </div>

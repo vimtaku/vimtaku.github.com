@@ -7,10 +7,9 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="やるべきこと
-人には、やるべきことが与えられていると、最近思うようになった。
-こういうと大層なことを言っているように聞こえるかもしれないけど、
-一つ一つの仕事が社会に影響して、人々の生活が回ってる。 それぞれの仕事には向き不向きがあったり、不満や人間関係があったり、 &hellip;">
+	<meta name="description" content=" TypeError: this.el.removeAttribute is not a function
+とかいうエラーが出た。
+いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。 vuejs ">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +80,50 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/03/19/vue-js-error/">
+		
+			vue.js ではまったこと</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="typeerror-thiselremoveattribute-is-not-a-function">TypeError: this.el.removeAttribute is not a function</h2>
+<p>とかいうエラーが出た。
+いろいろ悩みまくったが、 x-template の直下に二つのdom を並べたらエラーになるっぽい。</p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-19T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/vuejs/'>vuejs</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1030,94 +1073,6 @@ docker images でだした image を docker rmi で全て消してやり直し�
 
 
 	<a class='category' href='/blog/categories/vps/'>vps</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/02/03/datomic-free-on-docker/">
-		
-			Boot2docker 内に立てた Datomic Transactor + Peer のコンテナに対して、mac の Lein Repl で Datomic を操作する</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="boot2docker--datomic-transactor--peer-mac--lein-repl--datomic-">boot2docker 内に立てた datomic transactor + peer のコンテナに対して、mac の lein repl で datomic を操作する</h2>
-
-<h3 id="docker-image-">下準備(docker image の作成)</h3>
-<p><a href="https://registry.hub.docker.com/u/colinrymer/docker-datomic-free/dockerfile/">ここに Datomic の Dockerfile があった</a><br />
-ので、datomic の version は違うが修正したら、使えるだろうと思ってたら、使えた。  </p>
-
-<p>最終的な Dockerfile は <a href="https://gist.github.com/vimtaku/94cef31a166921b9b7f2">こちら</a>。
-これを元に build する。  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker build -t datomicfree .</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker exec -ti {container_id} /bin/bash</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>などとして、デバッグしたりした。  </p>
-
-<h3 id="section">実行環境の説明</h3>
-<p>MacbookPro -&gt; boot2docker(vagrant) -&gt; docker container<br />
-という構成になっている。  </p>
-
-<h3 id="docker-container-">docker container 起動</h3>
-<p>最初、 boot2docker の vagrant の割り当てメモリが小さすぎて、 datomic が立たなかったので、<br />
-一度 vm を停止してから、割り当てを変更して</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">docker run -p 4334:4334 -p 4335:4335 -p 4336:4336 -m 512m -t-i datomicfree</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>などとすることで、うまく起動した。<br />
-結局、 port foward は 4334 だけで良いと思ったがそれだけではダメなので注意。  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">ssh -L 4334:localhost:4334 -L 4335:localhost:4335 -L 4336:localhost:4336 docker@localhost -p 2022
-</span><span class="line">(password: tcuser)</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="lein-repl">lein repl</h3>
-<p>あとは repl から操作するだけ。  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(def uri "datomic:free://localhost:4334/test")
-</span><span class="line">(d/create-database uri)
-</span><span class="line">(def conn (d/connect uri))</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>あとは先ほどの Dockerfile のリンクにもあるので、そちらを参照のこと。</p>
-
-<h2 id="section-1">所感</h2>
-<p>ちょっとハマったけど、これができたのは大きい。  </p>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-03T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/datomic/'>datomic</a>
 
 
 </div>
