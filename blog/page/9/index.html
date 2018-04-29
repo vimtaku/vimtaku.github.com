@@ -7,9 +7,8 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="chef の libraries を使う場合の今のところの俺の結論 以下に述べる、 1 の方法を使う。 とはいえ一長一短な気がするからどっちがいいって言えない。
-ちなみに libraries から node はみたいよね、っていう前提。
-あと、自分の環境(chef-solo, v11.8.2) &hellip;">
+	<meta name="description" content="TOC TOC はじめに docker とは LXC とは aufs, Union FS とは union mount 読み込み 書き込み 削除 github 的な要素 出来上がりイメージ 所感 参考文献 はじめに
+この記事では Docker について自分なりに理解するために調べたことをまとめる &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +79,182 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/02/what-is-docker/">
+		
+			Docker の概要をしらべて触ってみた</a>
+	</h2>
+	<div class="entry-content">
+		
+<h2 id="toc">TOC</h2>
+<ul id="markdown-toc">
+  <li><a href="#toc">TOC</a></li>
+  <li><a href="#section">はじめに</a></li>
+  <li><a href="#docker-">docker とは</a></li>
+  <li><a href="#lxc-">LXC とは</a></li>
+  <li><a href="#aufs-union-fs-">aufs, Union FS とは</a>    <ul>
+      <li><a href="#union-mount">union mount</a></li>
+      <li><a href="#section-1">読み込み</a></li>
+      <li><a href="#section-2">書き込み</a></li>
+      <li><a href="#section-3">削除</a></li>
+    </ul>
+  </li>
+  <li><a href="#github-">github 的な要素</a>    <ul>
+      <li><a href="#section-4">出来上がりイメージ</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-5">所感</a></li>
+  <li><a href="#section-6">参考文献</a></li>
+</ul>
+
+<h2 id="section">はじめに</h2>
+<p>この記事では Docker について自分なりに理解するために調べたことをまとめる。<br />
+Docker の tutorial は command line を ブラウザで実際に叩くところまでできるようになっているので、<br />
+非常にわかりやすく入門できる。なので、 tutorial に関してはそっちをやったほうが良い。<br />
+この記事は Docker ってこんな感じのやつなんだーってのが伝わればばいいなと思う。<br />
+(ちなみに まだ Docker 歴は1日)</p>
+
+<h2 id="docker-">docker とは</h2>
+<p>LXC と aufs と github のようなものをうまくくみ合わせて提供される<br />
+仮想化ソフトウェアだ。  </p>
+
+<h2 id="lxc-">LXC とは</h2>
+<p>Linux Container のこと。  </p>
+
+<p><a href="http://gihyo.jp/admin/column/01/vm/2011/lxc_container">http://gihyo.jp/admin/column/01/vm/2011/lxc_container</a>によれば、  </p>
+<blockquote><p>LXCの基本技術となるのが「コンテナ」と呼ばれる一種のリソース管理システムです。ファイルシステムの他，ホスト名やプロセス，ネットワークソケットなどのカーネルが扱うさまざまなリソースの管理テーブルを個々に用意し，これをコンテナごとに管理することで，コンテナごとに独立したOSのように動作させることができます。</p></blockquote>
+<p>とある。<br />
+また、カーネルの機能である <a href="http://ja.wikipedia.org/wiki/Cgroups">Cgroups</a> の説明をみれば非常によく理解できた。  </p>
+
+<h2 id="aufs-union-fs-">aufs, Union FS とは</h2>
+<p>ここに、 Union mount と Union type file system の資料がある。<br />
+非常にわかりやすい説明だった。ここに、 aufs の説明もある。結構古いけど。。<br />
+<a href="http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html">http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html</a>
+ちょっとだけ簡単に自分用にまとめる。  </p>
+
+<h3 id="union-mount">union mount</h3>
+<p>filesystem A と filesystem B をマウントして、それぞれが file A, file B を同じディレクトリで持っていたとすると、<br />
+union mount をつかったとき、fileA, file B の両方のファイルが見える。  </p>
+
+<h3 id="section-1">読み込み</h3>
+<p>open システムコールとかを通して呼ぶと、 union 機能が上から順に読んでいけば、差分的に一番新しいものを読める。<br />
+両方のファイルシステムが fileA を持っていて、その内容がちがう場合、filesystem の mount の優先度(レイヤー順?)で<br />
+どちらの filesystem の fileA が見えるか変わるんだと思う。  </p>
+
+<h3 id="section-2">書き込み</h3>
+<p>なんらかを書き込んで差分ができたとき、 上位ディスクとは違うものを保証しなければならないため、<br />
+上位ディスクのものをコピーして書き込む。だからコピーオンライト。<br />
+でもこの場合は、 copy-up と呼ばれて、プロセス fork でいうそれとは区別されている模様。  </p>
+
+<h3 id="section-3">削除</h3>
+<p>ファイルが削除されても、上位ディスクには存在しているため、事実上削除ができない。<br />
+なので 特別なファイルを作成することで 消えたように見せる。(DB で言う論理削除みたいなもんだと認識)<br />
+whiteout という。  </p>
+
+<h2 id="github-">github 的な要素</h2>
+<p><a href="https://index.docker.io">index.docker.io</a> レポジトリに image を push できる。<br />
+memcached を <a href="https://www.docker.io/learn/dockerfile/">Dockerfile によって image を作る tutorial</a> があるので、それをやった。<br />
+それでできた Dockerfile  を使って repository に push した例を以下に示す。<br />
+ちなみに、 <a href="https://index.docker.io/account/">https://index.docker.io/account/</a> にあらかじめ登録しておいた。  </p>
+
+<div>
+  <pre><code class="bash">vagrant@ubuntu-12:~$ docker login
+Username: vimtaku
+Password:
+Email: ******@gmail.com
+Login Succeeded
+
+vagrant@ubuntu-12:~$ docker build -t vimtaku/memcached_sample - &lt; Dockerfile
+
+vagrant@ubuntu-12:~$ docker images
+REPOSITORY                 TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+vimtaku/memcached_sample   latest              242bd405025e        22 seconds ago      217.1 MB
+run_memcached              latest              5f1cda03f61c        17 hours ago        217.1 MB
+memcached                  latest              9166d484dda8        17 hours ago        217.1 MB
+brand_new_memcached        latest              7bdd82d0abf7        20 hours ago        217.1 MB
+memcached_new              latest              c18168a45363        20 hours ago        245.5 MB
+ubuntu                     12.10               426130da57f7        7 days ago          127.6 MB
+ubuntu                     quantal             426130da57f7        7 days ago          127.6 MB
+ubuntu                     10.04               8589d4e9c7c6        7 days ago          139.6 MB
+ubuntu                     lucid               8589d4e9c7c6        7 days ago          139.6 MB
+ubuntu                     12.04               72e10143e54a        7 days ago          125.9 MB
+ubuntu                     latest              72e10143e54a        7 days ago          125.9 MB
+ubuntu                     precise             72e10143e54a        7 days ago          125.9 MB
+ubuntu                     13.10               721f07d19f96        7 days ago          144.6 MB
+ubuntu                     saucy               721f07d19f96        7 days ago          144.6 MB
+ubuntu                     13.04               476aa49de636        7 days ago          133.6 MB
+ubuntu                     raring              476aa49de636        7 days ago          133.6 MB
+
+vagrant@ubuntu-12:~$ docker push vimtaku/memcached_sample
+The push refers to a repository [vimtaku/memcached_sample] (len: 1)
+Sending image list
+Pushing repository vimtaku/memcached_sample (1 tags)
+511136ea3c5a: Image already pushed, skipping 
+b74728ce6435: Image already pushed, skipping 
+72e10143e54a: Image already pushed, skipping 
+28d8e9cef54f: Image successfully pushed 
+6be17bb13216: Image successfully pushed 
+1b910f3ee9b7: Image successfully pushed 
+18e04c08eb9b: Image successfully pushed 
+2e32ba041afa: Image successfully pushed 
+1cf353d00dd8: Image successfully pushed 
+242bd405025e: Image successfully pushed 
+Pushing tags for rev [242bd405025e] on {https://registry-1.docker.io/v1/repositories/vimtaku/memcached_sample/tags/latest}</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="section-4">出来上がりイメージ</h3>
+<p><img src="http://gyazo.com/6a99a7bdffa6ce80369dad852461aacb.png" style="width:100%;" /></p>
+
+<h2 id="section-5">所感</h2>
+<p>この記事では、 docker の一番の利点だと感じている、 image を簡単に作って試す、みたいな部分は書いていない。<br />
+すごい早さで image を作り出すことができるのには感動した。そこが一番の利点だと思う。<br />
+あと、<a href="http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html">この oreilly の資料</a>は 3回くらい読む価値はありそうだ。  </p>
+
+<h2 id="section-6">参考文献</h2>
+<p><a href="http://ja.wikipedia.org/wiki/LXC">http://ja.wikipedia.org/wiki/LXC</a><br />
+<a href="http://gihyo.jp/admin/column/01/vm/2011/lxc_container">http://gihyo.jp/admin/column/01/vm/2011/lxc_container</a><br />
+<a href="http://ja.wikipedia.org/wiki/Cgroups">http://ja.wikipedia.org/wiki/Cgroups</a><br />
+<a href="http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html">http://www.oreilly.co.jp/community/blog/2010/02/union-mount-uniontype-fs-part-1.html</a><br />
+<a href="http://teppeis.hatenablog.com/entry/docker">http://teppeis.hatenablog.com/entry/docker</a><br />
+<a href="http://shibayu36.hatenablog.com/entry/2013/12/30/173949">http://shibayu36.hatenablog.com/entry/2013/12/30/173949</a><br />
+<a href="http://2013.8-p.info/japanese/06-22-docker.html">http://2013.8-p.info/japanese/06-22-docker.html</a>  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-02T00:00:00+09:00" pubdate data-updated="true"></time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/docker/'>docker</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -943,125 +1118,6 @@ rails tutorial を倒すってのはできなかったけど、現在もりも�
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/08/z_elasticsearch-ebs/">
-		
-			Elasticsearch_ebs</a>
-	</h2>
-	<div class="entry-content">
-		
-<h1 id="opsworks--elasticsearch-">opsworks と elasticsearch についてのメモ</h1>
-
-<h2 id="elasticsearch--memo">elasticsearch についての memo</h2>
-<ul>
-  <li>クラスタリングした時に master-slave みたいになるのか？
-    <ul>
-      <li>ならない。すべてがマスタになる模様</li>
-      <li>複数台立てておいて、片方落としておいて、立っている方にデータPUT して落としておいた方を立ててGETできる</li>
-    </ul>
-  </li>
-  <li>elastic search s3 gateway はパフォーマンスの問題で deprecated になっている模様
-    <ul>
-      <li>なので EBS でやることになる。</li>
-    </ul>
-  </li>
-  <li>chef の recipe を見ると、設定しておけば ebs を自動で作ってマウントまでしてくれる感じになっている
-    <ul>
-      <li>elasticsearch::ebs, elasticsearch::data のレシピを実行すれば良い感じ。
-        <ul>
-          <li>opsworks では, layers に elasticsearch::ebs, elasticsearch::data の順で登録すればおｋ</li>
-          <li>README に書いてある通りに設定が必要。具体的には data_bags/elasticsearch/data.json と aws の認証周りの設定が必要</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>各アベイラビリティゾーンに分散しておいておいて、 internal loadbalancer に紐付ければ、片方が死んでも大丈夫</li>
-  <li>災害時の復旧については、たぶん snapshot からの復旧に加えて、 index の再作成(upsert なAPI 叩きまくる) が必要</li>
-  <li>discovery については aws-instance プラグインみたいなのがあって、api 叩いてリスト取得してきている。</li>
-</ul>
-
-<h2 id="elasticsearch--memo2">elasticsearch についての memo2</h2>
-<ul>
-  <li>elasticsearch って aws のサービス名かと思ってたけど、別にそういうわけじゃない</li>
-</ul>
-
-<h2 id="elasticsearch--memo3">elasticsearch についての memo3</h2>
-<p>opsworks のレイヤーで、internal LB をひもづけることはできると思うけど、<br />
-新しく作った elasticsearch node のインデックス作成とかしている時に紐づくとまずいので<br />
-いったん手動でやるようにする。(たぶんELBの死活監視を工夫すればうまいこと行ける)  </p>
-
-<h2 id="opsworks--chef-">opsworks の chef で役立つコマンド例</h2>
-
-<div>
-  <pre><code class="bash">## setup サイクルを retry
-opsworks-cli-agent run_command setup
-
-## custom.json を dump
-opsworks-cli-agent get_json &gt; hoge.json
-
-## ログをみる
-opsworks-cli-agent show_log
-
-## hoge.json を指定すれば、楽にもう一度ライフサイクルを指定できる
-&quot;/opt/aws/opsworks/current/bin/chef-solo&quot; -j &quot;hoge.json&quot; -c &quot;/opt/aws/opsworks/current/conf/solo.rb&quot; -L &quot;/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log&quot; &gt; &quot;/var/lib/aws/opsworks/chef/2014-01-09-05-28-54-01.log.out&quot; 2&gt;&amp;1
-
-
-### 役に立つディレクトリ
-
-## opsworks の chef-solo が走るときにログが出たり、走るときの json が出たりする
-/var/lib/aws/opsworks
-
-## opsworks の chef-solo のクックブックとかがこのへんにある。
-/opt/aws/opsworks</code></pre>
-</div>
-
-<h2 id="useiamprofile-">use_iam_profile がうまく行かない件</h2>
-<p>gem の fog を使うところで use_iam_profile =&gt; true で渡しても全然うまく動かない問題があって、<br />
-ライブラリのバグかもと思ったけどなんか違うっぽくて、時間がなかったので custom.json で大人しく accesskey とかを指定した。<br />
-おそらく _request の時に credential の作成をしているんだけど、そこでミスっているんじゃないかなぁという予想。</p>
-
-<h2 id="section">参考資料というか調べてく時に必要だったこと。</h2>
-<ul>
-  <li><a href="https://github.com/elasticsearch/elasticsearch/issues/2458">https://github.com/elasticsearch/elasticsearch/issues/2458</a></li>
-  <li><a href="http://www.elasticsearch.org/tutorials/elasticsearch-on-ec2/">http://www.elasticsearch.org/tutorials/elasticsearch-on-ec2/</a></li>
-  <li><a href="http://www.smokeymonkey.net/2013/10/elasticsearchcluster.html">http://www.smokeymonkey.net/2013/10/elasticsearchcluster.html</a></li>
-  <li><a href="http://docs.aws.amazon.com/opsworks/latest/userguide/troubleshoot-debug-cli.html">http://docs.aws.amazon.com/opsworks/latest/userguide/troubleshoot-debug-cli.html</a></li>
-</ul>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-08T00:00:00+09:00" pubdate data-updated="true"></time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/aws/'>aws</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/8/" class="prev">Prev</a>
@@ -1071,7 +1127,7 @@ opsworks-cli-agent show_log
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2017
+	<footer id="footer" class="inner">Copyright &copy; 2018
 
     vimtaku
 

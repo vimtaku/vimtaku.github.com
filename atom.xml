@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2017-11-25T15:56:33+09:00</updated>
+  <updated>2018-04-29T10:50:40+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[rails で 画像を drag and drop してプレビューして写真をアップロードしたいだけなら ezdz がよかった]]></title>
+    <link href="http://vimtaku.github.io/blog/2018/04/29/rails-drag-and-drop-image/"/>
+    <updated>2018-04-29T10:25:20+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2018/04/29/rails-drag-and-drop-image</id>
+    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
+<p>Rails のフォームで、画像をドラッグ・アンド・ドロップでプレビューしてファイルをアップロードしたい欲求があった。<br />
+<a href="https://github.com/jaysalvat/ezdz">ezdz</a> というのがあって、それで自分の欲求が満たせましたという話。<br />
+(jQuery 依存です)</p>
+
+<h2 id="section">背景</h2>
+<p>Rails のフォームを生成していて、画像をドラッグ・アンド・ドロップでプレビューしてファイルをアップロードしたい欲求があった。<br />
+(ただし、ここでは単一ファイルのアップロードを前提とする)。<br />
+いろいろ調べてみると <a href="http://www.dropzonejs.com/">Dropzone.js</a> というのが結構便利そうだったし、今回は jQuery に依存していたので<br />
+これでやってみようとしらべてみた。 dropzone-rails というプラグインがあってすぐに rails に組み込めて楽そうだった。  </p>
+
+<h2 id="dropzone-rails-">dropzone-rails をつかってかんじたつらみ</h2>
+<ol>
+  <li>新規作成時には entity は保存されていないので、entity を保存してから update するような設計にしないとうまく作りにくい。
+    <ul>
+      <li>理由は基本的に xhr でデータを送信するから。</li>
+      <li>autoprocessQueue を false にすれば、画像を D&amp;D したときにそうしないようにできる。結局 Dropzone のインスタンスの processQueue をコールしないといけない。</li>
+      <li>entity がすでに作成されていたら それに対して update をかけるだけでよいのでそういうやり方でいけるならそれでよし。</li>
+      <li>もしそれがいやなら temp みたいなよくわからない entity に作成したあとに その uuid を form に埋め込んでサーバで保存するみたいな回りくどいことをしなければいけない気がする</li>
+    </ul>
+  </li>
+  <li>上記の xhr でデータを送信するところに rails との致命的な相性の悪さがある(のはもうわかっているとおもうが)。
+    <ul>
+      <li>model の validation に引っかかったときなどのハンドリングを js 側に持ってこなければいけない</li>
+      <li>すなわち rails の view で頑張ったエラーなどに合わせたりという謎の努力が必要になる。</li>
+    </ul>
+  </li>
+  <li>そもそもそんなにがんばりたくない
+    <ul>
+      <li>dropzone-rails の js の client のソースコードを結局追って修正したりを繰り返さないとおもったことができなかった</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-1">代替え案を探すことに</h2>
+<p>そもそも自分がやりたいのは</p>
+
+<ul>
+  <li>xhr じゃなくてよし</li>
+  <li>いったん1ファイルでよし</li>
+  <li>画像をプレビューしたい</li>
+  <li>jQuery は使用可能(bootstrap4 があるから)</li>
+</ul>
+
+<p>だったので、それっぽい代替を探していたら <a href="https://github.com/jaysalvat/ezdz">ezdz</a>  を見つけた。<br />
+demo をみたらそれっぽかったし、 rails の binding もあったので必要十分だった。  </p>
+
+<h2 id="section-2">所感</h2>
+<p>active storage でもプレビューできるみたいなのがあったのでそういうのを調べても良かったんだけど、<br />
+まだ rails5 に至ってないひとはもしかしたら上記が有効かもしれません。  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[エンジニアのための最もイケているバッグは DEFY BAG では説]]></title>
@@ -1152,42 +1211,6 @@ backlog と比べて出来ないことが多すぎて、それ以上のメリッ
 Dependencies を 削除する、でうまく行った。<br />
 Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ヒメダイをマルで買ってきて捌いて食べてみた]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/03/24/himedai/"/>
-    <updated>2015-03-24T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/03/24/himedai</id>
-    <content type="html"><![CDATA[<h2 id="tldr">TL;DR</h2>
-<ul>
-  <li>ヒメダイはすごく美味しい白身魚だった</li>
-  <li>ムニエルだと引くレベルでウマイ</li>
-</ul>
-
-<h2 id="section">チャート</h2>
-<ul>
-  <li>捌く難易度
-    <ul>
-      <li>割りとシンプルなタイ。鱗を取るのがめっちゃダルい。</li>
-    </ul>
-  </li>
-  <li>味
-    <ul>
-      <li>すこぶる美味</li>
-    </ul>
-  </li>
-  <li>料理
-    <ul>
-      <li>刺し身はかなり美味</li>
-      <li>ムニエルはすこぶる美味</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="section-1">写真あるけど</h2>
-<p>めんどいから省略</p>
 ]]></content>
   </entry>
   

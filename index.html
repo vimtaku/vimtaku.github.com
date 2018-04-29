@@ -7,10 +7,11 @@
 	<meta name="author" content="vimtaku">
 
 	
-	<meta name="description" content="エンジニアのための最もイケているバッグは DEFY のバッグでは説 TL;DR
-DEFY のバッグは約4万円とめっちゃ高い。
-しかし、そもそもカッコイイし耐久性も十分っぽい。
-さらにあまり人とかぶらないので最高では。 DEFY のバッグ 買ったのはこのバッグだ。 とにかくカッコイイ。 &hellip;">
+	<meta name="description" content="TL;DR
+Rails のフォームで、画像をドラッグ・アンド・ドロップでプレビューしてファイルをアップロードしたい欲求があった。
+ezdz というのがあって、それで自分の欲求が満たせましたという話。
+(jQuery 依存です) 背景
+Rails のフォームを生成していて、画像をドラッグ・アンド・ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -81,6 +82,97 @@ DEFY のバッグは約4万円とめっちゃ高い。
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2018/04/29/rails-drag-and-drop-image/">
+		
+			Rails で 画像を Drag and Drop してプレビューして写真をアップロードしたいだけなら Ezdz がよかった</a>
+	</h2>
+	<div class="entry-content">
+		<h2 id="tldr">TL;DR</h2>
+<p>Rails のフォームで、画像をドラッグ・アンド・ドロップでプレビューしてファイルをアップロードしたい欲求があった。<br />
+<a href="https://github.com/jaysalvat/ezdz">ezdz</a> というのがあって、それで自分の欲求が満たせましたという話。<br />
+(jQuery 依存です)</p>
+
+<h2 id="section">背景</h2>
+<p>Rails のフォームを生成していて、画像をドラッグ・アンド・ドロップでプレビューしてファイルをアップロードしたい欲求があった。<br />
+(ただし、ここでは単一ファイルのアップロードを前提とする)。<br />
+いろいろ調べてみると <a href="http://www.dropzonejs.com/">Dropzone.js</a> というのが結構便利そうだったし、今回は jQuery に依存していたので<br />
+これでやってみようとしらべてみた。 dropzone-rails というプラグインがあってすぐに rails に組み込めて楽そうだった。  </p>
+
+<h2 id="dropzone-rails-">dropzone-rails をつかってかんじたつらみ</h2>
+<ol>
+  <li>新規作成時には entity は保存されていないので、entity を保存してから update するような設計にしないとうまく作りにくい。
+    <ul>
+      <li>理由は基本的に xhr でデータを送信するから。</li>
+      <li>autoprocessQueue を false にすれば、画像を D&amp;D したときにそうしないようにできる。結局 Dropzone のインスタンスの processQueue をコールしないといけない。</li>
+      <li>entity がすでに作成されていたら それに対して update をかけるだけでよいのでそういうやり方でいけるならそれでよし。</li>
+      <li>もしそれがいやなら temp みたいなよくわからない entity に作成したあとに その uuid を form に埋め込んでサーバで保存するみたいな回りくどいことをしなければいけない気がする</li>
+    </ul>
+  </li>
+  <li>上記の xhr でデータを送信するところに rails との致命的な相性の悪さがある(のはもうわかっているとおもうが)。
+    <ul>
+      <li>model の validation に引っかかったときなどのハンドリングを js 側に持ってこなければいけない</li>
+      <li>すなわち rails の view で頑張ったエラーなどに合わせたりという謎の努力が必要になる。</li>
+    </ul>
+  </li>
+  <li>そもそもそんなにがんばりたくない
+    <ul>
+      <li>dropzone-rails の js の client のソースコードを結局追って修正したりを繰り返さないとおもったことができなかった</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-1">代替え案を探すことに</h2>
+<p>そもそも自分がやりたいのは</p>
+
+<ul>
+  <li>xhr じゃなくてよし</li>
+  <li>いったん1ファイルでよし</li>
+  <li>画像をプレビューしたい</li>
+  <li>jQuery は使用可能(bootstrap4 があるから)</li>
+</ul>
+
+<p>だったので、それっぽい代替を探していたら <a href="https://github.com/jaysalvat/ezdz">ezdz</a>  を見つけた。<br />
+demo をみたらそれっぽかったし、 rails の binding もあったので必要十分だった。  </p>
+
+<h2 id="section-2">所感</h2>
+<p>active storage でもプレビューできるみたいなのがあったのでそういうのを調べても良かったんだけど、<br />
+まだ rails5 に至ってないひとはもしかしたら上記が有効かもしれません。  </p>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-04-29T10:25:20+09:00" pubdate data-updated="true">Apr 29<span>th</span>, 2018</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -892,60 +984,6 @@ end</p>
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2015/11/08/rails-url-helper/">
-		
-			I Wanna Test View *_path on My Rails Console(pry), So What Should I Do?</a>
-	</h2>
-	<div class="entry-content">
-		<h2 id="just-do">Just do</h2>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">pry(main)&gt; include Rails.application.routes.url_helpers
-</span><span class="line">
-</span><span class="line">pry(main)&gt; admin_customer_path(User.first)
-</span><span class="line">User Load (0.3ms)  SELECT  `users`.* FROM `users`  ORDER BY `users`.`id` ASC LIMIT 1
-</span><span class="line">=&gt; "/admin/customers/1"</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>enjoy!</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-11-08T13:04:14+09:00" pubdate data-updated="true">Nov 8<span>th</span>, 2015</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rails/'>rails</a>
-
-
-</div>
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
     
@@ -953,7 +991,7 @@ end</p>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2017
+	<footer id="footer" class="inner">Copyright &copy; 2018
 
     vimtaku
 
