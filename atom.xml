@@ -4,7 +4,7 @@
   <title><![CDATA[vimtaku blog]]></title>
   <link href="http://vimtaku.github.io/atom.xml" rel="self"/>
   <link href="http://vimtaku.github.io/"/>
-  <updated>2018-04-29T10:50:40+09:00</updated>
+  <updated>2018-12-12T23:23:06+09:00</updated>
   <id>http://vimtaku.github.io/</id>
   <author>
     <name><![CDATA[vimtaku]]></name>
@@ -12,6 +12,120 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[落日]]></title>
+    <link href="http://vimtaku.github.io/blog/2018/12/12/2018-is-over/"/>
+    <updated>2018-12-12T22:48:44+09:00</updated>
+    <id>http://vimtaku.github.io/blog/2018/12/12/2018-is-over</id>
+    <content type="html"><![CDATA[<p>ほぼ自分のためのまとめ。</p>
+
+<p>あっという間の 3年9ヶ月だった。
+所詮地球が太陽の周りを3週しただけのはなし。</p>
+
+<p>次はまぁおいおい。</p>
+
+<h2 id="section">わかりやすい成果</h2>
+<p>「魚 仕入れ」で検索したら ads 以外で一番上に出てくるであろうページを参照</p>
+
+<h2 id="section-1">良かったこと</h2>
+<ul>
+  <li>メインプロダクトに対しては、プルリク 600 くらい出してて、圧倒的に改善や機能開発を進めることができた
+    <ul>
+      <li>勝手に rails に詳しくなった</li>
+      <li>レガシーなコードを改善していける力がぐっと高まった</li>
+    </ul>
+  </li>
+  <li>ある問題にたいして自分なりに考えて咀嚼し、ソリューションを出せたこと
+    <ul>
+      <li>ライブラリや gem やアプリなど、必要なものを考えてじっさい作成する力がぐっとついたこと
+        <ul>
+          <li>chawan (形態素解析 mecab のラッパーライブラリを作ることができたこと)</li>
+          <li>gomasaba</li>
+          <li>specification_parser</li>
+          <li>android アプリ2つ</li>
+          <li>その他</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>売上、利益率、粗利など、自社の会社の売上や利益に対して真剣に意識が向けられるようになったこと</li>
+  <li>もうだいぶ前になんちゃらアワードっていう、頑張ったひとがもらえるぽいやつに2回選ばれたこと(うち一回は全社MVPで、りっぱなボールペンをもらった)</li>
+  <li>毎日、全力でただ前を向いてがんばれた</li>
+  <li>オーナーシップ</li>
+</ul>
+
+<h2 id="section-2">悪かったこと</h2>
+<ul>
+  <li>多くないですがなんか言われたら嫌なので省略</li>
+  <li>上場までいられなかったこと(個人的な事情でやめるので. うまくいくと思ってます)</li>
+</ul>
+
+<h2 id="section-3">変わったこと</h2>
+<ul>
+  <li>魚への興味、ドメイン知識が圧倒的に増えた</li>
+  <li>世間一般のひとはまぐろで一括りにしているが、メバチマグロ、本マグロ(クロマグロ、メジマグロ)、キハダマグロなどがあること
+    <ul>
+      <li>イナダ、ワラサ、ブリ、ハマチの違い(諸説あり)</li>
+    </ul>
+  </li>
+  <li>いままで知らなかった魚種を知ることができたこと
+    <ul>
+      <li>ホウボウ(おいしいしおすすめ)</li>
+      <li>ヒゲソリダイ(おいしいし、結構安い。おすすめ)</li>
+      <li>アカカマス(おいしい)</li>
+      <li>ヒメダイ(おいしい)</li>
+      <li>マトウダイ(おいしい)</li>
+      <li>クエ(おいしいけどたかい)</li>
+      <li>カナガシラ(おいしいけどちいさい)</li>
+      <li>アカムツ(のどぐろ)</li>
+      <li>ギマ</li>
+      <li>メダイ</li>
+      <li>イシガキダイ(あんまおいしくない)</li>
+      <li>コショウダイ(切るのが硬い)</li>
+      <li>その他思い出せないけど多数…</li>
+    </ul>
+  </li>
+  <li>本当に美味しい魚に出会えたこと
+    <ul>
+      <li>五島列島の特大の天然活〆神経抜き真鯛。あんなに美味いタイがあるとは思わなんだ。</li>
+      <li>特大ヒラメ。あのヒラメのムニエルは信じられないくらいうまかった。</li>
+      <li>ヒラソウダ。美味いカツオはマグロを超える。</li>
+    </ul>
+  </li>
+  <li>値切りかたを身に着けて実際に実行することができるようになったこと</li>
+</ul>
+
+<h2 id="section-4">気づいたこと</h2>
+<ul>
+  <li>できる営業のヒトは電話をしてるんじゃなくて狩りをしているらしい</li>
+  <li>できる営業のヒトはゴールをすでにおいている。ゴールがあるし、サブゴールもあるからブレない。一般人はそんなのに勝てるわけない(偏見)</li>
+  <li>経営というか、売上、利益率、原価率、そういう数字に詳しくない、興味ないエンジニアさんは多いので、そこは価値だせる領域(簿記3級、あと3点(1問)で落ちたけど)
+    <ul>
+      <li>活動してるときにこんなにビジネス感覚があるエンジニアさんは初めて会いましたって言われたのは、結構嬉しかった。</li>
+      <li>一方、他の会社では全然足りないなぁとかんじたのでそこはもっと埋めていく</li>
+    </ul>
+  </li>
+  <li>何をやるか、何をやりたいかはめっちゃ重要
+    <ul>
+      <li>自分の人生の方向性というか、やっていきたいことがわかってよかった</li>
+    </ul>
+  </li>
+  <li>転職したいって誰にも言ってなかったけど、たまたまご飯にさそってくれて、その後につながる話をしてくれたひとが何人もいたこと</li>
+  <li>前提としてすごくヒトのことが嫌いだったんだけど、ヒトを大切にしたほうがいいなぁっておもいました</li>
+  <li>人生ずっと勉強</li>
+  <li>すごい人「他人と比べない。それだといつまでも幸せになれない。」
+    <ul>
+      <li>これは真実だとおもうし、あなたみたいなひとが言うと…そうですよね。的な重みがある言葉。</li>
+    </ul>
+  </li>
+  <li>あとはもろもろかけないので省略</li>
+</ul>
+
+<p>たぶんいま書いてあるものの 200 倍くらい色々あったとおもうけど、紙面の都合上以上になります。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rails で 画像を drag and drop してプレビューして写真をアップロードしたいだけなら ezdz がよかった]]></title>
@@ -1192,25 +1306,6 @@ backlog と比べて出来ないことが多すぎて、それ以上のメリッ
 </span><span class="line">end</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>以上。  </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Alamofire_SwiftyJSON でビルドエラーが出るとき]]></title>
-    <link href="http://vimtaku.github.io/blog/2015/03/30/swiftyjson-alamofire/"/>
-    <updated>2015-03-30T00:00:00+09:00</updated>
-    <id>http://vimtaku.github.io/blog/2015/03/30/swiftyjson-alamofire</id>
-    <content type="html"><![CDATA[<h1 id="section">こんなエラーが出ていた</h1>
-<p>The operation couldn’t be completed. No such file or directory.  </p>
-
-<h1 id="pods--dependencies--alamofire--swiftyjson-">pods の dependencies に alamofire と swiftyjson をたしてあげよう</h1>
-<p>たぶんそれで行けるはず。  </p>
-
-<h1 id="section-1">他のマシーンでなぜか動かない場合</h1>
-<p><a href="http://stackoverflow.com/questions/26834293/swift-could-not-build-objective-c-module-alamofire">この stack overflow の</a>
-Dependencies を 削除する、でうまく行った。<br />
-Clean で全部消えないとか、どんだけ罠なんだよ。  </p>
-
 ]]></content>
   </entry>
   
